@@ -67,7 +67,8 @@ def main():
     # tb.add_graph(net, images)
 
     # Loss function and optimizer
-    criterion = nn.BCEWithLogitsLoss()
+    # criterion = nn.BCEWithLogitsLoss()
+    criterion = nn.BCELoss()
     optimizer = optim.Adam(net.parameters(), lr=args.lr, betas=(args.b1, args.b2), weight_decay=args.wd)
 
     # Loss id for tensorboard logs
