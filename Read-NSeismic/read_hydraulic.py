@@ -22,7 +22,7 @@ def main():
 
     # Carga traza STEAD
 
-    # st = '../Data_STEAD/Train_data.hdf5'
+    # st = '../Data/STEAD/Train_data.hdf5'
     #
     # with h5py.File(st, 'r') as h5_file:
     #     grp = h5_file['earthquake']['local']
@@ -32,7 +32,7 @@ def main():
 
     # 959 canales, largo 119_999 muestras
     # 500Pa10sec
-    fi = '../Data_Hydraulic/CSULB500Pa10secP_141210174309.mat'
+    fi = '../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
 
     with h5py.File(fi, 'r') as f:
         traces = f['data'][()]
@@ -90,7 +90,7 @@ def main():
 
     # 959 canales, largo 2_056_235 muestras
     # 500Pa100sec
-    fi = '../Data_Hydraulic/CSULB500Pa100secP_141210175257.mat'
+    fi = '../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
 
     with h5py.File(fi, 'r') as f:
         traces = f['data'][()]
@@ -145,7 +145,7 @@ def main():
 
     # 959 canales, largo 6_002_723 muestras
     # 500Pa600sec
-    fi = '../Data_Hydraulic/CSULB500Pa600secP_141210183813.mat'
+    fi = '../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
 
     with h5py.File(fi, 'r') as f:
         traces = f['data'][()]

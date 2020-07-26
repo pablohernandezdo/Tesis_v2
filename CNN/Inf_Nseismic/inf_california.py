@@ -30,11 +30,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load California data file 1
-    f = scipy.io.loadmat('../../Data_California/FSE-11_1080SecP_SingDec_StepTest (1).mat')
+    f = scipy.io.loadmat('../../Data/California/FSE-11_1080SecP_SingDec_StepTest (1).mat')
 
     # Read data
     data = f['singdecmatrix']
@@ -90,7 +90,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load California data file 1
-    f = scipy.io.loadmat('../../Data_California/FSE-06_480SecP_SingDec_StepTest (1).mat')
+    f = scipy.io.loadmat('../../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
 
     # Read data
     data = f['singdecmatrix']

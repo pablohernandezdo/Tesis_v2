@@ -30,11 +30,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Shaker dataset file 1
-    f = '../../Data_Shaker/large shaker NEES_130910161319 (1).sgy'
+    f = '../../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:

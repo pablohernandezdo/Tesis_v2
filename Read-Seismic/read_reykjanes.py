@@ -24,7 +24,7 @@ def main():
 
     # Load STEAD trace
 
-    # st = '../Data_STEAD/Train_data.hdf5'
+    # st = '../Data/STEAD/Train_data.hdf5'
     #
     # with h5py.File(st, 'r') as h5_file:
     #     grp = h5_file['earthquake']['local']
@@ -37,8 +37,8 @@ def main():
     # Fig. 3fo and 3bb.
     # Comparacion entre registros de un telesismo por fibra optica y sismometro
 
-    # file_fo = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
-    # file_bb = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
+    # file_fo = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
+    # file_bb = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
     #
     # fs = 20
     #
@@ -166,7 +166,7 @@ def main():
     # Fig. 5a_fo
     # Registro de sismo local con DAS
 
-    # file = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure5a_fo.ascii'
+    # file = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure5a_fo.ascii'
     # n_trazas = 26
     # plt_tr = 10
     # fs = 200
@@ -308,7 +308,7 @@ def main():
     # # Fig. 5a_gph
     # # Registro de sismo local con geofono
 
-    file = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure5a_gph.ascii'
+    file = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure5a_gph.ascii'
     n_trazas = 26
     plt_tr = 10
     fs = 200

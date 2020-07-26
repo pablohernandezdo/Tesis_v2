@@ -30,7 +30,7 @@ def main():
 
     # Carga traza STEAD
 
-    # st = '../Data_STEAD/Train_data.hdf5'
+    # st = '../Data/STEAD/Train_data.hdf5'
     #
     # with h5py.File(st, 'r') as h5_file:
     #     grp = h5_file['earthquake']['local']
@@ -40,7 +40,7 @@ def main():
 
     # File 048
     # 380 trazas de 30000 muestras
-    f = '../Data_Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -132,7 +132,7 @@ def main():
 
     # File 118
     # 380 trazas de 30000 muestras
-    f = '../Data_Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -221,7 +221,7 @@ def main():
 
     # File 117
     # 8700 trazas de 30000 muestras
-    f = '../Data_Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -310,7 +310,7 @@ def main():
 
     # File 047
     # 8700 trazas de 30000 muestras
-    f = '../Data_Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:

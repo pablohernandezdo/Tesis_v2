@@ -21,7 +21,7 @@ def main():
 
     # Carga traza STEAD
 
-    # st = '../Data_STEAD/Train_data.hdf5'
+    # st = '../Data/STEAD/Train_data.hdf5'
     #
     # with h5py.File(st, 'r') as h5_file:
     #     grp = h5_file['earthquake']['local']
@@ -29,9 +29,9 @@ def main():
     #         st_trace = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
     #         break
 
-    # f = sio.loadmat('../Data_California/FSE-11_1080SecP_SingDec_StepTest (1).mat')
+    # f = sio.loadmat('../Data/California/FSE-11_1080SecP_SingDec_StepTest (1).mat')
     # 139 trazas de 953432 muestras (196 según documentación ?)
-    f = sio.loadmat('../Data_California/FSE-06_480SecP_SingDec_StepTest (1).mat')
+    f = sio.loadmat('../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
 
     # Seismic traces data
     data = f['singdecmatrix']

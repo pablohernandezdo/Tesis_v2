@@ -10,7 +10,7 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser(description='Dataset creation parameters')
-    parser.add_argument('--source_file', default='STEAD.hdf5', help='Source HDF5 file path')
+    parser.add_argument('--source_file', default='../Data/STEAD.hdf5', help='Source HDF5 file path')
     parser.add_argument('--train_file', default='Train_data_v2.hdf5', help='Output train HDF5 file path')
     parser.add_argument('--val_file', default='Validation_data_v2.hdf5', help='Output validation HDF5 file path')
     parser.add_argument('--test_file', default='Test_data_v2.hdf5', help='Output test HDF5 file path')
@@ -60,9 +60,9 @@ def main():
         test_noise_bar = tqdm.tqdm(total=args.test_noise, desc='Test noise')
 
         # Create new train and test files
-        with h5py.File(args.train_file, 'w') as train_dst,\
-                h5py.File(args.val_file, 'w') as val_dst, \
-                h5py.File(args.test_file, 'w') as test_dst:
+        with h5py.File('../Data/STEAD/' + args.train_file, 'w') as train_dst,\
+                h5py.File('../Data/STEAD/' + args.val_file, 'w') as val_dst, \
+                h5py.File('../Data/STEAD/' + args.test_file, 'w') as test_dst:
 
             # Create new train file groups
             train_dst_wv = train_dst.create_group('earthquake/local')

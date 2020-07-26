@@ -30,12 +30,12 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load data Fig. 3f0 y 3bb
-    file_fo = '../../Data_Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
-    file_bb = '../../Data_Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
+    file_fo = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
+    file_bb = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
 
     # Sampling frequency
     fs = 20
@@ -112,7 +112,7 @@ def main():
           f'out_fil_bb: {out_fil_bb.data.item()}, predicted_fil_bb: {predicted_fil_bb}\n')
 
     # Load data Fig. 5a_fo
-    file = '../../Data_Reykjanes/Jousset_et_al_2018_003_Figure5a_fo.ascii'
+    file = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure5a_fo.ascii'
 
     # Number of traces and sampling frequency
     n_trazas = 26
@@ -187,7 +187,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load data Fig. 5a_gph
-    file = '../../Data_Reykjanes/Jousset_et_al_2018_003_Figure5a_gph.ascii'
+    file = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure5a_gph.ascii'
 
     # Number of traces and sampling frequency
     n_trazas = 26

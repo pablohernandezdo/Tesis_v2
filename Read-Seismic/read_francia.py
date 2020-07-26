@@ -20,7 +20,7 @@ def main():
 
     # Load STEAD trace
 
-    # st = '../Data_STEAD/Train_data.hdf5'
+    # st = '../Data/STEAD/Train_data.hdf5'
     #
     # with h5py.File(st, 'r') as h5_file:
     #     grp = h5_file['earthquake']['local']
@@ -30,7 +30,7 @@ def main():
 
     # Registro de 1 minuto de sismo M1.9 a 100 Km NE del cable
     # 6848 trazas de 6000 muestras
-    f = sio.loadmat("../Data_Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
+    f = sio.loadmat("../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
 
     traces = f["StrainFilt"]
     # time= f["Time"]

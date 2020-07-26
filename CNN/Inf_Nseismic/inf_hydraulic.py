@@ -29,11 +29,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # File name
-    file = '../../Data_Hydraulic/CSULB500Pa600secP_141210183813.mat'
+    file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -88,7 +88,7 @@ def main():
           f'Predicted seismic: {tr_seismic}, predicted noise: {tr_noise}\n'
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
-    file = '../../Data_Hydraulic/CSULB500Pa10secP_141210174309.mat'
+    file = '../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -142,7 +142,7 @@ def main():
           f'Predicted seismic: {tr_seismic}, predicted noise: {tr_noise}\n'
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
-    file = '../../Data_Hydraulic/CSULB500Pa100secP_141210175257.mat'
+    file = '../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:

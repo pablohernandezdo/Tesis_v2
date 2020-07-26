@@ -29,11 +29,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # File name
-    file = '../../Data_Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
+    file = '../../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:

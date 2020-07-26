@@ -35,11 +35,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Francia dataset
-    f = scipy.io.loadmat("../Data_Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
+    f = scipy.io.loadmat("../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
 
     # Read data
     data = f["StrainFilt"]
@@ -71,7 +71,7 @@ def main():
                 fn += 1
 
     # Load Nevada dataset file 717
-    f = '../Data_Nevada/PoroTomo_iDAS025_160321073717.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS025_160321073717.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -104,7 +104,7 @@ def main():
             fn += 1
 
     # Load Nevada dataset file 747
-    f = '../Data_Nevada/PoroTomo_iDAS025_160321073747.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -137,7 +137,7 @@ def main():
             fn += 1
 
     # Load Nevada data file 721
-    f = '../Data_Nevada/PoroTomo_iDAS16043_160321073721.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -177,7 +177,7 @@ def main():
             fn += 1
 
     # Load Nevada data file 751
-    f = '../Data_Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
 
     # For every trace in the file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -217,7 +217,7 @@ def main():
             fn += 1
 
     # Load Belgica data
-    f = scipy.io.loadmat("../Data_Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
+    f = scipy.io.loadmat("../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
 
     # Read data
     traces = f['Data_2D']
@@ -270,7 +270,7 @@ def main():
         fn += 1
 
     # Reykjanes telesismo fibra optica
-    file_fo = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
+    file_fo = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
 
     # Dict for header and data
     data_fo = {
@@ -306,7 +306,7 @@ def main():
         fn += 1
 
     # Registro de sismo local con DAS
-    file = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
+    file = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
     n_trazas = 2551
 
     data = {
@@ -350,7 +350,7 @@ def main():
             fn += 1
 
     # Load California dataset file
-    f = scipy.io.loadmat('../Data_California/FSE-06_480SecP_SingDec_StepTest (1).mat')
+    f = scipy.io.loadmat('../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
 
     # Read data
     traces = f['singdecmatrix']
@@ -380,7 +380,7 @@ def main():
             tn += 1
 
     # File name
-    file = '../Data_Hydraulic/CSULB500Pa600secP_141210183813.mat'
+    file = '../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -409,7 +409,7 @@ def main():
         else:
             tn += 1
 
-    file = '../Data_Hydraulic/CSULB500Pa10secP_141210174309.mat'
+    file = '../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -438,7 +438,7 @@ def main():
         else:
             tn += 1
 
-    file = '../Data_Hydraulic/CSULB500Pa100secP_141210175257.mat'
+    file = '../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -468,7 +468,7 @@ def main():
             tn += 1
 
     # File name
-    file = '../Data_Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
+    file = '../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -504,7 +504,7 @@ def main():
             tn += 1
 
     # Load Nevada data file 1
-    f = '../Data_Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
+    f = '../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -537,7 +537,7 @@ def main():
             tn += 1
 
     # Load Nevada dataset file 047
-    f = '../Data_Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -570,7 +570,7 @@ def main():
             tn += 1
 
     # Load Nevada dataset file 117
-    f = '../Data_Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -603,7 +603,7 @@ def main():
             tn += 1
 
     # Load Nevada dataset file 048
-    f = '../Data_Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -636,7 +636,7 @@ def main():
             tn += 1
 
     # Load Vibroseis data file 118
-    f = '../Data_Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
+    f = '../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
 
     # For every trace in the file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -669,7 +669,7 @@ def main():
             tn += 1
 
     # Load Shaker dataset file
-    f = '../Data_Shaker/large shaker NEES_130910161319 (1).sgy'
+    f = '../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:

@@ -30,7 +30,7 @@ def main():
 
     # Carga traza STEAD
 
-    # st = '../Data_STEAD/Train_data.hdf5'
+    # st = '../Data/STEAD/Train_data.hdf5'
     #
     # with h5py.File(st, 'r') as h5_file:
     #     grp = h5_file['earthquake']['local']
@@ -39,7 +39,7 @@ def main():
     #         break
 
     # File 721
-    f = '../Data_Nevada/PoroTomo_iDAS16043_160321073721.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -130,7 +130,7 @@ def main():
     # ani_sp.save('Animations/721/Spectrums.mp4')
 
     # File 751
-    f = '../Data_Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -218,7 +218,7 @@ def main():
     # ani_sp.save('Animations/751/Spectrums.mp4')
 
     # File 747
-    f = '../Data_Nevada/PoroTomo_iDAS025_160321073747.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -306,7 +306,7 @@ def main():
     # ani_sp.save('Animations/747/Spectrums.mp4')
 
     # File 717
-    f = '../Data_Nevada/PoroTomo_iDAS025_160321073717.sgy'
+    f = '../Data/Nevada/PoroTomo_iDAS025_160321073717.sgy'
 
     # Read file
     with segyio.open(f, ignore_geometry=True) as segy:

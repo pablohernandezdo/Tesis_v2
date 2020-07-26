@@ -33,7 +33,7 @@ def main():
 
     # Read file
     # 4192 canales, 42000 muestra por traza
-    f = sio.loadmat("../Data_Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
+    f = sio.loadmat("../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
 
     # Read data
     traces = f['Data_2D']

@@ -25,6 +25,7 @@ def main():
     parser.add_argument("--model_name", default='Default_model', help="Name of model to save")
     parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
+    # parser.add_argument("--val_path", default='Train_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
@@ -40,7 +41,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Start tensorboard SummaryWriter
-    tb = SummaryWriter('..runs/Seismic')
+    tb = SummaryWriter('../runs/Seismic')
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
@@ -94,10 +95,10 @@ def main():
                     loss_id += 1
 
                     tb.add_scalar('Loss', loss.item(), loss_id)
-                    batch_bar.update(1)
+                    batch_bar.update()
 
                 tb.add_scalar('Total_Loss', total_loss, epoch)
-                epoch_bar.update(1)
+                epoch_bar.update()
 
     # Close tensorboard
     tb.close()
@@ -112,6 +113,7 @@ def main():
     tr_t = end_tm - start_time
 
     print(f'Training time: {format_timespan(tr_t)}')
+
 
 if __name__ == "__main__":
     main()

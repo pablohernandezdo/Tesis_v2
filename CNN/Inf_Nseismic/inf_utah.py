@@ -30,11 +30,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Nevada data file 1
-    f = '../../Data_Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
+    f = '../../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:

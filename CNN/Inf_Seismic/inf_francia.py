@@ -30,11 +30,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Francia data file 1
-    f = scipy.io.loadmat("../../Data_Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
+    f = scipy.io.loadmat("../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
 
     # Read data
     data = f["StrainFilt"]

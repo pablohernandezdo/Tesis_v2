@@ -27,7 +27,7 @@ def main():
     #         break
 
     # 1 registro, largo 259_094_163 muestras
-    file = '../Data_Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
+    file = '../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
 
     with h5py.File(file, 'r') as f:
         trace = f['clipdata'][()]

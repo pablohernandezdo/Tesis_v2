@@ -28,7 +28,7 @@ def main():
     #         st_trace = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
     #         break
 
-    f = '../Data_Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
+    f = '../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
 
     with segyio.open(f, ignore_geometry=True) as segy:
         segy.mmap()

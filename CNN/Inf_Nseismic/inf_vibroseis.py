@@ -30,11 +30,11 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_CNN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Nevada data file 1
-    f = '../../Data_Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
+    f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -95,7 +95,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load Nevada data file 2
-    f = '../../Data_Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
+    f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -155,7 +155,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load Nevada data file 3
-    f = '../../Data_Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
+    f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -215,7 +215,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load Nevada data file 4
-    f = '../../Data_Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
+    f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
 
     # For every trace in the file
     with segyio.open(f, ignore_geometry=True) as segy:

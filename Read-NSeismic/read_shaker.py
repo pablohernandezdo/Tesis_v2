@@ -28,7 +28,7 @@ def main():
     #         break
 
     # 1984 trazas de 12600 muestras
-    f = '../Data_Shaker/large shaker NEES_130910161319 (1).sgy'
+    f = '../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
 
     with segyio.open(f, ignore_geometry=True) as segy:
         segy.mmap()
