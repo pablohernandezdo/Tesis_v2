@@ -54,6 +54,8 @@ def main():
     # Load specified Classifier
     if args.classifier == 'CBN':
         net = ClassConvBN()
+    elif args.classifier == 'CBN_v2':
+        net = CBN_v2()
     elif args.classifier == 'C':
         net = ClassConv()
     else:
