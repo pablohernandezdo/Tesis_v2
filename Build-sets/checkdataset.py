@@ -27,7 +27,7 @@ def main():
 
         # Train, validation and test seismic progress bars
         seismic_bar = tqdm.tqdm(total=len(seismic), desc='Seismic traces')
-        noise_bar = tqdm.tqdm(total=len(noise), desc='NOise traces')
+        noise_bar = tqdm.tqdm(total=len(noise), desc='Noise traces')
 
         for idx, dset in enumerate(seismic):
 
