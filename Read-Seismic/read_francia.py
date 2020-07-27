@@ -39,59 +39,62 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
-    # Create figure for plotting
-    plt.figure()
-
-    # plot chosen traces
-    for i in trtp:
-        yf = sfft.fftshift(sfft.fft(traces[i]))
-
-        plt.clf()
-        plt.subplot(211)
-        plt.plot(t_ax, traces[i])
-        plt.grid(True)
-        plt.ylabel('Strain [-]')
-        plt.xlabel('Tiempo [s]')
-        plt.title(f'Serie de tiempo y espectro #{i} Francia')
-
-        plt.subplot(212)
-        plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.grid(True)
-        plt.ylabel('Amplitud [-]')
-        plt.xlabel('Frecuencia [Hz]')
-        plt.tight_layout()
-        plt.savefig(f'Imgs/Francia/Francia_trace_{i}.png')
-
-    # Create animation of whole data
-    fig_tr = plt.figure()
-    ims_tr = []
-
     for trace in traces:
-        im_tr = plt.plot(t_ax, trace)
-        plt.title(f'Trazas dataset Francia')
-        plt.ylabel('Amplitud [-]')
-        plt.xlabel('Tiempo [s]')
-        plt.grid(True)
-        ims_tr.append(im_tr)
+        print(f'mean: {np.mean(trace)}')
 
-    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    ani_tr.save('Animations/Francia/Francia_traces.mp4')
+    # # Create figure for plotting
+    # plt.figure()
 
-    # Create animation of whole data spectrums
-    fig_sp = plt.figure()
-    ims_sp = []
-
-    for trace in traces:
-        yf = sfft.fftshift(sfft.fft(trace))
-        im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.title(f'Espectro trazas dataset Francia')
-        plt.ylabel('Amplitud [-]')
-        plt.xlabel('Frecuencia [Hz]')
-        plt.grid(True)
-        ims_sp.append(im_sp)
-
-    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    ani_sp.save('Animations/Francia/Francia_spectrums.mp4')
+    # # plot chosen traces
+    # for i in trtp:
+    #     yf = sfft.fftshift(sfft.fft(traces[i]))
+    #
+    #     plt.clf()
+    #     plt.subplot(211)
+    #     plt.plot(t_ax, traces[i])
+    #     plt.grid(True)
+    #     plt.ylabel('Strain [-]')
+    #     plt.xlabel('Tiempo [s]')
+    #     plt.title(f'Serie de tiempo y espectro #{i} Francia')
+    #
+    #     plt.subplot(212)
+    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+    #     plt.grid(True)
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Frecuencia [Hz]')
+    #     plt.tight_layout()
+    #     plt.savefig(f'Imgs/Francia/Francia_trace_{i}.png')
+    #
+    # # Create animation of whole data
+    # fig_tr = plt.figure()
+    # ims_tr = []
+    #
+    # for trace in traces:
+    #     im_tr = plt.plot(t_ax, trace)
+    #     plt.title(f'Trazas dataset Francia')
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Tiempo [s]')
+    #     plt.grid(True)
+    #     ims_tr.append(im_tr)
+    #
+    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
+    # ani_tr.save('Animations/Francia/Francia_traces.mp4')
+    #
+    # # Create animation of whole data spectrums
+    # fig_sp = plt.figure()
+    # ims_sp = []
+    #
+    # for trace in traces:
+    #     yf = sfft.fftshift(sfft.fft(trace))
+    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+    #     plt.title(f'Espectro trazas dataset Francia')
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Frecuencia [Hz]')
+    #     plt.grid(True)
+    #     ims_sp.append(im_sp)
+    #
+    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
+    # ani_sp.save('Animations/Francia/Francia_spectrums.mp4')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
