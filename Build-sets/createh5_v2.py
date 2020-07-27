@@ -30,23 +30,46 @@ def main():
         ln = f.readline()
         faulty = np.asarray(list(map(int, ln.strip().split(','))))
 
-    print(faulty)
 
     # Read the hdf5 source file
-    # with h5py.File(args.source_file, 'r') as source:
-    #
-    #     # Retrieve file groups
-    #     src_seis = source['earthquake']['local']
-    #     src_ns = source['non_earthquake']['noise']
-    #
-    #     # Total number of traces to copy
-    #     seis2copy = args.train_traces + args.val_traces + args.test_traces
-    #     ns2copy = args.train_noise + args.val_noise + args.test_noise
-    #
-    #     # Traces to copy
-    #     seismic_ids = rng.choice(len(src_seis), size=seis2copy, replace=False)
-    #     noise_ids = rng.choice(len(src_ns), size=ns2copy, replace=False)
-    #
+    with h5py.File(args.source_file, 'r') as source:
+
+        # Retrieve file groups
+        src_seis = source['earthquake']['local']
+        src_ns = source['non_earthquake']['noise']
+
+        # Total number of traces to copy
+        seis2copy = args.train_traces + args.val_traces + args.test_traces
+        ns2copy = args.train_noise + args.val_noise + args.test_noise
+
+        # Traces to copy
+        seismic_ids = rng.choice(len(src_seis), size=seis2copy, replace=False)
+        noise_ids = rng.choice(len(src_ns), size=ns2copy, replace=False)
+
+        # Not faulty datasets in selection
+        for val in faulty:
+
+            # If faulty selected
+            if val in seismic_ids:
+
+                print('Faulty detected')
+
+                # Delete from array
+                idx = np.argwhere(seismic_ids == val)
+                seismic_ids = np.delete(seismic_ids, idx)
+
+                # Select new one
+                new_val = rng.choice(len(src_seis), size=1)
+
+                # Check if is already in array
+                while new_val in seismic_ids:
+                    new_val = rng.choice(len(src_seis), size=1)
+
+                print(f'New val: {new_val}')
+
+                # Append to array
+                seismic_ids = np.append(seismic_ids, new_val)
+
     #     train_seis_ids = seismic_ids[:args.train_traces]
     #     train_noise_ids = noise_ids[:args.train_noise]
     #
