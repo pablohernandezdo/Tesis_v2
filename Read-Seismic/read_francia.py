@@ -40,10 +40,16 @@ def main():
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
     stds = []
+    n_st = 0
 
     for trace in traces:
         trace = trace-np.mean(trace)
+        st = np.std(trace)
+        if st > 20:
+            n_st +=1
         stds.append(np.std(trace))
+
+    print(n_st)
 
     _ = plt.hist(stds, bins='auto')
     plt.show()
