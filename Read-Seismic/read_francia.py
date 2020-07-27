@@ -52,7 +52,7 @@ def main():
             n_st += 1
             plt.figure()
             plt.plot(trace)
-            plt.title(f'std = {st:5.3f}, max/std = {maxx/st:5.3f}, rms = {rms:5.3f}')
+            plt.title(f'tr #{n_st}, std = {st:5.3f}, max/std = {maxx/st:5.3f}, rms = {rms:5.3f}')
             plt.show(block=False)
             plt.pause(0.1)
             plt.close()
