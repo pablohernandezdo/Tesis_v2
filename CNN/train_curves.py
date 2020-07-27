@@ -157,8 +157,8 @@ def main():
     print(f'Training time: {format_timespan(tr_t)}')
 
     plt.figure()
-    plt.plot(train_error)
-    plt.plot(val_error)
+    plt.plot(train_error, 'r')
+    plt.plot(val_error, 'b')
     plt.savefig('ERRORS.png')
 
 
