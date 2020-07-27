@@ -49,19 +49,19 @@ def main():
         trace = trace / np.max(np.abs(trace))
         st = np.std(trace)
 
-        # if st > 50:
-        #     n_st += 1
-        #     plt.clf()
-        #     plt.plot(trace)
-        #     plt.title(f'std = {st}')
-        #     plt.show()
+        if st > 0.25:
+            n_st += 1
+            plt.clf()
+            plt.plot(trace)
+            plt.title(f'std = {st}')
+            plt.show()
 
         stds.append(np.std(trace))
 
     # print(n_st)
 
-    _ = plt.hist(stds, bins='auto')
-    plt.show()
+    # _ = plt.hist(stds, bins='auto')
+    # plt.show()
 
 
     # # Create figure for plotting
