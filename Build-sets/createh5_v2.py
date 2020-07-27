@@ -30,7 +30,7 @@ def main():
         ln = f.readline()
         faulty = np.asarray(list(map(int, ln.strip().split(','))))
 
-    print(len(faulty))
+    print(faulty)
 
     # Read the hdf5 source file
     # with h5py.File(args.source_file, 'r') as source:
