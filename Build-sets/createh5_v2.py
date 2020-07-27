@@ -71,6 +71,8 @@ def main():
                 # Append to array
                 seismic_ids = np.append(seismic_ids, new_val)
 
+        print(f'seismic ids len: {len(seismic_ids)}')
+
     #     train_seis_ids = seismic_ids[:args.train_traces]
     #     train_noise_ids = noise_ids[:args.train_noise]
     #
