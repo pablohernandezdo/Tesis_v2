@@ -63,6 +63,7 @@ def main():
 
                 # Check if is already in array
                 while new_val in seismic_ids:
+                    print(f'Got faulty again: {new_val}')
                     new_val = rng.choice(len(src_seis), size=1)
 
                 print(f'New val: {new_val}')
