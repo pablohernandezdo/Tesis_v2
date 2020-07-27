@@ -156,10 +156,12 @@ def main():
 
     print(f'Training time: {format_timespan(tr_t)}')
 
-    plt.figure()
-    plt.plot(train_error, 'r')
-    plt.plot(val_error, 'b')
-    plt.savefig('ERRORS.png')
+    print(f'Train error: {train_error}\n'
+          f'Val error: {val_error}')
+    # plt.figure()
+    # plt.plot(train_error, 'r')
+    # plt.plot(val_error, 'b')
+    # plt.savefig('ERRORS.png')
 
 
 if __name__ == "__main__":
