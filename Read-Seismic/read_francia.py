@@ -49,7 +49,7 @@ def main():
             data.append(trace)
 
     data = np.asarray(data)
-    data = data[:67]
+    data = data[:66]
 
     for trace in data:
         plt.figure()
