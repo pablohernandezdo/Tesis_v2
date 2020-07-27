@@ -42,8 +42,6 @@ def main():
     stds = []
     n_st = 0
 
-    plt.figure()
-
     for trace in traces:
         trace = trace-np.mean(trace)
         maxx = np.max(np.abs(trace))
@@ -52,14 +50,15 @@ def main():
 
         if st > 50:
             n_st += 1
-            plt.clf()
+            plt.figure()
             plt.plot(trace)
             plt.title(f'std = {st:5.3f}, max/std = {maxx/st:5.3f}, rms = {rms:5.3f}')
-            plt.show()
-
+            plt.show(block=False)
+            plt.pause(0.1)
+            plt.close()
         stds.append(np.std(trace))
 
-    # print(n_st)
+    print(n_st)
 
     # _ = plt.hist(stds, bins='auto')
     # plt.show()
