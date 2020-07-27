@@ -46,14 +46,14 @@ def main():
 
     for trace in traces:
         trace = trace-np.mean(trace)
-        trace = trace / np.max(np.abs(trace))
+        maxx = np.max(np.abs(trace))
         st = np.std(trace)
-
-        if st > 0.3:
+        
+        if st > 50:
             n_st += 1
             plt.clf()
             plt.plot(trace)
-            plt.title(f'std = {st}')
+            plt.title(f'std = {st}, max/std = {maxx/st}')
             plt.show()
 
         stds.append(np.std(trace))
