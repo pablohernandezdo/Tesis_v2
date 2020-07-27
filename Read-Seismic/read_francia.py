@@ -49,7 +49,7 @@ def main():
         trace = trace / np.max(np.abs(trace))
         st = np.std(trace)
 
-        if st > 0.33:
+        if st > 0.3:
             n_st += 1
             plt.clf()
             plt.plot(trace)
