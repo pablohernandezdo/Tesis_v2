@@ -40,7 +40,7 @@ def main():
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
     for trace in traces:
-        print(f'mean: {np.mean(trace)}')
+        print(f'mean: {np.mean(trace-np.mean(trace))}')
 
     # # Create figure for plotting
     # plt.figure()
