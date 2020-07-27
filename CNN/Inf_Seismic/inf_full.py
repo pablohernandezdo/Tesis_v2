@@ -39,7 +39,7 @@ def main():
     net.eval()
 
     # Load Francia dataset
-    f = scipy.io.loadmat("../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
+    f = scipy.io.loadmat("../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
 
     # Read data
     data = f["StrainFilt"]
