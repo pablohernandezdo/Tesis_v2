@@ -52,7 +52,7 @@ def main():
             # If faulty selected
             if val in seismic_ids:
 
-                print('Faulty detected')
+                print(f'Faulty detected: {val}')
 
                 # Delete from array
                 idx = np.argwhere(seismic_ids == val)
