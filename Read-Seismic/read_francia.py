@@ -66,9 +66,9 @@ def main():
     fig_tr = plt.figure()
     ims_tr = []
 
-    for idx, trace in enumerate(traces):
+    for trace in traces:
         im_tr = plt.plot(t_ax, trace)
-        plt.title(f'Traza dataset Francia #{idx}')
+        plt.title(f'Trazas dataset Francia')
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
@@ -81,10 +81,10 @@ def main():
     fig_sp = plt.figure()
     ims_sp = []
 
-    for idx, trace in enumerate(traces):
+    for trace in traces:
         yf = sfft.fftshift(sfft.fft(trace))
         im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.title(f'Espectro traza dataset Francia #{idx}')
+        plt.title(f'Espectro trazas dataset Francia')
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Frecuencia [Hz]')
         plt.grid(True)
