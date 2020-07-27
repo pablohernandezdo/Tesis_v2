@@ -45,9 +45,9 @@ def main():
         trace = trace-np.mean(trace)
         stds.append(np.std(trace))
 
-    _ = plt.hist(stds)
+    _ = plt.hist(stds, bins='auto')
     plt.show()
-    
+
 
     # # Create figure for plotting
     # plt.figure()
