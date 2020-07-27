@@ -42,23 +42,23 @@ def main():
     stds = []
     n_st = 0
 
-    # plt.figure()
+    plt.figure()
 
     for trace in traces:
         trace = trace-np.mean(trace)
         st = np.std(trace)
         if st > 50:
             n_st += 1
-            #plt.clf()
-            #plt.plot(trace)
-            #plt.title(f'std = {st}')
-            # plt.show()
+            plt.clf()
+            plt.plot(trace)
+            plt.title(f'std = {st}')
+            plt.show()
         stds.append(np.std(trace))
 
     print(n_st)
 
-    #_ = plt.hist(stds, bins='auto')
-    #plt.show()
+    _ = plt.hist(stds, bins='auto')
+    plt.show()
 
 
     # # Create figure for plotting
