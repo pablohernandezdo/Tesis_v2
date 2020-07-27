@@ -39,26 +39,24 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
-    stds = []
-    n_st = 0
+    data = []
 
     for trace in traces:
         trace = trace-np.mean(trace)
-        maxx = np.max(np.abs(trace))
         st = np.std(trace)
-        rms = np.sqrt(np.sum(np.power(trace, 2)) / len(trace))
 
         if st > 50:
-            n_st += 1
-            plt.figure()
-            plt.plot(trace)
-            plt.title(f'tr #{n_st}, std = {st:5.3f}, max/std = {maxx/st:5.3f}, rms = {rms:5.3f}')
-            plt.show(block=False)
-            plt.pause(1.5)
-            plt.close()
-        stds.append(np.std(trace))
+            data.append(trace)
 
-    print(n_st)
+    data = np.asarray(data)
+    data = data[:67]
+
+    for trace in data:
+        plt.figure()
+        plt.plot(trace)
+        plt.show(block=False)
+        plt.pause(1.5)
+        plt.close()
 
     # _ = plt.hist(stds, bins='auto')
     # plt.show()

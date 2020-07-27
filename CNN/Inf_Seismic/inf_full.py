@@ -49,8 +49,21 @@ def main():
     total_nseismic = 0
     tp, fp, tn, fn = 0, 0, 0, 0
 
-    # For every trace in the file
+    # Select some traces
+    traces = []
+
     for trace in data:
+        trace = trace-np.mean(trace)
+        st = np.std(trace)
+
+        if st > 50:
+            traces.append(trace)
+
+    traces = np.asarray(traces)
+    traces = traces[:67]
+
+    # For every trace in the file
+    for trace in traces:
         if np.max(np.abs(trace)):
             # Normalize
             trace = trace / np.max(np.abs(trace))
