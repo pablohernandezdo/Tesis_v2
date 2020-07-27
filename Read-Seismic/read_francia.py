@@ -72,7 +72,7 @@ def main():
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Frecuencia [Hz]')
         plt.tight_layout()
-        plt.savefig(f'Imgs/Francia_trace_{i}.png')
+        plt.savefig(f'Francia-Imgs/Francia_trace_{i}.png')
 
     # # Create animation of whole data
     # fig_tr = plt.figure()
