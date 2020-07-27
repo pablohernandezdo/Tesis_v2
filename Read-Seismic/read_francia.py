@@ -42,11 +42,16 @@ def main():
     stds = []
     n_st = 0
 
+    plt.figure()
+
     for trace in traces:
         trace = trace-np.mean(trace)
         st = np.std(trace)
         if st > 20:
-            n_st +=1
+            n_st += 1
+            plt.clf()
+            plt.plot(trace)
+            plt.show()
         stds.append(np.std(trace))
 
     print(n_st)
