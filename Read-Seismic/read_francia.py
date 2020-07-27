@@ -54,7 +54,7 @@ def main():
             plt.plot(trace)
             plt.title(f'tr #{n_st}, std = {st:5.3f}, max/std = {maxx/st:5.3f}, rms = {rms:5.3f}')
             plt.show(block=False)
-            plt.pause(0.5)
+            plt.pause(1.5)
             plt.close()
         stds.append(np.std(trace))
 
