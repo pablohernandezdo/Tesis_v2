@@ -60,7 +60,7 @@ def main():
 
         plt.clf()
         plt.subplot(211)
-        plt.plot(traces[i])
+        plt.plot(t_ax, traces[i])
         plt.grid(True)
         plt.ylabel('Strain [-]')
         plt.xlabel('Tiempo [s]')
