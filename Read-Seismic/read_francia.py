@@ -51,6 +51,7 @@ def main():
             n_st += 1
             plt.clf()
             plt.plot(trace)
+            plt.title(f'std = {st}')
             plt.show()
         stds.append(np.std(trace))
 
