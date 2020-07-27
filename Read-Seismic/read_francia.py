@@ -15,8 +15,8 @@ from scipy.signal import butter, lfilter
 def main():
     # Create images and animations folder
 
-    Path("Imgs").mkdir(exist_ok=True)
-    Path("Animations").mkdir(exist_ok=True)
+    Path("Francia-Imgs").mkdir(exist_ok=True)
+    Path("Francia-Animations").mkdir(exist_ok=True)
 
     # Load STEAD trace
 
