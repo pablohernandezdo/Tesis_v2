@@ -48,12 +48,13 @@ def main():
         trace = trace-np.mean(trace)
         maxx = np.max(np.abs(trace))
         st = np.std(trace)
-        
+        rms = np.sqrt(np.sum(np.power(trace, 2)) / len(trace))
+
         if st > 50:
             n_st += 1
             plt.clf()
             plt.plot(trace)
-            plt.title(f'std = {st}, max/std = {maxx/st}')
+            plt.title(f'std = {st:5.3f}, max/std = {maxx/st:5.3f}, rms = {rms:5.3f}')
             plt.show()
 
         stds.append(np.std(trace))
