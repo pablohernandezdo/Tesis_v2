@@ -45,7 +45,7 @@ def main():
         trace = trace-np.mean(trace)
         stds.append(np.std(trace))
 
-    print(f'std max: {np.max(stds)}, std min: {np.min(stds)}, std mean: {np.mean(stds}')
+    print(f'std max: {np.max(stds)}, std min: {np.min(stds)}, std mean: {np.mean(stds)}')
 
     # # Create figure for plotting
     # plt.figure()
