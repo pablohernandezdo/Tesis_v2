@@ -47,12 +47,12 @@ def main():
     for trace in traces:
         trace = trace-np.mean(trace)
         st = np.std(trace)
-        if st > 40:
+        if st > 50:
             n_st += 1
             plt.clf()
             plt.plot(trace)
             plt.title(f'std = {st}')
-            plt.show()
+            # plt.show()
         stds.append(np.std(trace))
 
     print(n_st)
