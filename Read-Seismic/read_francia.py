@@ -47,7 +47,7 @@ def main():
     for trace in traces:
         trace = trace-np.mean(trace)
         st = np.std(trace)
-        if st > 20:
+        if st > 40:
             n_st += 1
             plt.clf()
             plt.plot(trace)
