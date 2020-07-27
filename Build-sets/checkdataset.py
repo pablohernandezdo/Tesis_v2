@@ -22,6 +22,9 @@ def main():
         seismic_bad = 0
         noise_bad = 0
 
+        seismic_bad_ids = []
+        noise_bad_ids = []
+
         # Train, validation and test seismic progress bars
         seismic_bar = tqdm.tqdm(total=len(seismic), desc='Seismic traces')
         noise_bar = tqdm.tqdm(total=len(noise), desc='NOise traces')
@@ -32,7 +35,7 @@ def main():
 
             if not np.max(np.abs(data[:, 0])):
                 seismic_bad += 1
-                print(f'Faulty seismic dataset id: {idx}')
+                seismic_bad_ids.append(idx)
 
             seismic_bar.update()
 
@@ -42,7 +45,7 @@ def main():
 
             if not np.max(np.abs(data[:, 0])):
                 noise_bad += 1
-                print(f'Faulty noise dataset id: {idx}')
+                noise_bad_ids.append(idx)
 
             noise_bar.update()
 
@@ -50,7 +53,9 @@ def main():
         print(f'Number of seismic traces: {len(seismic)}\n'
               f'Number of noise traces: {len(noise)}\n'
               f'Number of faulty seismic datasets: {seismic_bad}\n'
-              f'Number of faulty noise datasets: {noise_bad}\n')
+              f'Number of faulty noise datasets: {noise_bad}\n'
+              f'Faulty seismic ids: {seismic_bad_ids}\n'
+              f'Faulty noise ids: {noise_bad_ids}\n')
 
 
 if __name__ == "__main__":
