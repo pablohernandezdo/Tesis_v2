@@ -6,12 +6,12 @@ tst="Test_data.hdf5"
 
 # Check train dataset
 echo "Checking $trn$ dataset"
-python checkdataset --dataset_path '../Data/STEAD/Train_dataset.hdf5'
+python checkdataset.py --dataset_path '../Data/STEAD/Train_dataset.hdf5'
 
 # Check validation dataset
 echo "Checking $val$ dataset"
-python checkdataset --dataset_path '../Data/STEAD/Validation_dataset.hdf5'
+python checkdataset.py --dataset_path '../Data/STEAD/Validation_dataset.hdf5'
 
 # Check test dataset
 echo "Checking $tst$ dataset"
-python checkdataset --dataset_path '../Data/STEAD/Test_dataset.hdf5'
+python checkdataset.py --dataset_path '../Data/STEAD/Test_dataset.hdf5'
