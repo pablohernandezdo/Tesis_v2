@@ -39,9 +39,13 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
+    stds = []
+
     for trace in traces:
         trace = trace-np.mean(trace)
-        print(f'mean: {np.mean(trace)}, std: {np.std(trace)}')
+        stds.append(np.std(trace))
+
+    print(f'std max: {np.max(stds)}, std min: {np.min(stds)}, std mean: {np.mean(stds}')
 
     # # Create figure for plotting
     # plt.figure()
