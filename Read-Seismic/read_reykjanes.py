@@ -59,13 +59,13 @@ def main():
                 val = line.strip()
                 data_fo['strain'].append(float(val))
 
-    with open(file_bb, 'r') as f:
-        for idx, line in enumerate(f):
-            if idx == 0:
-                data_bb['head'] = line.strip()
-            else:
-                val = line.strip()
-                data_bb['strain'].append(float(val))
+    # with open(file_bb, 'r') as f:
+    #     for idx, line in enumerate(f):
+    #         if idx == 0:
+    #             data_bb['head'] = line.strip()
+    #         else:
+    #             val = line.strip()
+    #             data_bb['strain'].append(float(val))
 
     # Data len
     N = len(data_fo['strain'])
