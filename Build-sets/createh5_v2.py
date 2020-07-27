@@ -1,5 +1,6 @@
 import h5py
 import argparse
+import numpy as np
 from numpy.random import default_rng
 
 import tqdm
@@ -26,9 +27,10 @@ def main():
     rng = default_rng()
 
     with open('fault.txt', 'r') as f:
-        lines = sum(1 for line in f)
+        ln = f.readline()
+        faulty = np.asarray(list(map(int, ln.strip().split(','))))
 
-    print(lines)
+    print(len(faulty))
 
     # Read the hdf5 source file
     # with h5py.File(args.source_file, 'r') as source:
