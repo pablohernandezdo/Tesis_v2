@@ -15,8 +15,8 @@ from scipy.signal import butter, lfilter
 def main():
     # Create images and animations folder
 
-    Path("Francia-Imgs").mkdir(exist_ok=True)
-    Path("Francia-Animations").mkdir(exist_ok=True)
+    Path("Imgs/Francia").mkdir(parents=True, exist_ok=True)
+    Path("Animations/Francia").mkdir(parents=True, exist_ok=True)
 
     # Load STEAD trace
 
@@ -72,7 +72,7 @@ def main():
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Frecuencia [Hz]')
         plt.tight_layout()
-        plt.savefig(f'Francia-Imgs/Francia_trace_{i}.png')
+        plt.savefig(f'Imgs/Francia/Francia_trace_{i}.png')
 
     # # Create animation of whole data
     # fig_tr = plt.figure()
@@ -87,7 +87,7 @@ def main():
     #     ims_tr.append(im_tr)
     #
     # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/Francia_traces.mp4')
+    # ani_tr.save('Animations/Francia/Francia_traces.mp4')
     #
     # # Create animation of whole data spectrums
     # fig_sp = plt.figure()
@@ -103,7 +103,7 @@ def main():
     #     ims_sp.append(im_sp)
     #
     # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/Francia_spectrums.mp4')
+    # ani_sp.save('Animations/Francia/Francia_spectrums.mp4')
 
     # t_ax = np.arange(len(traces[plt_tr])) / fs
     #
