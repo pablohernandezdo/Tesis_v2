@@ -42,7 +42,7 @@ def main():
     stds = []
     n_st = 0
 
-    plt.figure()
+    # plt.figure()
 
     for trace in traces:
         trace = trace-np.mean(trace)
