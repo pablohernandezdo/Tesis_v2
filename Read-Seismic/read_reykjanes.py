@@ -39,7 +39,7 @@ def main():
     file_fo = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
     # file_bb = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
     #
-    fs = 200
+    fs = 20
 
     data_fo = {
         'head': '',
