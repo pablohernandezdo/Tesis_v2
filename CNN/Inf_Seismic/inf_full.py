@@ -242,7 +242,7 @@ def main():
     #         fn += 1
 
     # # Load Belgica data
-    f = scipy.io.loadmat("../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
+    f = scipy.io.loadmat("../../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
 
     # Read data
     traces = f['Data_2D']
@@ -295,7 +295,7 @@ def main():
         fn += 1
 
     # Reykjanes telesismo fibra optica
-    file_fo = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
+    file_fo = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
 
     # Dict for header and data
     data_fo = {
@@ -331,7 +331,7 @@ def main():
         fn += 1
 
     # Registro de sismo local con DAS
-    file = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
+    file = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
     n_trazas = 2551
 
     data = {
