@@ -124,7 +124,7 @@ def main():
     #         fn += 1
 
     # Load Nevada data file 751
-    f = '../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
 
     # For every trace in the file
     with segyio.open(f, ignore_geometry=True) as segy:
