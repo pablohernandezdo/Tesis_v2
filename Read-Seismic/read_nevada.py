@@ -36,7 +36,13 @@ def main():
         fs = segy.header[0][117]
 
     for trace in traces:
-        print(np.mean(trace))
+        trace = trace- np.mean(trace)
+
+        plt.figure()
+        plt.plot(trace)
+        plt.show(block=False)
+        plt.pause(1.5)
+        plt.close()
 
     # # Number of traces to plot
     # n = 4
