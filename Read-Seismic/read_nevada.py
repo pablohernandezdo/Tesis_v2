@@ -128,6 +128,8 @@ def main():
     # ani_sp.save('Animations/Nevada/721/Spectrums.mp4')
 
     # File 751
+    # Good signal between traces 50-8650
+    # Bad signal between 2800-2900, 4700-4800
     f = '../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
 
     # Read file
@@ -147,8 +149,6 @@ def main():
             plt.title(f'idx: {idx} ')
             plt.pause(1.5)
             plt.close()
-
-    
 
     # # Number of traces to plot
     # n = 4
