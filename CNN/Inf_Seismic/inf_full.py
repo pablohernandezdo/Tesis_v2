@@ -146,7 +146,7 @@ def main():
     tr3 = traces[4800:8650]
     traces = np.vstack((tr1, tr2, tr3))
 
-    npad = (6000 - len(traces[0])) / 2
+    npad = 1500
 
     # For every trace in the file
     for trace in traces:
