@@ -100,16 +100,17 @@ def main():
             # Traces
             traces = segyio.tools.collect(segy.trace[:])
 
-    # npad = 1500
+    # FALSE NEGATIVES = 941
+    npad = 1500
 
     # For every trace in the file
     for trace in traces:
         # Resample
-        trace = signal.resample(trace, 6000)
-        # trace = signal.resample(trace, 3000)
+        # trace = signal.resample(trace, 6000)
+        trace = signal.resample(trace, 3000)
 
         # Zero padd
-        # trace = np.pad(trace, (npad, npad), mode='constant')
+        trace = np.pad(trace, (npad, npad), mode='constant')
 
         # Normalize
         trace = trace / np.max(np.abs(trace))
