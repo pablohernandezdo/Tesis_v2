@@ -229,25 +229,14 @@ def main():
     # ani_sp.save('Animations/Nevada/751/Spectrums.mp4')
 
     # # File 747
-    f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
-
-    # Read file
-    with segyio.open(f, ignore_geometry=True) as segy:
-        segy.mmap()
-
-        traces = segyio.tools.collect(segy.trace[:])
-        fs = segy.header[0][117]
-
-    for idx, trace in enumerate(traces):
-        if not (idx % 10):
-            trace = trace - np.mean(trace)
-
-            plt.figure()
-            plt.plot(trace)
-            plt.show(block=False)
-            plt.title(f'idx: {idx} ')
-            plt.pause(1.5)
-            plt.close()
+    # f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
+    #
+    # # Read file
+    # with segyio.open(f, ignore_geometry=True) as segy:
+    #     segy.mmap()
+    #
+    #     traces = segyio.tools.collect(segy.trace[:])
+    #     fs = segy.header[0][117]
 
     # # Number of traces to plot
     # n = 4

@@ -141,15 +141,20 @@ def main():
             traces = segyio.tools.collect(segy.trace[:])
 
     # Select good signal traces
-    # tr1 = traces[50:2800]
-    # tr2 = traces[2900:4700]
-    # tr3 = traces[4800:8650]
-    # traces = np.vstack((tr1, tr2, tr3))
+    tr1 = traces[50:2800]
+    tr2 = traces[2900:4700]
+    tr3 = traces[4800:8650]
+    traces = np.vstack((tr1, tr2, tr3))
+
+    npad = (6000 - len(traces[0])) / 2
 
     # For every trace in the file
     for trace in traces:
         # Resample
-        trace = signal.resample(trace, 6000)
+        trace = signal.resample(trace, 3000)
+
+        # Zero pad
+        trace = np.pad(trace, (npad, npad), mode='constant')
 
         # Normalize
         trace = trace / np.max(np.abs(trace))
