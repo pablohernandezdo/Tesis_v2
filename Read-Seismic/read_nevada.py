@@ -35,16 +35,16 @@ def main():
         traces = segyio.tools.collect(segy.trace[:])
         fs = segy.header[0][117]
 
-    for idx, trace in enumerate(traces):
-        if not (idx % 50):
-            trace = trace - np.mean(trace)
-
-            plt.figure()
-            plt.plot(trace)
-            plt.show(block=False)
-            plt.title(f'idx: {idx} ')
-            plt.pause(1.5)
-            plt.close()
+    # for idx, trace in enumerate(traces):
+    #     if not (idx % 100):
+    #         trace = trace - np.mean(trace)
+    #
+    #         plt.figure()
+    #         plt.plot(trace)
+    #         plt.show(block=False)
+    #         plt.title(f'idx: {idx} ')
+    #         plt.pause(1.5)
+    #         plt.close()
 
     # # Number of traces to plot
     # n = 4
@@ -136,6 +136,17 @@ def main():
 
         traces = segyio.tools.collect(segy.trace[:])
         fs = segy.header[0][117]
+
+    for idx, trace in enumerate(traces):
+        if not (idx % 100):
+            trace = trace - np.mean(trace)
+
+            plt.figure()
+            plt.plot(trace)
+            plt.show(block=False)
+            plt.title(f'idx: {idx} ')
+            plt.pause(1.5)
+            plt.close()
 
     # # Number of traces to plot
     # n = 4
