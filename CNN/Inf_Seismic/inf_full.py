@@ -141,10 +141,10 @@ def main():
             traces = segyio.tools.collect(segy.trace[:])
 
     # Select good signal traces
-    tr1 = traces[50:2800]
-    tr2 = traces[2900:4700]
-    tr3 = traces[4800:8650]
-    traces = np.vstack((tr1, tr2, tr3))
+    # tr1 = traces[50:2800]
+    # tr2 = traces[2900:4700]
+    # tr3 = traces[4800:8650]
+    # traces = np.vstack((tr1, tr2, tr3))
 
     npad = 1500
 
