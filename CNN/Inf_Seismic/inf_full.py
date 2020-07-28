@@ -375,7 +375,7 @@ def main():
             fn += 1
 
     # # Load California dataset file
-    f = scipy.io.loadmat('../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
+    f = scipy.io.loadmat('../../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
 
     # Read data
     traces = f['singdecmatrix']
