@@ -375,35 +375,38 @@ def main():
             fn += 1
 
     # # Load California dataset file
-    # f = scipy.io.loadmat('../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
-    #
-    # # Read data
-    # traces = f['singdecmatrix']
-    # traces = traces.transpose()
-    #
-    # # For every trace in the file
-    # for trace in traces:
-    #     # Resample
-    #     trace = signal.resample(trace, 6000)
-    #
-    #     # Normalize
-    #     trace = trace / np.max(np.abs(trace))
-    #
-    #     # Numpy to Torch
-    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-    #
-    #     # Prediction
-    #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
-    #
-    #     # Count traces
-    #     total_nseismic += 1
-    #
-    #     if pred_trace:
-    #         fp += 1
-    #     else:
-    #         tn += 1
-    #
+    f = scipy.io.loadmat('../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
+
+    # Read data
+    traces = f['singdecmatrix']
+    traces = traces.transpose()
+
+    # For every trace in the file
+    for tr in traces:
+        # Resample
+        tr = signal.resample(tr, 41228)
+        tr = tr[:36000]
+        tr = np.reshape(tr, (-1, 6000))
+
+        for trace in tr:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
+
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = torch.round(out_trace.data).item()
+
+            # Count traces
+            total_nseismic += 1
+
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
     # # File name
     # file = '../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
     #
