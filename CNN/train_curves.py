@@ -87,8 +87,12 @@ def main():
 
             total_loss = 0
 
-            with tqdm.tqdm(total=len(train_loader), desc='Batches') as batch_bar:
+            with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
                 for i, data in enumerate(train_loader):
+
+                    # Network to train mode
+                    net.train()
+
                     inputs, labels = data[0].to(device), data[1].to(device)
                     optimizer.zero_grad()
 
@@ -111,36 +115,34 @@ def main():
             # Network to evaluation mode
             net.eval()
 
-            # Training error
-            train_total = 0
-            train_correct = 0
+            with torch.no_grad():
+                # Training error
+                train_total = 0
+                train_correct = 0
 
-            for data in train_loader:
-                traces, labels = data[0].to(device), data[1].to(device)
-                outputs = net(traces)
-                predicted = torch.round(outputs)
+                for data in train_loader:
+                    traces, labels = data[0].to(device), data[1].to(device)
+                    outputs = net(traces)
+                    predicted = torch.round(outputs)
 
-                train_total += labels.size(0)
-                train_correct += (predicted == labels).sum().item()
+                    train_total += labels.size(0)
+                    train_correct += (predicted == labels).sum().item()
 
-            train_error.append(train_correct / train_total)
+                train_error.append(train_correct / train_total)
 
-            # Validation error
-            val_total = 0
-            val_correct = 0
+                # Validation error
+                val_total = 0
+                val_correct = 0
 
-            for data in val_loader:
-                traces, labels = data[0].to(device), data[1].to(device)
-                outputs = net(traces)
-                predicted = torch.round(outputs)
+                for data in val_loader:
+                    traces, labels = data[0].to(device), data[1].to(device)
+                    outputs = net(traces)
+                    predicted = torch.round(outputs)
 
-                val_total += labels.size(0)
-                val_correct += (predicted == labels).sum().item()
+                    val_total += labels.size(0)
+                    val_correct += (predicted == labels).sum().item()
 
-            val_error.append(val_correct / val_total)
-
-            # Network to train mode
-            net.train()
+                val_error.append(val_correct / val_total)
 
     # Close tensorboard
     tb.close()
