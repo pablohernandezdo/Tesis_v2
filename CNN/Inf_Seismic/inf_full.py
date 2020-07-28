@@ -44,11 +44,11 @@ def main():
     # # Read data
     # data = f["StrainFilt"]
     #
-    # # Count traces
-    # total_seismic = 0
-    # total_nseismic = 0
-    # tp, fp, tn, fn = 0, 0, 0, 0
-    #
+    # Count traces
+    total_seismic = 0
+    total_nseismic = 0
+    tp, fp, tn, fn = 0, 0, 0, 0
+
     # # Select some traces
     # traces = []
     #
