@@ -39,94 +39,54 @@ def main():
     net.eval()
 
     # Load Francia dataset
-    f = scipy.io.loadmat("../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
-
-    # Read data
-    data = f["StrainFilt"]
-
-    # Count traces
-    total_seismic = 0
-    total_nseismic = 0
-    tp, fp, tn, fn = 0, 0, 0, 0
-
-    # Select some traces
-    traces = []
-
-    for trace in data:
-        trace = trace-np.mean(trace)
-        st = np.std(trace)
-
-        if st > 50:
-            traces.append(trace)
-
-    traces = np.asarray(traces)
-    traces = traces[:66]
-
-    # For every trace in the file
-    for trace in traces:
-        if np.max(np.abs(trace)):
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
-
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
-
-            # Count traces
-            total_seismic += 1
-
-            if pred_trace:
-                tp += 1
-            else:
-                fn += 1
-
-    # # Load Nevada data file 721
-    # f = '../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
+    # f = scipy.io.loadmat("../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
     #
     # # Read data
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
+    # data = f["StrainFilt"]
     #
-    #     # Traces
-    #     data = segyio.tools.collect(segy.trace[:])
+    # # Count traces
+    # total_seismic = 0
+    # total_nseismic = 0
+    # tp, fp, tn, fn = 0, 0, 0, 0
     #
-    #     # Read data
-    #     with segyio.open(f, ignore_geometry=True) as segy:
-    #         segy.mmap()
+    # # Select some traces
+    # traces = []
     #
-    #         # Traces
-    #         traces = segyio.tools.collect(segy.trace[:])
+    # for trace in data:
+    #     trace = trace-np.mean(trace)
+    #     st = np.std(trace)
+    #
+    #     if st > 50:
+    #         traces.append(trace)
+    #
+    # traces = np.asarray(traces)
+    # traces = traces[:66]
     #
     # # For every trace in the file
     # for trace in traces:
-    #     # Resample
-    #     trace = signal.resample(trace, 6000)
+    #     if np.max(np.abs(trace)):
+    #         # Normalize
+    #         trace = trace / np.max(np.abs(trace))
     #
-    #     # Normalize
-    #     trace = trace / np.max(np.abs(trace))
+    #         # Numpy to Torch
+    #         trace = torch.from_numpy(trace).to(device).unsqueeze(0)
     #
-    #     # Numpy to Torch
-    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+    #         # Prediction
+    #         out_trace = net(trace.float())
+    #         pred_trace = torch.round(out_trace.data).item()
     #
-    #     # Prediction
-    #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
+    #         # Count traces
+    #         total_seismic += 1
     #
-    #     # Count traces
-    #     total_seismic += 1
-    #
-    #     if pred_trace:
-    #         tp += 1
-    #     else:
-    #         fn += 1
+    #         if pred_trace:
+    #             tp += 1
+    #         else:
+    #             fn += 1
 
-    # Load Nevada data file 751
-    f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    # # Load Nevada data file 721
+    f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
-    # For every trace in the file
+    # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
         segy.mmap()
 
@@ -140,21 +100,16 @@ def main():
             # Traces
             traces = segyio.tools.collect(segy.trace[:])
 
-    # Select good signal traces
-    # tr1 = traces[50:2800]
-    # tr2 = traces[2900:4700]
-    # tr3 = traces[4800:8650]
-    # traces = np.vstack((tr1, tr2, tr3))
-
-    npad = 1500
+    # npad = 1500
 
     # For every trace in the file
     for trace in traces:
         # Resample
-        trace = signal.resample(trace, 3000)
+        trace = signal.resample(trace, 6000)
+        # trace = signal.resample(trace, 3000)
 
-        # Zero pad
-        trace = np.pad(trace, (npad, npad), mode='constant')
+        # Zero padd
+        # trace = np.pad(trace, (npad, npad), mode='constant')
 
         # Normalize
         trace = trace / np.max(np.abs(trace))
@@ -173,6 +128,57 @@ def main():
             tp += 1
         else:
             fn += 1
+
+    # Load Nevada data file 751
+    # f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    #
+    # # For every trace in the file
+    # with segyio.open(f, ignore_geometry=True) as segy:
+    #     segy.mmap()
+    #
+    #     # Traces
+    #     data = segyio.tools.collect(segy.trace[:])
+    #
+    #     # Read data
+    #     with segyio.open(f, ignore_geometry=True) as segy:
+    #         segy.mmap()
+    #
+    #         # Traces
+    #         traces = segyio.tools.collect(segy.trace[:])
+    #
+    # # Select good signal traces
+    # tr1 = traces[50:2800]
+    # tr2 = traces[2900:4700]
+    # tr3 = traces[4800:8650]
+    # traces = np.vstack((tr1, tr2, tr3))
+    #
+    # # npad = 1500
+    #
+    # # For every trace in the file
+    # for trace in traces:
+    #     # Resample
+    #     trace = signal.resample(trace, 6000)
+    #
+    #     # Zero pad
+    #     # trace = np.pad(trace, (npad, npad), mode='constant')
+    #
+    #     # Normalize
+    #     trace = trace / np.max(np.abs(trace))
+    #
+    #     # Numpy to Torch
+    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+    #
+    #     # Prediction
+    #     out_trace = net(trace.float())
+    #     pred_trace = torch.round(out_trace.data).item()
+    #
+    #     # Count traces
+    #     total_seismic += 1
+    #
+    #     if pred_trace:
+    #         tp += 1
+    #     else:
+    #         fn += 1
 
     # # Load Nevada dataset file 747
     # f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
