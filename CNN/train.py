@@ -82,7 +82,7 @@ def main():
 
             total_loss = 0
 
-            with tqdm.tqdm(total=len(trainloader), desc='Batches') as batch_bar:
+            with tqdm.tqdm(total=len(trainloader), desc='Batches', leave=False) as batch_bar:
                 for i, data in enumerate(trainloader, 0):
                     inputs, labels = data[0].to(device), data[1].to(device)
                     optimizer.zero_grad()
