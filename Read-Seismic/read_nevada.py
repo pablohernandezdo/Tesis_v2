@@ -42,6 +42,7 @@ def main():
             plt.figure()
             plt.plot(trace)
             plt.show(block=False)
+            plt.title(f'idx: {idx} ')
             plt.pause(1.5)
             plt.close()
 
