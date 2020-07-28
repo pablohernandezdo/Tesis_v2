@@ -158,8 +158,8 @@ def main():
 
     print(f'Training time: {format_timespan(tr_t)}')
 
-    print(f'Train error: {train_error:5.3f}\n'
-          f'Val error: {val_error:5.3f}')
+    print(f'Train error: {train_error}\n'
+          f'Val error: {val_error}')
     # plt.figure()
     # plt.plot(train_error, 'r')
     # plt.plot(val_error, 'b')
