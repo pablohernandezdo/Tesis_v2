@@ -139,6 +139,14 @@ def main():
         traces = segyio.tools.collect(segy.trace[:])
         fs = segy.header[0][117]
 
+    # Select good signal traces
+    tr1 = traces[50:2800]
+    tr2 = traces[2900:4700]
+    tr3 = traces[4800:8650]
+    traces = np.vstack((tr1, tr2, tr3))
+
+    print(f'N dataset prueba: {len(traces)}')
+
     # for idx, trace in enumerate(traces):
     #     if not (idx % 50):
     #         trace = trace - np.mean(trace)
@@ -197,36 +205,51 @@ def main():
     #     plt.tight_layout()
     #     plt.savefig(f'Imgs/Nevada/751/Nevada751_{trtp_ids[idx]}')
 
-    # Data animation
+    # Dataset prueba animation
     fig_tr = plt.figure()
     ims_tr = []
 
     for trace in traces:
         im_tr = plt.plot(t_ax, trace)
-        plt.title('Trazas dataset Nevada archivo 751')
+        plt.title('Trazas Nevada dataset prueba')
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
         ims_tr.append(im_tr)
 
     ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    ani_tr.save('Animations/Nevada/751/Traces.mp4')
+    ani_tr.save('Animations/Nevada/Dataset_prueba.mp4')
 
-    # Spectrum animation
-    fig_sp = plt.figure()
-    ims_sp = []
-
-    for trace in traces:
-        yf = sfft.fftshift(sfft.fft(trace))
-        im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.title('Espectro trazas dataset Nevada archivo 751')
-        plt.ylabel('Amplitud [-]')
-        plt.xlabel('Frecuencia [Hz]')
-        plt.grid(True)
-        ims_sp.append(im_sp)
-
-    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    ani_sp.save('Animations/Nevada/751/Spectrums.mp4')
+    # Data animation
+    # fig_tr = plt.figure()
+    # ims_tr = []
+    #
+    # for trace in traces:
+    #     im_tr = plt.plot(t_ax, trace)
+    #     plt.title('Trazas dataset Nevada archivo 751')
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Tiempo [s]')
+    #     plt.grid(True)
+    #     ims_tr.append(im_tr)
+    #
+    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
+    # ani_tr.save('Animations/Nevada/751/Traces.mp4')
+    #
+    # # Spectrum animation
+    # fig_sp = plt.figure()
+    # ims_sp = []
+    #
+    # for trace in traces:
+    #     yf = sfft.fftshift(sfft.fft(trace))
+    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+    #     plt.title('Espectro trazas dataset Nevada archivo 751')
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Frecuencia [Hz]')
+    #     plt.grid(True)
+    #     ims_sp.append(im_sp)
+    #
+    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
+    # ani_sp.save('Animations/Nevada/751/Spectrums.mp4')
 
     # # File 747
     # f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
