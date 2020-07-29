@@ -121,7 +121,6 @@ def main():
     ani_sp.save('Animations/Utah/Utah_spectrums.mp4')
 
 
-
 def butter_bandpass(lowcut, highcut, fs, order=5):
     nyq = 0.5 * fs
     low = lowcut / nyq
