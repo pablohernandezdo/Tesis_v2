@@ -17,6 +17,7 @@ def main():
     # Create images and animations folder
 
     Path("Imgs/Utah").mkdir(parents=True, exist_ok=True)
+    Path("Animations/Utah").mkdir(parents=True, exist_ok=True)
 
     # Carga traza STEAD
 
