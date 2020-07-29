@@ -97,7 +97,7 @@ def main():
 
     for trace in traces:
         im_tr = plt.plot(t_ax, trace)
-        plt.title('Trazas dataset Shaker archivo')
+        plt.title('Trazas dataset Shaker')
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
