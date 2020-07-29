@@ -91,36 +91,52 @@ def main():
     #     plt.tight_layout()
     #     plt.savefig(f'Imgs/Shaker_{trtp_ids[idx]}')
 
-    # Data animation
+    # Create animation of whole data normalized
     fig_tr = plt.figure()
     ims_tr = []
 
     for trace in traces:
-        im_tr = plt.plot(t_ax, trace)
-        plt.title('Trazas dataset Shaker')
-        plt.ylabel('Amplitud [-]')
+        im_tr = plt.plot(t_ax, trace / np.max(np.abs(trace)))
+        plt.title('Trazas dataset DAS no sísmico Shaker')
+        plt.ylabel('Amplitud normalizada[-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
+        plt.tight_layout()
         ims_tr.append(im_tr)
 
-    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    ani_tr.save('Animations/Shaker/Traces.mp4')
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=100, blit=True, repeat=False)
+    ani_tr.save('Animations/Shaker/Shaker_traces_norm.mp4')
 
-    # Spectrum animation
-    fig_sp = plt.figure()
-    ims_sp = []
-
-    for trace in traces:
-        yf = sfft.fftshift(sfft.fft(trace))
-        im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.title('Espectro trazas dataset Shaker')
-        plt.ylabel('Amplitud [-]')
-        plt.xlabel('Frecuencia [Hz]')
-        plt.grid(True)
-        ims_sp.append(im_sp)
-
-    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    ani_sp.save('Animations/Shaker/Spectrums.mp4')
+    # # Data animation
+    # fig_tr = plt.figure()
+    # ims_tr = []
+    #
+    # for trace in traces:
+    #     im_tr = plt.plot(t_ax, trace)
+    #     plt.title('Trazas dataset Shaker')
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Tiempo [s]')
+    #     plt.grid(True)
+    #     ims_tr.append(im_tr)
+    #
+    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
+    # ani_tr.save('Animations/Shaker/Traces.mp4')
+    #
+    # # Spectrum animation
+    # fig_sp = plt.figure()
+    # ims_sp = []
+    #
+    # for trace in traces:
+    #     yf = sfft.fftshift(sfft.fft(trace))
+    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+    #     plt.title('Espectro trazas dataset Shaker')
+    #     plt.ylabel('Amplitud [-]')
+    #     plt.xlabel('Frecuencia [Hz]')
+    #     plt.grid(True)
+    #     ims_sp.append(im_sp)
+    #
+    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
+    # ani_sp.save('Animations/Shaker/Spectrums.mp4')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):

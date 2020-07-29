@@ -18,6 +18,9 @@ from pathlib import Path
 def main():
     # Create images and animations folder
 
+    # POR AHORA VOY A DEJAR TODAS LAS TRAZAS EN EL DATASET DE PRUEBA, PERO QUIERO COMPROBAR CUANTAS
+    # RECONOCE COMO SISMICAS PORQUE HAY ALGUNAS BIEN SISMICAS K KERI K TE DIGA
+
     Path("Imgs/Utah").mkdir(parents=True, exist_ok=True)
     Path("Animations/Utah").mkdir(parents=True, exist_ok=True)
 
