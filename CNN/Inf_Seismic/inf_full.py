@@ -22,11 +22,13 @@ def main():
     args = parser.parse_args()
 
     # Select training device
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
     if args.classifier == 'CBN':
         net = ClassConvBN()
+    elif args.classifier == 'CBN_v2':
+        net = CBN_v2()
     elif args.classifier == 'C':
         net = ClassConv()
     else:

@@ -51,16 +51,23 @@ def main():
     data = np.asarray(data)
     data = data[:66]
 
+    # Create animation of whole data
+    fig_tr = plt.figure()
+    ims_tr = []
+
     for trace in data:
-        plt.figure()
-        plt.plot(trace)
-        plt.show(block=False)
-        plt.pause(1.5)
-        plt.close()
+        im_tr = plt.plot(t_ax, trace)
+        plt.title(f'Trazas Francia dataset prueba')
+        plt.ylabel('Amplitud [-]')
+        plt.xlabel('Tiempo [s]')
+        plt.grid(True)
+        ims_tr.append(im_tr)
+
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=100, blit=True, repeat=False)
+    ani_tr.save('Animations/Francia/Dataset_prueba.mp4')
 
     # _ = plt.hist(stds, bins='auto')
     # plt.show()
-
 
     # # Create figure for plotting
     # plt.figure()
