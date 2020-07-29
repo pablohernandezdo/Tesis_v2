@@ -17,7 +17,7 @@ from model import *
 def main():
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='CBN_10epch', help="Classifier model path")
+    parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
     parser.add_argument("--classifier", default='CBN', help="Choose classifier architecture, C, CBN")
     args = parser.parse_args()
 
@@ -868,7 +868,7 @@ def main():
     sig_prueba += len(lets)
 
     print(sig_prueba)
-    
+
     # # Normalize
     # ns_norm = ns / np.max(np.abs(ns))
     #
