@@ -17,7 +17,7 @@ def main():
     # Create images folder
 
     Path("Imgs/Shaker").mkdir(parents=True, exist_ok=True)
-    Path("Inimations/Shaker").mkdir(parents=True, exist_ok=True)
+    Path("Animations/Shaker").mkdir(parents=True, exist_ok=True)
 
     # Carga traza STEAD
 
