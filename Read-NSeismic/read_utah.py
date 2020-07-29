@@ -100,7 +100,7 @@ def main():
         plt.tight_layout()
         ims_tr.append(im_tr)
 
-    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=100, blit=True, repeat=False)
     ani_tr.save('Animations/Utah/Utah_traces.mp4')
 
     # Create animation of whole data spectrums
@@ -117,98 +117,9 @@ def main():
         plt.tight_layout()
         ims_sp.append(im_sp)
 
-    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
+    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=100, blit=True, repeat=False)
     ani_sp.save('Animations/Utah/Utah_spectrums.mp4')
 
-    # t_ax = np.arange(1, len(traces[0]) + 1) / fs
-    #
-    # trace1 = traces[0]
-    # trace2 = traces[100]
-    # trace3 = traces[200]
-    #
-    # trace1_resamp = signal.resample(traces[0], 6000)
-    # trace2_resamp = signal.resample(traces[100], 6000)
-    # trace3_resamp = signal.resample(traces[200], 6000)
-    #
-    # trace1_fil = butter_bandpass_filter(trace1, 0.1, 10, fs, order=3)
-    # trace2_fil = butter_bandpass_filter(trace2, 0.1, 10, fs, order=3)
-    # trace3_fil = butter_bandpass_filter(trace3, 0.1, 10, fs, order=3)
-    #
-    # trace1_resamp = trace1_resamp / np.max(np.abs(trace1_resamp))
-    # trace2_resamp = trace2_resamp / np.max(np.abs(trace2_resamp))
-    # trace3_resamp = trace3_resamp / np.max(np.abs(trace3_resamp))
-    #
-    # trace1_fil = trace1_fil / np.max(np.abs(trace1_fil))
-    # trace2_fil = trace2_fil / np.max(np.abs(trace2_fil))
-    # trace3_fil = trace3_fil / np.max(np.abs(trace3_fil))
-    #
-    # plt.figure()
-    # plt.subplot(311)
-    # plt.plot(t_ax, trace1)
-    # plt.grid(True)
-    # plt.ylabel('Strain [-]')
-    # plt.xlabel('Tiempo [s]')
-    # plt.title('Trazas DAS datos Utah')
-    #
-    # plt.subplot(312)
-    # plt.plot(t_ax, trace2)
-    # plt.grid(True)
-    # plt.ylabel('Strain [-]')
-    # plt.xlabel('Tiempo [s]')
-    #
-    # plt.subplot(313)
-    # plt.plot(t_ax, trace3)
-    # plt.grid(True)
-    # plt.ylabel('Strain [-]')
-    # plt.xlabel('Tiempo [s]')
-    # plt.tight_layout()
-    # plt.savefig('Imgs/TrazasDAS.png')
-    #
-    # plt.clf()
-    # plt.subplot(311)
-    # plt.plot(t_ax, trace1_fil)
-    # plt.grid(True)
-    # plt.ylabel('Strain [-]')
-    # plt.xlabel('Tiempo [s]')
-    # plt.title('Trazas DAS datos Utah filtrados 1 - 10 Hz')
-    #
-    # plt.subplot(312)
-    # plt.plot(t_ax, trace2_fil)
-    # plt.grid(True)
-    # plt.ylabel('Strain [-]')
-    # plt.xlabel('Tiempo [s]')
-    #
-    # plt.subplot(313)
-    # plt.plot(t_ax, trace3_fil)
-    # plt.grid(True)
-    # plt.ylabel('Strain [-]')
-    # plt.xlabel('Tiempo [s]')
-    # plt.tight_layout()
-    # plt.savefig('Imgs/TrazasDAS_fil.png')
-    #
-    # plt.clf()
-    # line_st, = plt.plot(trace1_resamp, label='DAS')
-    # line_das, = plt.plot(st_trace, label='STEAD')
-    # plt.grid(True)
-    # plt.xlabel('Muestras [-]')
-    # plt.ylabel('Strain [-]')
-    # plt.title('Traza STEAD y traza DAS Utah')
-    # plt.legend(handles=[line_st, line_das], loc='upper left')
-    # plt.savefig('Imgs/STEADUtah.png')
-    #
-    # plt.clf()
-    # plt.subplot(211)
-    # plt.plot(st_trace)
-    # plt.grid(True)
-    # plt.xlabel('Muestras [-]')
-    # plt.ylabel('Strain [-]')
-    # plt.title('Traza STEAD y traza DAS Utah')
-    # plt.subplot(212)
-    # plt.plot(trace1_resamp)
-    # plt.grid(True)
-    # plt.xlabel('Muestras [-]')
-    # plt.ylabel('Strain [-]')
-    # plt.savefig('Imgs/STEADUtah1.png')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
