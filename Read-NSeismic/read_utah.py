@@ -12,6 +12,8 @@ from scipy.signal import butter, lfilter
 
 from pathlib import Path
 
+# def anims(traces, fs, anim_title, file_title, inter):
+
 
 def main():
     # Create images and animations folder
@@ -64,16 +66,16 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
-    for idx, trace in enumerate(traces):
-        if not (idx % 50):
-            trace = trace - np.mean(trace)
-
-            plt.figure()
-            plt.plot(trace)
-            plt.show(block=False)
-            plt.title(f'idx: {idx} ')
-            plt.pause(1.5)
-            plt.close()
+    # for idx, trace in enumerate(traces):
+    #     if not (idx % 50):
+    #         trace = trace - np.mean(trace)
+    #
+    #         plt.figure()
+    #         plt.plot(trace)
+    #         plt.show(block=False)
+    #         plt.title(f'idx: {idx} ')
+    #         plt.pause(1.5)
+    #         plt.close()
 
     # # Figure to plot
     # plt.figure()
@@ -97,6 +99,22 @@ def main():
     #     plt.grid(True)
     #     plt.tight_layout()
     #     plt.savefig(f'Imgs/Utah/Utah_{trtp_ids[idx]}')
+
+    # Create animation of whole data normalized
+    fig_tr = plt.figure()
+    ims_tr = []
+
+    for trace in traces:
+        im_tr = plt.plot(t_ax, trace / np.max(np.abs(trace)))
+        plt.title('Trazas dataset DAS no sísmico Utah')
+        plt.ylabel('Amplitud normalizada[-]')
+        plt.xlabel('Tiempo [s]')
+        plt.grid(True)
+        plt.tight_layout()
+        ims_tr.append(im_tr)
+
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=100, blit=True, repeat=False)
+    ani_tr.save('Animations/Utah/Utah_traces_norm.mp4')
 
     # Create animation of whole data
     # fig_tr = plt.figure()
