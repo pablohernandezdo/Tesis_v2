@@ -408,7 +408,7 @@ def main():
                 tn += 1
 
     # # File name
-    file = '../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
+    file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
 
     # Read file data
     with h5py.File(file, 'r') as f:
@@ -444,7 +444,7 @@ def main():
             else:
                 tn += 1
 
-    # file = '../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
+    # file = '../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
     #
     # # Read file data
     # with h5py.File(file, 'r') as f:
@@ -473,7 +473,7 @@ def main():
     #     else:
     #         tn += 1
     #
-    # file = '../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
+    # file = '../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
     #
     # # Read file data
     # with h5py.File(file, 'r') as f:
@@ -503,7 +503,7 @@ def main():
     #         tn += 1
     #
     # # File name
-    # file = '../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
+    # file = '../../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
     #
     # # Read file data
     # with h5py.File(file, 'r') as f:
@@ -539,7 +539,7 @@ def main():
     #         tn += 1
     #
     # # Load Nevada data file 1
-    # f = '../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
+    # f = '../../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
     #
     # # Read data
     # with segyio.open(f, ignore_geometry=True) as segy:
@@ -572,7 +572,7 @@ def main():
     #         tn += 1
     #
     # # Load Nevada dataset file 047
-    # f = '../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
+    # f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
     #
     # # Read data
     # with segyio.open(f, ignore_geometry=True) as segy:
@@ -605,7 +605,7 @@ def main():
     #         tn += 1
     #
     # # Load Nevada dataset file 117
-    # f = '../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
+    # f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
     #
     # # Read data
     # with segyio.open(f, ignore_geometry=True) as segy:
@@ -638,7 +638,7 @@ def main():
     #         tn += 1
     #
     # # Load Nevada dataset file 048
-    # f = '../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
+    # f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
     #
     # # Read data
     # with segyio.open(f, ignore_geometry=True) as segy:
@@ -671,7 +671,7 @@ def main():
     #         tn += 1
     #
     # # Load Vibroseis data file 118
-    # f = '../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
+    # f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
     #
     # # For every trace in the file
     # with segyio.open(f, ignore_geometry=True) as segy:
@@ -704,7 +704,7 @@ def main():
     #         tn += 1
     #
     # # Load Shaker dataset file
-    # f = '../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
+    # f = '../../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
     #
     # # Read data
     # with segyio.open(f, ignore_geometry=True) as segy:
