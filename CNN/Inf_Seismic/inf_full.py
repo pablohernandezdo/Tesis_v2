@@ -58,7 +58,7 @@ def main():
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
         # Inf Non Seismic
-        total, tn, fp = inf_california(net, device, tresh)
+        total, tn, fp = inf_california(net, device, thresh)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
@@ -487,7 +487,7 @@ def inf_reykjanes(net, device):
     return total, tp, fn
 
 
-def inf_california(net, device):
+def inf_california(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
