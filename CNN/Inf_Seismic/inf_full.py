@@ -68,6 +68,9 @@ def main():
         precision.append(pre)
         recall.append(recall)
 
+    print(f'precision: {len(precision)}')
+    print(f'recall: {len(recall)}')
+
     plt.figure()
     plt.plot(recall, precision)
     plt.savefig('PR.png')
