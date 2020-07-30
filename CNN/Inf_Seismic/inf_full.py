@@ -242,6 +242,8 @@ def main():
     # Read data
     traces = f['Data_2D']
 
+    fs = 10
+
     # # For every trace in the file
     # for trace in traces:
     #     # Resample
@@ -266,7 +268,7 @@ def main():
     #         fn += 1
 
     # Predict average 5km of measurements
-    avg_data = np.mean(data[3500:4001, :], 0)
+    avg_data = np.mean(traces[3500:4001, :], 0)
 
     avg_fil1 = butter_bandpass_filter(avg_data, 0.5, 1, fs, order=5)
     avg_fil2 = butter_bandpass_filter(avg_data, 0.2, 0.6, 10, order=5)
