@@ -40,22 +40,27 @@ def main():
     net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
     net.eval()
 
+    # Count traces
+    total_seismic = 0
+    total_nseismic = 0
+    tp, fp, tn, fn = 0, 0, 0, 0
+
+    inf_francia(net, device, total_seismic, tp, fn)
+    print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
+
+
+def inf_francia(net, device, total_seismic, tp, fn):
     # Load Francia dataset
     f = scipy.io.loadmat("../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
 
     # Read data
     data = f["StrainFilt"]
 
-    # Count traces
-    total_seismic = 0
-    total_nseismic = 0
-    tp, fp, tn, fn = 0, 0, 0, 0
-
     # Select some traces
     traces = []
 
     for trace in data:
-        trace = trace-np.mean(trace)
+        trace = trace - np.mean(trace)
         st = np.std(trace)
 
         if st > 50:
@@ -85,6 +90,10 @@ def main():
             else:
                 fn += 1
 
+    return total_seismic, tp, fn
+
+
+def inf_nevada(net, device, total_seismic, tp, fn):
     # # Load Nevada data file 721
     # f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
@@ -170,6 +179,8 @@ def main():
         else:
             fn += 1
 
+    return total_seismic, tp, fn
+
     # # Load Nevada dataset file 747
     # f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
     #
@@ -236,6 +247,8 @@ def main():
     #     else:
     #         fn += 1
 
+
+def inf_belgica(net, device, total_seismic, tp, fn):
     # # Load Belgica data
     f = scipy.io.loadmat("../../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
 
@@ -298,6 +311,10 @@ def main():
         else:
             fn += 1
 
+    return total_seismic, tp, fn
+
+
+def inf_reykjanes(net, device, total_seismic, tp, fn):
     # Reykjanes telesismo fibra optica
     file_fo = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
 
@@ -381,6 +398,10 @@ def main():
         else:
             fn += 1
 
+    return total_seismic, tp, fn
+
+
+def inf_california(net, device, total_nseismic, tn, fp):
     # # Load California dataset file
     f = scipy.io.loadmat('../../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
 
@@ -414,112 +435,120 @@ def main():
             else:
                 tn += 1
 
-#     # File name
-#     file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
-#
-#     # Read file data
-#     with h5py.File(file, 'r') as f:
-#         traces = f['data'][()]
-#
-#     # For every trace in the file
-#     for tr in traces:
-#         # Resample
-#         tr = signal.resample(tr, 12000)
-#
-#         # Reshape
-#         tr = np.reshape(tr, (-1, 6000))
-#
-#         for trace in tr:
-#             # Normalize
-#             trace = trace / np.max(np.abs(trace))
-#
-#             # Numpy to Torch
-#             trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-#
-#             # Prediction
-#             out_trace = net(trace.float())
-#             pred_trace = torch.round(out_trace.data).item()
-#
-#             # Count traces
-#             total_nseismic += 1
-#
-#             if pred_trace:
-#                 fp += 1
-#             else:
-#                 tn += 1
-#
-#     file = '../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
-#
-#     # Read file data
-#     with h5py.File(file, 'r') as f:
-#         traces = f['data'][()]
-#
-#     # For every trace in the file
-#     for tr in traces:
-#         # Resample
-#         tr = signal.resample(tr, 205623)
-#
-#         # Discard extra samples
-#         tr = tr[:(6000 * 34)]
-#
-#         # Reshape
-#         tr = np.reshape(tr, (-1, 6000))
-#
-#         for trace in tr:
-#             # Normalize
-#             trace = trace / np.max(np.abs(trace))
-#
-#             # Numpy to Torch
-#             trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-#
-#             # Prediction
-#             out_trace = net(trace.float())
-#             pred_trace = torch.round(out_trace.data).item()
-#
-#             # Count traces
-#             total_nseismic += 1
-#
-#             if pred_trace:
-#                 fp += 1
-#             else:
-#                 tn += 1
-#
-#     file = '../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
-#
-#     # Read file data
-#     with h5py.File(file, 'r') as f:
-#         traces = f['data'][()]
-#
-#     # For every trace in the file
-#     for tr in traces:
-#         # Resample
-#         tr = signal.resample(tr, 600272)
-#
-#         # Discard extra samples
-#         tr = tr[:600000]
-#
-#         # Reshape
-#         tr = np.reshape(tr, (-1, 6000))
-#
-#         for trace in tr:
-#             # Normalize
-#             trace = trace / np.max(np.abs(trace))
-#
-#             # Numpy to Torch
-#             trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-#
-#             # Prediction
-#             out_trace = net(trace.float())
-#             pred_trace = torch.round(out_trace.data).item()
-#
-#             # Count traces
-#             total_nseismic += 1
-#
-#             if pred_trace:
-#                 fp += 1
-#             else:
-#                 tn += 1
-# #
+    return total_nseismic, fp, tn
+
+
+def inf_hydraulic(net, device, total_nseismic, tn, fp):
+    # File name
+    file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
+
+    # Read file data
+    with h5py.File(file, 'r') as f:
+        traces = f['data'][()]
+
+    # For every trace in the file
+    for tr in traces:
+        # Resample
+        tr = signal.resample(tr, 12000)
+
+        # Reshape
+        tr = np.reshape(tr, (-1, 6000))
+
+        for trace in tr:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
+
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = torch.round(out_trace.data).item()
+
+            # Count traces
+            total_nseismic += 1
+
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+    file = '../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
+
+    # Read file data
+    with h5py.File(file, 'r') as f:
+        traces = f['data'][()]
+
+    # For every trace in the file
+    for tr in traces:
+        # Resample
+        tr = signal.resample(tr, 205623)
+
+        # Discard extra samples
+        tr = tr[:(6000 * 34)]
+
+        # Reshape
+        tr = np.reshape(tr, (-1, 6000))
+
+        for trace in tr:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
+
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = torch.round(out_trace.data).item()
+
+            # Count traces
+            total_nseismic += 1
+
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+    file = '../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
+
+    # Read file data
+    with h5py.File(file, 'r') as f:
+        traces = f['data'][()]
+
+    # For every trace in the file
+    for tr in traces:
+        # Resample
+        tr = signal.resample(tr, 600272)
+
+        # Discard extra samples
+        tr = tr[:600000]
+
+        # Reshape
+        tr = np.reshape(tr, (-1, 6000))
+
+        for trace in tr:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
+
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = torch.round(out_trace.data).item()
+
+            # Count traces
+            total_nseismic += 1
+
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+    return total_nseismic, fp, tn
+
+
+def inf_tides(net, device, total_nseismic, tn, fp):
     # File name
     file = '../../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
 
@@ -556,6 +585,10 @@ def main():
         else:
             tn += 1
 
+    return total_nseismic, fp, tn
+
+
+def inf_utah(net, device, total_nseismic, tn, fp):
     # Load Utah data file 1
     f = '../../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
 
@@ -589,138 +622,146 @@ def main():
         else:
             tn += 1
 
-    # # Load Vibroseis dataset file 047
-    # f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
-    #
-    # # Read data
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     # Traces
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #
-    # # For every trace in the file
-    # for trace in traces:
-    #     # Resample
-    #     trace = signal.resample(trace, 6000)
-    #
-    #     # Normalize
-    #     trace = trace / np.max(np.abs(trace))
-    #
-    #     # Numpy to Torch
-    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-    #
-    #     # Prediction
-    #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
-    #
-    #     # Count traces
-    #     total_nseismic += 1
-    #
-    #     if pred_trace:
-    #         fp += 1
-    #     else:
-    #         tn += 1
-    #
-    # # Load Nevada dataset file 117
-    # f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
-    #
-    # # Read data
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     # Traces
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #
-    # # For every trace in the file
-    # for trace in traces:
-    #     # Resample
-    #     trace = signal.resample(trace, 6000)
-    #
-    #     # Normalize
-    #     trace = trace / np.max(np.abs(trace))
-    #
-    #     # Numpy to Torch
-    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-    #
-    #     # Prediction
-    #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
-    #
-    #     # Count traces
-    #     total_nseismic += 1
-    #
-    #     if pred_trace:
-    #         fp += 1
-    #     else:
-    #         tn += 1
-    #
-    # # Load Nevada dataset file 048
-    # f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
-    #
-    # # Read data
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     # Traces
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #
-    # # For every trace in the file
-    # for trace in traces:
-    #     # Resample
-    #     trace = signal.resample(trace, 6000)
-    #
-    #     # Normalize
-    #     trace = trace / np.max(np.abs(trace))
-    #
-    #     # Numpy to Torch
-    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-    #
-    #     # Prediction
-    #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
-    #
-    #     # Count traces
-    #     total_nseismic += 1
-    #
-    #     if pred_trace:
-    #         fp += 1
-    #     else:
-    #         tn += 1
-    #
-    # # Load Vibroseis data file 118
-    # f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
-    #
-    # # For every trace in the file
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     # Traces
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #
-    # # For every trace in the file
-    # for trace in traces:
-    #     # Resample
-    #     trace = signal.resample(trace, 6000)
-    #
-    #     # Normalize
-    #     trace = trace / np.max(np.abs(trace))
-    #
-    #     # Numpy to Torch
-    #     trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-    #
-    #     # Prediction
-    #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
-    #
-    #     # Count traces
-    #     total_nseismic += 1
-    #
-    #     if pred_trace:
-    #         fp += 1
-    #     else:
-    #         tn += 1
-    #
+    return total_nseismic, fp, tn
+
+
+def inf_vibroseis(net, device, total_nseismic, tn, fp):
+    # Load Vibroseis dataset file 047
+    f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
+
+    # Read data
+    with segyio.open(f, ignore_geometry=True) as segy:
+        segy.mmap()
+
+        # Traces
+        traces = segyio.tools.collect(segy.trace[:])
+
+    # For every trace in the file
+    for trace in traces:
+        # Resample
+        trace = signal.resample(trace, 6000)
+
+        # Normalize
+        trace = trace / np.max(np.abs(trace))
+
+        # Numpy to Torch
+        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+        # Prediction
+        out_trace = net(trace.float())
+        pred_trace = torch.round(out_trace.data).item()
+
+        # Count traces
+        total_nseismic += 1
+
+        if pred_trace:
+            fp += 1
+        else:
+            tn += 1
+
+    # Load Nevada dataset file 117
+    f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
+
+    # Read data
+    with segyio.open(f, ignore_geometry=True) as segy:
+        segy.mmap()
+
+        # Traces
+        traces = segyio.tools.collect(segy.trace[:])
+
+    # For every trace in the file
+    for trace in traces:
+        # Resample
+        trace = signal.resample(trace, 6000)
+
+        # Normalize
+        trace = trace / np.max(np.abs(trace))
+
+        # Numpy to Torch
+        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+        # Prediction
+        out_trace = net(trace.float())
+        pred_trace = torch.round(out_trace.data).item()
+
+        # Count traces
+        total_nseismic += 1
+
+        if pred_trace:
+            fp += 1
+        else:
+            tn += 1
+
+    # Load Nevada dataset file 048
+    f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
+
+    # Read data
+    with segyio.open(f, ignore_geometry=True) as segy:
+        segy.mmap()
+
+        # Traces
+        traces = segyio.tools.collect(segy.trace[:])
+
+    # For every trace in the file
+    for trace in traces:
+        # Resample
+        trace = signal.resample(trace, 6000)
+
+        # Normalize
+        trace = trace / np.max(np.abs(trace))
+
+        # Numpy to Torch
+        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+        # Prediction
+        out_trace = net(trace.float())
+        pred_trace = torch.round(out_trace.data).item()
+
+        # Count traces
+        total_nseismic += 1
+
+        if pred_trace:
+            fp += 1
+        else:
+            tn += 1
+
+    # Load Vibroseis data file 118
+    f = '../../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
+
+    # For every trace in the file
+    with segyio.open(f, ignore_geometry=True) as segy:
+        segy.mmap()
+
+        # Traces
+        traces = segyio.tools.collect(segy.trace[:])
+
+    # For every trace in the file
+    for trace in traces:
+        # Resample
+        trace = signal.resample(trace, 6000)
+
+        # Normalize
+        trace = trace / np.max(np.abs(trace))
+
+        # Numpy to Torch
+        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+        # Prediction
+        out_trace = net(trace.float())
+        pred_trace = torch.round(out_trace.data).item()
+
+        # Count traces
+        total_nseismic += 1
+
+        if pred_trace:
+            fp += 1
+        else:
+            tn += 1
+
+    return total_nseismic, fp, tn
+
+
+def inf_shaker(net, device, total_nseismic, tn, fp):
     # Load Shaker dataset file
     f = '../../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
 
@@ -757,6 +798,10 @@ def main():
         else:
             tn += 1
 
+    return total_nseismic, fp, tn
+
+
+def inf_signals(net, device, total_nseismic, tn, fp):
     # Señales de prueba
     # Init rng
     rng = default_rng()
@@ -819,7 +864,7 @@ def main():
     ni = [1000, 2000, 4000, 5000]
 
     # Number of points to zero-pad
-    pad = [(N-n) // 2 for n in ni]
+    pad = [(N - n) // 2 for n in ni]
 
     # Time axis for smaller waves
     lts = [np.linspace(0.0, nis / fs, nis) for nis in ni]
@@ -833,9 +878,9 @@ def main():
     # Calculate frequencies for smaller waves
     for per in max_periods:
         freqs = []
-        for i in range(1, int(per)+1):
+        for i in range(1, int(per) + 1):
             if per % i == 0:
-                freqs.append(1/i)
+                freqs.append(1 / i)
         all_fr.append(freqs)
 
     # Preallocate waves
@@ -1043,6 +1088,10 @@ def main():
         else:
             tn += 1
 
+    return total_nseismic, fp, tn
+
+
+def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     # Evaluation metrics
     precision = tp / (tp + fp)
     recall = tp / (tp + fn)
