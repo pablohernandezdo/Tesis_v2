@@ -41,27 +41,50 @@ def main():
     net.eval()
 
     # Count traces
-    tp, fp, tn, fn = 0, 0, 0, 0
     total_seismic, total_nseismic = 0, 0
+    total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
     # Seismic inference
-    total_seismic, tp, fn = inf_francia(net, device, total_seismic, tp, fn)
-    total_seismic, tp, fn = inf_nevada(net, device, total_seismic, tp, fn)
-    total_seismic, tp, fn = inf_belgica(net, device, total_seismic, tp, fn)
-    total_seismic, tp, fn = inf_reykjanes(net, device, total_seismic, tp, fn)
+
+    total, tp, fn = inf_francia(net, device)
+    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+
+    total, tp, fn = inf_nevada(net, device)
+    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+
+    total, tp, fn = inf_belgica(net, device)
+    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+
+    total, tp, fn = inf_reykjanes(net, device)
+    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
     # Non seismic inference
-    total_nseismic, tn, fp = inf_california(net, device, total_nseismic, tn, fp)
-    # total_nseismic, tn, fp = inf_hydraulic(net, device, total_nseismic, tn, fp)
-    total_nseismic, tn, fp = inf_tides(net, device, total_nseismic, tn, fp)
-    total_nseismic, tn, fp = inf_utah(net, device, total_nseismic, tn, fp)
-    total_nseismic, tn, fp = inf_shaker(net, device, total_nseismic, tn, fp)
-    total_nseismic, tn, fp = inf_signals(net, device, total_nseismic, tn, fp)
 
-    print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
+    total, tn, fp = inf_california(net, device)
+    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+    # total, tn, fp = inf_hydraulic(net, device)
+    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+    total, tn, fp = inf_tides(net, device)
+    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+    total, tn, fp = inf_utah(net, device)
+    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+    total, tn, fp = inf_shaker(net, device)
+    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+    total, tn, fp = inf_signals(net, device)
+    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+    print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
 
 
-def inf_francia(net, device, total_seismic, tp, fn):
+def inf_francia(net, device):
+    # Counters
+    total, tp, fn = 0, 0, 0
+
     # Load Francia dataset
     f = scipy.io.loadmat("../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
 
@@ -95,17 +118,25 @@ def inf_francia(net, device, total_seismic, tp, fn):
             pred_trace = torch.round(out_trace.data).item()
 
             # Count traces
-            total_seismic += 1
+            total += 1
 
             if pred_trace:
                 tp += 1
             else:
                 fn += 1
 
-    return total_seismic, tp, fn
+    # Results
+    print(f'Total Francia traces: {total}\n\n'
+          f'True positives: {tp}\n'
+          f'False negatives: {fn}\n\n')
+
+    return total, tp, fn
 
 
-def inf_nevada(net, device, total_seismic, tp, fn):
+def inf_nevada(net, device):
+    # Counters
+    total, tp, fn = 0, 0, 0
+
     # # Load Nevada data file 721
     # f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
@@ -140,7 +171,7 @@ def inf_nevada(net, device, total_seismic, tp, fn):
     #     pred_trace = torch.round(out_trace.data).item()
     #
     #     # Count traces
-    #     total_seismic += 1
+    #     total += 1
     #
     #     if pred_trace:
     #         tp += 1
@@ -184,7 +215,7 @@ def inf_nevada(net, device, total_seismic, tp, fn):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_seismic += 1
+        total += 1
 
         if pred_trace:
             tp += 1
@@ -217,7 +248,7 @@ def inf_nevada(net, device, total_seismic, tp, fn):
     #     pred_trace = torch.round(out_trace.data).item()
     #
     #     # Count traces
-    #     total_seismic += 1
+    #     total += 1
     #
     #     if pred_trace:
     #         tp += 1
@@ -250,17 +281,25 @@ def inf_nevada(net, device, total_seismic, tp, fn):
     #     pred_trace = torch.round(out_trace.data).item()
     #
     #     # Count traces
-    #     total_seismic += 1
+    #     total += 1
     #
     #     if pred_trace:
     #         tp += 1
     #     else:
     #         fn += 1
 
-    return total_seismic, tp, fn
+    # Results
+    print(f'Total Nevada traces: {total}\n\n'
+          f'True positives: {tp}\n'
+          f'False negatives: {fn}\n\n')
+
+    return total, tp, fn
 
 
-def inf_belgica(net, device, total_seismic, tp, fn):
+def inf_belgica(net, device):
+    # Counters
+    total, tp, fn = 0, 0, 0
+
     # # Load Belgica data
     f = scipy.io.loadmat("../../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
 
@@ -316,17 +355,25 @@ def inf_belgica(net, device, total_seismic, tp, fn):
 
         predicted = torch.round(output.data).item()
 
-        total_seismic += 1
+        total += 1
 
         if predicted:
             tp += 1
         else:
             fn += 1
 
-    return total_seismic, tp, fn
+    # Results
+    print(f'Total Belgica traces: {total}\n\n'
+          f'True positives: {tp}\n'
+          f'False negatives: {fn}\n\n')
+
+    return total, tp, fn
 
 
-def inf_reykjanes(net, device, total_seismic, tp, fn):
+def inf_reykjanes(net, device):
+    # Counters
+    total, tp, fn = 0, 0, 0
+
     # Reykjanes telesismo fibra optica
     file_fo = '../../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
 
@@ -359,7 +406,7 @@ def inf_reykjanes(net, device, total_seismic, tp, fn):
     predicted = torch.round(out.data).item()
 
     # Count traces
-    total_seismic += 1
+    total += 1
 
     if predicted:
         tp += 1
@@ -403,17 +450,25 @@ def inf_reykjanes(net, device, total_seismic, tp, fn):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_seismic += 1
+        total += 1
 
         if pred_trace:
             tp += 1
         else:
             fn += 1
 
-    return total_seismic, tp, fn
+    # Results
+    print(f'Total Reykjanes traces: {total}\n\n'
+          f'True positives: {tp}\n'
+          f'False negatives: {fn}\n\n')
+
+    return total, tp, fn
 
 
-def inf_california(net, device, total_nseismic, tn, fp):
+def inf_california(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # # Load California dataset file
     f = scipy.io.loadmat('../../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
 
@@ -440,17 +495,25 @@ def inf_california(net, device, total_nseismic, tn, fp):
             pred_trace = torch.round(out_trace.data).item()
 
             # Count traces
-            total_nseismic += 1
+            total += 1
 
             if pred_trace:
                 fp += 1
             else:
                 tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total California traces: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
 
 
-def inf_hydraulic(net, device, total_nseismic, tn, fp):
+def inf_hydraulic(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # File name
     file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
 
@@ -478,7 +541,7 @@ def inf_hydraulic(net, device, total_nseismic, tn, fp):
             pred_trace = torch.round(out_trace.data).item()
 
             # Count traces
-            total_nseismic += 1
+            total += 1
 
             if pred_trace:
                 fp += 1
@@ -514,7 +577,7 @@ def inf_hydraulic(net, device, total_nseismic, tn, fp):
             pred_trace = torch.round(out_trace.data).item()
 
             # Count traces
-            total_nseismic += 1
+            total += 1
 
             if pred_trace:
                 fp += 1
@@ -550,17 +613,25 @@ def inf_hydraulic(net, device, total_nseismic, tn, fp):
             pred_trace = torch.round(out_trace.data).item()
 
             # Count traces
-            total_nseismic += 1
+            total += 1
 
             if pred_trace:
                 fp += 1
             else:
                 tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total Hydraulic traces: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
 
 
-def inf_tides(net, device, total_nseismic, tn, fp):
+def inf_tides(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # File name
     file = '../../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
 
@@ -590,17 +661,25 @@ def inf_tides(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
         else:
             tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total Tides traces: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
 
 
-def inf_utah(net, device, total_nseismic, tn, fp):
+def inf_utah(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # Load Utah data file 1
     f = '../../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
 
@@ -627,17 +706,25 @@ def inf_utah(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
         else:
             tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total Utah traces: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
 
 
-def inf_vibroseis(net, device, total_nseismic, tn, fp):
+def inf_vibroseis(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # Load Vibroseis dataset file 047
     f = '../../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
 
@@ -664,7 +751,7 @@ def inf_vibroseis(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -697,7 +784,7 @@ def inf_vibroseis(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -730,7 +817,7 @@ def inf_vibroseis(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -763,17 +850,25 @@ def inf_vibroseis(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
         else:
             tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total Vibroseis traces: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
 
 
-def inf_shaker(net, device, total_nseismic, tn, fp):
+def inf_shaker(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # Load Shaker dataset file
     f = '../../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
 
@@ -803,17 +898,25 @@ def inf_shaker(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
         else:
             tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total Shaker traces: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
 
 
-def inf_signals(net, device, total_nseismic, tn, fp):
+def inf_signals(net, device):
+    # Counters
+    total, tn, fp = 0, 0, 0
+
     # Señales de prueba
     # Init rng
     rng = default_rng()
@@ -937,7 +1040,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
 
     out = torch.round(out.data).item()
 
-    total_nseismic += 1
+    total += 1
 
     if out:
         fp += 1
@@ -957,7 +1060,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -977,7 +1080,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -997,7 +1100,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -1017,7 +1120,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -1036,7 +1139,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -1055,7 +1158,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -1074,7 +1177,7 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
@@ -1093,14 +1196,23 @@ def inf_signals(net, device, total_nseismic, tn, fp):
         pred_trace = torch.round(out_trace.data).item()
 
         # Count traces
-        total_nseismic += 1
+        total += 1
 
         if pred_trace:
             fp += 1
         else:
             tn += 1
 
-    return total_nseismic, fp, tn
+    # Results
+    print(f'Total test signals: {total}\n\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n\n')
+
+    return total, tn, fp
+
+
+def sum_triple(i1, i2, i3, s1, s2, s3):
+    return s1 + i1, s2 + i2, s3 + i3
 
 
 def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
