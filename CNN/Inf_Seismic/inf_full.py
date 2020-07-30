@@ -24,7 +24,7 @@ def main():
     args = parser.parse_args()
 
     # Select training device
-    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
     if args.classifier == 'CBN':
@@ -68,8 +68,11 @@ def main():
         precision.append(pre)
         recall.append(recall)
 
-    print(f'precision: {len(precision)}')
-    print(f'recall: {len(recall)}')
+    print(f'precision len: {len(precision)}')
+    print(f'recall len: {len(recall)}')
+
+    print(f'precision: {precision}')
+    print(f'recall: {recall}')
 
     plt.figure()
     plt.plot(recall, precision)
