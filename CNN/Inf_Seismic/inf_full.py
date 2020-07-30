@@ -66,7 +66,7 @@ def main():
         # Metrics
         pre, rec = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
         precision.append(pre)
-        recall.append(recall)
+        recall.append(rec)
 
     print(f'precision len: {len(precision)}')
     print(f'recall len: {len(recall)}')
