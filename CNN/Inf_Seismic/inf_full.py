@@ -53,9 +53,15 @@ def main():
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
+        # Inf Seismic
         total, tp, fn = inf_francia(net, device, thresh)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
+        # Inf Non Seismic
+        total, tn, fp = inf_california(net, device, tresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        # Metrics
         pre, rec = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
         precision.append(pre)
         recall.append(recall)
@@ -131,7 +137,7 @@ def inf_francia(net, device, thresh):
             # Prediction
             out_trace = net(trace.float())
             # pred_trace = torch.round(out_trace.data).item()
-            pred_trace = (out_trace > thresh).float()
+            pred_trace = (out_trace > thresh).float().item()
 
             # Count traces
             total += 1
@@ -508,7 +514,8 @@ def inf_california(net, device):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
+            # pred_trace = torch.round(out_trace.data).item()
+            pred_trace = (out_trace > thresh).float().item()
 
             # Count traces
             total += 1
