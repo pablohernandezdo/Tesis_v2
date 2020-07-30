@@ -45,7 +45,7 @@ def main():
     total_nseismic = 0
     tp, fp, tn, fn = 0, 0, 0, 0
 
-    inf_francia(net, device, total_seismic, tp, fn)
+    total_seismic, tp, fn = inf_francia(net, device, total_seismic, tp, fn)
     print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
 
 
