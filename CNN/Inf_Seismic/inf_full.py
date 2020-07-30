@@ -49,6 +49,8 @@ def main():
     # Seismic inference
 
     for thresh in np.linspace(0.1, 0.9, 9):
+        print(f'THRESHOLD: {thresh}')
+
         # Count traces
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
@@ -1253,7 +1255,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'False negatives: {fn}\n\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}')
+          f'F-score: {fscore:5.3f}\n')
 
     return precision, recall
 
