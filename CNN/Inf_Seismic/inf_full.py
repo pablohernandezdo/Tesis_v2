@@ -1222,7 +1222,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     fscore = 2 * (precision * recall) / (precision + recall)
 
     # Results
-    print(f'\nTotal seismic traces: {total_seismic}\n'
+    print(f'Total seismic traces: {total_seismic}\n'
           f'Total non seismic traces: {total_nseismic}\n\n'
           f'True positives: {tp}\n'
           f'True negatives: {tn}\n'
