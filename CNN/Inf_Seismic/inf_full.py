@@ -68,14 +68,10 @@ def main():
         precision.append(pre)
         recall.append(rec)
 
-    print(f'precision len: {len(precision)}')
-    print(f'recall len: {len(recall)}')
-
-    print(f'precision: {precision}')
-    print(f'recall: {recall}')
-
     plt.figure()
     plt.plot(recall, precision)
+    plt.xlim(0, 1)
+    plt.ylim(0.5, 1)
     plt.savefig('PR.png')
 
     # total, tp, fn = inf_nevada(net, device)
