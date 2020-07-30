@@ -1099,12 +1099,11 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
 
     # Results
     print(f'Total seismic traces: {total_seismic}\n'
-          f'Total non seismic traces: {total_nseismic}\n'
+          f'Total non seismic traces: {total_nseismic}\n\n'
           f'True positives: {tp}\n'
           f'False positives: {fp}\n'
           f'True negatives: {tn}\n'
           f'False negatives: {fn}\n\n'
-          f'Evaluation metrics:\n\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
           f'F-score: {fscore:5.3f}\n')
