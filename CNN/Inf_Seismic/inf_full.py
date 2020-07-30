@@ -42,10 +42,6 @@ def main():
     net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
     net.eval()
 
-    # Count traces
-    total_seismic, total_nseismic = 0, 0
-    total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
-
     # CURVA KLA
     precision = []
     recall = []
@@ -53,6 +49,10 @@ def main():
     # Seismic inference
 
     for thresh in np.linspace(0, 1, 11):
+        # Count traces
+        total_seismic, total_nseismic = 0, 0
+        total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
+
         total, tp, fn = inf_francia(net, device, thresh)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
