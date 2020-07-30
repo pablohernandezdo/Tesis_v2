@@ -22,7 +22,7 @@ def main():
     args = parser.parse_args()
 
     # Select training device
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
     if args.classifier == 'CBN':
@@ -57,7 +57,7 @@ def main():
     total_nseismic, tn, fp = inf_utah(net, device, total_nseismic, tn, fp)
     total_nseismic, tn, fp = inf_shaker(net, device, total_nseismic, tn, fp)
     total_nseismic, tn, fp = inf_signals(net, device, total_nseismic, tn, fp)
-    
+
     print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
 
 
