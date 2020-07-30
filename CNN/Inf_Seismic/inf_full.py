@@ -48,7 +48,7 @@ def main():
 
     # Seismic inference
 
-    for thresh in np.linspace(0.1, 0.9, 9):
+    for thresh in np.linspace(0.1, 0.8, 8):
         print(f'THRESHOLD: {thresh}')
 
         # Count traces
