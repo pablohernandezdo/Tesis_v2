@@ -460,7 +460,7 @@ def main():
         tr = signal.resample(tr, 205623)
 
         # Discard extra samples
-        tr = tr[:6000 * (len(tr // 6000))]
+        tr = tr[:(6000 * 34)]
 
         # Reshape
         tr = np.reshape(tr, (-1, 6000))
