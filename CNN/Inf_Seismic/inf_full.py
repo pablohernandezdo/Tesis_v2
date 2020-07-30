@@ -52,7 +52,12 @@ def main():
 
     # Non seismic inference
     total_nseismic, tn, fp = inf_california(net, device, total_nseismic, tn, fp)
-
+    total_nseismic, tn, fp = inf_hydraulic(net, device, total_nseismic, tn, fp)
+    total_nseismic, tn, fp = inf_tides(net, device, total_nseismic, tn, fp)
+    total_nseismic, tn, fp = inf_utah(net, device, total_nseismic, tn, fp)
+    total_nseismic, tn, fp = inf_shaker(net, device, total_nseismic, tn, fp)
+    total_nseismic, tn, fp = inf_signals(net, device, total_nseismic, tn, fp)
+    
     print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
 
 
@@ -1108,8 +1113,8 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     print(f'\nTotal seismic traces: {total_seismic}\n'
           f'Total non seismic traces: {total_nseismic}\n\n'
           f'True positives: {tp}\n'
-          f'False positives: {fp}\n'
           f'True negatives: {tn}\n'
+          f'False positives: {fp}\n'
           f'False negatives: {fn}\n\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
