@@ -41,12 +41,18 @@ def main():
     net.eval()
 
     # Count traces
-    total_seismic = 0
-    total_nseismic = 0
     tp, fp, tn, fn = 0, 0, 0, 0
+    total_seismic, total_nseismic = 0, 0
 
+    # Seismic inference
     total_seismic, tp, fn = inf_francia(net, device, total_seismic, tp, fn)
     total_seismic, tp, fn = inf_nevada(net, device, total_seismic, tp, fn)
+    total_seismic, tp, fn = inf_belgica(net, device, total_seismic, tp, fn)
+    total_seismic, tp, fn = inf_reykjanes(net, device, total_seismic, tp, fn)
+
+    # Non seismic inference
+    total_nseismic, tn, fp = inf_california(net, device, total_nseismic, tn, fp)
+
     print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
 
 
@@ -1099,7 +1105,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     fscore = 2 * (precision * recall) / (precision + recall)
 
     # Results
-    print(f'Total seismic traces: {total_seismic}\n'
+    print(f'\nTotal seismic traces: {total_seismic}\n'
           f'Total non seismic traces: {total_nseismic}\n\n'
           f'True positives: {tp}\n'
           f'False positives: {fp}\n'
