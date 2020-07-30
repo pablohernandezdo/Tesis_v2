@@ -527,14 +527,14 @@ def main():
     with h5py.File(file, 'r') as f:
         traces = f['clipdata'][()]
 
-    # Data size
-    sz = traces.size
+    # Resample to 100 Hz
+    traces = signal.resample(traces, 25909416)
 
-    # Cut data to build traces matrix
-    traces = traces[:(sz // 6000) * 6000]
+    # Discard extra samples
+    traces = traces[:25908000]
 
-    # Matrix of traces
-    traces = traces.reshape((sz // 6000, 6000))
+    # Reshape to matrix of traces
+    traces = traces.reshape(-1, 6000)
 
     # For every trace in the file
     for trace in traces:
