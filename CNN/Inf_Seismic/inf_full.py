@@ -414,112 +414,112 @@ def main():
             else:
                 tn += 1
 
-    # File name
-    file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
-
-    # Read file data
-    with h5py.File(file, 'r') as f:
-        traces = f['data'][()]
-
-    # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 12000)
-
-        # Reshape
-        tr = np.reshape(tr, (-1, 6000))
-
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
-
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
-
-            # Count traces
-            total_nseismic += 1
-
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
-
-    file = '../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
-
-    # Read file data
-    with h5py.File(file, 'r') as f:
-        traces = f['data'][()]
-
-    # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 205623)
-
-        # Discard extra samples
-        tr = tr[:(6000 * 34)]
-
-        # Reshape
-        tr = np.reshape(tr, (-1, 6000))
-
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
-
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
-
-            # Count traces
-            total_nseismic += 1
-
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
-
-    file = '../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
-
-    # Read file data
-    with h5py.File(file, 'r') as f:
-        traces = f['data'][()]
-
-    # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 600272)
-
-        # Discard extra samples
-        tr = tr[:600000]
-
-        # Reshape
-        tr = np.reshape(tr, (-1, 6000))
-
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
-
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
-
-            # Count traces
-            total_nseismic += 1
-
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
+#     # File name
+#     file = '../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
 #
+#     # Read file data
+#     with h5py.File(file, 'r') as f:
+#         traces = f['data'][()]
+#
+#     # For every trace in the file
+#     for tr in traces:
+#         # Resample
+#         tr = signal.resample(tr, 12000)
+#
+#         # Reshape
+#         tr = np.reshape(tr, (-1, 6000))
+#
+#         for trace in tr:
+#             # Normalize
+#             trace = trace / np.max(np.abs(trace))
+#
+#             # Numpy to Torch
+#             trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+#
+#             # Prediction
+#             out_trace = net(trace.float())
+#             pred_trace = torch.round(out_trace.data).item()
+#
+#             # Count traces
+#             total_nseismic += 1
+#
+#             if pred_trace:
+#                 fp += 1
+#             else:
+#                 tn += 1
+#
+#     file = '../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
+#
+#     # Read file data
+#     with h5py.File(file, 'r') as f:
+#         traces = f['data'][()]
+#
+#     # For every trace in the file
+#     for tr in traces:
+#         # Resample
+#         tr = signal.resample(tr, 205623)
+#
+#         # Discard extra samples
+#         tr = tr[:(6000 * 34)]
+#
+#         # Reshape
+#         tr = np.reshape(tr, (-1, 6000))
+#
+#         for trace in tr:
+#             # Normalize
+#             trace = trace / np.max(np.abs(trace))
+#
+#             # Numpy to Torch
+#             trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+#
+#             # Prediction
+#             out_trace = net(trace.float())
+#             pred_trace = torch.round(out_trace.data).item()
+#
+#             # Count traces
+#             total_nseismic += 1
+#
+#             if pred_trace:
+#                 fp += 1
+#             else:
+#                 tn += 1
+#
+#     file = '../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
+#
+#     # Read file data
+#     with h5py.File(file, 'r') as f:
+#         traces = f['data'][()]
+#
+#     # For every trace in the file
+#     for tr in traces:
+#         # Resample
+#         tr = signal.resample(tr, 600272)
+#
+#         # Discard extra samples
+#         tr = tr[:600000]
+#
+#         # Reshape
+#         tr = np.reshape(tr, (-1, 6000))
+#
+#         for trace in tr:
+#             # Normalize
+#             trace = trace / np.max(np.abs(trace))
+#
+#             # Numpy to Torch
+#             trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+#
+#             # Prediction
+#             out_trace = net(trace.float())
+#             pred_trace = torch.round(out_trace.data).item()
+#
+#             # Count traces
+#             total_nseismic += 1
+#
+#             if pred_trace:
+#                 fp += 1
+#             else:
+#                 tn += 1
+# #
     # File name
     file = '../../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
 
