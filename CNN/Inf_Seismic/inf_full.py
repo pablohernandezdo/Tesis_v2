@@ -46,6 +46,7 @@ def main():
     tp, fp, tn, fn = 0, 0, 0, 0
 
     total_seismic, tp, fn = inf_francia(net, device, total_seismic, tp, fn)
+    total_seismic, tp, fn = inf_nevada(net, device, total_seismic, tp, fn)
     print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn)
 
 
@@ -179,8 +180,6 @@ def inf_nevada(net, device, total_seismic, tp, fn):
         else:
             fn += 1
 
-    return total_seismic, tp, fn
-
     # # Load Nevada dataset file 747
     # f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
     #
@@ -246,6 +245,8 @@ def inf_nevada(net, device, total_seismic, tp, fn):
     #         tp += 1
     #     else:
     #         fn += 1
+
+    return total_seismic, tp, fn
 
 
 def inf_belgica(net, device, total_seismic, tp, fn):
@@ -1106,7 +1107,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'False negatives: {fn}\n\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n')
+          f'F-score: {fscore:5.3f}')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
