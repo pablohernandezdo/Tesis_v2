@@ -8,6 +8,8 @@ import scipy.io
 import numpy as np
 from numpy.random import default_rng
 
+import matplotlib.pyplot as plt
+
 from scipy import signal
 from scipy.signal import butter, lfilter
 
@@ -44,44 +46,57 @@ def main():
     total_seismic, total_nseismic = 0, 0
     total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
+    # CURVA KLA
+    precision = []
+    recall = []
+
     # Seismic inference
 
-    total, tp, fn = inf_francia(net, device)
-    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+    for thresh in np.linspace(0, 1, 11):
+        total, tp, fn = inf_francia(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-    total, tp, fn = inf_nevada(net, device)
-    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        pre, rec = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+        precision.append(pre)
+        recall.append(recall)
 
-    total, tp, fn = inf_belgica(net, device)
-    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+    plt.figure()
+    plt.plot(recall, precision)
+    plt.savefig('PR.png')
 
-    total, tp, fn = inf_reykjanes(net, device)
-    total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+    # total, tp, fn = inf_nevada(net, device)
+    # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+    #
+    # total, tp, fn = inf_belgica(net, device)
+    # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+    #
+    # total, tp, fn = inf_reykjanes(net, device)
+    # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
     # Non seismic inference
 
-    total, tn, fp = inf_california(net, device)
-    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+    # total, tn, fp = inf_california(net, device)
+    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
     # total, tn, fp = inf_hydraulic(net, device)
     # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-    total, tn, fp = inf_tides(net, device)
-    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+    # total, tn, fp = inf_tides(net, device)
+    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+    #
+    # total, tn, fp = inf_utah(net, device)
+    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+    #
+    # total, tn, fp = inf_shaker(net, device)
+    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+    #
+    # total, tn, fp = inf_signals(net, device)
+    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-    total, tn, fp = inf_utah(net, device)
-    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-    total, tn, fp = inf_shaker(net, device)
-    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-    total, tn, fp = inf_signals(net, device)
-    total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-    print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+    # print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
 
 
-def inf_francia(net, device):
+def inf_francia(net, device, thresh):
     # Counters
     total, tp, fn = 0, 0, 0
 
@@ -115,7 +130,8 @@ def inf_francia(net, device):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
+            # pred_trace = torch.round(out_trace.data).item()
+            pred_trace = (out_trace > thresh).float()
 
             # Count traces
             total += 1
@@ -1231,6 +1247,8 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
           f'F-score: {fscore:5.3f}')
+
+    return precision, recall
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
