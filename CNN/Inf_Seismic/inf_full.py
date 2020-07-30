@@ -52,7 +52,7 @@ def main():
 
     # Non seismic inference
     total_nseismic, tn, fp = inf_california(net, device, total_nseismic, tn, fp)
-    total_nseismic, tn, fp = inf_hydraulic(net, device, total_nseismic, tn, fp)
+    # total_nseismic, tn, fp = inf_hydraulic(net, device, total_nseismic, tn, fp)
     total_nseismic, tn, fp = inf_tides(net, device, total_nseismic, tn, fp)
     total_nseismic, tn, fp = inf_utah(net, device, total_nseismic, tn, fp)
     total_nseismic, tn, fp = inf_shaker(net, device, total_nseismic, tn, fp)
