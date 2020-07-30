@@ -128,7 +128,7 @@ def inf_francia(net, device):
     # Results
     print(f'Total Francia traces: {total}\n'
           f'True positives: {tp}\n'
-          f'False negatives: {fn}\n\n')
+          f'False negatives: {fn}\n')
 
     return total, tp, fn
 
@@ -291,7 +291,7 @@ def inf_nevada(net, device):
     # Results
     print(f'Total Nevada traces: {total}\n'
           f'True positives: {tp}\n'
-          f'False negatives: {fn}\n\n')
+          f'False negatives: {fn}\n')
 
     return total, tp, fn
 
@@ -365,7 +365,7 @@ def inf_belgica(net, device):
     # Results
     print(f'Total Belgica traces: {total}\n'
           f'True positives: {tp}\n'
-          f'False negatives: {fn}\n\n')
+          f'False negatives: {fn}\n')
 
     return total, tp, fn
 
@@ -460,7 +460,7 @@ def inf_reykjanes(net, device):
     # Results
     print(f'Total Reykjanes traces: {total}\n'
           f'True positives: {tp}\n'
-          f'False negatives: {fn}\n\n')
+          f'False negatives: {fn}\n')
 
     return total, tp, fn
 
@@ -505,7 +505,7 @@ def inf_california(net, device):
     # Results
     print(f'Total California traces: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
@@ -623,7 +623,7 @@ def inf_hydraulic(net, device):
     # Results
     print(f'Total Hydraulic traces: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
@@ -671,7 +671,7 @@ def inf_tides(net, device):
     # Results
     print(f'Total Tides traces: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
@@ -716,7 +716,7 @@ def inf_utah(net, device):
     # Results
     print(f'Total Utah traces: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
@@ -860,7 +860,7 @@ def inf_vibroseis(net, device):
     # Results
     print(f'Total Vibroseis traces: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
@@ -908,7 +908,7 @@ def inf_shaker(net, device):
     # Results
     print(f'Total Shaker traces: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
@@ -1206,7 +1206,7 @@ def inf_signals(net, device):
     # Results
     print(f'Total test signals: {total}\n'
           f'True negatives: {tn}\n'
-          f'False positives: {fp}\n\n')
+          f'False positives: {fp}\n')
 
     return total, tn, fp
 
