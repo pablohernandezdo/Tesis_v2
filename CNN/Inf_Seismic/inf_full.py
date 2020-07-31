@@ -42,12 +42,11 @@ def main():
     net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
     net.eval()
 
-    # CURVA KLA
+    # Preallocate precision and recall values
     precision = []
     recall = []
 
-    # Seismic inference
-
+    # For different threshold values
     for thresh in np.linspace(0.1, 0.6, 6):
         print(f'THRESHOLD: {thresh}')
 
@@ -55,12 +54,36 @@ def main():
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
-        # Inf Seismic
+        # Sismic classification
         total, tp, fn = inf_francia(net, device, thresh)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        # Inf Non Seismic
+        total, tp, fn = inf_nevada(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+
+        total, tp, fn = inf_belgica(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+
+        total, tp, fn = inf_reykjanes(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+
+        # Non seismic classification
         total, tn, fp = inf_california(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        # total, tn, fp = inf_hydraulic(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        total, tn, fp = inf_tides(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        total, tn, fp = inf_utah(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        total, tn, fp = inf_shaker(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        total, tn, fp = inf_signals(net, device, thresh)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
@@ -73,37 +96,6 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.savefig('PR.png')
-
-    # total, tp, fn = inf_nevada(net, device)
-    # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-    #
-    # total, tp, fn = inf_belgica(net, device)
-    # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-    #
-    # total, tp, fn = inf_reykjanes(net, device)
-    # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-
-    # Non seismic inference
-
-    # total, tn, fp = inf_california(net, device)
-    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-    # total, tn, fp = inf_hydraulic(net, device)
-    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-    # total, tn, fp = inf_tides(net, device)
-    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-    #
-    # total, tn, fp = inf_utah(net, device)
-    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-    #
-    # total, tn, fp = inf_shaker(net, device)
-    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-    #
-    # total, tn, fp = inf_signals(net, device)
-    # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-    # print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
 
 
 def inf_francia(net, device, thresh):
@@ -140,8 +132,7 @@ def inf_francia(net, device, thresh):
 
             # Prediction
             out_trace = net(trace.float())
-            # pred_trace = torch.round(out_trace.data).item()
-            pred_trace = (out_trace > thresh).float().item()
+            pred_trace = (out_trace > thresh)
 
             # Count traces
             total += 1
@@ -159,7 +150,7 @@ def inf_francia(net, device, thresh):
     return total, tp, fn
 
 
-def inf_nevada(net, device):
+def inf_nevada(net, device, thresh):
     # Counters
     total, tp, fn = 0, 0, 0
 
@@ -194,7 +185,7 @@ def inf_nevada(net, device):
     #
     #     # Prediction
     #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
+    #     pred_trace = (out_trace > thresh).float().item()
     #
     #     # Count traces
     #     total += 1
@@ -238,7 +229,7 @@ def inf_nevada(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -271,7 +262,7 @@ def inf_nevada(net, device):
     #
     #     # Prediction
     #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
+    #     pred_trace = (out_trace > thresh).float().item()
     #
     #     # Count traces
     #     total += 1
@@ -304,7 +295,7 @@ def inf_nevada(net, device):
     #
     #     # Prediction
     #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
+    #     pred_trace = (out_trace > thresh).float().item()
     #
     #     # Count traces
     #     total += 1
@@ -322,7 +313,7 @@ def inf_nevada(net, device):
     return total, tp, fn
 
 
-def inf_belgica(net, device):
+def inf_belgica(net, device, thresh):
     # Counters
     total, tp, fn = 0, 0, 0
 
@@ -347,7 +338,7 @@ def inf_belgica(net, device):
     #
     #     # Prediction
     #     out_trace = net(trace.float())
-    #     pred_trace = torch.round(out_trace.data).item()
+    #     pred_trace = (out_trace > thresh).float().item()
     #
     #     # Count traces
     #     total_seismic += 1
@@ -379,7 +370,7 @@ def inf_belgica(net, device):
         # Prediction
         output = net(trace.float())
 
-        predicted = torch.round(output.data).item()
+        predicted = (output > thresh).float().item()
 
         total += 1
 
@@ -396,7 +387,7 @@ def inf_belgica(net, device):
     return total, tp, fn
 
 
-def inf_reykjanes(net, device):
+def inf_reykjanes(net, device, thresh):
     # Counters
     total, tp, fn = 0, 0, 0
 
@@ -429,7 +420,7 @@ def inf_reykjanes(net, device):
 
     # Prediction
     out = net(data_fo['strain'].float())
-    predicted = torch.round(out.data).item()
+    predicted = (out > thresh).float().item()
 
     # Count traces
     total += 1
@@ -473,7 +464,7 @@ def inf_reykjanes(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -537,7 +528,7 @@ def inf_california(net, device, thresh):
     return total, tn, fp
 
 
-def inf_hydraulic(net, device):
+def inf_hydraulic(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
@@ -565,7 +556,7 @@ def inf_hydraulic(net, device):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
+            pred_trace = (out_trace > thresh).float().item()
 
             # Count traces
             total += 1
@@ -601,7 +592,7 @@ def inf_hydraulic(net, device):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
+            pred_trace = (out_trace > thresh).float().item()
 
             # Count traces
             total += 1
@@ -637,7 +628,7 @@ def inf_hydraulic(net, device):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = torch.round(out_trace.data).item()
+            pred_trace = (out_trace > thresh).float().item()
 
             # Count traces
             total += 1
@@ -655,7 +646,7 @@ def inf_hydraulic(net, device):
     return total, tn, fp
 
 
-def inf_tides(net, device):
+def inf_tides(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
@@ -685,7 +676,7 @@ def inf_tides(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -703,7 +694,7 @@ def inf_tides(net, device):
     return total, tn, fp
 
 
-def inf_utah(net, device):
+def inf_utah(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
@@ -730,7 +721,7 @@ def inf_utah(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -748,7 +739,7 @@ def inf_utah(net, device):
     return total, tn, fp
 
 
-def inf_vibroseis(net, device):
+def inf_vibroseis(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
@@ -775,7 +766,7 @@ def inf_vibroseis(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -808,7 +799,7 @@ def inf_vibroseis(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -841,7 +832,7 @@ def inf_vibroseis(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -874,7 +865,7 @@ def inf_vibroseis(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -892,7 +883,7 @@ def inf_vibroseis(net, device):
     return total, tn, fp
 
 
-def inf_shaker(net, device):
+def inf_shaker(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
@@ -922,7 +913,7 @@ def inf_shaker(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -940,7 +931,7 @@ def inf_shaker(net, device):
     return total, tn, fp
 
 
-def inf_signals(net, device):
+def inf_signals(net, device, thresh):
     # Counters
     total, tn, fp = 0, 0, 0
 
@@ -1065,7 +1056,7 @@ def inf_signals(net, device):
     # Prediction
     out = net(ns_norm.float())
 
-    out = torch.round(out.data).item()
+    out = (out > thresh).float().item()
 
     total += 1
 
@@ -1084,7 +1075,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1104,7 +1095,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1124,7 +1115,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1144,7 +1135,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1163,7 +1154,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1182,7 +1173,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1201,7 +1192,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
@@ -1220,7 +1211,7 @@ def inf_signals(net, device):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = torch.round(out_trace.data).item()
+        pred_trace = (out_trace > thresh).float().item()
 
         # Count traces
         total += 1
