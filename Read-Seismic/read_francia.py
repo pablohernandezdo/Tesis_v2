@@ -48,19 +48,19 @@ def main():
     test_data = test_data[:66]
 
     # Plot random traces
-    #plot_traces(traces, fs, n, 'Francia')
+    # plot_traces(traces, fs, n, 'Francia')
 
     # Plot predefined traces
     plot_traces(traces, fs, n, 'Francia', rand=False, pre_traces=trtp)
 
     # Animate all time series and spectrums
-    # anim_data_spec(traces, fs, 50, 'Francia', 'Francia')
+    anim_data_spec(traces, fs, 50, 'Francia', 'Francia')
 
     # Animate all time series normalized and spectrums
     # anim_data_spec(traces, fs, 50, 'Francia', 'Francia_norm', norm=True)
 
     # Animate test dataset traces
-    # anim_data_spec(test_data, fs, 100, 'Francia', 'Test_dataset')
+    anim_data_spec(test_data, fs, 100, 'Francia', 'Test_dataset')
 
 
 def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
