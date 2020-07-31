@@ -14,7 +14,6 @@ from pathlib import Path
 
 def main():
     # Create images and animations folder
-
     Path("Imgs/Nevada/721").mkdir(parents=True, exist_ok=True)
     Path("Imgs/Nevada/751").mkdir(exist_ok=True)
     Path("Imgs/Nevada/747").mkdir(exist_ok=True)
@@ -26,153 +25,103 @@ def main():
     Path("Animations/Nevada/717").mkdir(exist_ok=True)
 
     # File 721
-    # f = '../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
-    #
-    # # Read file
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #     fs = segy.header[0][117]
-
-    # for idx, trace in enumerate(traces):
-    #     if not (idx % 100):
-    #         trace = trace - np.mean(trace)
-    #
-    #         plt.figure()
-    #         plt.plot(trace)
-    #         plt.show(block=False)
-    #         plt.title(f'idx: {idx} ')
-    #         plt.pause(1.5)
-    #         plt.close()
-
-    # # Number of traces to plot
-    # n = 4
-    #
-    # # Traces to plot
-    # trtp = []
-    #
-    # # Init rng
-    # rng = default_rng()
-    #
-    # # Traces to plot numbers
-    # trtp_ids = rng.choice(len(traces), size=n, replace=False)
-    # trtp_ids.sort()
-    #
-    # # Retrieve selected traces
-    # for idx, trace in enumerate(traces):
-    #     if idx in trtp_ids:
-    #         trtp.append(trace)
-    #
-    # # Data len
-    # N = traces.shape[1]
-    #
-    # # Time axis for signal plot
-    # t_ax = np.arange(N) / fs
-    #
-    # # Frequency axis for FFT plot
-    # xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
-    #
-    # # Figure to plot
-    # plt.figure()
-    #
-    # # Plot n random traces with their spectrum
-    # for idx, trace in enumerate(trtp):
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, trace)
-    #     plt.title(f'Traza Nevada y espectro #{trtp_ids[idx]} archivo 721')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/Nevada/721/Nevada721_{trtp_ids[idx]}')
-
-    # Data animation
-    # fig_tr = plt.figure()
-    # ims_tr = []
-    #
-    # for trace in traces:
-    #     im_tr = plt.plot(t_ax, trace)
-    #     plt.title('Trazas dataset Nevada archivo 721')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.grid(True)
-    #     ims_tr.append(im_tr)
-    #
-    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/Nevada/721/Traces.mp4')
-    #
-    # # Spectrum animation
-    # fig_sp = plt.figure()
-    # ims_sp = []
-    #
-    # for trace in traces:
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.title('Espectro trazas dataset Nevada archivo 721')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.grid(True)
-    #     ims_sp.append(im_sp)
-    #
-    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/Nevada/721/Spectrums.mp4')
-
-    # File 751
-    # Good signal between traces 50-8650
-    # Bad signal between 2800-2900, 4700-4800
-    f = '../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    f721 = '../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
     # Read file
-    with segyio.open(f, ignore_geometry=True) as segy:
-        segy.mmap()
+    traces, fs = read_segy(f721)
 
-        traces = segyio.tools.collect(segy.trace[:])
-        fs = segy.header[0][117]
+    # Number of traces to plot
+    n = 4
 
-    # Select good signal traces
+    # Plot interval to inspect data
+    # plot_inter(traces, fs, 100)
+
+    # Plot random traces
+    plot_traces(traces, fs, n, 'Nevada', '721')
+
+    # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Nevada', '721', rand=False, pre_traces=trtp)
+
+    # Animate all time series and spectrums
+    anim_data_spec(traces, fs, 50, 'Nevada', '721')
+
+    # Animate all time series normalized and spectrums
+    # anim_data_spec(traces, fs, 50, 'Nevada', 'Nevada_norm', norm=True)
+
+    # File 751
+    f751 = '../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+
+    # Read file
+    traces, fs = read_segy(f751)
+
+    # Plot interval to inspect data
+    # plot_inter(traces, fs, 50)
+
+    # Select test dataset traces
     tr1 = traces[50:2800]
     tr2 = traces[2900:4700]
     tr3 = traces[4800:8650]
-    traces = np.vstack((tr1, tr2, tr3))
+    test_data = np.vstack((tr1, tr2, tr3))
 
-    print(f'N dataset prueba: {len(traces)}')
+    # Plot random traces
+    plot_traces(traces, fs, n, 'Nevada', '751')
 
-    # for idx, trace in enumerate(traces):
-    #     if not (idx % 50):
-    #         trace = trace - np.mean(trace)
-    #
-    #         plt.figure()
-    #         plt.plot(trace)
-    #         plt.show(block=False)
-    #         plt.title(f'idx: {idx} ')
-    #         plt.pause(1.5)
-    #         plt.close()
+    # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Nevada', '751', rand=False, pre_traces=trtp)
 
-    # # Number of traces to plot
-    # n = 4
-    #
-    # # Traces to plot
-    # trtp = []
-    #
-    # # Traces to plot numbers
-    # trtp_ids = rng.choice(len(traces), size=n, replace=False)
-    # trtp_ids.sort()
-    #
-    # # Retrieve selected traces
-    # for idx, trace in enumerate(traces):
-    #     if idx in trtp_ids:
-    #         trtp.append(trace)
+    # Animate all time series and spectrums
+    anim_data_spec(traces, fs, 50, 'Nevada', '751')
 
+    # Animate all time series normalized and spectrums (Aqui hay un problema, sobreescribe el anterior)
+    # anim_data_spec(traces, fs, 50, 'Nevada', '751', norm=True)
+
+    # Animate test dataset traces (Aqui tambien hay un problema con la carpeta)
+    anim_data_spec(test_data, fs, 50, 'Nevada', '751_testdata')
+
+    # File 747
+    f747 = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
+
+    # Read file
+    traces, fs = read_segy(f747)
+
+    # Plot interval to inspect data
+    # plot_inter(traces, fs, 50)
+
+    # Plot random traces
+    plot_traces(traces, fs, n, 'Nevada', '747')
+
+    # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Nevada', '747', rand=False, pre_traces=trtp)
+
+    # Animate all time series and spectrums
+    anim_data_spec(traces, fs, 50, 'Nevada', '747')
+
+    # Animate all time series normalized and spectrums (Aqui hay un problema, sobreescribe el anterior)
+    # anim_data_spec(traces, fs, 50, 'Nevada', '747', norm=True)
+
+    # File 717
+    f717 = '../Data/Nevada/PoroTomo_iDAS025_160321073717.sgy'
+
+    # Read file
+    traces, fs = read_segy(f717)
+
+    # Plot interval to inspect data
+    # plot_inter(traces, fs, 50)
+
+    # Plot random traces
+    plot_traces(traces, fs, n, 'Nevada', '717')
+
+    # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Nevada', '747', rand=False, pre_traces=trtp)
+
+    # Animate all time series and spectrums
+    anim_data_spec(traces, fs, 50, 'Nevada', '717')
+
+    # Animate all time series normalized and spectrums (Aqui hay un problema, sobreescribe el anterior)
+    # anim_data_spec(traces, fs, 50, 'Nevada', '717', norm=True)
+
+
+def plot_traces(traces, fs, n, dataset, filename, rand=True, pre_traces=None):
     # Data len
     N = traces.shape[1]
 
@@ -182,250 +131,130 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
-    # # Figure to plot
-    # plt.figure()
-    #
-    # # For trace in traces to print
-    # for idx, trace in enumerate(trtp):
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, trace)
-    #     plt.title(f'Traza Nevada y espectro #{trtp_ids[idx]} archivo 751')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/Nevada/751/Nevada751_{trtp_ids[idx]}')
+    # Traces to plot
+    trtp = []
 
-    # Dataset prueba animation
+    if rand:
+        # Init rng
+        rng = default_rng()
+
+        # Traces to plot numbers
+        trtp_ids = rng.choice(len(traces), size=n, replace=False)
+        trtp_ids.sort()
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    else:
+        trtp_ids = pre_traces
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    # Plot traces in trtp with their spectrum
+    for idx, trace in enumerate(trtp):
+        yf = sfft.fftshift(sfft.fft(trace))
+
+        plt.clf()
+        plt.subplot(211)
+        plt.plot(t_ax, trace)
+        plt.title(f'Traza {dataset} y espectro #{trtp_ids[idx]} archivo {filename}')
+        plt.xlabel('Tiempo [s]')
+        plt.ylabel('Amplitud [-]')
+        plt.grid(True)
+
+        plt.subplot(212)
+        plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.xlabel('Frecuencia [Hz]')
+        plt.ylabel('Amplitud [-]')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.savefig(f'Imgs/{dataset}/{filename}/{trtp_ids[idx]}.png')
+
+
+def anim_data_spec(traces, fs, inter, dataset, filename, norm=False):
+    # Data len
+    N = traces.shape[1]
+
+    # Time axis for signal plot
+    t_ax = np.arange(N) / fs
+
+    # Frequency axis for FFT plot
+    xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
+
+    # Create figures for trace and spectrum animations
     fig_tr = plt.figure()
+    fig_sp = plt.figure()
+
+    # List of trace and spectrum plots
     ims_tr = []
+    ims_sp = []
 
     for trace in traces:
+        # Normalize if specified
+        if norm:
+            trace = trace / np.max(np.abs(trace))
+
         im_tr = plt.plot(t_ax, trace)
-        plt.title('Trazas Nevada dataset prueba')
+        plt.title(f'Trazas dataset {dataset} archivo {filename}')
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
         ims_tr.append(im_tr)
 
-    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    ani_tr.save('Animations/Nevada/Dataset_prueba.mp4')
+    for trace in traces:
+        yf = sfft.fftshift(sfft.fft(trace))
+        im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.title(f'Espectros dataset {dataset} archivo {filename}')
+        plt.ylabel('Amplitud [-]')
+        plt.xlabel('Frecuencia [Hz]')
+        plt.grid(True)
+        ims_sp.append(im_sp)
 
-    # Data animation
-    # fig_tr = plt.figure()
-    # ims_tr = []
-    #
-    # for trace in traces:
-    #     im_tr = plt.plot(t_ax, trace)
-    #     plt.title('Trazas dataset Nevada archivo 751')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.grid(True)
-    #     ims_tr.append(im_tr)
-    #
-    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/Nevada/751/Traces.mp4')
-    #
-    # # Spectrum animation
-    # fig_sp = plt.figure()
-    # ims_sp = []
-    #
-    # for trace in traces:
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.title('Espectro trazas dataset Nevada archivo 751')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.grid(True)
-    #     ims_sp.append(im_sp)
-    #
-    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/Nevada/751/Spectrums.mp4')
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=inter, blit=True, repeat=False)
+    ani_tr.save(f'Animations/{dataset}/{filename}/{dataset}_{filename}_traces.mp4')
 
-    # # File 747
-    # f = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
-    #
-    # # Read file
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #     fs = segy.header[0][117]
+    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=inter, blit=True, repeat=False)
+    ani_sp.save(f'Animations/{dataset}/{filename}/{dataset}_{filename}_spectrums.mp4')
 
-    # # Number of traces to plot
-    # n = 4
-    #
-    # # Traces to plot
-    # trtp = []
-    #
-    # # Traces to plot numbers
-    # trtp_ids = rng.choice(len(traces), size=n, replace=False)
-    # trtp_ids.sort()
-    #
-    # # Retrieve selected traces
-    # for idx, trace in enumerate(traces):
-    #     if idx in trtp_ids:
-    #         trtp.append(trace)
-    #
-    # # Data len
-    # N = traces.shape[1]
-    #
-    # # Time axis for signal plot
-    # t_ax = np.arange(N) / fs
-    #
-    # # Frequency axis for FFT plot
-    # xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
-    #
-    # # Figure to plot
-    # plt.figure()
-    #
-    # # For trace in traces to print
-    # for idx, trace in enumerate(trtp):
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, trace)
-    #     plt.title(f'Traza Nevada y espectro #{trtp_ids[idx]} archivo 747')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/747/Nevada747_{trtp_ids[idx]}')
 
-    # # Data animation
-    # fig_tr = plt.figure()
-    # ims_tr = []
-    #
-    # for trace in traces:
-    #     im_tr = plt.plot(t_ax, trace)
-    #     plt.title('Trazas dataset Nevada archivo 747')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.grid(True)
-    #     ims_tr.append(im_tr)
-    #
-    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/747/Traces.mp4')
-    #
-    # # Spectrum animation
-    # fig_sp = plt.figure()
-    # ims_sp = []
-    #
-    # for trace in traces:
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.title('Espectro trazas dataset Nevada archivo 747')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.grid(True)
-    #     ims_sp.append(im_sp)
-    #
-    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/747/Spectrums.mp4')
+def read_segy(filename):
+    with segyio.open(filename, ignore_geometry=True) as segy:
+        # Memory map, faster
+        segy.mmap()
 
-    # File 717
-    # f = '../Data/Nevada/PoroTomo_iDAS025_160321073717.sgy'
-    #
-    # # Read file
-    # with segyio.open(f, ignore_geometry=True) as segy:
-    #     segy.mmap()
-    #
-    #     traces = segyio.tools.collect(segy.trace[:])
-    #     fs = segy.header[0][117]
-    #
-    # # Number of traces to plot
-    # n = 4
-    #
-    # # Traces to plot
-    # trtp = []
-    #
-    # # Traces to plot numbers
-    # trtp_ids = rng.choice(len(traces), size=n, replace=False)
-    # trtp_ids.sort()
-    #
-    # # Retrieve selected traces
-    # for idx, trace in enumerate(traces):
-    #     if idx in trtp_ids:
-    #         trtp.append(trace)
-    #
-    # # Data len
-    # N = traces.shape[1]
-    #
-    # # Time axis for signal plot
-    # t_ax = np.arange(N) / fs
-    #
-    # # Frequency axis for FFT plot
-    # xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
-    #
-    # # Figure to plot
-    # plt.figure()
-    #
-    # # For trace in traces to print
-    # for idx, trace in enumerate(trtp):
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, trace)
-    #     plt.title(f'Traza Nevada y espectro #{trtp_ids[idx]} archivo 717')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/717/Nevada717_{trtp_ids[idx]}')
+        # Traces and sampling frequency
+        traces = segyio.tools.collect(segy.trace[:])
+        fs = segy.header[0][117]
 
-    # # Data animation
-    # fig_tr = plt.figure()
-    # ims_tr = []
-    #
-    # for trace in traces:
-    #     im_tr = plt.plot(t_ax, trace)
-    #     plt.title('Trazas dataset Nevada archivo 717')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.grid(True)
-    #     ims_tr.append(im_tr)
-    #
-    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/717/Traces.mp4')
-    #
-    # # Spectrum animation
-    # fig_sp = plt.figure()
-    # ims_sp = []
-    #
-    # for trace in traces:
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.title('Espectro trazas dataset Nevada archivo 717')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.grid(True)
-    #     ims_sp.append(im_sp)
-    #
-    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/717/Spectrums.mp4')
+    return traces, fs
+
+
+def plot_inter(traces, fs, inter):
+    # Data len
+    N = traces.shape[1]
+
+    # Time axis for signal plot
+    t_ax = np.arange(N) / fs
+
+    for idx, trace in enumerate(traces):
+
+        plt.figure()
+        if not (idx % inter):
+            # Remove mean
+            trace = trace - np.mean(trace)
+
+            plt.clf()
+            plt.plot(t_ax, trace)
+            plt.title(f'idx: {idx} ')
+            plt.grid(True)
+            plt.show(block=False)
+            plt.pause(1.5)
+            plt.close()
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
