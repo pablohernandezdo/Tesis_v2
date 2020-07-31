@@ -108,6 +108,8 @@ def main():
         if k not in err:
             plt.annotate(str(k), (i, j))
 
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.title(f'PR curve for model {args.model_name}')
