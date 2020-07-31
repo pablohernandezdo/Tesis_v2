@@ -45,9 +45,12 @@ def main():
     # Preallocate precision and recall values
     precision = []
     recall = []
+    err = []
+    # thresholds = np.linspace(0.05, 0.9, 18)
+    thresholds = np.linspace(0, 1, 11)
 
     # For different threshold values
-    for thresh in np.linspace(0.05, 0.9, 18):
+    for thresh in thresholds:
         print(f'THRESHOLD: {thresh}')
 
         # Count traces
@@ -87,12 +90,24 @@ def main():
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
-        pre, rec = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
-        precision.append(pre)
-        recall.append(rec)
+
+        try:
+            pre, rec = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+            precision.append(pre)
+            recall.append(rec)
+
+        except:
+            err.append(thresh)
+            print("Couldn't calcualte precision or recall, not appending")
 
     plt.figure()
     plt.plot(recall, precision)
+
+    # Annotate
+    for i, j, k in zip(recall, precision, thresholds):
+        if k not in err:
+            plt.annotate(str(k), (i, j))
+
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.title(f'PR curve for model {args.model_name}')
