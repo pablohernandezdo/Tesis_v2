@@ -47,7 +47,7 @@ def main():
     recall = []
 
     # For different threshold values
-    for thresh in np.linspace(0.1, 0.6, 6):
+    for thresh in np.linspace(0.05, 0.9, 18):
         print(f'THRESHOLD: {thresh}')
 
         # Count traces
