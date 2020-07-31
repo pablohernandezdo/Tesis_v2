@@ -5,6 +5,7 @@ import torch
 import segyio
 import argparse
 import scipy.io
+import itertools
 import numpy as np
 from numpy.random import default_rng
 
@@ -47,6 +48,10 @@ def main():
     fp_rate = []
     recall = []
     err = []
+
+    # Max fscore
+    max_fscore = 0
+
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
     thresholds = np.linspace(0.4, 0.8, 5)
@@ -94,7 +99,7 @@ def main():
         # Metrics
 
         try:
-            pre, rec, fpr = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+            pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
             precision.append(pre)
             recall.append(rec)
             fp_rate.append(fpr)
@@ -102,6 +107,17 @@ def main():
         except:
             err.append(thresh)
             print("Couldn't calcualte precision or recall, not appending")
+
+        # Save best conf matrix
+        if fscore > max_fscore:
+            max_fscore = fscore
+            cm = np.asarray([[total_tp, total_fp], [total_fn, total_tn]])
+
+
+    # PLOT LAST CONFUSION MATRIX
+    target_names = ['Seismic', 'Non Seismic']
+
+    plot_confusion_matrix(cm, target_names, normalize=False)
 
     # CURVA PR
     plt.figure()
@@ -1296,7 +1312,79 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'F-score: {fscore:5.3f}\n'
           f'False positive rate: {fpr:5.3f}\n')
 
-    return precision, recall, fpr
+    return precision, recall, fpr, fscore
+
+
+# ESTA FUNCION LA SAQUÉ DE https://www.kaggle.com/grfiv4/plot-a-confusion-matrix
+# HAY QUE MODIFICARLA PA QUE SEA MAS MEJOR
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=True):
+    """
+    given a sklearn confusion matrix (cm), make a nice plot
+
+    Arguments
+    ---------
+    cm:           confusion matrix from sklearn.metrics.confusion_matrix
+
+    target_names: given classification classes such as [0, 1, 2]
+                  the class names, for example: ['high', 'medium', 'low']
+
+    title:        the text to display at the top of the matrix
+
+    cmap:         the gradient of the values displayed from matplotlib.pyplot.cm
+                  see http://matplotlib.org/examples/color/colormaps_reference.html
+                  plt.get_cmap('jet') or plt.cm.Blues
+
+    normalize:    If False, plot the raw numbers
+                  If True, plot the proportions
+
+    Usage
+    -----
+    plot_confusion_matrix(cm           = cm,                  # confusion matrix created by
+                                                              # sklearn.metrics.confusion_matrix
+                          normalize    = True,                # show proportions
+                          target_names = y_labels_vals,       # list of names of the classes
+                          title        = best_estimator_name) # title of graph
+
+    Citiation
+    ---------
+    http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
+
+    """
+
+    accuracy = np.trace(cm) / float(np.sum(cm))
+    misclass = 1 - accuracy
+
+    if cmap is None:
+        cmap = plt.get_cmap('Blues')
+
+    plt.figure(figsize=(8, 6))
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+
+    if target_names is not None:
+        tick_marks = np.arange(len(target_names))
+        plt.xticks(tick_marks, target_names, rotation=45)
+        plt.yticks(tick_marks, target_names)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+    thresh = cm.max() / 1.5 if normalize else cm.max() / 2
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        if normalize:
+            plt.text(j, i, "{:0.4f}".format(cm[i, j]),
+                     horizontalalignment="center",
+                     color="white" if cm[i, j] > thresh else "black")
+        else:
+            plt.text(j, i, "{:,}".format(cm[i, j]),
+                     horizontalalignment="center",
+                     color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.savefig('CONFUSION_MATRIX.png')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
