@@ -44,10 +44,12 @@ def main():
 
     # Preallocate precision and recall values
     precision = []
+    fp_rate = []
     recall = []
     err = []
     # thresholds = np.linspace(0.05, 0.9, 18)
-    thresholds = np.linspace(0, 1, 11)
+    # thresholds = np.linspace(0, 1, 11)
+    thresholds = np.linspace(0.4, 0.8, 5)
 
     # For different threshold values
     for thresh in thresholds:
@@ -92,14 +94,16 @@ def main():
         # Metrics
 
         try:
-            pre, rec = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+            pre, rec, fpr = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
             precision.append(pre)
             recall.append(rec)
+            fp_rate.append(fpr)
 
         except:
             err.append(thresh)
             print("Couldn't calcualte precision or recall, not appending")
 
+    # CURVA PR
     plt.figure()
     plt.plot(recall, precision)
 
@@ -110,13 +114,32 @@ def main():
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
     plt.title(f'PR curve for model {args.model_name}')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
     plt.grid(True)
     plt.savefig('PR.png')
+
+    # CURVA ROC
+    plt.figure()
+    plt.plot(fp_rate, recall)
+
+    # Annotate
+    for i, j, k in zip(fp_rate, recall, thresholds):
+        if k not in err:
+            plt.annotate(str(k), (i, j))
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curve for model {args.model_name}')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.savefig('ROC.png')
 
 
 def inf_francia(net, device, thresh):
@@ -250,7 +273,7 @@ def inf_nevada(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -391,7 +414,7 @@ def inf_belgica(net, device, thresh):
         # Prediction
         output = net(trace.float())
 
-        predicted = (output > thresh).float().item()
+        predicted = (output > thresh)
 
         total += 1
 
@@ -441,7 +464,7 @@ def inf_reykjanes(net, device, thresh):
 
     # Prediction
     out = net(data_fo['strain'].float())
-    predicted = (out > thresh).float().item()
+    predicted = (out > thresh)
 
     # Count traces
     total += 1
@@ -485,7 +508,7 @@ def inf_reykjanes(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -531,7 +554,7 @@ def inf_california(net, device, thresh):
             # Prediction
             out_trace = net(trace.float())
             # pred_trace = torch.round(out_trace.data).item()
-            pred_trace = (out_trace > thresh).float().item()
+            pred_trace = (out_trace > thresh)
 
             # Count traces
             total += 1
@@ -577,7 +600,7 @@ def inf_hydraulic(net, device, thresh):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh).float().item()
+            pred_trace = (out_trace > thresh)
 
             # Count traces
             total += 1
@@ -613,7 +636,7 @@ def inf_hydraulic(net, device, thresh):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh).float().item()
+            pred_trace = (out_trace > thresh)
 
             # Count traces
             total += 1
@@ -649,7 +672,7 @@ def inf_hydraulic(net, device, thresh):
 
             # Prediction
             out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh).float().item()
+            pred_trace = (out_trace > thresh)
 
             # Count traces
             total += 1
@@ -697,7 +720,7 @@ def inf_tides(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -742,7 +765,7 @@ def inf_utah(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -787,7 +810,7 @@ def inf_vibroseis(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -820,7 +843,7 @@ def inf_vibroseis(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -853,7 +876,7 @@ def inf_vibroseis(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -886,7 +909,7 @@ def inf_vibroseis(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -934,7 +957,7 @@ def inf_shaker(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1077,7 +1100,7 @@ def inf_signals(net, device, thresh):
     # Prediction
     out = net(ns_norm.float())
 
-    out = (out > thresh).float().item()
+    out = (out > thresh)
 
     total += 1
 
@@ -1096,7 +1119,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1116,7 +1139,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1136,7 +1159,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1156,7 +1179,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1175,7 +1198,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1194,7 +1217,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1213,7 +1236,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1232,7 +1255,7 @@ def inf_signals(net, device, thresh):
 
         # Prediction
         out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh).float().item()
+        pred_trace = (out_trace > thresh)
 
         # Count traces
         total += 1
@@ -1258,6 +1281,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     # Evaluation metrics
     precision = tp / (tp + fp)
     recall = tp / (tp + fn)
+    fpr = fp / (fp + tn)
     fscore = 2 * (precision * recall) / (precision + recall)
 
     # Results
@@ -1269,9 +1293,10 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'False negatives: {fn}\n\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n')
+          f'F-score: {fscore:5.3f}\n'
+          f'False positive rate: {fpr:5.3f}\n')
 
-    return precision, recall
+    return precision, recall, fpr
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
