@@ -1,5 +1,6 @@
 import h5py
 import numpy as np
+from numpy.random import default_rng
 
 import scipy.io as sio
 import scipy.fftpack as sfft
@@ -13,23 +14,56 @@ from scipy.signal import butter, lfilter
 
 
 def main():
-    # Create images and animations folder
-
+    # Registro de 1 minuto de sismo M1.9 a 100 Km NE del cable, 6848 trazas de 6000 muestras
+    # Create images and animations folders
     Path("Imgs/Francia").mkdir(parents=True, exist_ok=True)
     Path("Animations/Francia").mkdir(parents=True, exist_ok=True)
 
-    # Registro de 1 minuto de sismo M1.9 a 100 Km NE del cable
-    # 6848 trazas de 6000 muestras
+    # Read file and load data
     f = sio.loadmat("../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
-
     traces = f["StrainFilt"]
 
     # sampling frequency
     fs = 100
 
-    # traces to print
+    # Number of traces to plot
+    n = 4
+
+    # traces to plot
     trtp = [0, 3000, 3100, 4000]
 
+    # Select test dataset traces
+    test_data = []
+
+    # Remove mean, calculate std and select
+    for trace in traces:
+        trace = trace - np.mean(trace)
+        st = np.std(trace)
+
+        if st > 50:
+            test_data.append(trace)
+
+    # To numpy array and remove last timeseries
+    test_data = np.asarray(test_data)
+    test_data = test_data[:66]
+
+    # Plot random traces
+    plot_traces(traces, fs, n, 'Francia')
+
+    # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Francia', rand=False, pre_traces=trtp)
+
+    # Animate all time series and spectrums
+    # anim_data_spec(traces, fs, 50, 'Francia', 'Francia')
+
+    # Animate all time series normalized and spectrums
+    # anim_data_spec(traces, fs, 50, 'Francia', 'Francia_norm', norm=True)
+
+    # Animate test dataset traces
+    # anim_data_spec(test_data, fs, 100, 'Francia', 'Test_dataset')
+
+
+def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
     # Data len
     N = traces.shape[1]
 
@@ -39,89 +73,95 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
-    data = []
+    # Traces to plot
+    trtp = []
+
+    if rand:
+        # Init rng
+        rng = default_rng()
+
+        # Traces to plot numbers
+        trtp_ids = rng.choice(len(traces), size=n, replace=False)
+        trtp_ids.sort()
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    else:
+        trtp_ids = pre_traces
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    # Plot traces in trtp with their spectrum
+    for idx, trace in enumerate(trtp):
+        yf = sfft.fftshift(sfft.fft(trace))
+
+        plt.clf()
+        plt.subplot(211)
+        plt.plot(t_ax, trace)
+        plt.title(f'Traza {dataset} y espectro #{trtp_ids[idx]}')
+        plt.xlabel('Tiempo [s]')
+        plt.ylabel('Amplitud [-]')
+        plt.grid(True)
+
+        plt.subplot(212)
+        plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.xlabel('Frecuencia [Hz]')
+        plt.ylabel('Amplitud [-]')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.savefig(f'Imgs/{dataset}/{trtp_ids[idx]}.png')
+
+
+def anim_data_spec(traces, fs, inter, dataset, filename, norm=False):
+    # Data len
+    N = traces.shape[1]
+
+    # Time axis for signal plot
+    t_ax = np.arange(N) / fs
+
+    # Frequency axis for FFT plot
+    xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
+
+    # Create figures for trace and spectrum animations
+    fig_tr = plt.figure()
+    fig_sp = plt.figure()
+
+    # List of trace and spectrum plots
+    ims_tr = []
+    ims_sp = []
 
     for trace in traces:
-        trace = trace-np.mean(trace)
-        st = np.std(trace)
+        # Normalize if specified
+        if norm:
+            trace = trace / np.max(np.abs(trace))
 
-        if st > 50:
-            data.append(trace)
-
-    data = np.asarray(data)
-    data = data[:66]
-
-    # Create animation of whole data
-    fig_tr = plt.figure()
-    ims_tr = []
-
-    for trace in data:
         im_tr = plt.plot(t_ax, trace)
-        plt.title(f'Trazas Francia dataset prueba')
+        plt.title(f'Trazas dataset {dataset}')
         plt.ylabel('Amplitud [-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
         ims_tr.append(im_tr)
 
-    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=100, blit=True, repeat=False)
-    ani_tr.save('Animations/Francia/Dataset_prueba.mp4')
+    for trace in traces:
+        yf = sfft.fftshift(sfft.fft(trace))
+        im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.title(f'Espectros dataset {dataset}')
+        plt.ylabel('Amplitud [-]')
+        plt.xlabel('Frecuencia [Hz]')
+        plt.grid(True)
+        ims_sp.append(im_sp)
 
-    # _ = plt.hist(stds, bins='auto')
-    # plt.show()
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=inter, blit=True, repeat=False)
+    ani_tr.save(f'Animations/{dataset}/{filename}_traces.mp4')
 
-    # # Create figure for plotting
-    # plt.figure()
-
-    # # plot chosen traces
-    # for i in trtp:
-    #     yf = sfft.fftshift(sfft.fft(traces[i]))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, traces[i])
-    #     plt.grid(True)
-    #     plt.ylabel('Strain [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.title(f'Serie de tiempo y espectro #{i} Francia')
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.grid(True)
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/Francia/Francia_trace_{i}.png')
-    #
-    # # Create animation of whole data
-    # fig_tr = plt.figure()
-    # ims_tr = []
-    #
-    # for trace in traces:
-    #     im_tr = plt.plot(t_ax, trace)
-    #     plt.title(f'Trazas dataset Francia')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.grid(True)
-    #     ims_tr.append(im_tr)
-    #
-    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/Francia/Francia_traces.mp4')
-    #
-    # # Create animation of whole data spectrums
-    # fig_sp = plt.figure()
-    # ims_sp = []
-    #
-    # for trace in traces:
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.title(f'Espectro trazas dataset Francia')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.grid(True)
-    #     ims_sp.append(im_sp)
-    #
-    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/Francia/Francia_spectrums.mp4')
+    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=inter, blit=True, repeat=False)
+    ani_sp.save(f'Animations/{dataset}/{filename}_spectrums.mp4')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):

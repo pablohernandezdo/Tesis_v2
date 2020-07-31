@@ -95,6 +95,10 @@ def main():
     plt.plot(recall, precision)
     plt.xlim(0, 1)
     plt.ylim(0, 1)
+    plt.title(f'PR curve for model {args.model_name}')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.grid(True)
     plt.savefig('PR.png')
 
 
