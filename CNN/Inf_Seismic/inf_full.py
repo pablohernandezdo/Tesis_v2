@@ -56,7 +56,8 @@ def main():
 
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
-    thresholds = np.linspace(0.4, 0.8, 5)
+    # thresholds = np.linspace(0.4, 0.8, 5)
+    thresholds = np.linspace(0.5, 0.7, 11)
 
     # For different threshold values
     for thresh in thresholds:
