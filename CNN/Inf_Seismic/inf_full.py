@@ -51,6 +51,8 @@ def main():
 
     # Max fscore
     max_fscore = 0
+    cm = []
+    best_thresh = 0
 
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
@@ -112,12 +114,12 @@ def main():
         if fscore > max_fscore:
             max_fscore = fscore
             cm = np.asarray([[total_tp, total_fp], [total_fn, total_tn]])
+            best_thresh = thresh
 
-
-    # PLOT LAST CONFUSION MATRIX
+    # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
 
-    plot_confusion_matrix(cm, target_names, normalize=False)
+    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix, threshold = {best_thresh}', normalize=False)
 
     # CURVA PR
     plt.figure()
