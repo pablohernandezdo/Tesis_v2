@@ -50,14 +50,16 @@ def main():
     err = []
 
     # Max fscore
+    fscore = 0
     max_fscore = 0
     cm = []
     best_thresh = 0
 
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
-    # thresholds = np.linspace(0.4, 0.8, 5)
-    thresholds = np.linspace(0.5, 0.7, 11)
+    thresholds = np.linspace(0.4, 0.8, 5)
+    # thresholds = np.linspace(0.5, 0.7, 11)
+    thresholds = np.around(thresholds, decimals=2)
 
     # For different threshold values
     for thresh in thresholds:
@@ -120,7 +122,12 @@ def main():
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
 
+    # Confusion matrix
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix, threshold = {best_thresh}', normalize=False)
+
+    # Normalized confusion matrix
+    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix, threshold = {best_thresh}',
+                          filename='Confusion_matrix_norm.png')
 
     # CURVA PR
     plt.figure()
@@ -137,7 +144,7 @@ def main():
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.ylim(0.5, 1)
     plt.grid(True)
     plt.savefig('PR.png')
 
@@ -1297,8 +1304,13 @@ def sum_triple(i1, i2, i3, s1, s2, s3):
 
 
 def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
+
     # Evaluation metrics
-    precision = tp / (tp + fp)
+    if (not tp) and (not fp):
+        precision = 1
+    else:
+        precision = tp / (tp + fp)
+
     recall = tp / (tp + fn)
     fpr = fp / (fp + tn)
     fscore = 2 * (precision * recall) / (precision + recall)
@@ -1320,7 +1332,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
 
 # ESTA FUNCION LA SAQUÉ DE https://www.kaggle.com/grfiv4/plot-a-confusion-matrix
 # HAY QUE MODIFICARLA PA QUE SEA MAS MEJOR
-def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=True):
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='Confusion_matrix.png', cmap=None, normalize=True):
     """
     given a sklearn confusion matrix (cm), make a nice plot
 
@@ -1387,7 +1399,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None,
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
-    plt.savefig('CONFUSION_MATRIX.png')
+    plt.savefig(filename)
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
