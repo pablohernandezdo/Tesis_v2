@@ -111,15 +111,15 @@ def main():
 
         # Metrics
 
-        try:
-            pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
-            precision.append(pre)
-            recall.append(rec)
-            fp_rate.append(fpr)
+#        try:
+        pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+        precision.append(pre)
+        recall.append(rec)
+        fp_rate.append(fpr)
 
-        except:
-            err.append(thresh)
-            print("Couldn't calcualte precision or recall, not appending")
+        # except:
+        #     err.append(thresh)
+        #     print("Couldn't calcualte precision or recall, not appending")
 
         # Save best conf matrix
         if fscore > max_fscore:
