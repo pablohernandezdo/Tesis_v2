@@ -131,11 +131,12 @@ def main():
     target_names = ['Seismic', 'Non Seismic']
 
     # Confusion matrix
-    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}', normalize=False)
+    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
+                          filename=f'../Confusion_matrices/Confusion_matrix_{args.model_name}.png', normalize=False)
 
     # Normalized confusion matrix
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
-                          filename='Confusion_matrix_norm.png')
+                          filename=f'../Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
 
     # CURVA PR
     plt.figure()
