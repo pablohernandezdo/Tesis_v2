@@ -16,8 +16,16 @@ from scipy.signal import butter, lfilter
 
 from model import *
 
+from pathlib import Path
+
 
 def main():
+    # Create images and animations folder
+
+    Path("../Confusion_matrices").mkdir(exist_ok=True)
+    Path("../PR_curves").mkdir(exist_ok=True)
+    Path("../ROC_curves").mkdir(exist_ok=True)
+
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
@@ -73,18 +81,18 @@ def main():
         total, tp, fn = inf_francia(net, device, thresh)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_nevada(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-
-        total, tp, fn = inf_belgica(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-
-        total, tp, fn = inf_reykjanes(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-
-        # Non seismic classification
-        total, tn, fp = inf_california(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # total, tp, fn = inf_nevada(net, device, thresh)
+        # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        #
+        # total, tp, fn = inf_belgica(net, device, thresh)
+        # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        #
+        # total, tp, fn = inf_reykjanes(net, device, thresh)
+        # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        #
+        # # Non seismic classification
+        # total, tn, fp = inf_california(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # total, tn, fp = inf_hydraulic(net, device, thresh)
         # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
@@ -92,14 +100,14 @@ def main():
         total, tn, fp = inf_tides(net, device, thresh)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_utah(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-        total, tn, fp = inf_shaker(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-        total, tn, fp = inf_signals(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # total, tn, fp = inf_utah(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        #
+        # total, tn, fp = inf_shaker(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        #
+        # total, tn, fp = inf_signals(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
 
@@ -123,10 +131,10 @@ def main():
     target_names = ['Seismic', 'Non Seismic']
 
     # Confusion matrix
-    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix, threshold = {best_thresh}', normalize=False)
+    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}', normalize=False)
 
     # Normalized confusion matrix
-    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix, threshold = {best_thresh}',
+    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
                           filename='Confusion_matrix_norm.png')
 
     # CURVA PR
@@ -146,7 +154,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0.5, 1)
     plt.grid(True)
-    plt.savefig(f'PR_{args.model_name}.png')
+    plt.savefig(f'../PR_curves/PR_{args.model_name}.png')
 
     # CURVA ROC
     plt.figure()
@@ -165,7 +173,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.savefig(f'ROC_{args.model_name}.png')
+    plt.savefig(f'../ROC_curves/ROC_{args.model_name}.png')
 
 
 def inf_francia(net, device, thresh):
