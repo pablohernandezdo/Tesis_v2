@@ -146,7 +146,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0.5, 1)
     plt.grid(True)
-    plt.savefig('PR.png')
+    plt.savefig(f'PR_{args.model_name}.png')
 
     # CURVA ROC
     plt.figure()
@@ -165,7 +165,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.savefig('ROC.png')
+    plt.savefig(f'ROC_{args.model_name}.png')
 
 
 def inf_francia(net, device, thresh):
