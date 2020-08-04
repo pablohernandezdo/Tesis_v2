@@ -153,7 +153,7 @@ def main():
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.xlim(0, 1)
-    plt.ylim(0.5, 1)
+    plt.ylim(0, 1)
     plt.grid(True)
     plt.savefig(f'../PR_curves/PR_{args.model_name}.png')
 
