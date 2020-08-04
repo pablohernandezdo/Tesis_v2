@@ -91,14 +91,14 @@ def main():
         # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
         #
         # # Non seismic classification
-        # total, tn, fp = inf_california(net, device, thresh)
-        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        total, tn, fp = inf_california(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # total, tn, fp = inf_hydraulic(net, device, thresh)
         # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_tides(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # total, tn, fp = inf_tides(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # total, tn, fp = inf_utah(net, device, thresh)
         # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
