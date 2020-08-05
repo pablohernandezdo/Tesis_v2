@@ -124,7 +124,7 @@ def main():
         # Save best conf matrix
         if fscore > max_fscore:
             max_fscore = fscore
-            cm = np.asarray([[total_tp, total_fp], [total_fn, total_tn]])
+            cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
             best_thresh = thresh
 
     # PLOT BEST CONFUSION MATRIX
@@ -1314,6 +1314,8 @@ def sum_triple(i1, i2, i3, s1, s2, s3):
 
 def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
 
+    acc = (tp + tn) / (tp + fp + tn +fn)
+
     # Evaluation metrics
     if (not tp) and (not fp):
         precision = 1
@@ -1335,6 +1337,7 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'True negatives: {tn}\n'
           f'False positives: {fp}\n'
           f'False negatives: {fn}\n\n'
+          f'Accuracy: {acc:5.3f}\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
           f'F-score: {fscore:5.3f}\n'
