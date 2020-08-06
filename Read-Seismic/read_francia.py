@@ -111,6 +111,7 @@ def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
 
         plt.subplot(212)
         plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.xlim(-25, 25)
         plt.xlabel('Frecuencia [Hz]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)

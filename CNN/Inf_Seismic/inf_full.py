@@ -177,6 +177,12 @@ def main():
     plt.savefig(f'../ROC_curves/ROC_{args.model_name}.png')
 
 
+def normalize_trace(trace):
+    trace = trace - np.mean(trace)
+    trace = trace / np.max(np.abs(trace))
+    return trace
+
+
 def inf_francia(net, device, thresh):
     # Counters
     total, tp, fn = 0, 0, 0
