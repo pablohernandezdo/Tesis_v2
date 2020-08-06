@@ -106,8 +106,8 @@ def main():
         # total, tn, fp = inf_shaker(net, device, thresh)
         # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
         #
-        # total, tn, fp = inf_signals(net, device, thresh)
-        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        total, tn, fp = inf_signals(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
 
