@@ -78,36 +78,36 @@ def main():
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
         # Sismic classification
-        total, tp, fn = inf_francia(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-
-        total, tp, fn = inf_nevada(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
-
-        total, tp, fn = inf_belgica(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        # total, tp, fn = inf_francia(net, device, thresh)
+        # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        #
+        # total, tp, fn = inf_nevada(net, device, thresh)
+        # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        #
+        # total, tp, fn = inf_belgica(net, device, thresh)
+        # total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
         total, tp, fn = inf_reykjanes(net, device, thresh)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
         # # Non seismic classification
-        total, tn, fp = inf_california(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # total, tn, fp = inf_california(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # total, tn, fp = inf_hydraulic(net, device, thresh)
         # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_tides(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-        total, tn, fp = inf_utah(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-        total, tn, fp = inf_shaker(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
-
-        total, tn, fp = inf_signals(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # total, tn, fp = inf_tides(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        #
+        # total, tn, fp = inf_utah(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        #
+        # total, tn, fp = inf_shaker(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        #
+        # total, tn, fp = inf_signals(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
 
@@ -467,6 +467,9 @@ def inf_belgica(net, device, thresh):
 
 
 def inf_reykjanes(net, device, thresh):
+    # Rng
+    rng = default_rng()
+
     # Counters
     total, tp, fn = 0, 0, 0
 
@@ -530,10 +533,22 @@ def inf_reykjanes(net, device, thresh):
     data['strain'] = data['strain'][1:]
     traces = data['strain'].transpose()
 
+    # Number of input samples to model
+    final_samples = 6000
+
     # For every trace in the file
     for trace in traces:
         # Resample
-        trace = signal.resample(trace, 6000)
+        trace = signal.resample(trace, 700)
+
+        # Random place to put signal in
+        idx = rng.choice(final_samples - len(trace), size=1)
+
+        # Number of samples to zero pad on the right side
+        right_pad = final_samples - idx - len(trace)
+
+        # Zero pad signal
+        trace = np.pad(trace, (idx.item(), right_pad.item()), mode='constant')
 
         # Normalize
         trace = trace / np.max(np.abs(trace))
