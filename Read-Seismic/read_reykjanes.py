@@ -26,8 +26,8 @@ def main():
     # Comparacion entre registros de un telesismo por fibra optica y sismometro
 
     file_fo = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
-    # file_bb = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
-    #
+    file_bb = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_bb.ascii'
+
     fs = 20
 
     data_fo = {
@@ -35,10 +35,10 @@ def main():
         'strain': []
     }
 
-    # data_bb = {
-    #     'head': '',
-    #     'strain': []
-    # }
+    data_bb = {
+        'head': '',
+        'strain': []
+    }
 
     with open(file_fo, 'r') as f:
         for idx, line in enumerate(f):
@@ -48,13 +48,13 @@ def main():
                 val = line.strip()
                 data_fo['strain'].append(float(val))
 
-    # with open(file_bb, 'r') as f:
-    #     for idx, line in enumerate(f):
-    #         if idx == 0:
-    #             data_bb['head'] = line.strip()
-    #         else:
-    #             val = line.strip()
-    #             data_bb['strain'].append(float(val))
+    with open(file_bb, 'r') as f:
+        for idx, line in enumerate(f):
+            if idx == 0:
+                data_bb['head'] = line.strip()
+            else:
+                val = line.strip()
+                data_bb['strain'].append(float(val))
 
     # Data len
     N = len(data_fo['strain'])
@@ -67,7 +67,7 @@ def main():
 
     # FFTs
     yf_fo = sfft.fftshift(sfft.fft(data_fo['strain']))
-    # yf_bb = sfft.fftshift(sfft.fft(data_bb['strain']))
+    yf_bb = sfft.fftshift(sfft.fft(data_bb['strain']))
 
     plt.figure()
     plt.subplot(211)
@@ -86,21 +86,22 @@ def main():
     plt.tight_layout()
     plt.savefig('Imgs/Reykjanes/Telesismo/TelesismoDAS_spec.png')
 
-    # plt.clf()
-    # plt.subplot(211)
-    # plt.plot(t_ax, data_bb['strain'])
-    # plt.xlabel('Tiempo [s]')
-    # plt.ylabel('Strain [-]')
-    # plt.title('Registro Reykjanes telesismo sismómetro')
-    # plt.grid(True)
-    #
-    # plt.subplot(212)
-    # plt.plot(xf, np.abs(yf_bb) / np.max(np.abs(yf_bb)))
-    # plt.xlabel('Frecuencia [-]')
-    # plt.ylabel('Amplitud [-]')
-    # plt.grid(True)
-    # plt.tight_layout()
-    # plt.savefig('Imgs/Reykjanes/Telesismo/TelesismoBBS_spec.png')
+    plt.clf()
+    plt.subplot(211)
+    plt.plot(t_ax, data_bb['strain'])
+    plt.xlabel('Tiempo [s]')
+    plt.ylabel('Strain [-]')
+    plt.title('Registro Reykjanes telesismo sismómetro')
+    plt.grid(True)
+
+    plt.subplot(212)
+    plt.plot(xf, np.abs(yf_bb) / np.max(np.abs(yf_bb)))
+    plt.xlim(-0.5, 0.5)
+    plt.xlabel('Frecuencia [-]')
+    plt.ylabel('Amplitud [-]')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig('Imgs/Reykjanes/Telesismo/TelesismoBBS_spec.png')
 
     # plt.figure()
     # plt.plot(t_ax, data_fo['strain'])
