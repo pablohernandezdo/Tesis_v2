@@ -70,13 +70,13 @@ def main():
     # plot_traces(traces, fs, n, 'Nevada', '751', rand=False, pre_traces=trtp)
 
     # Animate all time series and spectrums
-    anim_data_spec(traces, fs, 50, 'Nevada', '751')
+    # anim_data_spec(traces, fs, 50, 'Nevada', '751')
 
     # Animate all time series normalized and spectrums (Aqui hay un problema, sobreescribe el anterior)
     # anim_data_spec(traces, fs, 50, 'Nevada', '751', norm=True)
 
     # Animate test dataset traces (Aqui tambien hay un problema con la carpeta)
-    anim_data_spec(test_data, fs, 50, 'Nevada', '751_testdata')
+    # anim_data_spec(test_data, fs, 50, 'Nevada', '751_testdata')
 
     # File 747
     f747 = '../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
@@ -94,7 +94,7 @@ def main():
     # plot_traces(traces, fs, n, 'Nevada', '747', rand=False, pre_traces=trtp)
 
     # Animate all time series and spectrums
-    anim_data_spec(traces, fs, 50, 'Nevada', '747')
+    # anim_data_spec(traces, fs, 50, 'Nevada', '747')
 
     # Animate all time series normalized and spectrums (Aqui hay un problema, sobreescribe el anterior)
     # anim_data_spec(traces, fs, 50, 'Nevada', '747', norm=True)
@@ -115,7 +115,7 @@ def main():
     # plot_traces(traces, fs, n, 'Nevada', '747', rand=False, pre_traces=trtp)
 
     # Animate all time series and spectrums
-    anim_data_spec(traces, fs, 50, 'Nevada', '717')
+    # anim_data_spec(traces, fs, 50, 'Nevada', '717')
 
     # Animate all time series normalized and spectrums (Aqui hay un problema, sobreescribe el anterior)
     # anim_data_spec(traces, fs, 50, 'Nevada', '717', norm=True)
@@ -169,6 +169,7 @@ def plot_traces(traces, fs, n, dataset, filename, rand=True, pre_traces=None):
 
         plt.subplot(212)
         plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.xlim(-25, 25)
         plt.xlabel('Frecuencia [Hz]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
