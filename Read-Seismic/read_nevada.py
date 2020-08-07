@@ -43,7 +43,7 @@ def main():
     # plot_traces(traces, fs, n, 'Nevada', '721', rand=False, pre_traces=trtp)
 
     # Animate all time series and spectrums
-    anim_data_spec(traces, fs, 50, 'Nevada', '721')
+    # anim_data_spec(traces, fs, 50, 'Nevada', '721')
 
     # Animate all time series normalized and spectrums
     # anim_data_spec(traces, fs, 50, 'Nevada', 'Nevada_norm', norm=True)
