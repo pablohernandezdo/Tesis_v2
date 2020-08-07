@@ -135,7 +135,6 @@ def main():
 
     pl.subplot(gs[1, 0])
     pl.plot(xf, np.abs(yf_fil3) / np.max(np.abs(yf_fil3)))
-    pl.xlim(-1.5, 1.5)
     pl.xlabel('Frecuencia [Hz]')
     pl.ylabel('Amplitud [-]')
     pl.grid(True)
