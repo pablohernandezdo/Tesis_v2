@@ -84,25 +84,26 @@ def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
         gs = gridspec.GridSpec(2, 2)
 
         pl.figure()
-        ax = pl.subplot(gs[0, 0])
+        ax = pl.subplot(gs[0, :])
         plt.plot(t_ax, trace)
         pl.title(f'Traza {dataset} y espectro #{trtp_ids[idx]}')
         pl.xlabel('Tiempo [s]')
         pl.ylabel('Amplitud [-]')
         pl.grid(True)
 
-        ax = pl.subplot(gs[0, 1])
+        ax = pl.subplot(gs[1, 0])
         pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
         pl.xlabel('Frecuencia [Hz]')
         pl.ylabel('Amplitud [-]')
         pl.grid(True)
 
-        ax = pl.subplot(gs[1, :])
+        ax = pl.subplot(gs[1, 1])
         pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
         pl.xlim(-25, 25)
         pl.xlabel('Frecuencia [Hz]')
         pl.ylabel('Amplitud [-]')
         pl.grid(True)
+        pl.tight_layout()
         pl.savefig(f'Imgs/{dataset}/{trtp_ids[idx]}.png')
 
 
