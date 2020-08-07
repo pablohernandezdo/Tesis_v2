@@ -72,7 +72,7 @@ def main():
     plot_traces(traces, fs, n, 'Reykjanes/Local1', das=False)
 
     # Create animation of whole data
-    anim_data_spec(traces, fs, 1000, 'Reykjanes Local 1', 'Local1_geo')
+    # anim_data_spec(traces, fs, 1000, 'Reykjanes Local 1', 'Local1_geo')
 
     # Fig. 5b
     # Registro de sismo local con DAS
@@ -92,7 +92,7 @@ def main():
     plot_traces(traces, fs, n, 'Reykjanes/Local2')
 
     # Create animation of whole data
-    anim_data_spec(traces, fs, 50, 'Reykjanes Local 2', 'Local2')
+    # anim_data_spec(traces, fs, 50, 'Reykjanes Local 2', 'Local2')
 
 
 def plot_telesismo(file_fo, file_bb, fs):
