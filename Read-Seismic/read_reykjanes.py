@@ -79,7 +79,7 @@ def main():
 
     plt.subplot(212)
     plt.plot(xf, np.abs(yf_fo) / np.max(np.abs(yf_fo)))
-    plt.xlim(-2, 2)
+    plt.xlim(-0.5, 0.5)
     plt.xlabel('Frecuencia [-]')
     plt.ylabel('Amplitud [-]')
     plt.grid(True)
@@ -705,7 +705,7 @@ def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
 
         plt.subplot(212)
         plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.xlim(-2, 2)
+        plt.xlim(-25, 25)
         plt.xlabel('Frecuencia [Hz]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
