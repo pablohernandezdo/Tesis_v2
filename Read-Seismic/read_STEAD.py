@@ -2,7 +2,11 @@ import h5py
 import numpy as np
 from numpy.random import default_rng
 
+import matplotlib.pylab as pl
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import matplotlib.animation as animation
+
 
 import scipy.fftpack as sfft
 import scipy.signal as signal
@@ -65,22 +69,30 @@ def main():
     for idx, trace in enumerate(trtp):
         yf = sfft.fftshift(sfft.fft(trace))
 
-        plt.clf()
-        plt.subplot(211)
-        plt.plot(t_ax, trace)
-        plt.title(f'Traza STEAD y espectro #{trtp_ids[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
+        gs = gridspec.GridSpec(2, 2)
 
-        plt.subplot(212)
-        plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-        plt.xlim(-25, 25)
-        plt.xlabel('Frecuencia [Hz]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.tight_layout()
-        plt.savefig(f'Imgs/STEAD/{trtp_ids[idx]}.png')
+        pl.clf()
+        pl.subplot(gs[0, :])
+        pl.plot(t_ax, trace)
+        pl.title(f'Traza STEAD y espectro #{trtp_ids[idx]}')
+        pl.xlabel('Tiempo [s]')
+        pl.ylabel('Amplitud [-]')
+        pl.grid(True)
+
+        pl.subplot(gs[1, 0])
+        pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        pl.xlabel('Frecuencia [Hz]')
+        pl.ylabel('Amplitud [-]')
+        pl.grid(True)
+
+        pl.subplot(gs[1, 1])
+        pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        pl.xlim(-25, 25)
+        pl.xlabel('Frecuencia [Hz]')
+        pl.ylabel('Amplitud [-]')
+        pl.grid(True)
+        pl.tight_layout()
+        pl.savefig(f'Imgs/STEAD/{trtp_ids[idx]}.png')
 
 
 if __name__ == '__main__':
