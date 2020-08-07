@@ -183,13 +183,9 @@ def main():
 
     plt.figure()
     plt.plot(tr_accs)
-    plt.tight_layout()
-    plt.savefig('TRAIN_ACCS.png')
-
-    plt.figure()
     plt.plot(val_accs)
-    plt.tight_layout()
-    plt.savefig('VAL_ACCS.png')
+    plt.grid()
+    plt.savefig('TRAIN_VAL_ACCS.png')
 
 
 if __name__ == "__main__":
