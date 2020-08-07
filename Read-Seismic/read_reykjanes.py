@@ -438,7 +438,7 @@ def main():
     # Fig. 5b
     # Registro de sismo local con DAS
 
-    file = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
+    file = '../Data/Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
     n_trazas = 2551
 
     data = {
