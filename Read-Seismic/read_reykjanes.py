@@ -52,7 +52,7 @@ def main():
     plot_traces(traces, fs, n, 'Reykjanes/Local1')
 
     # Create animation of whole data
-    anim_data_spec(traces, fs, 1000, 'Reykjanes Local 1', 'Local1')
+    # anim_data_spec(traces, fs, 1000, 'Reykjanes Local 1', 'Local1')
 
     # # Fig. 5a_gph
     # # Registro de sismo local con geofono
