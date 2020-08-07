@@ -173,14 +173,14 @@ def main():
 
     print(f'Training time: {format_timespan(tr_t)}')
 
-    print(f'Last Train acc: {train_acc}\n'
-          f'Last Val acc: {val_acc}')
-
     plt.figure()
-    plt.plot(tr_accuracies)
-    plt.plot(val_accuracies)
+    line_tr, = plt.plot(tr_accuracies, label='Training accuracy')
+    line_val, = plt.plot(val_accuracies, label='Validation accuracy')
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
     plt.grid()
-    plt.savefig('TRAIN_val_accuracies.png')
+    plt.legend(handles=[line_tr, line_val], loc='best')
+    plt.savefig(f'{args.model_name}_accuracies.png')
 
 
 if __name__ == "__main__":
