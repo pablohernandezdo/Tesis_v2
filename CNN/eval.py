@@ -1,14 +1,13 @@
 import time
-import tqdm
-import torch
 import argparse
 
+import tqdm
+import torch
 from humanfriendly import format_timespan
-
-from dataset import HDF5Dataset
 from torch.utils.data import DataLoader
 
-from model import *
+from .model import *
+from .dataset import HDF5Dataset
 
 
 def main():
@@ -31,11 +30,11 @@ def main():
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
-    trainloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Test dataset
     test_dataset = HDF5Dataset(args.test_path)
-    testloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
     if args.classifier == 'CBN':
@@ -60,9 +59,9 @@ def main():
     total = 0
     tp, fp, tn, fn = 0, 0, 0, 0
 
-    with tqdm.tqdm(total=len(trainloader), desc='Train dataset evaluation', position=0) as train_bar:
+    with tqdm.tqdm(total=len(train_loader), desc='Train dataset evaluation', position=0) as train_bar:
         with torch.no_grad():
-            for data in trainloader:
+            for data in train_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
                 predicted = torch.round(outputs)
@@ -86,7 +85,7 @@ def main():
     # Evaluation metrics
     precision = tp / (tp + fp)
     recall = tp / (tp + fn)
-    fscore = 2 * (precision * recall) / (precision + recall)
+    f_score = 2 * (precision * recall) / (precision + recall)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
@@ -100,7 +99,7 @@ def main():
           f'Evaluation metrics:\n\n'          
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n')
+          f'F-score: {f_score:5.3f}\n')
 
     print('Accuracy of the network on the train set: %d %%\n' % (100 * correct / total))
 
@@ -111,9 +110,9 @@ def main():
     total = 0
     tp, fp, tn, fn = 0, 0, 0, 0
 
-    with tqdm.tqdm(total=len(testloader), desc='Test dataset evaluation', position=0) as test_bar:
+    with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as test_bar:
         with torch.no_grad():
-            for data in testloader:
+            for data in test_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
                 predicted = torch.round(outputs)
@@ -137,7 +136,7 @@ def main():
     # Evaluation metrics
     precision = tp / (tp + fp)
     recall = tp / (tp + fn)
-    fscore = 2 * (precision * recall) / (precision + recall)
+    f_score = 2 * (precision * recall) / (precision + recall)
 
     eval_2 = time.time()
     ev_2 = eval_2 - eval_1
@@ -152,7 +151,7 @@ def main():
           f'Evaluation metrics:\n\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n\n'
+          f'F-score: {f_score:5.3f}\n\n'
           f'Training evaluation time: {format_timespan(ev_1)}\n'
           f'Test evaluation time: {format_timespan(ev_2)}\n'
           f'Total execution time: {format_timespan(ev_t)}\n\n')

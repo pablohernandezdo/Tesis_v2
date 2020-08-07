@@ -1,20 +1,17 @@
 import time
-import tqdm
 import argparse
+
+import tqdm
+import torch
+import torch.optim as optim
 import matplotlib.pyplot as plt
 
-from humanfriendly import format_timespan
-
-import torch
-import torch.nn as nn
-import torch.optim as optim
-
-from dataset import HDF5Dataset
 from torch.utils.data import DataLoader
-
-from model import *
-
+from humanfriendly import format_timespan
 from torch.utils.tensorboard import SummaryWriter
+
+from .model import *
+from .dataset import HDF5Dataset
 
 
 def main():
@@ -27,7 +24,6 @@ def main():
     parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
-    parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
@@ -70,16 +66,15 @@ def main():
     # tb.add_graph(net, images)
 
     # Loss function and optimizer
-    # criterion = nn.BCEWithLogitsLoss()
     criterion = nn.BCELoss()
     optimizer = optim.Adam(net.parameters(), lr=args.lr, betas=(args.b1, args.b2), weight_decay=args.wd)
 
     # Loss id for tensorboard logs
-    loss_id = 0
+    # loss_id = 0
 
     # Training and validation errors
-    tr_accs = []
-    val_accs = []
+    tr_accuracies = []
+    val_accuracies = []
 
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
@@ -114,7 +109,7 @@ def main():
                     # Calculate loss
                     loss = criterion(outputs, labels.float())
 
-                    # Backpropagate
+                    # Backpropagation
                     loss.backward()
 
                     # Optimize
@@ -153,15 +148,15 @@ def main():
                         val_acc = 100 * correct_val / total_val
 
                     # Append training and validation accuracies
-                    tr_accs.append(train_acc)
-                    val_accs.append(val_acc)
+                    tr_accuracies.append(train_acc)
+                    val_accuracies.append(val_acc)
 
                     # tb.add_scalar('Loss', loss.item(), loss_id)
-                    # Update tqdm batch bar
+                    # Update batch bar
                     batch_bar.update()
 
                 # tb.add_scalar('Total_Loss', total_loss, epoch)
-                # Update tqdm epochs bar
+                # Update epochs bar
                 epoch_bar.update()
 
     # Close tensorboard
@@ -182,10 +177,10 @@ def main():
           f'Last Val acc: {val_acc}')
 
     plt.figure()
-    plt.plot(tr_accs)
-    plt.plot(val_accs)
+    plt.plot(tr_accuracies)
+    plt.plot(val_accuracies)
     plt.grid()
-    plt.savefig('TRAIN_VAL_ACCS.png')
+    plt.savefig('TRAIN_val_accuracies.png')
 
 
 if __name__ == "__main__":

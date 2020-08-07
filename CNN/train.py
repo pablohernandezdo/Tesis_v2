@@ -1,19 +1,15 @@
 import time
-import tqdm
 import argparse
 
-from humanfriendly import format_timespan
-
+import tqdm
 import torch
-import torch.nn as nn
 import torch.optim as optim
-
-from dataset import HDF5Dataset
 from torch.utils.data import DataLoader
-
-from model import *
-
+from humanfriendly import format_timespan
 from torch.utils.tensorboard import SummaryWriter
+
+from .model import *
+from .dataset import HDF5Dataset
 
 
 def main():
@@ -25,8 +21,6 @@ def main():
     parser.add_argument("--model_name", default='Default_model', help="Name of model to save")
     parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
-    # parser.add_argument("--val_path", default='Train_data.hdf5', help="HDF5 validation Dataset path")
-    parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
@@ -45,11 +39,7 @@ def main():
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
-    trainloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
-
-    # Test dataset
-    test_dataset = HDF5Dataset(args.test_path)
-    testloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
     if args.classifier == 'CBN':
@@ -64,12 +54,11 @@ def main():
     net.to(device)
 
     # Add model graph to tensorboard
-    # images, labels = next(iter(trainloader))
+    # images, labels = next(iter(train_loader))
     # images, labels = images.to(device), labels.to(device)
     # tb.add_graph(net, images)
 
     # Loss function and optimizer
-    # criterion = nn.BCEWithLogitsLoss()
     criterion = nn.BCELoss()
     optimizer = optim.Adam(net.parameters(), lr=args.lr, betas=(args.b1, args.b2), weight_decay=args.wd)
 
@@ -82,8 +71,8 @@ def main():
 
             total_loss = 0
 
-            with tqdm.tqdm(total=len(trainloader), desc='Batches', leave=False) as batch_bar:
-                for i, data in enumerate(trainloader, 0):
+            with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
+                for i, data in enumerate(train_loader, 0):
                     inputs, labels = data[0].to(device), data[1].to(device)
                     optimizer.zero_grad()
 

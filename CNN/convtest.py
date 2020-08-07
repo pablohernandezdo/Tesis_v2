@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from dataset import HDF5Dataset
 from torch.utils.data import DataLoader
 
-from model import *
+from .model import *
 
 
 def count_parameters(model):
