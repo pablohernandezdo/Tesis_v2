@@ -70,7 +70,7 @@ def main():
     pl.ylabel('Amplitud [-]')
     pl.grid(True)
 
-    pl.subplot(gs[1, 0])
+    pl.subplot(gs[1, 1])
     pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
     pl.xlim(-1.5, 1.5)
     pl.xlabel('Frecuencia [Hz]')
