@@ -109,7 +109,7 @@ def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
 
         pl.figure()
         ax = pl.subplot(gs[0, :])
-        plt.plot(t_ax, trace)
+        plt.plot(np.squeeze(t_ax), trace)
         pl.title(f'Traza {dataset} y espectro #{trtp_ids[idx]}')
         pl.xlabel('Tiempo [s]')
         pl.ylabel('Amplitud [-]')
