@@ -3,9 +3,7 @@ import numpy as np
 from numpy.random import default_rng
 
 import matplotlib.pylab as pl
-import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import matplotlib.animation as animation
 
 
 import scipy.fftpack as sfft
@@ -63,7 +61,7 @@ def main():
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
     # Figure to plot
-    plt.figure()
+    pl.figure()
 
     # For trace in traces to print
     for idx, trace in enumerate(trtp):
