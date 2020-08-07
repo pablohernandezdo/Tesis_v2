@@ -78,14 +78,15 @@ def main():
     loss_id = 0
 
     # Training and validation errors
-    train_error = []
-    val_error = []
+    tr_accs = []
+    val_accs = []
 
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
 
             total_loss = 0
+            n_correct, n_total = 0, 0
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
                 for i, data in enumerate(train_loader):
@@ -93,56 +94,75 @@ def main():
                     # Network to train mode
                     net.train()
 
-                    inputs, labels = data[0].to(device), data[1].to(device)
+                    # Clear gradient accumulators
                     optimizer.zero_grad()
 
+                    # Get batch data and labels
+                    inputs, labels = data[0].to(device), data[1].to(device)
+
+                    # Forward pass
                     outputs = net(inputs)
-                    tb.add_scalar('Output', outputs[0].item(), loss_id)
+
+                    # Predicted labels
+                    predicted = torch.round(outputs)
+
+                    # Calculate accuracy on current batch
+                    n_total += labels.size(0)
+                    n_correct += (predicted == labels).sum().item()
+                    train_acc = 100 * n_correct / n_total
+
+                    # Calculate loss
                     loss = criterion(outputs, labels.float())
+
+                    # Backpropagate
                     loss.backward()
+
+                    # Optimize
                     optimizer.step()
 
+                    # Calculate total loss
                     total_loss += loss.item()
 
-                    loss_id += 1
+                    # loss_id += 1
 
-                    tb.add_scalar('Loss', loss.item(), loss_id)
+                    # Check validation accuracy periodically
+                    if i % 1 == 0:
+                        # Switch model to eval mode
+                        net.eval()
+
+                        # Calculate accuracy on validation
+                        total_val, correct_val = 0, 0
+
+                        with torch.no_grad():
+                            for val_data in val_loader:
+
+                                # Retrieve data and labels
+                                traces, labels = val_data[0].to(device), val_data[1].to(device)
+
+                                # Forward pass
+                                outputs = net(traces)
+
+                                # Predicted labels
+                                predicted = torch.round(outputs)
+
+                                # Sum up correct and total validation examples
+                                total_val += labels.size(0)
+                                correct_val += (predicted == labels).sum().item()
+
+                        # Calculate validation accuracy
+                        val_acc = 100 * correct_val / total_val
+
+                    # Append training and validation accuracies
+                    tr_accs.append(train_acc)
+                    val_accs.append(val_acc)
+
+                    # tb.add_scalar('Loss', loss.item(), loss_id)
+                    # Update tqdm batch bar
                     batch_bar.update()
 
-                tb.add_scalar('Total_Loss', total_loss, epoch)
+                # tb.add_scalar('Total_Loss', total_loss, epoch)
+                # Update tqdm epochs bar
                 epoch_bar.update()
-
-            # Network to evaluation mode
-            net.eval()
-
-            with torch.no_grad():
-                # Training error
-                train_total = 0
-                train_correct = 0
-
-                for data in train_loader:
-                    traces, labels = data[0].to(device), data[1].to(device)
-                    outputs = net(traces)
-                    predicted = torch.round(outputs)
-
-                    train_total += labels.size(0)
-                    train_correct += (predicted == labels).sum().item()
-
-                train_error.append(train_correct / train_total)
-
-                # Validation error
-                val_total = 0
-                val_correct = 0
-
-                for data in val_loader:
-                    traces, labels = data[0].to(device), data[1].to(device)
-                    outputs = net(traces)
-                    predicted = torch.round(outputs)
-
-                    val_total += labels.size(0)
-                    val_correct += (predicted == labels).sum().item()
-
-                val_error.append(val_correct / val_total)
 
     # Close tensorboard
     tb.close()
@@ -158,12 +178,14 @@ def main():
 
     print(f'Training time: {format_timespan(tr_t)}')
 
-    print(f'Train error: {train_error}\n'
-          f'Val error: {val_error}')
-    # plt.figure()
-    # plt.plot(train_error, 'r')
-    # plt.plot(val_error, 'b')
-    # plt.savefig('ERRORS.png')
+    print(f'Last Train acc: {train_acc}\n'
+          f'Last Val acc: {val_acc}')
+
+    plt.figure()
+    plt.plot(tr_accs)
+    plt.plot(val_accs)
+    plt.tight_layout()
+    plt.savefig('TRAIN_VAL_ACCS.png')
 
 
 if __name__ == "__main__":
