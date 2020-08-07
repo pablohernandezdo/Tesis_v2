@@ -15,21 +15,10 @@ from scipy.signal import butter, lfilter
 
 def main():
     # Create images and animations folder
-
     Path("Imgs/Reykjanes/Telesismo").mkdir(parents=True, exist_ok=True)
     Path("Imgs/Reykjanes/Local1").mkdir(parents=True, exist_ok=True)
     Path("Imgs/Reykjanes/Local2").mkdir(parents=True, exist_ok=True)
     Path("Animations/Reykjanes").mkdir(parents=True, exist_ok=True)
-
-    # Load STEAD trace
-
-    # st = '../Data/STEAD/Train_data.hdf5'
-    #
-    # with h5py.File(st, 'r') as h5_file:
-    #     grp = h5_file['earthquake']['local']
-    #     for idx, dts in enumerate(grp):
-    #         st_trace = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
-    #         break
 
     # Datos Utiles
 
@@ -46,10 +35,10 @@ def main():
         'strain': []
     }
 
-    data_bb = {
-        'head': '',
-        'strain': []
-    }
+    # data_bb = {
+    #     'head': '',
+    #     'strain': []
+    # }
 
     with open(file_fo, 'r') as f:
         for idx, line in enumerate(f):
@@ -90,6 +79,7 @@ def main():
 
     plt.subplot(212)
     plt.plot(xf, np.abs(yf_fo) / np.max(np.abs(yf_fo)))
+    plt.xlim(-2, 2)
     plt.xlabel('Frecuencia [-]')
     plt.ylabel('Amplitud [-]')
     plt.grid(True)
@@ -196,7 +186,7 @@ def main():
     # trtp = []
     #
     # Init rng
-    rng = default_rng()
+    # rng = default_rng()
 
     # # Traces to plot numbers
     # trtp_ids = rng.choice(len(data['strain']), size=n, replace=False)
@@ -448,75 +438,38 @@ def main():
     # Fig. 5b
     # Registro de sismo local con DAS
 
-    # file = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
-    # n_trazas = 2551
-    # plt_tr = 1000
-    # fs = 200
-    #
-    # data = {
-    #     'head': '',
-    #     'strain': np.empty((1, n_trazas))
-    # }
-    #
-    # with open(file, 'r') as f:
-    #     for idx, line in enumerate(f):
-    #         if idx == 0:
-    #             data['head'] = line.strip()
-    #
-    #         else:
-    #             row = np.asarray(list(map(float, re.sub(' +', ' ', line).strip().split(' '))))
-    #             data['strain'] = np.concatenate((data['strain'], np.expand_dims(row, 0)))
-    #
-    # data['strain'] = data['strain'][1:]
-    # # data['strain'] = data['strain'] / data['strain'].max(axis=0)
-    # data['strain'] = data['strain'].transpose()
-    #
-    # # Number of traces to plot
-    # n = 4
-    #
-    # # Traces to plot
-    # trtp = []
-    #
-    # # Traces to plot numbers
-    # trtp_ids = rng.choice(len(data['strain']), size=n, replace=False)
-    # trtp_ids.sort()
-    #
-    # # Retrieve selected traces
-    # for idx, trace in enumerate(data['strain']):
-    #     if idx in trtp_ids:
-    #         trtp.append(trace)
-    #
-    # # Data len
-    # N = data['strain'].shape[1]
-    #
-    # # Time axis for signal plot
-    # t_ax = np.arange(N) / fs
-    #
-    # # Frequency axis for FFT plot
-    # xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
-    #
-    # # Figure to plot
-    # plt.figure()
-    #
-    # # For trace in traces to print
-    # for idx, trace in enumerate(trtp):
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, trace)
-    #     plt.title(f'Traza Reykjanes sismo local 2 y espectro #{trtp_ids[idx]}')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/Local2/Local2_{trtp_ids[idx]}')
+    file = '../Data_Reykjanes/Jousset_et_al_2018_003_Figure5b.ascii'
+    n_trazas = 2551
+
+    data = {
+        'head': '',
+        'strain': np.empty((1, n_trazas))
+    }
+
+    with open(file, 'r') as f:
+        for idx, line in enumerate(f):
+            if idx == 0:
+                data['head'] = line.strip()
+
+            else:
+                row = np.asarray(list(map(float, re.sub(' +', ' ', line).strip().split(' '))))
+                data['strain'] = np.concatenate((data['strain'], np.expand_dims(row, 0)))
+
+    data['strain'] = data['strain'][1:]
+    # data['strain'] = data['strain'] / data['strain'].max(axis=0)
+    traces = data['strain'].transpose()
+
+    # Sampling frequency
+    fs = 200
+
+    # Number of traces to plot
+    n = 4
+
+    # Traces to plot
+    # trtp = [0, 1, 2, 3]
+
+    # Plot random traces
+    plot_traces(traces, fs, n, 'Reykjanes/Local2')
 
     # Create animation of whole data
     # fig_tr = plt.figure()
@@ -703,6 +656,61 @@ def main():
     # plt.clf()
     # plt.imshow(data['strain'], aspect='auto')
     # plt.savefig('Fig7_8.png')
+
+def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
+    # Data len
+    N = traces.shape[1]
+
+    # Time axis for signal plot
+    t_ax = np.arange(N) / fs
+
+    # Frequency axis for FFT plot
+    xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
+
+    # Traces to plot
+    trtp = []
+
+    if rand:
+        # Init rng
+        rng = default_rng()
+
+        # Traces to plot numbers
+        trtp_ids = rng.choice(len(traces), size=n, replace=False)
+        trtp_ids.sort()
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    else:
+        trtp_ids = pre_traces
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    # Plot traces in trtp with their spectrum
+    for idx, trace in enumerate(trtp):
+        yf = sfft.fftshift(sfft.fft(trace))
+
+        plt.clf()
+        plt.subplot(211)
+        plt.plot(t_ax, trace)
+        plt.title(f'Traza {dataset} y espectro #{trtp_ids[idx]}')
+        plt.xlabel('Tiempo [s]')
+        plt.ylabel('Amplitud [-]')
+        plt.grid(True)
+
+        plt.subplot(212)
+        plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.xlim(-2, 2)
+        plt.xlabel('Frecuencia [Hz]')
+        plt.ylabel('Amplitud [-]')
+        plt.grid(True)
+        plt.tight_layout()
+        plt.savefig(f'Imgs/{dataset}/{trtp_ids[idx]}.png')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
