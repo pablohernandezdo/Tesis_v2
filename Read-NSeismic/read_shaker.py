@@ -1,33 +1,21 @@
-import h5py
 import segyio
 import numpy as np
 from numpy.random import default_rng
 
+import matplotlib.pylab as pl
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import matplotlib.animation as animation
 
 import scipy.fftpack as sfft
-import scipy.signal as signal
-from scipy.signal import butter, lfilter
 
 from pathlib import Path
 
 
 def main():
     # Create images folder
-
     Path("Imgs/Shaker").mkdir(parents=True, exist_ok=True)
     Path("Animations/Shaker").mkdir(parents=True, exist_ok=True)
-
-    # Carga traza STEAD
-
-    # st = '../Data_STEAD/Train_data.hdf5'
-    #
-    # with h5py.File(st, 'r') as h5_file:
-    #     grp = h5_file['earthquake']['local']
-    #     for idx, dts in enumerate(grp):
-    #         st_trace = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
-    #         break
 
     # 1984 trazas de 12600 muestras
     f = '../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
@@ -41,24 +29,23 @@ def main():
     # Sampling frequency
     fs = 200
 
-    # # Number of traces to plot
-    # n = 4
-    #
-    # # Traces to plot
-    # trtp = []
-    #
-    # # Init rng
-    # rng = default_rng()
-    #
-    # # Traces to plot numbers
-    # trtp_ids = rng.choice(len(traces), size=n, replace=False)
-    # trtp_ids.sort()
-    #
-    # # Retrieve selected traces
-    # for idx, trace in enumerate(traces):
-    #     if idx in trtp_ids:
-    #         trtp.append(trace)
+    # Number of traces to plot
+    n = 4
 
+    # Traces to plot
+    # trtp = [0, 1, 2, 3]
+
+    # Plot predefined traces
+    plot_traces(traces, fs, n, 'Shaker')
+
+    # Animate all time series and spectrums
+    # anim_data_spec(traces, fs, 100, 'Shaker', 'Shaker')
+
+    # Animate all time series normalized and spectrums
+    # anim_data_spec(traces, fs, 100, 'Shaker', 'Shaker_norm', norm=True)
+
+
+def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
     # Data len
     N = traces.shape[1]
 
@@ -68,103 +55,104 @@ def main():
     # Frequency axis for FFT plot
     xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
-    # # Figure to plot
-    # plt.figure()
-    #
-    # # Plot n random traces with their spectrum
-    # for idx, trace in enumerate(trtp):
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #
-    #     plt.clf()
-    #     plt.subplot(211)
-    #     plt.plot(t_ax, trace)
-    #     plt.title(f'Traza Shaker y espectro #{trtp_ids[idx]}')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #
-    #     plt.subplot(212)
-    #     plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.grid(True)
-    #     plt.tight_layout()
-    #     plt.savefig(f'Imgs/Shaker_{trtp_ids[idx]}')
+    # Traces to plot
+    trtp = []
 
-    # Create animation of whole data normalized
+    if rand:
+        # Init rng
+        rng = default_rng()
+
+        # Traces to plot numbers
+        trtp_ids = rng.choice(len(traces), size=n, replace=False)
+        trtp_ids.sort()
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    else:
+        trtp_ids = pre_traces
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    # Plot traces in trtp with their spectrum
+    for idx, trace in enumerate(trtp):
+        yf = sfft.fftshift(sfft.fft(trace))
+
+        gs = gridspec.GridSpec(2, 2)
+
+        pl.figure()
+        pl.subplot(gs[0, :])
+        plt.plot(np.squeeze(t_ax), trace)
+        pl.title(f'Traza {dataset} y espectro #{trtp_ids[idx]}')
+        pl.xlabel('Tiempo [s]')
+        pl.ylabel('Amplitud [-]')
+        pl.grid(True)
+
+        pl.subplot(gs[1, 0])
+        pl.plot(np.squeeze(xf), np.abs(yf) / np.max(np.abs(yf)))
+        pl.xlabel('Frecuencia [Hz]')
+        pl.ylabel('Amplitud [-]')
+        pl.grid(True)
+
+        pl.subplot(gs[1, 1])
+        pl.plot(np.squeeze(xf), np.abs(yf) / np.max(np.abs(yf)))
+        pl.xlim(-25, 25)
+        pl.xlabel('Frecuencia [Hz]')
+        pl.ylabel('Amplitud [-]')
+        pl.grid(True)
+        pl.tight_layout()
+        pl.savefig(f'Imgs/{dataset}/{trtp_ids[idx]}.png')
+
+
+def anim_data_spec(traces, fs, inter, dataset, filename, norm=False):
+    # Data len
+    N = traces.shape[1]
+
+    # Time axis for signal plot
+    t_ax = np.arange(N) / fs
+
+    # Frequency axis for FFT plot
+    xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
+
+    # Create figures for trace and spectrum animations
     fig_tr = plt.figure()
+    fig_sp = plt.figure()
+
+    # List of trace and spectrum plots
     ims_tr = []
+    ims_sp = []
 
     for trace in traces:
-        im_tr = plt.plot(t_ax, trace / np.max(np.abs(trace)))
-        plt.title('Trazas dataset DAS no sísmico Shaker')
-        plt.ylabel('Amplitud normalizada[-]')
+        # Normalize if specified
+        if norm:
+            trace = trace / np.max(np.abs(trace))
+
+        im_tr = plt.plot(t_ax, trace)
+        plt.title(f'Trazas dataset {dataset}')
+        plt.ylabel('Amplitud [-]')
         plt.xlabel('Tiempo [s]')
         plt.grid(True)
-        plt.tight_layout()
         ims_tr.append(im_tr)
 
-    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=100, blit=True, repeat=False)
-    ani_tr.save('Animations/Shaker/Shaker_traces_norm.mp4')
+    for trace in traces:
+        yf = sfft.fftshift(sfft.fft(trace))
+        im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        plt.title(f'Espectros dataset {dataset}')
+        plt.ylabel('Amplitud [-]')
+        plt.xlabel('Frecuencia [Hz]')
+        plt.grid(True)
+        ims_sp.append(im_sp)
 
-    # # Data animation
-    # fig_tr = plt.figure()
-    # ims_tr = []
-    #
-    # for trace in traces:
-    #     im_tr = plt.plot(t_ax, trace)
-    #     plt.title('Trazas dataset Shaker')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Tiempo [s]')
-    #     plt.grid(True)
-    #     ims_tr.append(im_tr)
-    #
-    # ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=50, blit=True, repeat=False)
-    # ani_tr.save('Animations/Shaker/Traces.mp4')
-    #
-    # # Spectrum animation
-    # fig_sp = plt.figure()
-    # ims_sp = []
-    #
-    # for trace in traces:
-    #     yf = sfft.fftshift(sfft.fft(trace))
-    #     im_sp = plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    #     plt.title('Espectro trazas dataset Shaker')
-    #     plt.ylabel('Amplitud [-]')
-    #     plt.xlabel('Frecuencia [Hz]')
-    #     plt.grid(True)
-    #     ims_sp.append(im_sp)
-    #
-    # ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=50, blit=True, repeat=False)
-    # ani_sp.save('Animations/Shaker/Spectrums.mp4')
+    ani_tr = animation.ArtistAnimation(fig_tr, ims_tr, interval=inter, blit=True, repeat=False)
+    ani_tr.save(f'Animations/{dataset}/{filename}_traces.mp4')
 
-
-def butter_bandpass(lowcut, highcut, fs, order=5):
-    nyq = 0.5 * fs
-    low = lowcut / nyq
-    high = highcut / nyq
-    b, a = butter(order, [low, high], btype='band', output='ba')
-    return b, a
-
-
-def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
-    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
-    y = lfilter(b, a, dat)
-    return y
-
-
-def butter_lowpass(lowcut, highcut, fs, order=5):
-    nyq = 0.5 * fs
-    low = lowcut / nyq
-    high = highcut / nyq
-    b, a = butter(order, [low, high], output='ba')
-    return b, a
-
-
-def butter_lowpasspass_filter(dat, lowcut, highcut, fs, order=5):
-    b, a = butter_lowpass(lowcut, highcut, fs, order=order)
-    y = lfilter(b, a, dat)
-    return y
+    ani_sp = animation.ArtistAnimation(fig_sp, ims_sp, interval=inter, blit=True, repeat=False)
+    ani_sp.save(f'Animations/{dataset}/{filename}_spectrums.mp4')
 
 
 if __name__ == '__main__':
