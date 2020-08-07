@@ -26,10 +26,54 @@ def main():
     rng = default_rng()
 
     # Noise
-    ns = rng.normal(0, 1, 6000)
+    ns = gen_noise(rng)
 
     # Sine waves
+    wvs1, wvs2, wvs3, wvs1_ns, wvs2_ns, wvs3_ns = gen_sin(rng)
 
+    # Padded sine waves
+    wvs_pad = gen_sinpad()
+
+    # Wavelets
+    wavelets = gen_wavelets()
+
+    # Sampling frequency
+    fs = 100
+
+    # Number of traces to plot
+    n = 4
+
+    # Plot noise
+    plt.figure()
+    plt.plot(ns)
+    plt.xlabel('Muestras [-]')
+    plt.ylabel('Amplitud [-]')
+    plt.title('Ruido blanco')
+    plt.grid(True)
+    plt.savefig(f'Imgs/Noise/noise.png')
+
+    # Plot sine waves
+    plot_traces(wvs1, fs, n, 'Sin1')
+    plot_traces(wvs2, fs, n, 'Sin2')
+    plot_traces(wvs3, fs, n, 'Sin3')
+
+    plot_traces(wvs1_ns, fs, n, 'Sin1_ns')
+    plot_traces(wvs2_ns, fs, n, 'Sin2_ns')
+    plot_traces(wvs3_ns, fs, n, 'Sin3_ns')
+
+    # Plot padded sine waves
+    plot_traces(wvs_pad, fs, n, 'Sin_pad')
+
+    # Plot wavelets
+    plot_traces(wavelets, fs, n, 'Wavelets')
+
+
+def gen_noise(rng):
+    ns = rng.normal(0, 1, 6000)
+    return ns
+
+
+def gen_sin(rng):
     # Number of sample points
     N = 6000
 
@@ -46,7 +90,7 @@ def main():
     fr1 = np.linspace(1, 50, n)
     fr2 = np.linspace(0.01, 1, n)
 
-    # Prealocate
+    # Preallocate
     wvs1 = []
     wvs2 = []
     wvs3 = []
@@ -66,13 +110,21 @@ def main():
     wvs2_ns = wvs2 + 0.5 * rng.normal(0, 1, wvs2.shape)
     wvs3_ns = wvs3 + 0.5 * rng.normal(0, 1, wvs3.shape)
 
-    # PADDED SINES
+    return wvs1, wvs2, wvs3, wvs1_ns, wvs2_ns, wvs3_ns
+
+
+def gen_sinpad():
+    # Number of sample points
+    N = 6000
+
+    # sampling frequency
+    fs = 100
 
     # Number of intermediate sample points
     ni = [1000, 2000, 4000, 5000]
 
     # Number of points to zero-pad
-    pad = [(N-n) // 2 for n in ni]
+    pad = [(N - n) // 2 for n in ni]
 
     # Time axis for smaller waves
     lts = [np.linspace(0.0, nis / fs, nis) for nis in ni]
@@ -83,16 +135,16 @@ def main():
     # Calculate max period for smaller waves
     max_periods = [n_points / fs for n_points in ni]
 
+    # Preallocate waves
+    wvs_pad = []
+
     # Calculate frequencies for smaller waves
     for per in max_periods:
         freqs = []
-        for i in range(1, int(per)+1):
+        for i in range(1, int(per) + 1):
             if per % i == 0:
-                freqs.append(1/i)
+                freqs.append(1 / i)
         all_fr.append(freqs)
-
-    # Preallocate waves
-    wvs_pad = []
 
     # Generate waves and zero pad
     for idx, fr_ls in enumerate(all_fr):
@@ -101,8 +153,10 @@ def main():
             wv = np.pad(wv, (pad[idx], pad[idx]), 'constant')
             wvs_pad.append(wv)
 
-    # Wavelets
+    return np.asarray(wvs_pad)
 
+
+def gen_wavelets():
     # Preallocate wavelets
     lets = []
 
@@ -118,179 +172,52 @@ def main():
                 psi = signal.resample(psi, 6000)
                 lets.append(psi)
 
-    # Plot Sine waveforms
+    return np.asarray(lets)
 
-    # Number of traces to plot
-    n_trtp = 4
 
-    # Traces to plot
-    trtp_sin1 = []
-    trtp_sin2 = []
-    trtp_sin3 = []
-    trtp_sin1_ns = []
-    trtp_sin2_ns = []
-    trtp_sin3_ns = []
+def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
+    # Data len
+    N = traces.shape[1]
 
-    # Traces to plot numbers
-    trtp_ids_sin1 = rng.choice(len(wvs1), size=n_trtp, replace=False)
-    trtp_ids_sin2 = rng.choice(len(wvs2), size=n_trtp, replace=False)
-    trtp_ids_sin3 = rng.choice(len(wvs3), size=n_trtp, replace=False)
-    trtp_ids_sin1_ns = rng.choice(len(wvs1_ns), size=n_trtp, replace=False)
-    trtp_ids_sin2_ns = rng.choice(len(wvs2_ns), size=n_trtp, replace=False)
-    trtp_ids_sin3_ns = rng.choice(len(wvs3_ns), size=n_trtp, replace=False)
+    # Time axis for signal plot
+    t_ax = np.arange(N) / fs
 
-    trtp_ids_sin1.sort()
-    trtp_ids_sin2.sort()
-    trtp_ids_sin3.sort()
-    trtp_ids_sin1_ns.sort()
-    trtp_ids_sin2_ns.sort()
-    trtp_ids_sin3_ns.sort()
-
-    # Retrieve selected traces
-    for idx, trace in enumerate(wvs1):
-        if idx in trtp_ids_sin1:
-            trtp_sin1.append(trace)
-
-    for idx, trace in enumerate(wvs2):
-        if idx in trtp_ids_sin2:
-            trtp_sin2.append(trace)
-
-    for idx, trace in enumerate(wvs3):
-        if idx in trtp_ids_sin3:
-            trtp_sin3.append(trace)
-
-    for idx, trace in enumerate(wvs1_ns):
-        if idx in trtp_ids_sin1_ns:
-            trtp_sin1_ns.append(trace)
-
-    for idx, trace in enumerate(wvs2_ns):
-        if idx in trtp_ids_sin2_ns:
-            trtp_sin2_ns.append(trace)
-
-    for idx, trace in enumerate(wvs3_ns):
-        if idx in trtp_ids_sin3_ns:
-            trtp_sin3_ns.append(trace)
-
-    # Figure to plot
-    plt.figure()
-
-    # Plot n random Sin 1 traces
-    for idx, trace in enumerate(trtp_sin1):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Senal sinusoides 1 #{trtp_ids_sin1[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Sin1/Sin1_{trtp_ids_sin1[idx]}')
-
-    # Plot n random Sin 2 traces
-    for idx, trace in enumerate(trtp_sin2):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Traza sinusoides 2 #{trtp_ids_sin2[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Sin2/Sin2_{trtp_ids_sin2[idx]}')
-
-    # Plot n random Sin 3 traces
-    for idx, trace in enumerate(trtp_sin3):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Traza sinusoides 3 #{trtp_ids_sin3[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Sin3/Sin3_{trtp_ids_sin3[idx]}')
-
-    # Plot n random Sin 1 + noise traces
-    for idx, trace in enumerate(trtp_sin1_ns):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Traza sinusoides 1 + noise #{trtp_ids_sin1_ns[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Sin1_ns/Sin1_ns_{trtp_ids_sin1_ns[idx]}')
-
-    # Plot n random Sin 2 + noise traces
-    for idx, trace in enumerate(trtp_sin2_ns):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Traza sinusoides 2 #{trtp_ids_sin2_ns[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Sin2_ns/Sin2_ns_{trtp_ids_sin2_ns[idx]}')
-
-    # Plot n random Sin 3 + noise traces
-    for idx, trace in enumerate(trtp_sin3_ns):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Traza sinusoides 3 + noise #{trtp_ids_sin3_ns[idx]}')
-        plt.xlabel('Tiempo [s]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Sin3_ns/Sin3_ns_{trtp_ids_sin3_ns[idx]}')
-
-    # Plot Padded Sine waveforms
+    # Frequency axis for FFT plot
+    xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
 
     # Traces to plot
-    trtp_pad = []
+    trtp = []
 
-    # Traces to plot numbers
-    trtp_ids_pad = rng.choice(len(wvs_pad), size=n_trtp, replace=False)
-    trtp_ids_pad.sort()
+    if rand:
+        # Init rng
+        rng = default_rng()
 
-    # Retrieve selected traces
-    for idx, trace in enumerate(wvs_pad):
-        if idx in trtp_ids_pad:
-            trtp_pad.append(trace)
+        # Traces to plot numbers
+        trtp_ids = rng.choice(len(traces), size=n, replace=False)
+        trtp_ids.sort()
 
-    # Plot n random Sin 1 traces
-    for idx, trace in enumerate(trtp_pad):
-        plt.clf()
-        plt.plot(t, trace)
-        plt.title(f'Traza sinusoides pad #{trtp_ids_pad[idx]}')
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    else:
+        trtp_ids = pre_traces
+
+        # Retrieve selected traces
+        for idx, trace in enumerate(traces):
+            if idx in trtp_ids:
+                trtp.append(trace)
+
+    # Plot traces in trtp with their spectrum
+    for idx, trace in enumerate(trtp):
+        plt.figure()
+        plt.plot(t_ax, trace)
+        plt.title(f'Traza {dataset} #{trtp_ids[idx]}')
         plt.xlabel('Tiempo [s]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
-        plt.savefig(f'Imgs/Sin_pad/Sin_pad_{trtp_ids_pad[idx]}')
-
-    # Plot wavelet waveforms
-
-    # Traces to plot
-    trtp_wvlets = []
-
-    # Traces to plot numbers
-    trtp_ids_wvlets = rng.choice(len(lets), size=n_trtp, replace=False)
-    trtp_ids_wvlets.sort()
-
-    # Retrieve selected traces
-    for idx, trace in enumerate(lets):
-        if idx in trtp_ids_wvlets:
-            trtp_wvlets.append(trace)
-
-    # Plot n random wavelet
-    for idx, trace in enumerate(trtp_wvlets):
-        plt.clf()
-        plt.plot(trace)
-        plt.title(f'Wavelet #{trtp_ids_pad[idx]}')
-        plt.xlabel('Muestras [-]')
-        plt.ylabel('Amplitud [-]')
-        plt.grid(True)
-        plt.savefig(f'Imgs/Wavelets/wavelet_{trtp_ids_wvlets[idx]}')
-
-    # Plot noise
-
-    plt.clf()
-    plt.plot(ns)
-    plt.xlabel('Muestras [-]')
-    plt.ylabel('Amplitud [-]')
-    plt.title('Ruido blanco')
-    plt.grid(True)
-    plt.savefig(f'Imgs/Noise/noise.png')
+        plt.savefig(f'Imgs/{dataset}/{trtp_ids[idx]}.png')
 
 
 if __name__ == "__main__":
