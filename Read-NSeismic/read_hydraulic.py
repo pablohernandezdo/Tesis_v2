@@ -116,13 +116,13 @@ def plot_traces(traces, fs, n, dataset, rand=True, pre_traces=None):
         pl.grid(True)
 
         ax = pl.subplot(gs[1, 0])
-        pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        pl.plot(np.squeeze(xf), np.abs(yf) / np.max(np.abs(yf)))
         pl.xlabel('Frecuencia [Hz]')
         pl.ylabel('Amplitud [-]')
         pl.grid(True)
 
         ax = pl.subplot(gs[1, 1])
-        pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+        pl.plot(np.squeeze(xf), np.abs(yf) / np.max(np.abs(yf)))
         pl.xlim(-25, 25)
         pl.xlabel('Frecuencia [Hz]')
         pl.ylabel('Amplitud [-]')
