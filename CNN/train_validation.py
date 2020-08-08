@@ -176,9 +176,9 @@ def main():
     plt.figure()
     line_tr, = plt.plot(tr_accuracies, label='Training accuracy')
     line_val, = plt.plot(val_accuracies, label='Validation accuracy')
+    plt.grid(True)
     plt.xlabel('Batches')
     plt.ylabel('Accuracy')
-    plt.grid()
     plt.legend(handles=[line_tr, line_val], loc='best')
     plt.savefig(f'{args.model_name}_accuracies.png')
 

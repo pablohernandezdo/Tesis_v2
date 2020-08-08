@@ -1,22 +1,20 @@
 import re
-import pywt
+import argparse
+import itertools
+from pathlib import Path
+
 import h5py
+import pywt
 import torch
 import segyio
-import argparse
 import scipy.io
-import itertools
 import numpy as np
-from numpy.random import default_rng
-
 import matplotlib.pyplot as plt
-
 from scipy import signal
+from numpy.random import default_rng
 from scipy.signal import butter, lfilter
 
 from model import *
-
-from pathlib import Path
 
 
 def main():
