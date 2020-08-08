@@ -19,7 +19,6 @@ from model import *
 
 def main():
     # Create images and animations folder
-
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
@@ -53,7 +52,6 @@ def main():
     precision = []
     fp_rate = []
     recall = []
-    err = []
 
     # Max fscore
     fscore = 0
@@ -108,16 +106,10 @@ def main():
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
         # Metrics
-
-#        try:
         pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
-        precision.append(pre)
         recall.append(rec)
         fp_rate.append(fpr)
-
-        # except:
-        #     err.append(thresh)
-        #     print("Couldn't calcualte precision or recall, not appending")
+        precision.append(pre)
 
         # Save best conf matrix
         if fscore > max_fscore:
@@ -136,14 +128,13 @@ def main():
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
 
-    # CURVA PR
+    # Precision/Recall curve
     plt.figure()
     plt.plot(recall, precision)
 
-    # Annotate
+    # Annotate threshold values
     for i, j, k in zip(recall, precision, thresholds):
-        if k not in err:
-            plt.annotate(str(k), (i, j))
+        plt.annotate(str(k), (i, j))
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -155,14 +146,13 @@ def main():
     plt.grid(True)
     plt.savefig(f'../PR_curves/PR_{args.model_name}.png')
 
-    # CURVA ROC
+    # Receiver operating characteristic curve
     plt.figure()
     plt.plot(fp_rate, recall)
 
     # Annotate
     for i, j, k in zip(fp_rate, recall, thresholds):
-        if k not in err:
-            plt.annotate(str(k), (i, j))
+        plt.annotate(str(k), (i, j))
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')

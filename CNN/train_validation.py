@@ -1,5 +1,6 @@
 import time
 import argparse
+from pathlib import Path
 
 import tqdm
 import torch
@@ -15,6 +16,9 @@ from dataset import HDF5Dataset
 
 
 def main():
+    # Create learning curves folder
+    Path("../Learning_Curves").mkdir(exist_ok=True)
+
     # Measure exec time
     start_time = time.time()
 
@@ -26,6 +30,7 @@ def main():
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
+    parser.add_argument("--eval_iter", type=int, default=20, help="Number of batches between validations")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
@@ -121,7 +126,7 @@ def main():
                     # loss_id += 1
 
                     # Check validation accuracy periodically
-                    if i % 20 == 0:
+                    if i % args.eval_iter == 0:
                         # Switch model to eval mode
                         net.eval()
 
@@ -180,7 +185,7 @@ def main():
     plt.xlabel('Batches')
     plt.ylabel('Accuracy')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'{args.model_name}_accuracies.png')
+    plt.savefig(f'../Learning_curves/{args.model_name}_accuracies.png')
 
 
 if __name__ == "__main__":
