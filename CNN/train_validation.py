@@ -17,7 +17,7 @@ from dataset import HDF5Dataset
 
 def main():
     # Create learning curves folder
-    Path("../Learning_Curves").mkdir(exist_ok=True)
+    Path("../Learning_curves").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
