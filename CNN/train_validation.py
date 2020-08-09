@@ -4,6 +4,7 @@ from pathlib import Path
 
 import tqdm
 import torch
+import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 
