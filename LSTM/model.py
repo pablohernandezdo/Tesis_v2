@@ -24,7 +24,7 @@ class CNNLSTM(nn.Module):
         self.bn3 = nn.BatchNorm1d(500)
         self.bn4 = nn.BatchNorm1d(1000)
 
-        self.lstm1 = nn.LSTM(self.input_size, self.hidden_size, self.num_layers)
+        self.lstm1 = nn.LSTM(self.input_size, 100, self.num_layers)
         self.lstm2 = nn.LSTM(100, 10, self.num_layers)
         self.sigmoid = nn.Sigmoid()
 
