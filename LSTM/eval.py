@@ -37,15 +37,16 @@ def main():
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    if args.classifier == 'CBN':
-        net = ClassConvBN()
-    elif args.classifier == 'CBN_v2':
-        net = CBN_v2()
-    elif args.classifier == 'C':
-        net = ClassConv()
-    else:
-        net = ClassConv()
-        print('Bad Classifier option, running classifier C')
+    # if args.classifier == 'CBN':
+    #     net = ClassConvBN()
+    # elif args.classifier == 'CBN_v2':
+    #     net = CBN_v2()
+    # elif args.classifier == 'C':
+    #     net = ClassConv()
+    # else:
+    #     net = ClassConv()
+    #     print('Bad Classifier option, running classifier C')
+    net = CNNLSTM()
     net.to(device)
 
     # Load parameters from trained model

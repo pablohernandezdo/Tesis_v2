@@ -11,8 +11,6 @@ class CNNLSTM(nn.Module):
         self.input_size = 1000
         self.hidden_size = 1000
         self.num_layers = 1
-        self.h0 = torch.randn(self.num_layers, self.batch_size, self.hidden_size)
-        self.c0 = torch.randn(self.num_layers, self.batch_size, self.hidden_size)
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
@@ -33,6 +31,8 @@ class CNNLSTM(nn.Module):
 
     def forward(self, wave):
         batch_size = wave.shape[0]
+        h0 = torch.randn(self.num_layers, batch_size, self.hidden_size)
+        c0 = torch.randn(self.num_layers, batch_size, self.hidden_size)
 
         wave = wave.view(-1, 1, 6000)
         wave = self.bn1(F.relu(self.conv1(wave)))
@@ -44,7 +44,7 @@ class CNNLSTM(nn.Module):
         wave = self.bn4(F.relu(self.conv4(wave)))
 
         wave = wave.view(-1, batch_size, self.input_size)
-        wave, _ = self.lstm(wave, (self.h0, self.c0))
+        wave, _ = self.lstm(wave, (h0, c0))
         wave = wave.view(batch_size, self.hidden_size, 1)
         wave = wave.squeeze()
 
