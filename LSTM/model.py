@@ -10,7 +10,7 @@ class CNNLSTM(nn.Module):
         # LSTM PARAMETERS
         self.input_size = 1000
         self.hidden_size = 1000
-        self.num_layers = 1
+        self.num_layers = 10
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
