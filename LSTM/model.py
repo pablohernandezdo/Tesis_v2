@@ -30,8 +30,8 @@ class CNNLSTM(nn.Module):
 
     def forward(self, wave):
         batch_size = wave.shape[0]
-        h0 = torch.randn(self.num_layers, batch_size, self.hidden_size).to('cuda:0')
-        c0 = torch.randn(self.num_layers, batch_size, self.hidden_size).to('cuda:0')
+        h0 = torch.randn(self.num_layers, batch_size, 100).to('cuda:0')
+        c0 = torch.randn(self.num_layers, batch_size, 100).to('cuda:0')
 
         wave = wave.view(-1, 1, 6000)
         wave = self.bn1(F.relu(self.conv1(wave)))
