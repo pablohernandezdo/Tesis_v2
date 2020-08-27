@@ -16,9 +16,7 @@ class CNNLSTM(nn.Module):
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
         self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
         self.conv4 = nn.Conv1d(500, 1000, 10)
-        self.l1 = nn.Linear(1000, 100)
-        self.l2 = nn.Linear(100, 10)
-        self.l3 = nn.Linear(10, 1)
+        self.l1 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
         self.bn1 = nn.BatchNorm1d(10)
@@ -26,7 +24,8 @@ class CNNLSTM(nn.Module):
         self.bn3 = nn.BatchNorm1d(500)
         self.bn4 = nn.BatchNorm1d(1000)
 
-        self.lstm = nn.LSTM(self.input_size, self.hidden_size, self.num_layers)
+        self.lstm1 = nn.LSTM(self.input_size, self.hidden_size, self.num_layers)
+        self.lstm2 = nn.LSTM(100, 10, self.num_layers)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -44,13 +43,12 @@ class CNNLSTM(nn.Module):
         wave = self.bn4(F.relu(self.conv4(wave)))
 
         wave = wave.view(-1, batch_size, self.input_size)
-        wave, _ = self.lstm(wave, (h0, c0))
+        wave, _ = self.lstm1(wave, (h0, c0))
+        wave, _ = self.lstm2(wave, (h0, c0))
         wave = wave.view(batch_size, self.hidden_size, 1)
         wave = wave.squeeze()
 
-        wave = F.relu(self.l1(wave))
-        wave = F.relu(self.l2(wave))
-        wave = self.l3(wave)
+        wave = self.l1(wave)
         return self.sigmoid(wave)
 
 
