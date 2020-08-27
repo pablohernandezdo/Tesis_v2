@@ -45,7 +45,7 @@ class CNNLSTM(nn.Module):
         wave = self.p2(wave)
         wave = self.bn4(F.relu(self.conv4(wave)))
 
-        wave = wave.view(-1, batch_size, 100)
+        wave = wave.view(-1, batch_size, 1000)
         wave, _ = self.lstm1(wave, (h01, c01))
         wave, _ = self.lstm2(wave, (h02, c02))
         wave = wave.view(batch_size, 10, 1)
