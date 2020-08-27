@@ -20,7 +20,7 @@ def main():
     parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=4, help="Size of the batches")
+    parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     args = parser.parse_args()
 
     print(f'Evaluation details: \n {args}\n')
