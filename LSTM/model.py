@@ -27,6 +27,7 @@ class CNNLSTMANN(nn.Module):
 
         batch_size = wave.shape[0]
 
+        wave = wave.view(-1, 1, 6000)
         wave = self.bn(F.relu(self.conv1(wave)))
         wave = self.p1(wave)
         wave = self.bn(F.relu(self.conv2(wave)))
