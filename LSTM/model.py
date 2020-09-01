@@ -14,6 +14,8 @@ class CNNLSTMANN(nn.Module):
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
 
+        self.bn = nn.BatchNorm1d(256)
+
         self.lstm = nn.LSTM(256, 256, 2, batch_first=True)
 
         self.l1 = nn.Linear(256, 100)
@@ -25,11 +27,11 @@ class CNNLSTMANN(nn.Module):
 
         batch_size = wave.shape[0]
 
-        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn(F.relu(self.conv1(wave)))
         wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.bn(F.relu(self.conv2(wave)))
         wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn(F.relu(self.conv3(wave)))
         wave = self.p2(wave)
 
         wave = wave.view(batch_size, 10, 256)
