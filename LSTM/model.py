@@ -16,7 +16,7 @@ class CNNLSTMANN(nn.Module):
 
         self.bn = nn.BatchNorm1d(256)
 
-        self.lstm = nn.LSTM(256, 256, 2, batch_first=True)
+        self.lstm = nn.LSTM(256, 256, 10, batch_first=True)
 
         self.l1 = nn.Linear(256, 100)
         self.l2 = nn.Linear(100, 1)

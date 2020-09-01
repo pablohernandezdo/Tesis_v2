@@ -22,50 +22,63 @@ def main():
 
     a = torch.zeros((batch_size, 1, 6000))
 
-    conv1 = nn.Conv1d(1, 256, 2, stride=2)
-    conv2 = nn.Conv1d(256, 256, 2, stride=2)
-    conv3 = nn.Conv1d(256, 256, 2, stride=2)
+    conv1 = nn.Conv1d(1, 256, 3, padding=1, stride=1)
+    conv2 = nn.Conv1d(256, 256, 3, padding=1, stride=2)
+    conv3 = nn.Conv1d(256, 256, 3, padding=1, stride=2)
+    conv3 = nn.Conv1d(256, 256, 3, padding=1, stride=2)
 
-    p1 = nn.AvgPool1d(3)
-    p2 = nn.AvgPool1d(5)
-
-    bn = nn.BatchNorm1d(256)
-
-    lstm = nn.LSTM(256, 256, 2, batch_first=True)
-
-    l1 = nn.Linear(256, 100)
-    l2 = nn.Linear(100, 1)
-
-    sigmoid = nn.Sigmoid()
+    pool1 = nn.MaxPool1d(3)
 
     out_c1 = conv1(a)
-    out_p1 = p1(out_c1)
-    out_c2 = conv2(out_p1)
-    out_p2 = p2(out_c2)
-    out_c3 = conv3(out_p2)
-    out_p3 = p2(out_c3)
+    out_c2 = conv2(out_c1)
+    out_p1 = pool1(out_c2)
 
-    out_view = out_p3.view(batch_size, 10, 256)
+    out_c3 = conv3(out_p1)
 
-    out_lstm1, (out_lstm2, out_lstm3) = lstm(out_view)
+    # conv3 = nn.Conv1d(256, 256, 2, stride=2)
 
-    wanted = out_lstm1[:, -1, :]
+    # p1 = nn.AvgPool1d(3)
+    # p2 = nn.AvgPool1d(5)
+
+    # bn = nn.BatchNorm1d(256)
+
+    # lstm = nn.LSTM(256, 256, 2, batch_first=True)
+
+    # l1 = nn.Linear(256, 100)
+    # l2 = nn.Linear(100, 1)
+
+    # sigmoid = nn.Sigmoid()
+
+    # out_c1 = conv1(a)
+    # out_p1 = p1(out_c1)
+    # out_c2 = conv2(out_p1)
+    # out_p2 = p2(out_c2)
+    # out_c3 = conv3(out_p2)
+    # out_p3 = p2(out_c3)
+    #
+    # out_view = out_p3.view(batch_size, 10, 256)
+    #
+    # out_lstm1, (out_lstm2, out_lstm3) = lstm(out_view)
+    #
+    # wanted = out_lstm1[:, -1, :]
 
     # out_c4 = out_c4.view(1000, batch_size, 1)
     # out_lstm, _ = lstm(out_c4)
 
     print(f'shape data: {a.shape}\n'
           f'out_c1: {out_c1.shape}\n'
-          f'out_p1: {out_p1.shape}\n'
           f'out_c2: {out_c2.shape}\n'
-          f'out_p2: {out_p2.shape}\n'
-          f'out_c3: {out_c3.shape}\n'
-          f'out_p3: {out_p3.shape}\n'
-          f'out_view: {out_view.shape}\n'
-          f'out_lstm1: {out_lstm1.shape}\n'
-          f'out_lstm2: {out_lstm2.shape}\n'
-          f'out_lstm3: {out_lstm3.shape}\n'
-          f'wanted: {wanted.shape}')
+          f'out_p1: {out_p1.shape}\n'
+          f'out_c3: {out_c3.shape}\n')
+    #       f'out_c2: {out_c2.shape}\n'
+    #       f'out_p2: {out_p2.shape}\n'
+    #       f'out_c3: {out_c3.shape}\n'
+    #       f'out_p3: {out_p3.shape}\n'
+    #       f'out_view: {out_view.shape}\n'
+    #       f'out_lstm1: {out_lstm1.shape}\n'
+    #       f'out_lstm2: {out_lstm2.shape}\n'
+    #       f'out_lstm3: {out_lstm3.shape}\n'
+    #       f'wanted: {wanted.shape}')
           # f'out_c4: {out_c4.shape}\n')
           # f'out_lstm: {out_lstm.shape}')
 
