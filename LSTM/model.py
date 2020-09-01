@@ -35,7 +35,7 @@ class CNNLSTMANN(nn.Module):
         wave = self.bn(F.relu(self.conv3(wave)))
         wave = self.p2(wave)
 
-        wave = wave.view(batch_size, 10, 256)
+        # wave = wave.view(batch_size, 10, 256)
 
         wave, _ = self.lstm(wave)
 
