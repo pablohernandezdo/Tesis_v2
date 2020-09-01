@@ -3,6 +3,7 @@ import argparse
 
 import tqdm
 import torch
+import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
@@ -51,7 +52,7 @@ def main():
     # else:
     #     net = ClassConv()
     #     print('Bad Classifier option, running classifier C')
-    net = CNNLSTM()
+    net = CNNLSTMANN()
     net.to(device)
 
     # Add model graph to tensorboard

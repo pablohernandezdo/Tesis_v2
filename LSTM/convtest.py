@@ -19,9 +19,8 @@ def count_parameters(model):
 def main():
 
     batch_size = 32
-    input_size = 1000
-    hidden_size = 10
-    num_layers = 1
+
+    a = torch.zeros((batch_size, 1, 6000))
 
     conv1 = nn.Conv1d(1, 10, 2, stride=2)
     conv2 = nn.Conv1d(10, 100, 2, stride=2)
@@ -32,13 +31,8 @@ def main():
     l3 = nn.Linear(10, 1)
     p1 = nn.AvgPool1d(3)
     p2 = nn.AvgPool1d(5)
-    lstm = nn.LSTM(input_size, hidden_size, num_layers)
 
-    a = torch.zeros((batch_size, 1, 6000))
-    a = a.view(-1, 1, 6000)
-
-    h0 = torch.randn(num_layers, batch_size, hidden_size)
-    c0 = torch.randn(num_layers, batch_size, hidden_size)
+    lstm = nn.LSTM(1000, 100, 2)
 
     out_c1 = conv1(a)
     out_p1 = p1(out_c1)
@@ -47,8 +41,9 @@ def main():
     out_c3 = conv3(out_p2)
     out_p3 = p2(out_c3)
     out_c4 = conv4(out_p3)
-    out_c4 = out_c4.view(-1, batch_size, input_size)
-    out_lstm, _ = lstm(out_c4, (h0, c0))
+
+    # out_c4 = out_c4.view(1000, batch_size, 1)
+    # out_lstm, _ = lstm(out_c4)
 
     print(f'shape data: {a.shape}\n'
           f'out_c1: {out_c1.shape}\n'
@@ -57,8 +52,8 @@ def main():
           f'out_p2: {out_p2.shape}\n'
           f'out_c3: {out_c3.shape}\n'
           f'out_p3: {out_p3.shape}\n'
-          f'out_c4: {out_c4.shape}\n'
-          f'out_lstm: {out_lstm.shape}')
+          f'out_c4: {out_c4.shape}\n')
+          # f'out_lstm: {out_lstm.shape}')
 
     # train_dataset = HDF5Dataset('/home/ph/PycharmProjects/STEAD_ANN/MiniTrain.hdf5')
     # train_dataset = HDF5Dataset('../../PycharmProjects/STEAD_ANN/Train_data.hdf5')

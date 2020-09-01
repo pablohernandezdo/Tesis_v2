@@ -3,6 +3,48 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+class CNNLSTMANN(nn.Module):
+    def __init__(self):
+        super(CNNLSTMANN, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 256, 2, stride=2)
+        self.conv2 = nn.Conv1d(256, 256, 2, stride=2)
+        self.conv3 = nn.Conv1d(256, 256, 2, stride=2)
+
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+
+        self.lstm = nn.LSTM(256, 256, 2, batch_first=True)
+
+        self.l1 = nn.Linear(256, 100)
+        self.l2 = nn.Linear(100, 1)
+
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+
+        batch_size = wave.shape[0]
+
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+
+        wave = wave.view(batch_size, 10, 256)
+
+        _, (wave, _) = self.lstm1(wave)
+
+        wave = wave.view(batch_size, 256, 1)
+        wave = wave.squeeze()
+
+        wave = self.l1(wave)
+        wave = self.l2(wave)
+
+        return self.sigmoid(wave)
+
+
 class CNNLSTM(nn.Module):
     def __init__(self):
         super(CNNLSTM, self).__init__()
@@ -16,7 +58,9 @@ class CNNLSTM(nn.Module):
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
         self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
         self.conv4 = nn.Conv1d(500, 1000, 10)
-        self.l1 = nn.Linear(10, 1)
+        self.l1 = nn.Linear(1000, 100)
+        self.l2 = nn.Linear(100, 10)
+        self.l3 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
         self.bn1 = nn.BatchNorm1d(10)
@@ -24,17 +68,11 @@ class CNNLSTM(nn.Module):
         self.bn3 = nn.BatchNorm1d(500)
         self.bn4 = nn.BatchNorm1d(1000)
 
-        self.lstm1 = nn.LSTM(self.input_size, 100, self.num_layers)
-        self.lstm2 = nn.LSTM(100, 10, self.num_layers)
+        self.lstm = nn.LSTM(1000, 1000, 10)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
         batch_size = wave.shape[0]
-        h01 = torch.randn(self.num_layers, batch_size, 100).to('cuda:0')
-        c01 = torch.randn(self.num_layers, batch_size, 100).to('cuda:0')
-
-        h02 = torch.randn(self.num_layers, batch_size, 10).to('cuda:0')
-        c02 = torch.randn(self.num_layers, batch_size, 10).to('cuda:0')
 
         wave = wave.view(-1, 1, 6000)
         wave = self.bn1(F.relu(self.conv1(wave)))
@@ -45,13 +83,11 @@ class CNNLSTM(nn.Module):
         wave = self.p2(wave)
         wave = self.bn4(F.relu(self.conv4(wave)))
 
-        wave = wave.view(-1, batch_size, 1000)
-        wave, _ = self.lstm1(wave, (h01, c01))
-        wave, _ = self.lstm2(wave, (h02, c02))
-        wave = wave.view(batch_size, 10, 1)
-        wave = wave.squeeze()
+        wave, _ = self.lstm1(wave)
+        # wave = wave.view(batch_size, -1, 1)
+        # wave = wave.squeeze()
 
-        wave = self.l1(wave)
+        wave = self.l1(wave[:, -1, :, :])
         return self.sigmoid(wave)
 
 
