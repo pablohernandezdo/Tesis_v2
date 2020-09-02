@@ -10,14 +10,14 @@ class CNNLSTMANN(nn.Module):
         self.conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(32, 64, 3, padding=1, stride=1)
-        self.conv3 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
+        self.conv4 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
 
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
 
         self.bn1 = nn.BatchNorm1d(16)
         self.bn2 = nn.BatchNorm1d(32)
-        self.bn3 = nn.BatchNorm1d(65)
+        self.bn3 = nn.BatchNorm1d(64)
         self.bn4 = nn.BatchNorm1d(128)
 
         self.lstm = nn.LSTM(128, 128, 10, batch_first=True)
