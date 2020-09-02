@@ -7,45 +7,61 @@ class CNNLSTMANN(nn.Module):
     def __init__(self):
         super(CNNLSTMANN, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 256, 2, stride=2)
-        self.conv2 = nn.Conv1d(256, 256, 2, stride=2)
-        self.conv3 = nn.Conv1d(256, 256, 2, stride=2)
+        self.conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(32, 64, 3, padding=1, stride=1)
+        self.conv3 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
 
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
 
-        self.bn = nn.BatchNorm1d(256)
+        self.bn1 = nn.BatchNorm1d(16)
+        self.bn2 = nn.BatchNorm1d(32)
+        self.bn3 = nn.BatchNorm1d(65)
+        self.bn4 = nn.BatchNorm1d(128)
 
-        self.lstm = nn.LSTM(256, 256, 10, batch_first=True)
+        self.lstm = nn.LSTM(128, 128, 10, batch_first=True)
 
-        self.l1 = nn.Linear(256, 100)
-        self.l2 = nn.Linear(100, 1)
+        self.l1 = nn.Linear(128, 64)
+        self.l2 = nn.Linear(64, 1)
 
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
 
         batch_size = wave.shape[0]
+        wave = wave.view(batch_size, 1, 60, 100)
 
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn(self.conv1(wave))
-        wave = self.p1(wave)
-        wave = self.bn(self.conv2(wave))
-        wave = self.p2(wave)
-        wave = self.bn(self.conv3(wave))
-        wave = self.p2(wave)
+        # Pasar cada una por una CNN pequeña
+        out_convs = []
 
-        wave = wave.view(batch_size, 10, 256)
+        for i in range(100):
+            trozo = wave[:, :, :, i]
+            trozo = self.bn1(F.relu(self.conv1(trozo)))
+            trozo = self.bn2(F.relu(self.conv2(trozo)))
+            trozo = self.p1(trozo)
+            trozo = self.bn3(F.relu(self.conv3(trozo)))
+            trozo = self.bn4(F.relu(self.conv4(trozo)))
+            trozo = self.p2(trozo)
+            out_convs.append(trozo)
 
-        wave, _ = self.lstm(wave)
+        # Concatenar las salidas
+        out_convs = torch.cat(out_convs, dim=2)
 
-        wave = wave[:, -1, :]
-        wave = wave.squeeze()
+        # Cambiar la forma para pasar por lstm
+        out_convs = out_convs.view(batch_size, 100, 128)
 
-        wave = self.l1(wave)
-        wave = self.l2(wave)
+        # Pasar por lstm
+        out_lstm, _ = self.lstm(out_convs)
 
-        return self.sigmoid(wave)
+        # Ultimo estado
+        out_lstm = out_lstm[:, -1, :]
+        out_lstm = out_lstm.squeeze()
+
+        out_l1 = self.l1(out_lstm)
+        out_l2 = self.l2(out_l1)
+
+        return self.sigmoid(out_l2)
 
 
 class CNNLSTM(nn.Module):
