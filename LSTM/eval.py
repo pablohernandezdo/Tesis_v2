@@ -84,9 +84,10 @@ def main():
                 train_bar.update(1)
 
     # Evaluation metrics
-    precision = tp / (tp + fp)
-    recall = tp / (tp + fn)
-    f_score = 2 * (precision * recall) / (precision + recall)
+
+    # precision = tp / (tp + fp)
+    # recall = tp / (tp + fn)
+    # f_score = 2 * (precision * recall) / (precision + recall)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
@@ -97,10 +98,10 @@ def main():
           f'False positives: {fp}\n'
           f'True negatives: {tn}\n'
           f'False negatives: {fn}\n\n'
-          f'Evaluation metrics:\n\n'          
-          f'Precision: {precision:5.3f}\n'
-          f'Recall: {recall:5.3f}\n'
-          f'F-score: {f_score:5.3f}\n')
+          f'Evaluation metrics:\n\n')
+          # f'Precision: {precision:5.3f}\n'
+          # f'Recall: {recall:5.3f}\n'
+          # f'F-score: {f_score:5.3f}\n')
 
     print('Accuracy of the network on the train set: %d %%\n' % (100 * correct / total))
 
