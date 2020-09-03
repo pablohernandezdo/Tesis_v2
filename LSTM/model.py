@@ -7,23 +7,23 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
 
-            self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
-            self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
-            self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
-            self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
 
-            self.p1 = nn.MaxPool1d(3)
-            self.p2 = nn.MaxPool1d(5)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
 
-            self.bn1 = nn.BatchNorm1d(10)
-            self.bn2 = nn.BatchNorm1d(50)
-            self.bn3 = nn.BatchNorm1d(100)
-            self.bn4 = nn.BatchNorm1d(200)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
 
-            self.l1 = nn.Linear(200, 100)
-            self.l2 = nn.Linear(100, 1)
+        self.l1 = nn.Linear(200, 100)
+        self.l2 = nn.Linear(100, 1)
 
-            self.sigmoid = nn.Sigmoid()
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
         wave = wave.view(-1, 1, 6000)
