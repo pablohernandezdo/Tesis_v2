@@ -106,7 +106,7 @@ class CNNLSTMANN(nn.Module):
         out_convs = torch.cat(out_convs, dim=2)
 
         # Cambiar la forma para pasar por lstm
-        out_convs = out_convs.view(batch_size, 100, 128)
+        out_convs = out_convs.view(batch_size, 60, 128)
 
         # Pasar por lstm
         out_lstm, _ = self.lstm(out_convs)
