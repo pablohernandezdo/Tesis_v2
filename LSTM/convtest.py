@@ -18,13 +18,45 @@ def count_parameters(model):
 
 def main():
 
+    conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
+    conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)
+    conv3 = nn.Conv1d(32, 64, 3, padding=1, stride=1)
+    conv4 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
+
+    p1 = nn.MaxPool1d(3)
+    p2 = nn.MaxPool1d(5)
+
+    bn1 = nn.BatchNorm1d(16)
+    bn2 = nn.BatchNorm1d(32)
+    bn3 = nn.BatchNorm1d(64)
+    bn4 = nn.BatchNorm1d(128)
+
     a = torch.arange(1, 6001)
+    a = a.float()
     a = a.repeat(32, 1)
     a = a.unsqueeze(1)
     a = a.view(32, 1, 60, 100)
 
-    print(a[0, 0, 0, :].shape)
-    print(a[0, :, 1, :])
+    # print(a[0, 0, 0, :])
+    # print(a[0, :, 1, :])
+
+    out_convs = []
+
+    for i in range(60):
+        trozo = a[:, :, i, :]
+        trozo = bn1(F.relu(conv1(trozo)))
+        trozo = bn2(F.relu(conv2(trozo)))
+        trozo = p1(trozo)
+        trozo = bn3(F.relu(conv3(trozo)))
+        trozo = bn4(F.relu(conv4(trozo)))
+        trozo = p2(trozo)
+        out_convs.append(trozo)
+
+    # Concatenar las salidas
+    out_convs = torch.cat(out_convs, dim=2)
+
+    out_convs = out_convs.permute(0, 2, 1)
+    print(out_convs.shape)
 
     # conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
     # conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
