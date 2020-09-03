@@ -80,7 +80,7 @@ class CNNLSTMANN(nn.Module):
         self.lstm = nn.LSTM(256, 256, 5, batch_first=True)
 
         self.l1 = nn.Linear(256, 128)
-        self.l2 = nn.Linear(64, 32)
+        self.l2 = nn.Linear(128, 32)
         self.l3 = nn.Linear(32, 1)
 
         self.sigmoid = nn.Sigmoid()
