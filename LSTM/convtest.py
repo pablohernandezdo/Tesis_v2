@@ -18,16 +18,50 @@ def count_parameters(model):
 
 def main():
 
-    batch_size = 32
-
     a = torch.arange(1, 6001)
     a = a.repeat(32, 1)
     a = a.unsqueeze(1)
-    a = a.view(32, 100, 60)
+    a = a.view(32, 1, 60, 100)
 
-    #a = a.view((batch_size, 1, 60, 100))
+    print(a[0, 0, 0, :].shape)
+    print(a[0, :, 1, :])
 
-    print(a)
+    # conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+    # conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+    # conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+    # conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+    #
+    # p1 = nn.MaxPool1d(3)
+    # p2 = nn.MaxPool1d(5)
+    #
+    # batch_size = 32
+    #
+    # a = torch.arange(1, 6001, dtype=torch.float)
+    # a = a.repeat(32, 1)
+    # a = a.unsqueeze(1)
+    # a = a.view(32, 100, 60)
+    # a = a.view(32, 100, 1, 60)
+    #
+    # batch_size, timesteps, C, L = a.size()
+    # c_in = a.view(batch_size * timesteps, C, L)
+    #
+    # c_out1 = conv1(c_in)
+    # c_out2 = conv2(c_out1)
+    # p_out1 = p1(c_out2)
+    # c_out3 = conv3(p_out1)
+    # c_out4 = conv4(c_out3)
+    # p_out2 = p2(c_out4)
+    # out_sq = p_out2.squeeze()
+    #
+    #
+    # print(f'a: {a.shape}')
+    # print(f'c_in: {c_in.shape}')
+    # print(f'c_out1: {c_out1.shape}')
+    # print(f'c_out2: {c_out2.shape}')
+    # print(f'p_out1: {p_out1.shape}')
+    # print(f'c_out3: {c_out3.shape}')
+    # print(f'c_out4: {c_out4.shape}')
+    # print(f'p_out2: {p_out2.shape}')
 
     # conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
     # conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)

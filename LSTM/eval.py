@@ -46,7 +46,7 @@ def main():
     # else:
     #     net = ClassConv()
     #     print('Bad Classifier option, running classifier C')
-    net = Combine()
+    net = CNNLSTMANN()
     net.to(device)
 
     # Load parameters from trained model
