@@ -64,23 +64,24 @@ class CNNLSTMANN(nn.Module):
     def __init__(self):
         super(CNNLSTMANN, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(32, 64, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
+        self.conv1 = nn.Conv1d(1, 64, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(64, 64, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(64, 128, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(128, 256, 3, padding=1, stride=2)
 
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
 
-        self.bn1 = nn.BatchNorm1d(16)
-        self.bn2 = nn.BatchNorm1d(32)
-        self.bn3 = nn.BatchNorm1d(64)
-        self.bn4 = nn.BatchNorm1d(128)
+        self.bn1 = nn.BatchNorm1d(64)
+        self.bn2 = nn.BatchNorm1d(64)
+        self.bn3 = nn.BatchNorm1d(128)
+        self.bn4 = nn.BatchNorm1d(256)
 
-        self.lstm = nn.LSTM(128, 128, 10, batch_first=True)
+        self.lstm = nn.LSTM(256, 256, 5, batch_first=True)
 
-        self.l1 = nn.Linear(128, 64)
-        self.l2 = nn.Linear(64, 1)
+        self.l1 = nn.Linear(256, 128)
+        self.l2 = nn.Linear(64, 32)
+        self.l3 = nn.Linear(32, 1)
 
         self.sigmoid = nn.Sigmoid()
 
@@ -117,8 +118,9 @@ class CNNLSTMANN(nn.Module):
 
         out_l1 = self.l1(out_lstm)
         out_l2 = self.l2(out_l1)
+        out_l3 = self.l3(out_l2)
 
-        return self.sigmoid(out_l2)
+        return self.sigmoid(out_l3)
 
 
 class CNNLSTM(nn.Module):

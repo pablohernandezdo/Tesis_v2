@@ -10,7 +10,7 @@ trn="Train_data.hdf5"
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier C --model_name LSTM_1epch \
-              --n_epochs 1 --batch_size 32 --lr 1e-6  > ../logs/LSTM/train/LSTM_1epch.txt
+              --n_epochs 1 --batch_size 16 --lr 1e-5  > ../logs/LSTM/train/LSTM_1epch.txt
 
 # Evaluate CBN on train and test datasets
 echo "Evaluating CBN model on $trn and $tst datasets"
