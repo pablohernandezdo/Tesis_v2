@@ -92,7 +92,7 @@ class CNNLSTMANN(nn.Module):
         # Pasar cada una por una CNN pequeña
         out_convs = []
 
-        for i in range(100):
+        for i in range(60):
             trozo = wave[:, :, i, :]
             trozo = self.bn1(F.relu(self.conv1(trozo)))
             trozo = self.bn2(F.relu(self.conv2(trozo)))
