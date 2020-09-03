@@ -20,57 +20,63 @@ def main():
 
     batch_size = 32
 
-    a = torch.zeros((batch_size, 6000))
-    a = a.view((batch_size, 1, 60, 100))
+    a = torch.arange(1, 6001)
+    a = a.repeat(32, 1)
+    a = a.unsqueeze(1)
+    a = a.view(32, 100, 60)
 
-    conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
-    conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)
-    conv3 = nn.Conv1d(32, 64, 3, padding=1, stride=1)
-    conv4 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
+    #a = a.view((batch_size, 1, 60, 100))
 
-    p1 = nn.MaxPool1d(3)
-    p2 = nn.MaxPool1d(5)
+    print(a)
 
-    bn1 = nn.BatchNorm1d(16)
-    bn2 = nn.BatchNorm1d(32)
-    bn3 = nn.BatchNorm1d(64)
-    bn4 = nn.BatchNorm1d(128)
-
-    lstm = nn.LSTM(128, 128, 10, batch_first=True)
-
-    l1 = nn.Linear(128, 64)
-    l2 = nn.Linear(64, 1)
-
-    sigmoid = nn.Sigmoid()
-
-    # Pasar cada una por una CNN pequeña
-    out_convs = []
-
-    for i in range(100):
-        trozo = a[:, :, :, i]
-        trozo = bn1(F.relu(conv1(trozo)))
-        trozo = bn2(F.relu(conv2(trozo)))
-        trozo = p1(trozo)
-        trozo = bn3(F.relu(conv3(trozo)))
-        trozo = bn4(F.relu(conv4(trozo)))
-        trozo = p2(trozo)
-        out_convs.append(trozo)
-
-    # Concatenar las salidas
-    out_convs = torch.cat(out_convs, dim=2)
-    out_convs = out_convs.view(batch_size, 100, 128)
-
-    out_lstm, _ = lstm(out_convs)
-
-        out_lstm = out_lstm[:, -1, :]
-        out_lstm = out_lstm.squeeze()
-
-        out_l1 = l1(out_lstm)
-        out_l2 = l2(out_l1)
-
-    out = sigmoid(out_l2)
-
-    print(f'out: {out.shape}')
+    # conv1 = nn.Conv1d(1, 16, 3, padding=1, stride=1)
+    # conv2 = nn.Conv1d(16, 32, 3, padding=1, stride=2)
+    # conv3 = nn.Conv1d(32, 64, 3, padding=1, stride=1)
+    # conv4 = nn.Conv1d(64, 128, 3, padding=1, stride=2)
+    #
+    # p1 = nn.MaxPool1d(3)
+    # p2 = nn.MaxPool1d(5)
+    #
+    # bn1 = nn.BatchNorm1d(16)
+    # bn2 = nn.BatchNorm1d(32)
+    # bn3 = nn.BatchNorm1d(64)
+    # bn4 = nn.BatchNorm1d(128)
+    #
+    # lstm = nn.LSTM(128, 128, 10, batch_first=True)
+    #
+    # l1 = nn.Linear(128, 64)
+    # l2 = nn.Linear(64, 1)
+    #
+    # sigmoid = nn.Sigmoid()
+    #
+    # # Pasar cada una por una CNN pequeña
+    # out_convs = []
+    #
+    # for i in range(100):
+    #     trozo = a[:, :, :, i]
+    #     trozo = bn1(F.relu(conv1(trozo)))
+    #     trozo = bn2(F.relu(conv2(trozo)))
+    #     trozo = p1(trozo)
+    #     trozo = bn3(F.relu(conv3(trozo)))
+    #     trozo = bn4(F.relu(conv4(trozo)))
+    #     trozo = p2(trozo)
+    #     out_convs.append(trozo)
+    #
+    # # Concatenar las salidas
+    # out_convs = torch.cat(out_convs, dim=2)
+    # out_convs = out_convs.view(batch_size, 100, 128)
+    #
+    # out_lstm, _ = lstm(out_convs)
+    #
+    #     out_lstm = out_lstm[:, -1, :]
+    #     out_lstm = out_lstm.squeeze()
+    #
+    #     out_l1 = l1(out_lstm)
+    #     out_l2 = l2(out_l1)
+    #
+    # out = sigmoid(out_l2)
+    #
+    # print(f'out: {out.shape}')
 
     # conv1 = nn.Conv1d(1, 256, 3, padding=1, stride=1)
     # conv2 = nn.Conv1d(256, 256, 3, padding=1, stride=2)

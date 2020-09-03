@@ -3,6 +3,63 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+class CNN(nn.Module):
+    def __init__(self):
+        super(CNN, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+
+        self.l1 = nn.Linear(200, 100)
+        self.l2 = nn.Linear(100, 1)
+
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Combine(nn.Module):
+    def __init__(self):
+        super(Combine, self).__init__()
+
+        self.cnn = CNN()
+        self.lstm = nn.LSTM(320, 64, 1, batch_first=True)
+        self.l1 = nn.Linear(64, 1)
+
+    def forward(self, wave):
+        batch_size = wave.shape[0]
+        wave = wave.view(batch_size, 100, 1, 60)
+        batch_size, timesteps, C, L = wave.size()
+        c_in = wave.view(batch_size * timesteps, C, L)
+        c_out = self.cnn(c_in)
+        r_in = c_out.view(batch_size, timesteps, -1)
+        r_out, (h_n, h_c) = self.lstm(r_in)
+        r_out2 = self.l1(r_out[:, -1, :])
+
+        return F.sigmoid(r_out2)
+
+
 class CNNLSTMANN(nn.Module):
     def __init__(self):
         super(CNNLSTMANN, self).__init__()

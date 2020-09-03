@@ -52,7 +52,7 @@ def main():
     # else:
     #     net = ClassConv()
     #     print('Bad Classifier option, running classifier C')
-    net = CNNLSTMANN()
+    net = Combine()
     net.to(device)
 
     # Add model graph to tensorboard
