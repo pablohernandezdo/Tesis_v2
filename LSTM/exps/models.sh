@@ -6,6 +6,7 @@ mkdir -p ../models/
 
 trn="Train_data.hdf5"
 
+
 # Train CBN for 1 epoch
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
