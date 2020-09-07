@@ -55,15 +55,16 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    if args.classifier == 'CBN':
-        net = ClassConvBN()
-    elif args.classifier == 'CBN_v2':
-        net = CBN_v2()
-    elif args.classifier == 'C':
-        net = ClassConv()
-    else:
-        net = ClassConv()
-        print('Bad Classifier option, running classifier C')
+    # if args.classifier == 'CBN':
+    #     net = ClassConvBN()
+    # elif args.classifier == 'CBN_v2':
+    #     net = CBN_v2()
+    # elif args.classifier == 'C':
+    #     net = ClassConv()
+    # else:
+    #     net = ClassConv()
+    #     print('Bad Classifier option, running classifier C')
+    net = CNNLSTMANN()
     net.to(device)
 
     # Add model graph to tensorboard
