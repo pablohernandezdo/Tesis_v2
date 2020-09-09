@@ -24,7 +24,7 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='Default_model', help="Name of model to save")
-    parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
+    parser.add_argument("--classifier", default='LSTM', help="Choose classifier architecture")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
