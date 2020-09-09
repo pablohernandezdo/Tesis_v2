@@ -53,7 +53,7 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = [0.99]
+    thresholds = [0.995]
     # thresholds = np.arange(0.9, 1, 0.02)
     # thresholds = np.arange(0.4, 1, 0.05)
     # thresholds = np.arange(0.1, 1, 0.1)
