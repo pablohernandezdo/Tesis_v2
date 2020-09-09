@@ -53,7 +53,7 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = [0.99, 0.995]
+    thresholds = [0.995]
     # thresholds = np.arange(0.9, 1, 0.02)
     # thresholds = np.arange(0.4, 1, 0.05)
     # thresholds = np.arange(0.1, 1, 0.1)
@@ -63,7 +63,7 @@ def main():
     # thresholds = np.linspace(0.5, 0.7, 11)
 
     # Round threshold values
-    thresholds = np.around(thresholds, decimals=2)
+    thresholds = np.around(thresholds, decimals=3)
 
     # For different threshold values
     for thresh in thresholds:
