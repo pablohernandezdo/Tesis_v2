@@ -25,24 +25,15 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
-    parser.add_argument("--classifier", default='CBN', help="Choose classifier architecture, C, CBN")
+    parser.add_argument("--model_name", default='LSTM_1epch', help="Classifier model path")
+    parser.add_argument("--classifier", default='LSTM', help="Choose classifier architecture")
     args = parser.parse_args()
 
     # Select training device
     device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
-    # if args.classifier == 'CBN':
-    #     net = ClassConvBN()
-    # elif args.classifier == 'CBN_v2':
-    #     net = CBN_v2()
-    # elif args.classifier == 'C':
-    #     net = ClassConv()
-    # else:
-    #     net = ClassConv()
-    #     print('Bad Classifier option, running classifier C')
-    net = CNNLSTMANN()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
@@ -62,7 +53,8 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = np.arange(0.9, 1, 0.02)
+    thresholds = [0.99, 0.995]
+    # thresholds = np.arange(0.9, 1, 0.02)
     # thresholds = np.arange(0.4, 1, 0.05)
     # thresholds = np.arange(0.1, 1, 0.1)
     # thresholds = np.linspace(0.05, 0.9, 18)
@@ -1433,6 +1425,13 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='
     plt.ylabel('True label')
     plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
     plt.savefig(filename)
+
+
+def get_classifier(x):
+    return {
+        'LSTM': CNNLSTMANN(),
+        'LSTM_v2': CNNLSTMANN_v2(),
+    }.get(x, CNNLSTMANN())
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):

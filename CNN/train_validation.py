@@ -7,10 +7,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
-from torch.utils.tensorboard import SummaryWriter
 
 from model import *
 from dataset import HDF5Dataset
@@ -38,13 +36,8 @@ def main():
     parser.add_argument("--b2", type=float, default=0.99, help="adam: decay of first order momentum of gradient")
     args = parser.parse_args()
 
-    print(f'Execution details: \n {args}')
-
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-    # Start tensorboard SummaryWriter
-    tb = SummaryWriter('../runs/Seismic')
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
@@ -55,28 +48,15 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    if args.classifier == 'CBN':
-        net = ClassConvBN()
-    elif args.classifier == 'CBN_v2':
-        net = CBN_v2()
-    elif args.classifier == 'C':
-        net = ClassConv()
-    else:
-        net = ClassConv()
-        print('Bad Classifier option, running classifier C')
+    net = get_classifier(args.classifier)
     net.to(device)
 
-    # Add model graph to tensorboard
-    # images, labels = next(iter(train_loader))
-    # images, labels = images.to(device), labels.to(device)
-    # tb.add_graph(net, images)
+    # Count number of parameters
+    nparams = count_parameters(net)
 
     # Loss function and optimizer
     criterion = nn.BCELoss()
     optimizer = optim.Adam(net.parameters(), lr=args.lr, betas=(args.b1, args.b2), weight_decay=args.wd)
-
-    # Loss id for tensorboard logs
-    # loss_id = 0
 
     # Training and validation errors
     tr_accuracies = []
@@ -157,16 +137,11 @@ def main():
                     tr_accuracies.append(train_acc)
                     val_accuracies.append(val_acc)
 
-                    # tb.add_scalar('Loss', loss.item(), loss_id)
                     # Update batch bar
                     batch_bar.update()
 
-                # tb.add_scalar('Total_Loss', total_loss, epoch)
                 # Update epochs bar
                 epoch_bar.update()
-
-    # Close tensorboard
-    tb.close()
 
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
@@ -177,8 +152,6 @@ def main():
     # Training time
     tr_t = end_tm - start_time
 
-    print(f'Training time: {format_timespan(tr_t)}')
-
     plt.figure()
     line_tr, = plt.plot(tr_accuracies, label='Training accuracy')
     line_val, = plt.plot(val_accuracies, label='Validation accuracy')
@@ -187,6 +160,22 @@ def main():
     plt.ylabel('Accuracy')
     plt.legend(handles=[line_tr, line_val], loc='best')
     plt.savefig(f'../Learning_curves/{args.model_name}_accuracies.png')
+
+    print(f'Execution details: \n{args}\n'
+          f'Number of parameters: {nparams}\n'
+          f'Training time: {format_timespan(tr_t)}')
+
+
+def get_classifier(x):
+    return {
+        'C': ClassConv(),
+        'CBN': ClassConvBN(),
+        'CBN_v2': CBN_v2(),
+    }.get(x, ClassConv())
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":

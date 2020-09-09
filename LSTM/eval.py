@@ -17,13 +17,11 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='Default_model', help="Name of model to eval")
-    parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
+    parser.add_argument("--classifier", default='LSTM', help="Choose classifier architecture")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     args = parser.parse_args()
-
-    print(f'Evaluation details: \n {args}\n')
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -37,21 +35,15 @@ def main():
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    # if args.classifier == 'CBN':
-    #     net = ClassConvBN()
-    # elif args.classifier == 'CBN_v2':
-    #     net = CBN_v2()
-    # elif args.classifier == 'C':
-    #     net = ClassConv()
-    # else:
-    #     net = ClassConv()
-    #     print('Bad Classifier option, running classifier C')
-    net = CNNLSTMANN()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
     net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
     net.eval()
+
+    # Count number of parameters
+    nparams = count_parameters(net)
 
     # Evaluate model on training dataset
 
@@ -85,9 +77,9 @@ def main():
 
     # Evaluation metrics
 
-    # precision = tp / (tp + fp)
-    # recall = tp / (tp + fn)
-    # f_score = 2 * (precision * recall) / (precision + recall)
+    precision = tp / (tp + fp)
+    recall = tp / (tp + fn)
+    f_score = 2 * (precision * recall) / (precision + recall)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
@@ -98,10 +90,10 @@ def main():
           f'False positives: {fp}\n'
           f'True negatives: {tn}\n'
           f'False negatives: {fn}\n\n'
-          f'Evaluation metrics:\n\n')
-          # f'Precision: {precision:5.3f}\n'
-          # f'Recall: {recall:5.3f}\n'
-          # f'F-score: {f_score:5.3f}\n')
+          f'Evaluation metrics:\n\n'
+          f'Precision: {precision:5.3f}\n'
+          f'Recall: {recall:5.3f}\n'
+          f'F-score: {f_score:5.3f}\n')
 
     print('Accuracy of the network on the train set: %d %%\n' % (100 * correct / total))
 
@@ -159,6 +151,18 @@ def main():
           f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     print('Accuracy of the network on the test set: %d %%' % (100 * correct / total))
+    print(f'Number of network parameters: {nparams}')
+
+
+def get_classifier(x):
+    return {
+        'LSTM': CNNLSTMANN(),
+        'LSTM_v2': CNNLSTMANN_v2(),
+    }.get(x, CNNLSTMANN())
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":
