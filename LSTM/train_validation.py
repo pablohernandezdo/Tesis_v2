@@ -161,7 +161,7 @@ def main():
 def get_classifier(x):
     return {
         'LSTM': CNNLSTMANN(),
-        'LSTM_v2': CNNLSTMANN_v2(),
+        #'LSTM_v2': CNNLSTMANN_v2(),
     }.get(x, CNNLSTMANN())
 
 
