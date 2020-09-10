@@ -168,7 +168,7 @@ def main():
     learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
     # Plot train and validation accuracies
-    learning_curve_acc(tr_losses, val_losses, args.model_name)
+    learning_curve_loss(tr_losses, val_losses, args.model_name)
 
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
