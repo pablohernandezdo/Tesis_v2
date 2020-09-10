@@ -21,6 +21,7 @@ def main():
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
+    parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
     args = parser.parse_args()
 
     # Select training device
@@ -57,7 +58,7 @@ def main():
             for data in train_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = torch.round(outputs)
+                predicted = (outputs > args.thresh)
                 total += labels.size(0)
 
                 for i, pred in enumerate(predicted):
