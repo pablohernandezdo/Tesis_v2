@@ -16,7 +16,8 @@ from dataset import HDF5Dataset
 
 def main():
     # Create learning curves folder
-    Path("../Learning_curves").mkdir(exist_ok=True)
+    Path("../Learning_curves/Accuracy").mkdir(exist_ok=True, parents=True)
+    Path("../Learning_curves/Loss").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
@@ -62,6 +63,10 @@ def main():
     tr_accuracies = []
     val_accuracies = []
 
+    # Training and validation losses
+    tr_losses = []
+    val_losses = []
+
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
@@ -95,6 +100,9 @@ def main():
                     # Calculate loss
                     loss = criterion(outputs, labels.float())
 
+                    # Save loss to list
+                    tr_losses.append(loss)
+
                     # Backpropagation
                     loss.backward()
 
@@ -103,8 +111,6 @@ def main():
 
                     # Calculate total loss
                     total_loss += loss.item()
-
-                    # loss_id += 1
 
                     # Check validation accuracy periodically
                     if i % args.eval_iter == 0:
@@ -122,6 +128,12 @@ def main():
 
                                 # Forward pass
                                 outputs = net(traces)
+
+                                # Calculate loss
+                                val_loss = criterion(outputs, labels.float())
+
+                                # Save loss to list
+                                val_losses.append(val_loss)
 
                                 # Predicted labels
                                 predicted = torch.round(outputs)
@@ -152,18 +164,11 @@ def main():
     # Training time
     tr_t = end_tm - start_time
 
-    plt.figure()
-    line_tr, = plt.plot(tr_accuracies, label='Training accuracy')
-    line_val, = plt.plot(val_accuracies, label='Validation accuracy')
-    plt.grid(True)
-    plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
-    plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/{args.model_name}_accuracies.png')
+    # Plot train and validation accuracies
+    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
-    print(f'Execution details: \n{args}\n'
-          f'Number of parameters: {nparams}\n'
-          f'Training time: {format_timespan(tr_t)}')
+    # Plot train and validation accuracies
+    learning_curve_acc(tr_losses, val_losses, args.model_name)
 
 
 def get_classifier(x):
@@ -179,6 +184,28 @@ def get_classifier(x):
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
+def learning_curve_acc(tr_acc, val_acc, model_name):
+    plt.figure()
+    line_tr, = plt.plot(tr_acc, label='Training accuracy')
+    line_val, = plt.plot(val_acc, label='Validation accuracy')
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.legend(handles=[line_tr, line_val], loc='best')
+    plt.savefig(f'../Learning_curves/Accuracy/{model_name}_accuracies.png')
+
+
+def learning_curve_loss(tr_loss, val_loss, model_name):
+    plt.figure()
+    line_tr, = plt.plot(tr_loss, label='Training Loss')
+    line_val, = plt.plot(val_loss, label='Validation Loss')
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.legend(handles=[line_tr, line_val], loc='best')
+    plt.savefig(f'../Learning_curves/Loss/{model_name}_Losses.png')
 
 
 if __name__ == "__main__":

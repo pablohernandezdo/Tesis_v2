@@ -152,18 +152,8 @@ def main():
     # Training time
     tr_t = end_tm - start_time
 
-    plt.figure()
-    line_tr, = plt.plot(tr_accuracies, label='Training accuracy')
-    line_val, = plt.plot(val_accuracies, label='Validation accuracy')
-    plt.grid(True)
-    plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
-    plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/{args.model_name}_accuracies.png')
-
-    print(f'Execution details: \n{args}\n'
-          f'Number of parameters: {nparams}\n'
-          f'Training time: {format_timespan(tr_t)}')
+    # Plot train and validation accuracies
+    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
 
 def get_classifier(x):
@@ -176,6 +166,17 @@ def get_classifier(x):
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
+def learning_curve_acc(tr_acc, val_acc, model_name):
+    plt.figure()
+    line_tr, = plt.plot(tr_acc, label='Training accuracy')
+    line_val, = plt.plot(val_acc, label='Validation accuracy')
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.legend(handles=[line_tr, line_val], loc='best')
+    plt.savefig(f'../Learning_curves/{model_name}_accuracies.png')
 
 
 if __name__ == "__main__":

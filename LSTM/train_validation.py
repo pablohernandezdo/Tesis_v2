@@ -151,7 +151,7 @@ def main():
     tr_t = end_tm - start_time
 
     # Plot train and validation accuracies
-    learning_curve(tr_accuracies, val_accuracies, args.model_name)
+    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
@@ -169,7 +169,7 @@ def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
-def learning_curve(tr_acc, val_acc, model_name):
+def learning_curve_acc(tr_acc, val_acc, model_name):
     plt.figure()
     line_tr, = plt.plot(tr_acc, label='Training accuracy')
     line_val, = plt.plot(val_acc, label='Validation accuracy')
