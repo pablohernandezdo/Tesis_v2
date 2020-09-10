@@ -30,18 +30,10 @@ def main():
     args = parser.parse_args()
 
     # Select training device
-    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
-    if args.classifier == 'CBN':
-        net = ClassConvBN()
-    elif args.classifier == 'CBN_v2':
-        net = CBN_v2()
-    elif args.classifier == 'C':
-        net = ClassConv()
-    else:
-        net = ClassConv()
-        print('Bad Classifier option, running classifier C')
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
@@ -1445,6 +1437,14 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
+
+
+def get_classifier(x):
+    return {
+        'C': ClassConv(),
+        'CBN': ClassConvBN(),
+        'CBN_v2': CBN_v2(),
+    }.get(x, ClassConv())
 
 
 if __name__ == "__main__":

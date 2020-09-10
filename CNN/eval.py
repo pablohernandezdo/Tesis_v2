@@ -21,6 +21,7 @@ def main():
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=4, help="Size of the batches")
+    parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
     args = parser.parse_args()
 
     print(f'Evaluation details: \n {args}\n')
@@ -37,15 +38,7 @@ def main():
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    if args.classifier == 'CBN':
-        net = ClassConvBN()
-    elif args.classifier == 'CBN_v2':
-        net = CBN_v2()
-    elif args.classifier == 'C':
-        net = ClassConv()
-    else:
-        net = ClassConv()
-        print('Bad Classifier option, running classifier C')
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
@@ -64,7 +57,7 @@ def main():
             for data in train_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = torch.round(outputs)
+                predicted = (outputs > args.thresh)
                 total += labels.size(0)
 
                 for i, pred in enumerate(predicted):
@@ -115,7 +108,7 @@ def main():
             for data in test_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = torch.round(outputs)
+                predicted = (outputs > args.thresh)
                 total += labels.size(0)
 
                 for i, pred in enumerate(predicted):
@@ -157,6 +150,14 @@ def main():
           f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     print('Accuracy of the network on the test set: %d %%' % (100 * correct / total))
+
+
+def get_classifier(x):
+    return {
+        'C': ClassConv(),
+        'CBN': ClassConvBN(),
+        'CBN_v2': CBN_v2(),
+    }.get(x, ClassConv())
 
 
 if __name__ == "__main__":

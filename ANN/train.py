@@ -52,18 +52,7 @@ def main():
     testloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    if args.classifier == 'XS':
-        net = Classifier_XS()
-    elif args.classifier == 'S':
-        net = Classifier_S()
-    elif args.classifier == 'XL':
-        net = Classifier_XL()
-    elif args.classifier == 'XXL':
-        net = Classifier_XXL()
-    elif args.classifier == 'XXXL':
-        net = Classifier_XXXL()
-    else:
-        net = Classifier()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Add model graph to tensorboard
@@ -119,6 +108,17 @@ def main():
     tr_t = end_tm - start_time
 
     print(f'Training time: {format_timespan(tr_t)}')
+
+
+def get_classifier(x):
+    return {
+        'C': Classifier(),
+        'S': Classifier_S(),
+        'XS': Classifier_XS(),
+        'XL': Classifier_XL(),
+        'XXL':Classifier_XXL(),
+        'XXXL': Classifier_XXXL(),
+    }.get(x, Classifier())
 
 
 if __name__ == "__main__":

@@ -17,4 +17,5 @@ python ../train_validation.py --train_path $trn --val_path $val  \
 # Evaluate CBN on train and test datasets
 echo "Evaluating CBN model on $trn and $tst datasets"
 python ../eval.py --train_path $trn --test_path $tst \
-              --classifier CBN --model_name CBN_1epch_validation > ../logs/CBN/eval/CBN_1epch_validation.txt
+              --thresh 0.5 --classifier CBN \
+              --model_name CBN_1epch_validation > ../logs/CBN/eval/CBN_1epch_validation.txt

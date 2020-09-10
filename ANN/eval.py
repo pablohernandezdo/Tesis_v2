@@ -22,6 +22,7 @@ def main():
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
+    parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
     args = parser.parse_args()
 
     print(f'Evaluation details: \n {args}\n')
@@ -38,18 +39,7 @@ def main():
     testloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
-    if args.classifier == 'XS':
-        net = Classifier_XS()
-    elif args.classifier == 'S':
-        net = Classifier_S()
-    elif args.classifier == 'XL':
-        net = Classifier_XL()
-    elif args.classifier == 'XXL':
-        net = Classifier_XXL()
-    elif args.classifier == 'XXXL':
-        net = Classifier_XXXL()
-    else:
-        net = Classifier()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load from trained model
@@ -68,7 +58,7 @@ def main():
             for data in trainloader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = torch.round(outputs)
+                predicted = (outputs > args.thresh)
                 total += labels.size(0)
 
                 for i, pred in enumerate(predicted):
@@ -119,7 +109,7 @@ def main():
             for data in testloader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = torch.round(outputs)
+                predicted = (outputs > args.thresh)
                 total += labels.size(0)
 
                 for i, pred in enumerate(predicted):
@@ -161,6 +151,17 @@ def main():
           f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     print('Accuracy of the network on the test set: %d %%' % (100 * correct / total))
+
+
+def get_classifier(x):
+    return {
+        'C': Classifier(),
+        'S': Classifier_S(),
+        'XS': Classifier_XS(),
+        'XL': Classifier_XL(),
+        'XXL':Classifier_XXL(),
+        'XXXL': Classifier_XXXL(),
+    }.get(x, Classifier())
 
 
 if __name__ == "__main__":

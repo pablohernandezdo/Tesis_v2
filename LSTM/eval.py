@@ -110,7 +110,7 @@ def main():
             for data in test_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = torch.round(outputs)
+                predicted = (outputs > args.thresh)
                 total += labels.size(0)
 
                 for i, pred in enumerate(predicted):
