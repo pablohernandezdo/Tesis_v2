@@ -30,7 +30,7 @@ def main():
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
-    parser.add_argument("--eval_iter", type=int, default=20, help="Number of batches between validations")
+    parser.add_argument("--eval_iter", type=int, default=100, help="Number of batches between validations")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
@@ -99,6 +99,7 @@ def main():
 
                     # Calculate loss
                     loss = criterion(outputs, labels.float())
+                    print(loss.shape)
 
                     # Save loss to list
                     tr_losses.append(loss)
@@ -155,6 +156,8 @@ def main():
                 # Update epochs bar
                 epoch_bar.update()
 
+
+
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
 
@@ -165,37 +168,10 @@ def main():
     tr_t = end_tm - start_time
 
     # Plot train and validation accuracies
-    # learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
-    plt.figure()
-    plt.plot(tr_accuracies)
-    plt.grid(True)
-    plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
-    plt.savefig(f'../Learning_curves/Accuracy/{args.model_name}_train_accuracy.png')
-
-    plt.figure()
-    plt.plot(val_accuracies)
-    plt.grid(True)
-    plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
-    plt.savefig(f'../Learning_curves/Accuracy/{args.model_name}_validation_accuracy.png')
-
-    plt.figure()
-    plt.plot(tr_losses)
-    plt.grid(True)
-    plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
-    plt.savefig(f'../Learning_curves/Loss/{args.model_name}_train_loss.png')
-
-    plt.figure()
-    plt.plot(val_losses)
-    plt.grid(True)
-    plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
-    plt.savefig(f'../Learning_curves/Loss/{args.model_name}_validation_loss.png')
+    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
     # Plot train and validation accuracies
-    # learning_curve_loss(tr_losses, val_losses, args.model_name)
+    learning_curve_loss(tr_losses, val_losses, args.model_name)
 
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
