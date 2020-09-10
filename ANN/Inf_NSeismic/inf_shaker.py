@@ -20,26 +20,15 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
-    if args.classifier == 'XS':
-        net = Classifier_XS()
-    elif args.classifier == 'S':
-        net = Classifier_S()
-    elif args.classifier == 'XL':
-        net = Classifier_XL()
-    elif args.classifier == 'XXL':
-        net = Classifier_XXL()
-    elif args.classifier == 'XXXL':
-        net = Classifier_XXXL()
-    else:
-        net = Classifier()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_ANN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../ANN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Nevada data file 1
-    f = '../../Data_Shaker/large shaker NEES_130910161319 (1).sgy'
+    f = '../../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -100,7 +89,6 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
 
-
 def butter_bandpass(lowcut, highcut, fs, order=5):
     nyq = 0.5 * fs
     low = lowcut / nyq
@@ -113,6 +101,17 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
+
+
+def get_classifier(x):
+    return {
+        'C': Classifier(),
+        'S': Classifier_S(),
+        'XS': Classifier_XS(),
+        'XL': Classifier_XL(),
+        'XXL':Classifier_XXL(),
+        'XXXL': Classifier_XXXL(),
+    }.get(x, Classifier())
 
 
 if __name__ == "__main__":

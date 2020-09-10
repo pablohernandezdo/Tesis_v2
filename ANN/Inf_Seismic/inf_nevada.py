@@ -20,26 +20,15 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
-    if args.classifier == 'XS':
-        net = Classifier_XS()
-    elif args.classifier == 'S':
-        net = Classifier_S()
-    elif args.classifier == 'XL':
-        net = Classifier_XL()
-    elif args.classifier == 'XXL':
-        net = Classifier_XXL()
-    elif args.classifier == 'XXXL':
-        net = Classifier_XXXL()
-    else:
-        net = Classifier()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_ANN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../STEAD/ANN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Nevada data file 1
-    f = '../../Data_Nevada/PoroTomo_iDAS025_160321073717.sgy'
+    f = '../../Data/Nevada/PoroTomo_iDAS025_160321073717.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -100,7 +89,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load Nevada data file 2
-    f = '../../Data_Nevada/PoroTomo_iDAS025_160321073747.sgy'
+    f = '../../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -160,7 +149,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load Nevada data file 3
-    f = '../../Data_Nevada/PoroTomo_iDAS16043_160321073721.sgy'
+    f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
 
     # Read data
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -220,7 +209,7 @@ def main():
           f'Predicted fil_seismic: {fil_seismic}, predicted fil_noise: {fil_noise}\n')
 
     # Load Nevada data file 4
-    f = '../../Data_Nevada/PoroTomo_iDAS16043_160321073751.sgy'
+    f = '../../Data/Nevada/PoroTomo_iDAS16043_160321073751.sgy'
 
     # For every trace in the file
     with segyio.open(f, ignore_geometry=True) as segy:
@@ -292,6 +281,17 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
+
+
+def get_classifier(x):
+    return {
+        'C': Classifier(),
+        'S': Classifier_S(),
+        'XS': Classifier_XS(),
+        'XL': Classifier_XL(),
+        'XXL':Classifier_XXL(),
+        'XXXL': Classifier_XXXL(),
+    }.get(x, Classifier())
 
 
 if __name__ == "__main__":

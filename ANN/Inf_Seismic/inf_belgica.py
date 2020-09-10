@@ -20,26 +20,15 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
-    if args.classifier == 'XS':
-        net = Classifier_XS()
-    elif args.classifier == 'S':
-        net = Classifier_S()
-    elif args.classifier == 'XL':
-        net = Classifier_XL()
-    elif args.classifier == 'XXL':
-        net = Classifier_XXL()
-    elif args.classifier == 'XXXL':
-        net = Classifier_XXXL()
-    else:
-        net = Classifier()
+    net = get_classifier(args.classifier)
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../STEAD_ANN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../ANN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # Load Belgica data
-    f = scipy.io.loadmat("../../Data_Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
+    f = scipy.io.loadmat("../../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
 
     # Read data
     data = f['Data_2D']
@@ -133,6 +122,17 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
+
+
+def get_classifier(x):
+    return {
+        'C': Classifier(),
+        'S': Classifier_S(),
+        'XS': Classifier_XS(),
+        'XL': Classifier_XL(),
+        'XXL':Classifier_XXL(),
+        'XXXL': Classifier_XXXL(),
+    }.get(x, Classifier())
 
 
 if __name__ == "__main__":
