@@ -165,10 +165,37 @@ def main():
     tr_t = end_tm - start_time
 
     # Plot train and validation accuracies
-    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
+    # learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
+    plt.figure()
+    plt.plot(tr_accuracies)
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.savefig(f'../Learning_curves/Accuracy/{args.model_name}_train_accuracy.png')
+
+    plt.figure()
+    plt.plot(val_accuracies)
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.savefig(f'../Learning_curves/Accuracy/{args.model_name}_validation_accuracy.png')
+
+    plt.figure()
+    plt.plot(tr_losses)
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.savefig(f'../Learning_curves/Loss/{args.model_name}_train_loss.png')
+
+    plt.figure()
+    plt.plot(val_losses)
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.savefig(f'../Learning_curves/Loss/{args.model_name}_validation_loss.png')
 
     # Plot train and validation accuracies
-    learning_curve_loss(tr_losses, val_losses, args.model_name)
+    # learning_curve_loss(tr_losses, val_losses, args.model_name)
 
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
