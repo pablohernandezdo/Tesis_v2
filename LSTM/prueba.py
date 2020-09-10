@@ -33,7 +33,7 @@ def main():
     senal = torch.from_numpy(senal).to(device)
 
     # Prediccion
-    out = net(senal)
+    out = net(senal.float())
     out = out.data.item()
 
     # Results
