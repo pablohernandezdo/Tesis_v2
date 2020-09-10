@@ -155,6 +155,10 @@ def main():
     # Plot train and validation accuracies
     learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
+    print(f'Execution details: \n{args}\n'
+          f'Number of parameters: {nparams}\n'
+          f'Training time: {format_timespan(tr_t)}')
+
 
 def get_classifier(x):
     return {

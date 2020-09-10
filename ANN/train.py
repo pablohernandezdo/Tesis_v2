@@ -35,8 +35,6 @@ def main():
     parser.add_argument("--b2", type=float, default=0.99, help="adam: decay of first order momentum of gradient")
     args = parser.parse_args()
 
-    print(f'Execution details: \n {args}')
-
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -107,7 +105,9 @@ def main():
     # Training time
     tr_t = end_tm - start_time
 
-    print(f'Training time: {format_timespan(tr_t)}')
+    print(f'Execution details: \n{args}\n'
+          f'Number of parameters: {nparams}\n'
+          f'Training time: {format_timespan(tr_t)}')
 
 
 def get_classifier(x):
