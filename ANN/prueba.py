@@ -24,7 +24,7 @@ def main():
     net.to(device)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load('../../ANN/models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../../CNN/models/' + args.model_name + '.pth'))
     net.eval()
 
     # AQUÍ DEFINIR LA SEÑAL QUE SE QUIERE PROBAR, DEBE TENER 6000 MUESTRAS
@@ -56,13 +56,10 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
 
 def get_classifier(x):
     return {
-        'C': Classifier(),
-        'S': Classifier_S(),
-        'XS': Classifier_XS(),
-        'XL': Classifier_XL(),
-        'XXL':Classifier_XXL(),
-        'XXXL': Classifier_XXXL(),
-    }.get(x, Classifier())
+        'C': ClassConv(),
+        'CBN': ClassConvBN(),
+        'CBN_v2': CBN_v2(),
+    }.get(x, ClassConv())
 
 
 if __name__ == "__main__":
