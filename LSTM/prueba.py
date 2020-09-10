@@ -37,7 +37,7 @@ def main():
     out = out.data.item()
 
     # Results
-    print(f'Resultado inferencia: {out}\n')
+    print(f'Resultado inferencia: {out}')
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
