@@ -19,3 +19,4 @@ python ../train_validation.py \
 echo "Starting evaluation #1"
 python ../eval.py --train_path $trn --test_path $tst \
               --classifier XXL --model_name XXL_1e6_32 > ../logs/eval/XXL_1e6_32.txt
+              
