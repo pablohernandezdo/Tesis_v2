@@ -71,7 +71,8 @@ def main():
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
 
-            total_loss = 0
+            total_tr_loss = 0
+            total_val_loss = 0
             n_correct, n_total = 0, 0
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
@@ -99,10 +100,9 @@ def main():
 
                     # Calculate loss
                     loss = criterion(outputs, labels.float())
-                    print(loss.shape)
 
                     # Save loss to list
-                    tr_losses.append(loss)
+                    # tr_losses.append(loss)
 
                     # Backpropagation
                     loss.backward()
@@ -111,7 +111,7 @@ def main():
                     optimizer.step()
 
                     # Calculate total loss
-                    total_loss += loss.item()
+                    total_tr_loss += loss.item()
 
                     # Check validation accuracy periodically
                     if i % args.eval_iter == 0:
@@ -133,8 +133,8 @@ def main():
                                 # Calculate loss
                                 val_loss = criterion(outputs, labels.float())
 
-                                # Save loss to list
-                                val_losses.append(val_loss)
+                                # Total loss for epoch
+                                total_val_loss += val_loss
 
                                 # Predicted labels
                                 predicted = torch.round(outputs)
@@ -142,6 +142,9 @@ def main():
                                 # Sum up correct and total validation examples
                                 total_val += labels.size(0)
                                 correct_val += (predicted == labels).sum().item()
+
+                            # Save loss to list
+                            val_losses.append(total_val_loss)
 
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
@@ -156,7 +159,8 @@ def main():
                 # Update epochs bar
                 epoch_bar.update()
 
-
+            # Save loss to list
+            tr_losses.append(total_tr_loss)
 
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
