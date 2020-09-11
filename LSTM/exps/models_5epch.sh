@@ -7,7 +7,7 @@ mkdir -p ../models/
 tst="Test_data.hdf5"
 trn="Train_data.hdf5"
 
-# Train LSTM for 1 epoch
+# Train LSTM for 5 epochs
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier LSTM --model_name LSTM_5epch_1e4_16 \
@@ -19,7 +19,7 @@ python ../eval.py --train_path $trn  \
               --thresh 0.5 --classifier LSTM \
               --model_name LSTM_5epch_1e4_16 > ../logs/LSTM/eval/LSTM_5epch_1e4_16.txt
 
-# Train LSTM for 1 epoch
+# Train LSTM for 5 epochs
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier LSTM --model_name LSTM_5epch_1e4_32 \
@@ -31,7 +31,7 @@ python ../eval.py --train_path $trn  \
               --thresh 0.5 --classifier LSTM \
               --model_name LSTM_5epch_1e4_32 > ../logs/LSTM/eval/LSTM_5epch_1e4_32.txt
 
-# Train LSTM for 1 epoch
+# Train LSTM for 5 epochs
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier LSTM --model_name LSTM_5epch_1e4_64 \
@@ -43,7 +43,7 @@ python ../eval.py --train_path $trn  \
               --thresh 0.5 --classifier LSTM \
               --model_name LSTM_5epch_1e4_64 > ../logs/LSTM/eval/LSTM_5epch_1e4_64.txt
 
-# Train LSTM_v2 for 1 epoch
+# Train LSTM_v2 for 5 epochs
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier LSTM_v2 --model_name LSTM_v2_5epch_1e4_16 \
@@ -55,7 +55,7 @@ python ../eval.py --train_path $trn  \
               --thresh 0.5 --classifier LSTM_v2 \
               --model_name LSTM_v2_5epch_1e4_16 > ../logs/LSTM/eval/LSTM_v2_5epch_1e4_16.txt
 
-# Train LSTM_v2 for 1 epoch
+# Train LSTM_v2 for 5 epochs
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier LSTM_v2 --model_name LSTM_v2_1epch_1e4_32 \
@@ -67,7 +67,7 @@ python ../eval.py --train_path $trn  \
               --thresh 0.5 --classifier LSTM_v2 \
               --model_name LSTM_v2_1epch_1e4_32 > ../logs/LSTM/eval/LSTM_v2_1epch_1e4_32.txt
 
-# Train LSTM_v2 for 1 epoch
+# Train LSTM_v2 for 5 epochs
 echo "Training CBN model on $trn and $tst datasets"
 python ../train.py --train_path $trn  \
               --classifier LSTM_v2 --model_name LSTM_v2_1epch_1e4_64 \
