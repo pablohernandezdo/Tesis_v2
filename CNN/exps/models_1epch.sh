@@ -9,7 +9,7 @@ tst="Test_data.hdf5"
 
 # Train C for 1 epoch
 echo "Training C model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier C --model_name C_1epch_1e6_16 \
               --n_epochs 1 --batch_size 16 --lr 1e-6  > ../logs/CNN/train/C_1epch_1e6_16.txt
 
@@ -21,7 +21,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train C for 1 epoch
 echo "Training C model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier C --model_name C_1epch_1e6_32 \
               --n_epochs 1 --batch_size 32 --lr 1e-6  > ../logs/CNN/train/C_1epch_1e6_32.txt
 
@@ -33,7 +33,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train C for 1 epoch
 echo "Training C model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier C --model_name C_1epch_1e6_64 \
               --n_epochs 1 --batch_size 64 --lr 1e-6  > ../logs/CNN/train/C_1epch_1e6_64.txt
 
@@ -45,7 +45,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train CBN for 1 epoch
 echo "Training CBN model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier CBN --model_name CBN_1epch_1e6_16 \
               --n_epochs 1 --batch_size 16 --lr 1e-6  > ../logs/CNN/train/CBN_1epch_1e6_16.txt
 
@@ -57,7 +57,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train CBN for 1 epoch
 echo "Training CBN model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier CBN --model_name CBN_1epch_1e6_32 \
               --n_epochs 1 --batch_size 32 --lr 1e-6  > ../logs/CNN/train/CBN_1epch_1e6_32.txt
 
@@ -69,7 +69,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train C for 1 epoch
 echo "Training CBN model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier CBN --model_name CBN_1epch_1e6_64 \
               --n_epochs 1 --batch_size 64 --lr 1e-6  > ../logs/CNN/train/CBN_1epch_1e6_64.txt
 
@@ -81,7 +81,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train CBN_v2 for 1 epoch
 echo "Training CBN_v2 model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier CBN_v2 --model_name CBN_v2_1epch_1e6_16 \
               --n_epochs 1 --batch_size 16 --lr 1e-6  > ../logs/CNN/train/CBN_v2_1epch_1e6_16.txt
 
@@ -93,7 +93,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train CBN_v2 for 1 epoch
 echo "Training CBN_v2 model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier CBN_v2 --model_name CBN_v2_1epch_1e6_32 \
               --n_epochs 1 --batch_size 32 --lr 1e-6  > ../logs/CNN/train/CBN_v2_1epch_1e6_32.txt
 
@@ -105,7 +105,7 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # Train C for 1 epoch
 echo "Training CBN_v2 model on $trn and $tst datasets"
-python ../train.py --train_path $trn --test_path $tst \
+python ../train.py --train_path $trn \
               --classifier CBN_v2 --model_name CBN_v2_1epch_1e6_64 \
               --n_epochs 1 --batch_size 64 --lr 1e-6  > ../logs/CNN/train/CBN_v2_1epch_1e6_64.txt
 

@@ -6,8 +6,8 @@ import torch
 from humanfriendly import format_timespan
 from torch.utils.data import DataLoader
 
-from .model import *
-from .dataset import HDF5Dataset
+from model import *
+from dataset import HDF5Dataset
 
 
 def main():

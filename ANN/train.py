@@ -53,6 +53,9 @@ def main():
     net = get_classifier(args.classifier)
     net.to(device)
 
+    # Count number of parameters
+    nparams = count_parameters(net)
+
     # Add model graph to tensorboard
     traces, labels = next(iter(trainloader))
     traces, labels = traces.to(device), labels.to(device)
@@ -119,6 +122,10 @@ def get_classifier(x):
         'XXL':Classifier_XXL(),
         'XXXL': Classifier_XXXL(),
     }.get(x, Classifier())
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":
