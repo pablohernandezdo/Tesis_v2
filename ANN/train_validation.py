@@ -143,12 +143,12 @@ def main():
                                 total_val += labels.size(0)
                                 correct_val += (predicted == labels).sum().item()
 
-                            # Save loss to list
-                            val_losses.append(total_val_loss)
-                            tr_losses.append(total_tr_loss)
-
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
+
+                    # Save loss to list
+                    val_losses.append(total_val_loss)
+                    tr_losses.append(total_tr_loss)
 
                     # Append training and validation accuracies
                     tr_accuracies.append(train_acc)
