@@ -12,7 +12,7 @@ val="Validation_data.hdf5"
 echo "Starting training, lr = 1e-7, epochs = 10, batch_size = 128"
 python ../train_validation.py \
               --train_path $trn --val_path $val       \
-              --n_epochs 10 --lr 1e-5 --batch_size 128 \
+              --n_epochs 100 --lr 1e-5 --batch_size 128 \
               --classifier XXL --model_name XXL_1e6_32 > ../logs/train/XXL_1e6_32_XXL.txt
 
 # Classifier_XXL
