@@ -30,7 +30,7 @@ def main():
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
-    parser.add_argument("--eval_iter", type=int, default=5, help="Number of batches between validations")
+    parser.add_argument("--eval_iter", type=int, default=1, help="Number of batches between validations")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
@@ -71,7 +71,6 @@ def main():
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
 
-            total_tr_loss = 0
             n_correct, n_total = 0, 0
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
@@ -105,9 +104,6 @@ def main():
 
                     # Optimize
                     optimizer.step()
-
-                    # Calculate total loss
-                    # total_tr_loss += loss.item()
 
                     # Check validation accuracy periodically
                     if i % args.eval_iter == 0:
