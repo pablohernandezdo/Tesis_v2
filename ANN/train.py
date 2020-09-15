@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader
 
 from model import *
 
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 
 def main():
@@ -39,7 +39,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Start tensorboard SummaryWriter
-    tb = SummaryWriter('../runs/Seismic')
+    # tb = SummaryWriter('../runs/Seismic')
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
@@ -69,7 +69,7 @@ def main():
     loss_id = 0
 
     # Start training
-    with tqdm.tqdm(total=args.n_epochs, desc='Epochs', position=0) as epoch_bar:
+    with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
 
             total_loss = 0
@@ -90,14 +90,13 @@ def main():
 
                     loss_id += 1
 
-                    tb.add_scalar('Loss', loss.item(), loss_id)
-                    batch_bar.update(1)
-
-                tb.add_scalar('Total_Loss', total_loss, epoch)
-                epoch_bar.update(1)
+                    # tb.add_scalar('Loss', loss.item(), loss_id)
+                    batch_bar.update()
+                # tb.add_scalar('Total_Loss', total_loss, epoch)
+                epoch_bar.update()
 
     # Close tensorboard
-    tb.close()
+    # tb.close()
 
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
