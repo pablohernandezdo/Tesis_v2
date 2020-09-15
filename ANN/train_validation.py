@@ -159,7 +159,6 @@ def main():
             val_losses.append(total_val_loss)
             tr_losses.append(total_tr_loss)
 
-
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
 
