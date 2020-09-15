@@ -72,7 +72,6 @@ def main():
         for epoch in range(args.n_epochs):
 
             total_tr_loss = 0
-            total_val_loss = 0
             n_correct, n_total = 0, 0
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
@@ -116,6 +115,7 @@ def main():
                         net.eval()
 
                         # Calculate accuracy on validation
+                        total_val_loss = 0
                         total_val, correct_val = 0, 0
 
                         with torch.no_grad():
