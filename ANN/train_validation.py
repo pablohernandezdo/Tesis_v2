@@ -131,7 +131,7 @@ def main():
                                 val_loss = criterion(outputs, labels.float())
 
                                 # Total loss for epoch
-                                total_val_loss += val_loss.item() * traces.size(0)
+                                total_val_loss += val_loss.item()
 
                                 # Predicted labels
                                 predicted = torch.round(outputs)
@@ -140,10 +140,14 @@ def main():
                                 total_val += labels.size(0)
                                 correct_val += (predicted == labels).sum().item()
 
-                            val_avg_loss = total_val_loss / len(val_dataset)
+                            val_avg_loss = total_val_loss / len(val_loader)
 
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
+
+                    # Save loss to list
+                    val_losses.append(val_avg_loss)
+                    tr_losses.append(loss)
 
                     # Append training and validation accuracies
                     tr_accuracies.append(train_acc)
@@ -154,10 +158,6 @@ def main():
 
                 # Update epochs bar
                 epoch_bar.update()
-
-            # Save loss to list
-            val_losses.append(total_val_loss)
-            tr_losses.append(total_tr_loss)
 
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
