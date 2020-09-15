@@ -108,7 +108,7 @@ def main():
                     optimizer.step()
 
                     # Calculate total loss
-                    total_tr_loss += loss.item() * inputs.size(0)
+                    # total_tr_loss += loss.item()
 
                     # Check validation accuracy periodically
                     if i % args.eval_iter == 0:
@@ -140,12 +140,10 @@ def main():
                                 total_val += labels.size(0)
                                 correct_val += (predicted == labels).sum().item()
 
+                            val_avg_loss = total_val_loss / len(val_dataset)
+
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
-
-                    # Save loss to list
-                    val_losses.append(total_val_loss / len(val_dataset))
-                    tr_losses.append(total_tr_loss / len(train_dataset))
 
                     # Append training and validation accuracies
                     tr_accuracies.append(train_acc)
@@ -158,7 +156,9 @@ def main():
                 epoch_bar.update()
 
             # Save loss to list
-            # tr_losses.append(total_tr_loss)
+            val_losses.append(total_val_loss)
+            tr_losses.append(total_tr_loss)
+
 
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
