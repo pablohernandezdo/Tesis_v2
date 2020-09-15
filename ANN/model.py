@@ -162,3 +162,31 @@ class Classifier_XXXL(nn.Module):
         wave = F.leaky_relu(self.l11(wave), 0.02)
         wave = F.leaky_relu(self.l12(wave), 0.02)
         return self.sigmoid(wave)
+
+
+class M1_leaky(nn.Module):
+    def __init__(self):
+        super(M1_leaky, self).__init__()
+
+        self.l1 = nn.Linear(6000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = F.leaky_relu(self.l1(wave), 0.02)
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class M1_relu(nn.Module):
+    def __init__(self):
+        super(M1_relu, self).__init__()
+
+        self.l1 = nn.Linear(6000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)

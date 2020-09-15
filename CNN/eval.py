@@ -3,8 +3,8 @@ import argparse
 
 import tqdm
 import torch
-from humanfriendly import format_timespan
 from torch.utils.data import DataLoader
+from humanfriendly import format_timespan
 
 from model import *
 from dataset import HDF5Dataset
@@ -24,8 +24,6 @@ def main():
     parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
     args = parser.parse_args()
 
-    print(f'Evaluation details: \n {args}\n')
-
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -40,6 +38,9 @@ def main():
     # Load specified Classifier
     net = get_classifier(args.classifier)
     net.to(device)
+
+    # Count number of parameters
+    nparams = count_parameters(net)
 
     # Load parameters from trained model
     net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
@@ -83,7 +84,8 @@ def main():
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
 
-    print(f'Training Evaluation results: \n\n\n'
+    print(f'Evaluation details: \n\n{args}\n'
+          f'Training Evaluation results: \n\n\n'
           f'correct: {correct}, total: {total}\n\n'
           f'True positives: {tp}\n'
           f'False positives: {fp}\n'
@@ -150,6 +152,7 @@ def main():
           f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     print('Accuracy of the network on the test set: %d %%' % (100 * correct / total))
+    print(f'Number of network parameters: {nparams}')
 
 
 def get_classifier(x):
@@ -158,6 +161,10 @@ def get_classifier(x):
         'CBN': ClassConvBN(),
         'CBN_v2': CBN_v2(),
     }.get(x, ClassConv())
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":

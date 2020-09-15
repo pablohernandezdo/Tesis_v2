@@ -1,14 +1,13 @@
 import time
-import tqdm
-import torch
 import argparse
 
+import tqdm
+import torch
+from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
 
-from dataset import HDF5Dataset
-from torch.utils.data import DataLoader
-
 from model import *
+from dataset import HDF5Dataset
 
 
 def main():
@@ -25,22 +24,23 @@ def main():
     parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
     args = parser.parse_args()
 
-    print(f'Evaluation details: \n {args}\n')
-
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
-    trainloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Test dataset
     test_dataset = HDF5Dataset(args.test_path)
-    testloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
     net = get_classifier(args.classifier)
     net.to(device)
+
+    # Count number of parameters
+    nparams = count_parameters(net)
 
     # Load from trained model
     net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
@@ -53,9 +53,9 @@ def main():
     total = 0
     tp, fp, tn, fn = 0, 0, 0, 0
 
-    with tqdm.tqdm(total=len(trainloader), desc='Train dataset evaluation', position=0) as train_bar:
+    with tqdm.tqdm(total=len(train_loader), desc='Train dataset evaluation', position=0) as train_bar:
         with torch.no_grad():
-            for data in trainloader:
+            for data in train_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
                 predicted = (outputs > args.thresh)
@@ -84,9 +84,10 @@ def main():
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
 
-    print(f'Training Evaluation results: \n\n\n'
-          f'correct: {correct}, total: {total}\n'
-          f'True positives: {tp}\n\n'
+    print(f'Evaluation details: \n\n{args}\n'
+          f'Training Evaluation results: \n\n'
+          f'correct: {correct}, total: {total}\n\n'
+          f'True positives: {tp}\n'
           f'False positives: {fp}\n'
           f'True negatives: {tn}\n'
           f'False negatives: {fn}\n\n'
@@ -104,9 +105,9 @@ def main():
     total = 0
     tp, fp, tn, fn = 0, 0, 0, 0
 
-    with tqdm.tqdm(total=len(testloader), desc='Test dataset evaluation', position=0) as test_bar:
+    with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as test_bar:
         with torch.no_grad():
-            for data in testloader:
+            for data in test_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
                 predicted = (outputs > args.thresh)
@@ -136,7 +137,7 @@ def main():
     ev_2 = eval_2 - eval_1
     ev_t = eval_2 - start_time
 
-    print(f'Test Evaluation results: \n\n\n'
+    print(f'Test Evaluation results: \n\n'
           f'correct: {correct}, total: {total}\n\n'
           f'True positives: {tp}\n'
           f'False positives: {fp}\n'
@@ -151,10 +152,13 @@ def main():
           f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     print('Accuracy of the network on the test set: %d %%' % (100 * correct / total))
+    print(f'Number of network parameters: {nparams}')
 
 
 def get_classifier(x):
     return {
+        'M1l': M1_leaky(),
+        'M1r': M1_relu(),
         'C': Classifier(),
         'S': Classifier_S(),
         'XS': Classifier_XS(),
@@ -162,6 +166,10 @@ def get_classifier(x):
         'XXL':Classifier_XXL(),
         'XXXL': Classifier_XXXL(),
     }.get(x, Classifier())
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":

@@ -177,6 +177,8 @@ def main():
 
 def get_classifier(x):
     return {
+        'M1l': M1_leaky(),
+        'M1r': M1_relu(),
         'C': Classifier(),
         'S': Classifier_S(),
         'XS': Classifier_XS(),
