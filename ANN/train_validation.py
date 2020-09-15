@@ -145,6 +145,7 @@ def main():
 
                             # Save loss to list
                             val_losses.append(total_val_loss)
+                            tr_losses.append(total_tr_loss)
 
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
@@ -160,7 +161,7 @@ def main():
                 epoch_bar.update()
 
             # Save loss to list
-            tr_losses.append(total_tr_loss)
+            # tr_losses.append(total_tr_loss)
 
     # Save model
     torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
