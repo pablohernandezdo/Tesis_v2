@@ -101,9 +101,6 @@ def main():
                     # Calculate loss
                     loss = criterion(outputs, labels.float())
 
-                    # Save loss to list
-                    # tr_losses.append(loss)
-
                     # Backpropagation
                     loss.backward()
 
@@ -111,7 +108,7 @@ def main():
                     optimizer.step()
 
                     # Calculate total loss
-                    total_tr_loss += loss.item()
+                    total_tr_loss += loss.item() * inputs.size(0)
 
                     # Check validation accuracy periodically
                     if i % args.eval_iter == 0:
@@ -134,7 +131,7 @@ def main():
                                 val_loss = criterion(outputs, labels.float())
 
                                 # Total loss for epoch
-                                total_val_loss += val_loss
+                                total_val_loss += val_loss.item() * traces.size(0)
 
                                 # Predicted labels
                                 predicted = torch.round(outputs)
@@ -147,8 +144,8 @@ def main():
                         val_acc = 100 * correct_val / total_val
 
                     # Save loss to list
-                    val_losses.append(total_val_loss)
-                    tr_losses.append(total_tr_loss)
+                    val_losses.append(total_val_loss / len(val_dataset))
+                    tr_losses.append(total_tr_loss / len(train_dataset))
 
                     # Append training and validation accuracies
                     tr_accuracies.append(train_acc)
