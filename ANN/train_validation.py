@@ -175,19 +175,6 @@ def main():
           f'Training time: {format_timespan(tr_t)}')
 
 
-def get_classifier(x):
-    return {
-        'M1l': M1_leaky(),
-        'M1r': M1_relu(),
-        'C': Classifier(),
-        'S': Classifier_S(),
-        'XS': Classifier_XS(),
-        'XL': Classifier_XL(),
-        'XXL':Classifier_XXL(),
-        'XXXL': Classifier_XXXL(),
-    }.get(x, Classifier())
-
-
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
@@ -212,6 +199,19 @@ def learning_curve_loss(tr_loss, val_loss, model_name):
     plt.ylabel('Accuracy')
     plt.legend(handles=[line_tr, line_val], loc='best')
     plt.savefig(f'../Learning_curves/Loss/{model_name}_Losses.png')
+
+
+def get_classifier(x):
+    return {
+        'M1l': M1_leaky(),
+        'M1r': M1_relu(),
+        'C': Classifier(),
+        'S': Classifier_S(),
+        'XS': Classifier_XS(),
+        'XL': Classifier_XL(),
+        'XXL':Classifier_XXL(),
+        'XXXL': Classifier_XXXL(),
+    }.get(x, Classifier())
 
 
 if __name__ == "__main__":
