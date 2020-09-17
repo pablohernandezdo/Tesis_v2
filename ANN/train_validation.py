@@ -205,15 +205,17 @@ def learning_curve_loss(tr_loss, val_loss, model_name):
 
 def get_classifier(x):
     return {
-        'M1l': M1_leaky(),
-        'M1r': M1_relu(),
-        'C': Classifier(),
-        'S': Classifier_S(),
-        'XS': Classifier_XS(),
-        'XL': Classifier_XL(),
-        'XXL':Classifier_XXL(),
-        'XXXL': Classifier_XXXL(),
-    }.get(x, Classifier())
+        '1h6k': OneHidden6k(),
+        '1h5k': OneHidden5k(),
+        '1h4k': OneHidden4k(),
+        '1h3k': OneHidden3k(),
+        '1h2k': OneHidden2k(),
+        '1h1k': OneHidden1k(),
+        '1h5h': OneHidden5h(),
+        '1h1h': OneHidden1h(),
+        '1h10': OneHidden10(),
+        '1h1': OneHidden1(),
+    }.get(x, OneHidden6k())
 
 
 if __name__ == "__main__":
