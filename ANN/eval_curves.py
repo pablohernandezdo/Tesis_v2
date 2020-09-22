@@ -189,17 +189,11 @@ def main():
               f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     # Area under curve
-    # tr_pr_auc = np.trapz(tr_precision, x=tr_recall)
-    # tst_pr_auc = np.trapz(tst_precision, x=tst_recall)
-    #
-    # tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate)
-    # tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate)
+    tr_pr_auc = np.trapz(tr_precision, x=tr_recall[:, :, -1])
+    tst_pr_auc = np.trapz(tst_precision, x=tst_recall[:, :, -1])
 
-    tr_pr_auc = np.trapz(tr_recall, x=tr_precision)
-    tst_pr_auc = np.trapz(tst_recall, x=tst_precision)
-
-    tr_roc_auc = np.trapz(tr_fp_rate, x=tr_recall)
-    tst_roc_auc = np.trapz(tst_fp_rate, x=tst_recall)
+    tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate)
+    tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate)
 
     # Print fscores
     print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
