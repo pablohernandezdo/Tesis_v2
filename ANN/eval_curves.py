@@ -162,8 +162,8 @@ def main():
               f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     # Print fscores
-    print(f'Train fscores: {tr_fscores}\n'
-          f'Test fscores: {tst_fscores}')
+    print(f'Train fscores: {np.around(tr_fscores, decimals=4)}\n'
+          f'Test fscores: {np.around(tst_fscores, decimals=4)}')
 
     # Precision/Recall curve train dataset
     plt.figure()
