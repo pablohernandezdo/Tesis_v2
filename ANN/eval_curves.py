@@ -66,8 +66,7 @@ def main():
     tst_fscores = []
 
     # Thresholds to evaluate performance on
-    # thresholds = np.arange(0.1, 1, 0.1)
-    thresholds = [0.5]
+    thresholds = np.arange(0.1, 1, 0.1)
 
     # Evaluate model on training dataset
 
