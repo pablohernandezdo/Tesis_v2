@@ -1,5 +1,6 @@
 import time
 import argparse
+import itertools
 from pathlib import Path
 
 import tqdm
@@ -15,6 +16,8 @@ from dataset import HDF5Dataset
 
 
 def main():
+    # Create curves folders
+    Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
 
@@ -65,6 +68,18 @@ def main():
     tr_fscores = []
     tst_fscores = []
 
+    # Confusion matrix
+    tr_cm = []
+    tst_cm = []
+
+    # Record max fscore value obtained
+    tr_max_fscore = 0
+    tst_max_fscore = 0
+
+    # Record threshold of best fscore
+    tr_best_thresh = 0
+    tst_best_thresh = 0
+
     # Thresholds to evaluate performance on
     thresholds = np.arange(0.1, 1, 0.1)
 
@@ -114,6 +129,12 @@ def main():
         tr_precision.append(tr_pre)
         tr_fscores.append(tr_fscore)
 
+        # Save best conf matrix
+        if tr_fscore > tr_max_fscore:
+            tr_max_fscore = tr_fscore
+            tr_cm = np.asarray([[tp, fn], [fp, tn]])
+            tr_best_thresh = thresh
+
         eval_1 = time.time()
         ev_1 = eval_1 - start_time
 
@@ -153,6 +174,12 @@ def main():
         tst_precision.append(tst_pre)
         tst_fscores.append(tst_fscore)
 
+        # Save best conf matrix
+        if tst_fscore > tst_max_fscore:
+            tst_max_fscore = tst_fscore
+            tst_cm = np.asarray([[tp, fn], [fp, tn]])
+            tst_best_thresh = thresh
+
         eval_2 = time.time()
         ev_2 = eval_2 - eval_1
         ev_t = eval_2 - start_time
@@ -162,8 +189,21 @@ def main():
               f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     # Print fscores
-    print(f'Train fscores: {np.around(tr_fscores, decimals=4)}\n'
-          f'Test fscores: {np.around(tst_fscores, decimals=4)}')
+    print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore}\n'
+          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore}')
+
+    # Plot best confusion matrices
+    target_names = ['Seismic', 'Non Seismic']
+
+    # Confusion matrix
+    plot_confusion_matrix(tr_cm, target_names,
+                          title=f'Confusion matrix {args.model_name} train, threshold = {tr_best_thresh}',
+                          filename=f'../Confusion_matrices/Confusion_matrix_train_{args.model_name}.png')
+
+    # Confusion matrix
+    plot_confusion_matrix(tst_cm, target_names,
+                          title=f'Confusion matrix {args.model_name} test, threshold = {tst_best_thresh}',
+                          filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
 
     # Precision/Recall curve train dataset
     plt.figure()
@@ -200,6 +240,7 @@ def main():
     plt.ylim(0, 1)
     plt.grid(True)
     plt.savefig(f'../ROC_curves/ROC_train_{args.model_name}.png')
+
 
     # Precision/Recall curve test dataset
     plt.figure()
@@ -238,6 +279,45 @@ def main():
     plt.savefig(f'../ROC_curves/ROC_test_{args.model_name}.png')
 
 
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
+                          filename='Confusion_matrix.png', cmap=None, normalize=True):
+
+    accuracy = np.trace(cm) / float(np.sum(cm))
+    misclass = 1 - accuracy
+
+    if cmap is None:
+        cmap = plt.get_cmap('Blues')
+
+    plt.figure(figsize=(8, 6))
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+
+    if target_names is not None:
+        tick_marks = np.arange(len(target_names))
+        plt.xticks(tick_marks, target_names, rotation=45)
+        plt.yticks(tick_marks, target_names)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+    thresh = cm.max() / 1.5 if normalize else cm.max() / 2
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        if normalize:
+            plt.text(j, i, "{:0.4f}".format(cm[i, j]),
+                     horizontalalignment="center",
+                     color="white" if cm[i, j] > thresh else "black")
+        else:
+            plt.text(j, i, "{:,}".format(cm[i, j]),
+                     horizontalalignment="center",
+                     color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.savefig(filename)
+
+
 def print_metrics(tp, fp, tn, fn):
 
     acc = (tp + tn) / (tp + fp + tn + fn)
@@ -259,7 +339,7 @@ def print_metrics(tp, fp, tn, fn):
         # Results
         print(f'Total seismic traces: {tp + fn}\n'
               f'Total non seismic traces: {tn + fp}\n'
-              f'correct: {tp + tn}/{tp + fp + tn + fn} \n\n'
+              f'correct: {tp + tn} / {tp + fp + tn + fn} \n\n'
               f'True positives: {tp}\n'
               f'True negatives: {tn}\n'
               f'False positives: {fp}\n'
