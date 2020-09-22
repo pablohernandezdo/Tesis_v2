@@ -1321,7 +1321,7 @@ def sum_triple(i1, i2, i3, s1, s2, s3):
 
 def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
 
-    acc = (tp + tn) / (tp + fp + tn +fn)
+    acc = (tp + tn) / (tp + fp + tn + fn)
 
     # Evaluation metrics
     if (not tp) and (not fp):
