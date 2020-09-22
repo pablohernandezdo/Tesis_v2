@@ -61,7 +61,7 @@ def main():
 
     # Thresholds to evaluate performance on
     # thresholds = np.arange(0.1, 1, 0.1)
-    thresholds = 0.5
+    thresholds = [0.5]
 
     # Evaluate model on training dataset
 
