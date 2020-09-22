@@ -189,8 +189,8 @@ def main():
               f'Total execution time: {format_timespan(ev_t)}\n\n')
 
     # Print fscores
-    print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore}\n'
-          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore}')
+    print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
+          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}')
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
@@ -240,7 +240,6 @@ def main():
     plt.ylim(0, 1)
     plt.grid(True)
     plt.savefig(f'../ROC_curves/ROC_train_{args.model_name}.png')
-
 
     # Precision/Recall curve test dataset
     plt.figure()
