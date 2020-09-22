@@ -1,17 +1,23 @@
 import time
 import argparse
+from pathlib import Path
 
 import tqdm
 import torch
 import numpy as np
+import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
+
 
 from model import *
 from dataset import HDF5Dataset
 
 
 def main():
+    Path("../PR_curves").mkdir(exist_ok=True)
+    Path("../ROC_curves").mkdir(exist_ok=True)
+
     # Measure exec time
     start_time = time.time()
 
@@ -152,6 +158,78 @@ def main():
         print(f'Training evaluation time: {format_timespan(ev_1)}\n'
               f'Test evaluation time: {format_timespan(ev_2)}\n'
               f'Total execution time: {format_timespan(ev_t)}\n\n')
+
+    # Precision/Recall curve train dataset
+    plt.figure()
+    plt.plot(tr_recall, tr_precision)
+
+    # Annotate threshold values
+    for i, j, k in zip(tr_recall, tr_precision, thresholds):
+        plt.annotate(str(k), (i, j))
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR train dataset curve for model {args.model_name}')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.savefig(f'../PR_curves/PR_train_{args.model_name}.png')
+
+    # Receiver operating characteristic curve train dataset
+    plt.figure()
+    plt.plot(tr_fp_rate, tr_recall)
+
+    # Annotate
+    for i, j, k in zip(tr_fp_rate, tr_recall, thresholds):
+        plt.annotate(str(k), (i, j))
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC train dataset curve for model {args.model_name}')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.savefig(f'../ROC_curves/ROC_train_{args.model_name}.png')
+
+    # Precision/Recall curve test dataset
+    plt.figure()
+    plt.plot(tst_recall, tst_precision)
+
+    # Annotate threshold values
+    for i, j, k in zip(tst_recall, tst_precision, thresholds):
+        plt.annotate(str(k), (i, j))
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR test dataset curve for model {args.model_name}')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.savefig(f'../PR_curves/PR_test_{args.model_name}.png')
+
+    # Receiver operating characteristic curve test dataset
+    plt.figure()
+    plt.plot(tst_fp_rate, tst_recall)
+
+    # Annotate
+    for i, j, k in zip(tst_fp_rate, tst_recall, thresholds):
+        plt.annotate(str(k), (i, j))
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC test dataset curve for model {args.model_name}')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.savefig(f'../ROC_curves/ROC_test_{args.model_name}.png')
 
 
 def print_metrics(tp, fp, tn, fn):
