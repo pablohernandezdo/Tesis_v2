@@ -81,7 +81,7 @@ def main():
     tst_best_thresh = 0
 
     # Thresholds to evaluate performance on
-    thresholds = np.arange(0.1, 1, 0.1)
+    thresholds = np.arange(0.1, 1, 0.05)
 
     # Round threshold values
     thresholds = np.around(thresholds, decimals=2)
