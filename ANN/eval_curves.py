@@ -158,6 +158,10 @@ def main():
               f'Test evaluation time: {format_timespan(ev_2)}\n'
               f'Total execution time: {format_timespan(ev_t)}\n\n')
 
+    # Print fscores
+    print(f'Train fscores: {tr_fscores}\n'
+          f'Test fscores: {tst_fscores}')
+
     # Precision/Recall curve train dataset
     plt.figure()
     plt.plot(tr_recall, tr_precision)
