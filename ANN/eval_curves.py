@@ -68,6 +68,9 @@ def main():
     # Thresholds to evaluate performance on
     thresholds = np.arange(0.1, 1, 0.1)
 
+    # Round threshold values
+    thresholds = np.around(thresholds, decimals=2)
+
     # Evaluate model on training dataset
 
     for thresh in thresholds:
