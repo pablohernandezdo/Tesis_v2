@@ -81,7 +81,7 @@ def main():
     tst_best_thresh = 0
 
     # Thresholds to evaluate performance on
-    thresholds = np.arange(0.1, 1, 0.1)
+    thresholds = np.arange(0.05, 1, 0.05)
 
     # Round threshold values
     thresholds = np.around(thresholds, decimals=2)
@@ -192,16 +192,16 @@ def main():
     tr_pr_auc = np.trapz(tr_precision, x=tr_recall[::-1])
     tst_pr_auc = np.trapz(tst_precision, x=tst_recall[::-1])
 
-    tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate)
-    tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate)
+    tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate[::-1])
+    tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate[::-1])
 
     # Print fscores
     print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
           f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}\n\n'
-          f'Train PR AUC: {tr_pr_auc}\n'
-          f'Test PR AUC: {tst_pr_auc}\n\n'
-          f'Train ROC AUC: {tr_roc_auc}\n'
-          f'Test ROC AUC: {tst_roc_auc}\n')
+          f'Train PR AUC: {tr_pr_auc:5.3f}\n'
+          f'Test PR AUC: {tst_pr_auc:5.3f}\n\n'
+          f'Train ROC AUC: {tr_roc_auc:5.3f}\n'
+          f'Test ROC AUC: {tst_roc_auc:5.3f}\n')
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
