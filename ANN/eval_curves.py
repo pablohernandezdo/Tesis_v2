@@ -47,7 +47,7 @@ def main():
     net.eval()
 
     # Print number of network parameters
-    print(f'Number of network parameters: {nparams}')
+    print(f'Number of network parameters: {nparams}\n')
 
     # Preallocate precision and recall values
     tr_precision = []
