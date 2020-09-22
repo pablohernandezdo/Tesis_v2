@@ -188,10 +188,21 @@ def main():
               f'Test evaluation time: {format_timespan(ev_2)}\n'
               f'Total execution time: {format_timespan(ev_t)}\n\n')
 
+    # Area under curve
+    tr_pr_auc = np.trapz(tr_precision, tr_recall)
+    tst_pr_auc = np.trapz(tst_precision, tst_recall)
+
+    tr_roc_auc = np.trapz(tr_recall, tr_fp_rate)
+    tst_roc_auc = np.trapz(tst_recall, tst_fp_rate)
+
     # Print fscores
     print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
-          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}')
-
+          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}\n\n'
+          f'Train PR AUC: {tr_pr_auc}\n'
+          f'Test PR AUC: {tst_pr_auc}\n\n'
+          f'Train ROC AUC: {tr_roc_auc}\n'
+          f'Test ROC AUC: {tst_roc_auc}\n')
+    
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
 
