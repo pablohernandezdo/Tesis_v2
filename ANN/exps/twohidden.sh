@@ -8,207 +8,207 @@ tst="Test_data.hdf5"
 trn="Train_data.hdf5"
 val="Validation_data.hdf5"
 
-echo "Training model 2h6k6k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k6k --model_name 2h6k6k_1e4_256 > ../logs/train/2h6k6k_1e4_256.txt
-
-echo "Evaluating model 2h6k6k_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k6k --model_name 2h6k6k_1e4_256 > ../logs/eval/2h6k6k_1e4_256.txt
-
-
-echo "Training model 2h6k5k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k5k --model_name 2h6k5k_1e4_256 > ../logs/train/2h6k5k_1e4_256.txt
-
-echo "Evaluating model 2h6k5k_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k5k --model_name 2h6k5k_1e4_256 > ../logs/eval/2h6k5k_1e4_256.txt
-
-echo "Training model 2h6k4k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k4k --model_name 2h6k4k_1e4_256 > ../logs/train/2h6k4k_1e4_256.txt
-
-echo "Evaluating model 2h6k4k_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k4k --model_name 2h6k4k_1e4_256 > ../logs/eval/2h6k4k_1e4_256.txt
-
-echo "Training model 2h6k3k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k3k --model_name 2h6k3k_1e4_256 > ../logs/train/2h6k3k_1e4_256.txt
-
-echo "Evaluating model 2h6k3k_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k3k --model_name 2h6k3k_1e4_256 > ../logs/eval/2h6k3k_1e4_256.txt
-
-echo "Training model 2h6k2k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k2k --model_name 2h6k2k_1e4_256 > ../logs/train/2h6k2k_1e4_256.txt
-
-echo "Evaluating model 2h6k2k_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k2k --model_name 2h6k2k_1e4_256 > ../logs/eval/2h6k2k_1e4_256.txt
-
-echo "Training model 2h6k1k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k1k --model_name 2h6k1k_1e4_256 > ../logs/train/2h6k1k_1e4_256.txt
-
-echo "Evaluating model 2h6k1k_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k1k --model_name 2h6k1k_1e4_256 > ../logs/eval/2h6k1k_1e4_256.txt
-
-echo "Training model 2h6k5h, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k5h --model_name 2h6k5h_1e4_256 > ../logs/train/2h6k5h_1e4_256.txt
-
-echo "Evaluating model 2h6k5h_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k5h --model_name 2h6k5h_1e4_256 > ../logs/eval/2h6k5h_1e4_256.txt
-
-echo "Training model 2h6k1h, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k1h --model_name 2h6k1h_1e4_256 > ../logs/train/2h6k1h_1e4_256.txt
-
-echo "Evaluating model 2h6k1h_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k1h --model_name 2h6k1h_1e4_256 > ../logs/eval/2h6k1h_1e4_256.txt
-
-echo "Training model 2h6k10, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k10 --model_name 2h6k10_1e4_256 > ../logs/train/2h6k10_1e4_256.txt
-
-echo "Evaluating model 2h6k10_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k10 --model_name 2h6k10_1e4_256 > ../logs/eval/2h6k10_1e4_256.txt
-
-echo "Training model 2h6k1, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h6k1 --model_name 2h6k1_1e4_256 > ../logs/train/2h6k1_1e4_256.txt
-
-echo "Evaluating model 2h6k1_1e4_256"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 2h6k1 --model_name 2h6k1_1e4_256 > ../logs/eval/2h6k1_1e4_256.txt
-#
-#echo "Training model 2h5k6k, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k6k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k6k --model_name 2h5k6k_1e4_256 > ../logs/train/2h5k6k_1e4_256.txt
+#              --classifier 2h6k6k --model_name 2h6k6k_1e4_256 > ../logs/train/2h6k6k_1e4_256.txt
 #
-#echo "Evaluating model 2h5k6k_1e4_256"
+#echo "Evaluating model 2h6k6k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k6k --model_name 2h5k6k_1e4_256 > ../logs/eval/2h5k6k_1e4_256.txt
+#              --classifier 2h6k6k --model_name 2h6k6k_1e4_256 > ../logs/eval/2h6k6k_1e4_256.txt
 #
 #
-#echo "Training model 2h5k5k, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k5k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k5k --model_name 2h5k5k_1e4_256 > ../logs/train/2h5k5k_1e4_256.txt
+#              --classifier 2h6k5k --model_name 2h6k5k_1e4_256 > ../logs/train/2h6k5k_1e4_256.txt
 #
-#echo "Evaluating model 2h5k5k_1e4_256"
+#echo "Evaluating model 2h6k5k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k5k --model_name 2h5k5k_1e4_256 > ../logs/eval/2h5k5k_1e4_256.txt
+#              --classifier 2h6k5k --model_name 2h6k5k_1e4_256 > ../logs/eval/2h6k5k_1e4_256.txt
 #
-#echo "Training model 2h5k4k, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k4k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k4k --model_name 2h5k4k_1e4_256 > ../logs/train/2h5k4k_1e4_256.txt
+#              --classifier 2h6k4k --model_name 2h6k4k_1e4_256 > ../logs/train/2h6k4k_1e4_256.txt
 #
-#echo "Evaluating model 2h5k4k_1e4_256"
+#echo "Evaluating model 2h6k4k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k4k --model_name 2h5k4k_1e4_256 > ../logs/eval/2h5k4k_1e4_256.txt
+#              --classifier 2h6k4k --model_name 2h6k4k_1e4_256 > ../logs/eval/2h6k4k_1e4_256.txt
 #
-#echo "Training model 2h5k3k, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k3k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k3k --model_name 2h5k3k_1e4_256 > ../logs/train/2h5k3k_1e4_256.txt
+#              --classifier 2h6k3k --model_name 2h6k3k_1e4_256 > ../logs/train/2h6k3k_1e4_256.txt
 #
-#echo "Evaluating model 2h5k3k_1e4_256"
+#echo "Evaluating model 2h6k3k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k3k --model_name 2h5k3k_1e4_256 > ../logs/eval/2h5k3k_1e4_256.txt
+#              --classifier 2h6k3k --model_name 2h6k3k_1e4_256 > ../logs/eval/2h6k3k_1e4_256.txt
 #
-#echo "Training model 2h5k2k, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k2k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k2k --model_name 2h5k2k_1e4_256 > ../logs/train/2h5k2k_1e4_256.txt
+#              --classifier 2h6k2k --model_name 2h6k2k_1e4_256 > ../logs/train/2h6k2k_1e4_256.txt
 #
-#echo "Evaluating model 2h5k2k_1e4_256"
+#echo "Evaluating model 2h6k2k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k2k --model_name 2h5k2k_1e4_256 > ../logs/eval/2h5k2k_1e4_256.txt
+#              --classifier 2h6k2k --model_name 2h6k2k_1e4_256 > ../logs/eval/2h6k2k_1e4_256.txt
 #
-#echo "Training model 2h5k1k, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k1k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k1k --model_name 2h5k1k_1e4_256 > ../logs/train/2h5k1k_1e4_256.txt
+#              --classifier 2h6k1k --model_name 2h6k1k_1e4_256 > ../logs/train/2h6k1k_1e4_256.txt
 #
-#echo "Evaluating model 2h5k1k_1e4_256"
+#echo "Evaluating model 2h6k1k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k1k --model_name 2h5k1k_1e4_256 > ../logs/eval/2h5k1k_1e4_256.txt
+#              --classifier 2h6k1k --model_name 2h6k1k_1e4_256 > ../logs/eval/2h6k1k_1e4_256.txt
 #
-#echo "Training model 2h5k5h, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k5h, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k5h --model_name 2h5k5h_1e4_256 > ../logs/train/2h5k5h_1e4_256.txt
+#              --classifier 2h6k5h --model_name 2h6k5h_1e4_256 > ../logs/train/2h6k5h_1e4_256.txt
 #
-#echo "Evaluating model 2h5k5h_1e4_256"
+#echo "Evaluating model 2h6k5h_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k5h --model_name 2h5k5h_1e4_256 > ../logs/eval/2h5k5h_1e4_256.txt
+#              --classifier 2h6k5h --model_name 2h6k5h_1e4_256 > ../logs/eval/2h6k5h_1e4_256.txt
 #
-#echo "Training model 2h5k1h, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k1h, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k1h --model_name 2h5k1h_1e4_256 > ../logs/train/2h5k1h_1e4_256.txt
+#              --classifier 2h6k1h --model_name 2h6k1h_1e4_256 > ../logs/train/2h6k1h_1e4_256.txt
 #
-#echo "Evaluating model 2h5k1h_1e4_256"
+#echo "Evaluating model 2h6k1h_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k1h --model_name 2h5k1h_1e4_256 > ../logs/eval/2h5k1h_1e4_256.txt
+#              --classifier 2h6k1h --model_name 2h6k1h_1e4_256 > ../logs/eval/2h6k1h_1e4_256.txt
 #
-#echo "Training model 2h5k10, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k10, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k10 --model_name 2h5k10_1e4_256 > ../logs/train/2h5k10_1e4_256.txt
+#              --classifier 2h6k10 --model_name 2h6k10_1e4_256 > ../logs/train/2h6k10_1e4_256.txt
 #
-#echo "Evaluating model 2h5k10_1e4_256"
+#echo "Evaluating model 2h6k10_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k10 --model_name 2h5k10_1e4_256 > ../logs/eval/2h5k10_1e4_256.txt
+#              --classifier 2h6k10 --model_name 2h6k10_1e4_256 > ../logs/eval/2h6k10_1e4_256.txt
 #
-#echo "Training model 2h5k1, lr = 1e-4, epochs = 5, batch_size = 256"
+#echo "Training model 2h6k1, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-#              --classifier 2h5k1 --model_name 2h5k1_1e4_256 > ../logs/train/2h5k1_1e4_256.txt
+#              --classifier 2h6k1 --model_name 2h6k1_1e4_256 > ../logs/train/2h6k1_1e4_256.txt
 #
-#echo "Evaluating model 2h5k1_1e4_256"
+#echo "Evaluating model 2h6k1_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
-#              --classifier 2h5k1 --model_name 2h5k1_1e4_256 > ../logs/eval/2h5k1_1e4_256.txt
+#              --classifier 2h6k1 --model_name 2h6k1_1e4_256 > ../logs/eval/2h6k1_1e4_256.txt
+#
+echo "Training model 2h5k6k, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k6k --model_name 2h5k6k_1e4_256 > ../logs/train/2h5k6k_1e4_256.txt
+
+echo "Evaluating model 2h5k6k_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k6k --model_name 2h5k6k_1e4_256 > ../logs/eval/2h5k6k_1e4_256.txt
+
+
+echo "Training model 2h5k5k, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k5k --model_name 2h5k5k_1e4_256 > ../logs/train/2h5k5k_1e4_256.txt
+
+echo "Evaluating model 2h5k5k_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k5k --model_name 2h5k5k_1e4_256 > ../logs/eval/2h5k5k_1e4_256.txt
+
+echo "Training model 2h5k4k, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k4k --model_name 2h5k4k_1e4_256 > ../logs/train/2h5k4k_1e4_256.txt
+
+echo "Evaluating model 2h5k4k_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k4k --model_name 2h5k4k_1e4_256 > ../logs/eval/2h5k4k_1e4_256.txt
+
+echo "Training model 2h5k3k, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k3k --model_name 2h5k3k_1e4_256 > ../logs/train/2h5k3k_1e4_256.txt
+
+echo "Evaluating model 2h5k3k_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k3k --model_name 2h5k3k_1e4_256 > ../logs/eval/2h5k3k_1e4_256.txt
+
+echo "Training model 2h5k2k, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k2k --model_name 2h5k2k_1e4_256 > ../logs/train/2h5k2k_1e4_256.txt
+
+echo "Evaluating model 2h5k2k_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k2k --model_name 2h5k2k_1e4_256 > ../logs/eval/2h5k2k_1e4_256.txt
+
+echo "Training model 2h5k1k, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k1k --model_name 2h5k1k_1e4_256 > ../logs/train/2h5k1k_1e4_256.txt
+
+echo "Evaluating model 2h5k1k_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k1k --model_name 2h5k1k_1e4_256 > ../logs/eval/2h5k1k_1e4_256.txt
+
+echo "Training model 2h5k5h, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k5h --model_name 2h5k5h_1e4_256 > ../logs/train/2h5k5h_1e4_256.txt
+
+echo "Evaluating model 2h5k5h_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k5h --model_name 2h5k5h_1e4_256 > ../logs/eval/2h5k5h_1e4_256.txt
+
+echo "Training model 2h5k1h, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k1h --model_name 2h5k1h_1e4_256 > ../logs/train/2h5k1h_1e4_256.txt
+
+echo "Evaluating model 2h5k1h_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k1h --model_name 2h5k1h_1e4_256 > ../logs/eval/2h5k1h_1e4_256.txt
+
+echo "Training model 2h5k10, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k10 --model_name 2h5k10_1e4_256 > ../logs/train/2h5k10_1e4_256.txt
+
+echo "Evaluating model 2h5k10_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k10 --model_name 2h5k10_1e4_256 > ../logs/eval/2h5k10_1e4_256.txt
+
+echo "Training model 2h5k1, lr = 1e-4, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+              --classifier 2h5k1 --model_name 2h5k1_1e4_256 > ../logs/train/2h5k1_1e4_256.txt
+
+echo "Evaluating model 2h5k1_1e4_256"
+python ../eval.py --train_path $trn --test_path $tst \
+              --classifier 2h5k1 --model_name 2h5k1_1e4_256 > ../logs/eval/2h5k1_1e4_256.txt
 #
 #echo "Training model 2h4k6k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
