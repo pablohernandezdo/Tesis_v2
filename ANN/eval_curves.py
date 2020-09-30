@@ -346,21 +346,21 @@ def print_metrics(tp, fp, tn, fn):
     else:
         fscore = 2 * (precision * recall) / (precision + recall)
 
-        # Results
-        print(f'Total seismic traces: {tp + fn}\n'
-              f'Total non seismic traces: {tn + fp}\n'
-              f'correct: {tp + tn} / {tp + fp + tn + fn} \n\n'
-              f'True positives: {tp}\n'
-              f'True negatives: {tn}\n'
-              f'False positives: {fp}\n'
-              f'False negatives: {fn}\n\n'
-              f'Accuracy: {acc:5.3f}\n'
-              f'Precision: {precision:5.3f}\n'
-              f'Recall: {recall:5.3f}\n'
-              f'F-score: {fscore:5.3f}\n'
-              f'False positive rate: {fpr:5.3f}\n')
+    # Results
+    print(f'Total seismic traces: {tp + fn}\n'
+          f'Total non seismic traces: {tn + fp}\n'
+          f'correct: {tp + tn} / {tp + fp + tn + fn} \n\n'
+          f'True positives: {tp}\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n'
+          f'False negatives: {fn}\n\n'
+          f'Accuracy: {acc:5.3f}\n'
+          f'Precision: {precision:5.3f}\n'
+          f'Recall: {recall:5.3f}\n'
+          f'F-score: {fscore:5.3f}\n'
+          f'False positive rate: {fpr:5.3f}\n')
 
-        return precision, recall, fpr, fscore
+    return precision, recall, fpr, fscore
 
 
 def get_classifier(x):
