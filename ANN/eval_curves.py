@@ -357,8 +357,8 @@ def print_metrics(tp, fp, tn, fn):
           f'Accuracy: {acc:5.3f}\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n'
-          f'False positive rate: {fpr:5.3f}\n')
+          f'False positive rate: {fpr:5.3f}\n'
+          f'F-score: {fscore:5.3f}\n')
 
     return precision, recall, fpr, fscore
 
