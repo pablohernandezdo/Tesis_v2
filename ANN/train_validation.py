@@ -165,6 +165,11 @@ def main():
                     # Update batch bar
                     batch_bar.update()
 
+                    # Early stopping
+                    if all(val_acc <= i for i in earlys):
+                        print('Early stopping training')
+                        break
+
                 # Update epochs bar
                 epoch_bar.update()
 
