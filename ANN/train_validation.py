@@ -69,7 +69,7 @@ def main():
 
     # Early stopping
     val_acc = 1
-    earlys = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    earlys = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
