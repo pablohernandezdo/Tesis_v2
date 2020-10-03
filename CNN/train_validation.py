@@ -62,12 +62,21 @@ def main():
     tr_accuracies = []
     val_accuracies = []
 
+    # Early stopping
+    val_acc = 1
+    earlys = [0, 0, 0, 0, 0]
+
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
 
             total_loss = 0
             n_correct, n_total = 0, 0
+
+            # Early stopping
+            if all(val_acc <= i for i in earlys):
+                print('Early stopping training')
+                break
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
                 for i, data in enumerate(train_loader):
@@ -132,6 +141,10 @@ def main():
 
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
+
+                        # Save acc for early stopping
+                        earlys.pop(0)
+                        earlys.append(val_acc)
 
                     # Append training and validation accuracies
                     tr_accuracies.append(train_acc)
