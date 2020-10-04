@@ -6,7 +6,7 @@ mkdir -p ../models
 
 tst="Test_data.hdf5"
 trn="Train_data.hdf5"
-val="Validation_data.hdf5"
+val="Validation_data.hdf5" 
 
 echo "Training model 2h6k6k, lr = 1e-4, epochs = 5, batch_size = 256"
 python ../train_validation.py \
