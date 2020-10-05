@@ -66,7 +66,7 @@ def main():
 
     # For different threshold values
     for thresh in thresholds:
-        print(f'THRESHOLD: {thresh}')
+        print(f'THRESHOLD VALUE: {thresh}\n')
 
         # Count traces
         total_seismic, total_nseismic = 0, 0
@@ -215,9 +215,7 @@ def inf_francia(net, device, thresh):
                 fn += 1
 
     # Results
-    print(f'Total Francia traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Francia true positives: {tp}/{total}\n')
 
     return total, tp, fn
 
@@ -378,9 +376,7 @@ def inf_nevada(net, device, thresh):
     #         fn += 1
 
     # Results
-    print(f'Total Nevada traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Nevada true positives: {tp}/{total}\n')
 
     return total, tp, fn
 
@@ -452,9 +448,7 @@ def inf_belgica(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Total Belgica traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Belgica true positives: {tp}/{total}\n')
 
     return total, tp, fn
 
@@ -562,9 +556,7 @@ def inf_reykjanes(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Total Reykjanes traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Reykjanes true positives: {tp}/{total}\n')
 
     return total, tp, fn
 
@@ -608,9 +600,7 @@ def inf_california(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Total California traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'California true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -726,9 +716,7 @@ def inf_hydraulic(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Total Hydraulic traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Hydraulic true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -774,9 +762,7 @@ def inf_tides(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Tides traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Tides true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -819,9 +805,7 @@ def inf_utah(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Utah traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Utah true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -963,9 +947,7 @@ def inf_vibroseis(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Vibroseis traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Vibroseis true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -1011,9 +993,7 @@ def inf_shaker(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Shaker traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Shaker true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -1309,9 +1289,7 @@ def inf_signals(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total test signals: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Test signals true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
