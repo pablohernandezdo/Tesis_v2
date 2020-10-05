@@ -215,7 +215,7 @@ def inf_francia(net, device, thresh):
                 fn += 1
 
     # Results
-    print(f'Francia true positives: {tp}/{total}\n')
+    print(f'Francia true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -376,7 +376,7 @@ def inf_nevada(net, device, thresh):
     #         fn += 1
 
     # Results
-    print(f'Nevada true positives: {tp}/{total}\n')
+    print(f'Nevada true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -448,7 +448,7 @@ def inf_belgica(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Belgica true positives: {tp}/{total}\n')
+    print(f'Belgica true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -600,7 +600,7 @@ def inf_california(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'California true negatives: {tn}/{total}\n')
+    print(f'California true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -716,7 +716,7 @@ def inf_hydraulic(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Hydraulic true negatives: {tn}/{total}\n')
+    print(f'Hydraulic true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -762,7 +762,7 @@ def inf_tides(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Tides true negatives: {tn}/{total}\n')
+    print(f'Tides true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -805,7 +805,7 @@ def inf_utah(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Utah true negatives: {tn}/{total}\n')
+    print(f'Utah true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -947,7 +947,7 @@ def inf_vibroseis(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Vibroseis true negatives: {tn}/{total}\n')
+    print(f'Vibroseis true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -993,7 +993,7 @@ def inf_shaker(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Shaker true negatives: {tn}/{total}\n')
+    print(f'Shaker true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -1332,44 +1332,11 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     return precision, recall, fpr, fscore
 
 
-# ESTA FUNCION LA SAQUÉ DE https://www.kaggle.com/grfiv4/plot-a-confusion-matrix
-# HAY QUE MODIFICARLA PA QUE SEA MAS MEJOR
-def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='Confusion_matrix.png', cmap=None, normalize=True):
-    """
-    given a sklearn confusion matrix (cm), make a nice plot
-
-    Arguments
-    ---------
-    cm:           confusion matrix from sklearn.metrics.confusion_matrix
-
-    target_names: given classification classes such as [0, 1, 2]
-                  the class names, for example: ['high', 'medium', 'low']
-
-    title:        the text to display at the top of the matrix
-
-    cmap:         the gradient of the values displayed from matplotlib.pyplot.cm
-                  see http://matplotlib.org/examples/color/colormaps_reference.html
-                  plt.get_cmap('jet') or plt.cm.Blues
-
-    normalize:    If False, plot the raw numbers
-                  If True, plot the proportions
-
-    Usage
-    -----
-    plot_confusion_matrix(cm           = cm,                  # confusion matrix created by
-                                                              # sklearn.metrics.confusion_matrix
-                          normalize    = True,                # show proportions
-                          target_names = y_labels_vals,       # list of names of the classes
-                          title        = best_estimator_name) # title of graph
-
-    Citiation
-    ---------
-    http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
-
-    """
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
+                          filename='Confusion_matrix.png', cmap=None, normalize=True):
 
     accuracy = np.trace(cm) / float(np.sum(cm))
-    misclass = 1 - accuracy
+    missclass = 1 - accuracy
 
     if cmap is None:
         cmap = plt.get_cmap('Blues')
@@ -1400,7 +1367,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='
 
     plt.tight_layout()
     plt.ylabel('True label')
-    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, missclass))
     plt.savefig(filename)
 
 

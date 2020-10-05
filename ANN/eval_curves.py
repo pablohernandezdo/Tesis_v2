@@ -293,7 +293,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
                           filename='Confusion_matrix.png', cmap=None, normalize=True):
 
     accuracy = np.trace(cm) / float(np.sum(cm))
-    misclass = 1 - accuracy
+    missclass = 1 - accuracy
 
     if cmap is None:
         cmap = plt.get_cmap('Blues')
@@ -324,7 +324,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
 
     plt.tight_layout()
     plt.ylabel('True label')
-    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, missclass))
     plt.savefig(filename)
 
 
