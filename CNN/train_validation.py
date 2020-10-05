@@ -4,6 +4,7 @@ from pathlib import Path
 
 import tqdm
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
@@ -16,7 +17,8 @@ from dataset import HDF5Dataset
 
 def main():
     # Create learning curves folder
-    Path("../Learning_curves").mkdir(exist_ok=True)
+    Path("../Learning_curves/Accuracy").mkdir(exist_ok=True, parents=True)
+    Path("../Learning_curves/Loss").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
@@ -30,6 +32,7 @@ def main():
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     parser.add_argument("--eval_iter", type=int, default=20, help="Number of batches between validations")
+    parser.add_argument("--patience", type=int, default=15, help="Early stopping patience")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
@@ -62,15 +65,18 @@ def main():
     tr_accuracies = []
     val_accuracies = []
 
+    # Training and validation losses
+    tr_losses = []
+    val_losses = []
+
     # Early stopping
     val_acc = 1
-    earlys = [0, 0, 0, 0, 0]
+    earlys = np.zeros(args.patience).tolist()
 
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
         for epoch in range(args.n_epochs):
 
-            total_loss = 0
             n_correct, n_total = 0, 0
 
             # Early stopping
@@ -110,17 +116,13 @@ def main():
                     # Optimize
                     optimizer.step()
 
-                    # Calculate total loss
-                    total_loss += loss.item()
-
-                    # loss_id += 1
-
                     # Check validation accuracy periodically
                     if i % args.eval_iter == 0:
                         # Switch model to eval mode
                         net.eval()
 
                         # Calculate accuracy on validation
+                        total_val_loss = 0
                         total_val, correct_val = 0, 0
 
                         with torch.no_grad():
@@ -132,12 +134,20 @@ def main():
                                 # Forward pass
                                 outputs = net(traces)
 
+                                # Calculate loss
+                                val_loss = criterion(outputs, labels.float())
+
+                                # Total loss for epoch
+                                total_val_loss += val_loss.item()
+
                                 # Predicted labels
                                 predicted = torch.round(outputs)
 
                                 # Sum up correct and total validation examples
                                 total_val += labels.size(0)
                                 correct_val += (predicted == labels).sum().item()
+
+                            val_avg_loss = total_val_loss / len(val_loader)
 
                         # Calculate validation accuracy
                         val_acc = 100 * correct_val / total_val
@@ -146,12 +156,21 @@ def main():
                         earlys.pop(0)
                         earlys.append(val_acc)
 
+                    # Save loss to list
+                    val_losses.append(val_avg_loss)
+                    tr_losses.append(loss)
+
                     # Append training and validation accuracies
                     tr_accuracies.append(train_acc)
                     val_accuracies.append(val_acc)
 
                     # Update batch bar
                     batch_bar.update()
+
+                    # Early stopping
+                    if all(val_acc <= i for i in earlys):
+                        print('Early stopping training')
+                        break
 
                 # Update epochs bar
                 epoch_bar.update()
@@ -168,17 +187,12 @@ def main():
     # Plot train and validation accuracies
     learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
+    # Plot train and validation losses
+    learning_curve_loss(tr_losses, val_losses, args.model_name)
+
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
           f'Training time: {format_timespan(tr_t)}')
-
-
-def get_classifier(x):
-    return {
-        'C': ClassConv(),
-        'CBN': ClassConvBN(),
-        'CBN_v2': CBN_v2(),
-    }.get(x, ClassConv())
 
 
 def count_parameters(model):
@@ -194,6 +208,26 @@ def learning_curve_acc(tr_acc, val_acc, model_name):
     plt.ylabel('Accuracy')
     plt.legend(handles=[line_tr, line_val], loc='best')
     plt.savefig(f'../Learning_curves/{model_name}_accuracies.png')
+
+
+def learning_curve_loss(tr_loss, val_loss, model_name):
+    plt.figure()
+    line_tr, = plt.plot(tr_loss, label='Training Loss')
+    line_val, = plt.plot(val_loss, label='Validation Loss')
+    plt.grid(True)
+    plt.xlabel('Batches')
+    plt.ylabel('Accuracy')
+    plt.title(f'Loss learning curve model {model_name}')
+    plt.legend(handles=[line_tr, line_val], loc='best')
+    plt.savefig(f'../Learning_curves/Loss/{model_name}_Losses.png')
+
+
+def get_classifier(x):
+    return {
+        'C': ClassConv(),
+        'CBN': ClassConvBN(),
+        'CBN_v2': CBN_v2(),
+    }.get(x, ClassConv())
 
 
 if __name__ == "__main__":

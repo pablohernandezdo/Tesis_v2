@@ -77,26 +77,10 @@ def main():
                 train_bar.update(1)
 
     # Evaluation metrics
-    precision = tp / (tp + fp)
-    recall = tp / (tp + fn)
-    f_score = 2 * (precision * recall) / (precision + recall)
+    _, _, _, _ = print_metrics(tp, fp, tn, fn)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
-
-    print(f'Evaluation details: \n\n{args}\n'
-          f'Training Evaluation results: \n\n\n'
-          f'correct: {correct}, total: {total}\n\n'
-          f'True positives: {tp}\n'
-          f'False positives: {fp}\n'
-          f'True negatives: {tn}\n'
-          f'False negatives: {fn}\n\n'
-          f'Evaluation metrics:\n\n'          
-          f'Precision: {precision:5.3f}\n'
-          f'Recall: {recall:5.3f}\n'
-          f'F-score: {f_score:5.3f}\n')
-
-    print('Accuracy of the network on the train set: %d %%\n' % (100 * correct / total))
 
     # Evaluate model on test set
 
@@ -129,30 +113,51 @@ def main():
                 test_bar.update(1)
 
     # Evaluation metrics
-    precision = tp / (tp + fp)
-    recall = tp / (tp + fn)
-    f_score = 2 * (precision * recall) / (precision + recall)
+    _, _, _, _ = print_metrics(tp, fp, tn, fn)
 
     eval_2 = time.time()
     ev_2 = eval_2 - eval_1
     ev_t = eval_2 - start_time
 
-    print(f'Test Evaluation results: \n\n\n'
-          f'correct: {correct}, total: {total}\n\n'
-          f'True positives: {tp}\n'
-          f'False positives: {fp}\n'
-          f'True negatives: {tn}\n'
-          f'False negatives: {fn}\n\n'
-          f'Evaluation metrics:\n\n'
-          f'Precision: {precision:5.3f}\n'
-          f'Recall: {recall:5.3f}\n'
-          f'F-score: {f_score:5.3f}\n\n'
-          f'Training evaluation time: {format_timespan(ev_1)}\n'
+    print(f'Training evaluation time: {format_timespan(ev_1)}\n'
           f'Test evaluation time: {format_timespan(ev_2)}\n'
           f'Total execution time: {format_timespan(ev_t)}\n\n')
 
-    print('Accuracy of the network on the test set: %d %%' % (100 * correct / total))
     print(f'Number of network parameters: {nparams}')
+
+
+def print_metrics(tp, fp, tn, fn):
+    acc = (tp + tn) / (tp + fp + tn + fn)
+
+    # Evaluation metrics
+    if (not tp) and (not fp):
+        precision = 1
+    else:
+        precision = tp / (tp + fp)
+
+    recall = tp / (tp + fn)
+    fpr = fp / (fp + tn)
+
+    if (not precision) and (not recall):
+        fscore = 0
+    else:
+        fscore = 2 * (precision * recall) / (precision + recall)
+
+    # Results
+    print(f'Total seismic traces: {tp + fn}\n'
+          f'Total non seismic traces: {tn + fp}\n'
+          f'correct: {tp + tn} / {tp + fp + tn + fn} \n\n'
+          f'True positives: {tp}\n'
+          f'True negatives: {tn}\n'
+          f'False positives: {fp}\n'
+          f'False negatives: {fn}\n\n'
+          f'Accuracy: {acc:5.3f}\n'
+          f'Precision: {precision:5.3f}\n'
+          f'Recall: {recall:5.3f}\n'
+          f'False positive rate: {fpr:5.3f}\n'
+          f'F-score: {fscore:5.3f}\n')
+
+    return precision, recall, fpr, fscore
 
 
 def get_classifier(x):

@@ -4,6 +4,7 @@ from pathlib import Path
 
 import tqdm
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
@@ -31,6 +32,7 @@ def main():
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     parser.add_argument("--eval_iter", type=int, default=1, help="Number of batches between validations")
+    parser.add_argument("--patience", type=int, default=15, help="Early stopping patience")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
@@ -69,7 +71,7 @@ def main():
 
     # Early stopping
     val_acc = 1
-    earlys = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    earlys = np.zeros(args.patience).tolist()
 
     # Start training
     with tqdm.tqdm(total=args.n_epochs, desc='Epochs') as epoch_bar:
@@ -185,7 +187,7 @@ def main():
     # Plot train and validation accuracies
     learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
 
-    # Plot train and validation accuracies
+    # Plot train and validation losses
     learning_curve_loss(tr_losses, val_losses, args.model_name)
 
     print(f'Execution details: \n{args}\n'
