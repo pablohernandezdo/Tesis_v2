@@ -44,6 +44,9 @@ def main():
     precision = []
     fp_rate = []
     recall = []
+    fscores = []
+
+    # COnfusion matrix
     cm = []
 
     # Record max fscore value obtained
@@ -63,13 +66,16 @@ def main():
     # Round threshold values
     thresholds = np.around(thresholds, decimals=2)
 
-    # For different threshold values
+    # Evaluate model on DAS test dataset
+
     for thresh in thresholds:
-        print(f'THRESHOLD VALUE: {thresh}\n')
 
         # Count traces
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
+
+        # Print threshold value
+        print(f'Threshold value: {thresh}\n')
 
         # Sismic classification
         total, tp, fn = inf_francia(net, device, thresh)
@@ -108,12 +114,22 @@ def main():
         recall.append(rec)
         fp_rate.append(fpr)
         precision.append(pre)
+        fscores.append(fscore)
 
         # Save best conf matrix
         if fscore > max_fscore:
             max_fscore = fscore
             cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
             best_thresh = thresh
+
+    # Area under curves
+    pr_auc = np.trapz(precision, x=recall[::-1])
+    roc_auc = np.trapz(recall, x=fp_rate[::-1])
+
+    # Print fscores
+    print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
+          f'PR AUC: {pr_auc:5.3f}\n'
+          f'ROC AUC: {roc_auc:5.3f}\n')
 
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
