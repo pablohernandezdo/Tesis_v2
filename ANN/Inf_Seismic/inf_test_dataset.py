@@ -125,19 +125,17 @@ def main():
 
     # Add point (0, 1) to PR curve
     precision.append(1)
-    recall.append(1)
+    recall.append(0)
 
     # Add point (1, 0.5) to PR curve
-    recall.insert(0, 1)
     precision.insert(0, 0.5)
+    recall.insert(0, 1)
 
     # Add point (0, 0)  to ROC curve
     fp_rate.append(0)
-    recall.append(0)
 
     # Add point (1, 1) to ROC curve
     fp_rate.insert(0, 1)
-    recall.insert(0, 1)
 
     # Area under curves
     pr_auc = np.trapz(precision, x=recall[::-1])
