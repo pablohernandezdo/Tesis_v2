@@ -56,8 +56,9 @@ def main():
     best_thresh = 0
 
     # Threshold values
+    thresholds = [0.65]
     # thresholds = np.arange(0.4, 1, 0.05)
-    thresholds = np.arange(0.1, 1, 0.05)
+    # thresholds = np.arange(0.1, 1, 0.05)
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
     # thresholds = np.linspace(0.4, 0.8, 5)
@@ -121,6 +122,22 @@ def main():
             max_fscore = fscore
             cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
             best_thresh = thresh
+
+    # Add point (0, 1) to PR curve
+    precision.append(1)
+    recall.append(1)
+
+    # Add point (1, 0.5) to PR curve
+    recall.insert(0, 1)
+    precision.insert(0, 0.5)
+
+    # Add point (0, 0)  to ROC curve
+    fp_rate.append(0)
+    recall.append(0)
+
+    # Add point (1, 1) to ROC curve
+    fp_rate.insert(0, 1)
+    recall.insert(0, 1)
 
     # Area under curves
     pr_auc = np.trapz(precision, x=recall[::-1])
@@ -1315,7 +1332,7 @@ def sum_triple(i1, i2, i3, s1, s2, s3):
 
 def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
 
-    acc = (tp + tn) / (tp + fp + tn +fn)
+    acc = (tp + tn) / (tp + fp + tn + fn)
 
     # Evaluation metrics
     if (not tp) and (not fp):
@@ -1341,8 +1358,8 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'Accuracy: {acc:5.3f}\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n'
-          f'False positive rate: {fpr:5.3f}\n')
+          f'False positive rate: {fpr:5.3f}\n'
+          f'F-score: {fscore:5.3f}\n')
 
     return precision, recall, fpr, fscore
 
