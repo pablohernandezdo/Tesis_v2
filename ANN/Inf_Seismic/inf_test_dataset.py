@@ -56,9 +56,9 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = [0.65]
+    # thresholds = [0.65]
     # thresholds = np.arange(0.4, 1, 0.05)
-    # thresholds = np.arange(0.1, 1, 0.05)
+    thresholds = np.arange(0.1, 1, 0.05)
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
     # thresholds = np.linspace(0.4, 0.8, 5)
