@@ -159,7 +159,7 @@ def main():
 
     # Precision/Recall curve
     plt.figure()
-    plt.plot(recall, precision)
+    plt.plot(recall, precision, '-o', markersize=4)
 
     # Annotate threshold values
     for i, j, k in zip(recall, precision, thresholds):
@@ -177,7 +177,7 @@ def main():
 
     # Receiver operating characteristic curve
     plt.figure()
-    plt.plot(fp_rate, recall)
+    plt.plot(fp_rate, recall, '-o', markersize=4)
 
     # Annotate
     for i, j, k in zip(fp_rate, recall, thresholds):
