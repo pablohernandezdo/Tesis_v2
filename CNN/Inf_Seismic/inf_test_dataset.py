@@ -44,6 +44,9 @@ def main():
     precision = []
     fp_rate = []
     recall = []
+    fscores = []
+
+    # COnfusion matrix
     cm = []
 
     # Record max fscore value obtained
@@ -53,7 +56,8 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = np.arange(0.4, 1, 0.05)
+    # thresholds = np.arange(0.4, 1, 0.05)
+    thresholds = np.arange(0.1, 1, 0.05)
     # thresholds = np.arange(0.1, 1, 0.1)
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
@@ -63,13 +67,16 @@ def main():
     # Round threshold values
     thresholds = np.around(thresholds, decimals=2)
 
-    # For different threshold values
+    # Evaluate model on DAS test dataset
+
     for thresh in thresholds:
-        print(f'THRESHOLD: {thresh}')
 
         # Count traces
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
+
+        # Print threshold value
+        print(f'Threshold value: {thresh}\n')
 
         # Sismic classification
         total, tp, fn = inf_francia(net, device, thresh)
@@ -108,12 +115,36 @@ def main():
         recall.append(rec)
         fp_rate.append(fpr)
         precision.append(pre)
+        fscores.append(fscore)
 
         # Save best conf matrix
         if fscore > max_fscore:
             max_fscore = fscore
             cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
             best_thresh = thresh
+
+    # Add point (0, 1) to PR curve
+    precision.append(1)
+    recall.append(0)
+
+    # Add point (1, 0.5) to PR curve
+    precision.insert(0, 0.5)
+    recall.insert(0, 1)
+
+    # Add point (0, 0)  to ROC curve
+    fp_rate.append(0)
+
+    # Add point (1, 1) to ROC curve
+    fp_rate.insert(0, 1)
+
+    # Area under curves
+    pr_auc = np.trapz(precision, x=recall[::-1])
+    roc_auc = np.trapz(recall, x=fp_rate[::-1])
+
+    # Print fscores
+    print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
+          f'PR AUC: {pr_auc:5.3f}\n'
+          f'ROC AUC: {roc_auc:5.3f}\n')
 
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
@@ -128,7 +159,7 @@ def main():
 
     # Precision/Recall curve
     plt.figure()
-    plt.plot(recall, precision)
+    plt.plot(recall, precision, '-o', markersize=4)
 
     # Annotate threshold values
     for i, j, k in zip(recall, precision, thresholds):
@@ -146,7 +177,7 @@ def main():
 
     # Receiver operating characteristic curve
     plt.figure()
-    plt.plot(fp_rate, recall)
+    plt.plot(fp_rate, recall, '-o', markersize=4)
 
     # Annotate
     for i, j, k in zip(fp_rate, recall, thresholds):
@@ -214,9 +245,7 @@ def inf_francia(net, device, thresh):
                 fn += 1
 
     # Results
-    print(f'Total Francia traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Francia true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -377,9 +406,7 @@ def inf_nevada(net, device, thresh):
     #         fn += 1
 
     # Results
-    print(f'Total Nevada traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Nevada true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -451,9 +478,7 @@ def inf_belgica(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Total Belgica traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Belgica true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -561,9 +586,7 @@ def inf_reykjanes(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Total Reykjanes traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Reykjanes true positives: {tp}/{total}\n')
 
     return total, tp, fn
 
@@ -607,9 +630,7 @@ def inf_california(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Total California traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'California true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -725,9 +746,7 @@ def inf_hydraulic(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Total Hydraulic traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Hydraulic true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -773,9 +792,7 @@ def inf_tides(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Tides traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Tides true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -818,9 +835,7 @@ def inf_utah(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Utah traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Utah true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -962,9 +977,7 @@ def inf_vibroseis(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Vibroseis traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Vibroseis true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -1010,9 +1023,7 @@ def inf_shaker(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Shaker traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Shaker true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -1308,9 +1319,7 @@ def inf_signals(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total test signals: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Test signals true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -1353,44 +1362,11 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
     return precision, recall, fpr, fscore
 
 
-# ESTA FUNCION LA SAQUÉ DE https://www.kaggle.com/grfiv4/plot-a-confusion-matrix
-# HAY QUE MODIFICARLA PA QUE SEA MAS MEJOR
-def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='Confusion_matrix.png', cmap=None, normalize=True):
-    """
-    given a sklearn confusion matrix (cm), make a nice plot
-
-    Arguments
-    ---------
-    cm:           confusion matrix from sklearn.metrics.confusion_matrix
-
-    target_names: given classification classes such as [0, 1, 2]
-                  the class names, for example: ['high', 'medium', 'low']
-
-    title:        the text to display at the top of the matrix
-
-    cmap:         the gradient of the values displayed from matplotlib.pyplot.cm
-                  see http://matplotlib.org/examples/color/colormaps_reference.html
-                  plt.get_cmap('jet') or plt.cm.Blues
-
-    normalize:    If False, plot the raw numbers
-                  If True, plot the proportions
-
-    Usage
-    -----
-    plot_confusion_matrix(cm           = cm,                  # confusion matrix created by
-                                                              # sklearn.metrics.confusion_matrix
-                          normalize    = True,                # show proportions
-                          target_names = y_labels_vals,       # list of names of the classes
-                          title        = best_estimator_name) # title of graph
-
-    Citiation
-    ---------
-    http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
-
-    """
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
+                          filename='Confusion_matrix.png', cmap=None, normalize=True):
 
     accuracy = np.trace(cm) / float(np.sum(cm))
-    misclass = 1 - accuracy
+    missclass = 1 - accuracy
 
     if cmap is None:
         cmap = plt.get_cmap('Blues')
@@ -1421,7 +1397,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='
 
     plt.tight_layout()
     plt.ylabel('True label')
-    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, missclass))
     plt.savefig(filename)
 
 
@@ -1441,6 +1417,104 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
 
 def get_classifier(x):
     return {
+        '1c1h': CNN1P1H1h(),
+        '1c2h': CNN1P1H2h(),
+        '1c5h': CNN1P1H5h(),
+        '1c1k': CNN1P1H1k(),
+        '1c2k': CNN1P1H2k(),
+        '1c3k': CNN1P1H3k(),
+        '1c4k': CNN1P1H4k(),
+        '1c5k': CNN1P1H5k(),
+        '1c6k': CNN1P1H6k(),
+        '1c10K': CNN1P1H10k(),
+        '1c10k10k': CNN1P2H10k10k(),
+        '1c10k5k': CNN1P2H10k5k(),
+        '1c10k1k': CNN1P2H10k1k(),
+        '1c10k1h': CNN1P2H10k1h(),
+        '1c10k10': CNN1P2H10k10(),
+        '1c6k6k': CNN1P2H6k6k(),
+        '1c6k1k': CNN1P2H6k1k(),
+        '1c6k1h': CNN1P2H6k1h(),
+        '1c6k10': CNN1P2H6k10(),
+        '1c5k5k': CNN1P2H5k5k(),
+        '1c5k1k': CNN1P2H5k1k(),
+        '1c5k1h': CNN1P2H5k1h(),
+        '1c5k10': CNN1P2H5k10(),
+        '1c4k4k': CNN1P2H4k4k(),
+        '1c4k1k': CNN1P2H4k1k(),
+        '1c4k1h': CNN1P2H4k1h(),
+        '1c4k10': CNN1P2H4k10(),
+        '1c3k3k': CNN1P2H3k3k(),
+        '1c3k1k': CNN1P2H3k1k(),
+        '1c3k1h': CNN1P2H3k1h(),
+        '1c3k10': CNN1P2H3k10(),
+        '1c2k2k': CNN1P2H2k2k(),
+        '1c2k1k': CNN1P2H2k1k(),
+        '1c2k1h': CNN1P2H2k1h(),
+        '1c2k10': CNN1P2H2k10(),
+        '1c1k1k': CNN1P2H1k1k(),
+        '1c1k1h': CNN1P2H1k1h(),
+        '1c1k10': CNN1P2H1k10(),
+        '1c5h5h': CNN1P2H5h5h(),
+        '1c5h1h': CNN1P2H5h1h(),
+        '1c5h10': CNN1P2H5h10(),
+        '1c2h2h': CNN1P2H2h2h(),
+        '1c2h1h': CNN1P2H2h1h(),
+        '1c2h10': CNN1P2H2h10(),
+        '1c1h1h': CNN1P2H1h1h(),
+        '1c1h10': CNN1P2H1h10(),
+        '2c20k': CNN2P1H20K(),
+        '2c15k': CNN2P1H15K(),
+        '2c10k': CNN2P1H10K(),
+        '2c5k': CNN2P1H5K(),
+        '2c3k': CNN2P1H3K(),
+        '2c2k': CNN2P1H2K(),
+        '2c1k': CNN2P1H1K(),
+        '2c20k20k': CNN2P1H20k20k(),
+        '2c20k10k': CNN2P1H20k10k(),
+        '2c20k5k': CNN2P1H20k5k(),
+        '2c20k2k': CNN2P1H20k2k(),
+        '2c20k1k': CNN2P1H20k1k(),
+        '2c20k5h': CNN2P1H20k5h(),
+        '2c20k1h': CNN2P1H20k1h(),
+        '2c20k10': CNN2P1H20k10(),
+        '2c15k15k': CNN2P1H15k15k(),
+        '2c15k10k': CNN2P1H15k10k(),
+        '2c15k5k': CNN2P1H15k5k(),
+        '2c15k2k': CNN2P1H15k2k(),
+        '2c15k1k': CNN2P1H15k1k(),
+        '2c15k5h': CNN2P1H15k5h(),
+        '2c15k1h': CNN2P1H15k1h(),
+        '2c15k10': CNN2P1H15k10(),
+        '2c10k10k': CNN2P1H10k10k(),
+        '2c10k5k': CNN2P1H10k5k(),
+        '2c10k2k': CNN2P1H10k2k(),
+        '2c10k1k': CNN2P1H10k1k(),
+        '2c10k5h': CNN2P1H10k5h(),
+        '2c10k1h': CNN2P1H10k1h(),
+        '2c10k10': CNN2P1H10k10(),
+        '2c5k5k': CNN2P1H5k5k(),
+        '2c5k2k': CNN2P1H5k2k(),
+        '2c5k1k': CNN2P1H5k1k(),
+        '2c5k5h': CNN2P1H5k5h(),
+        '2c5k1h': CNN2P1H5k1h(),
+        '2c5k10': CNN2P1H5k10(),
+        '2c3k3k': CNN2P1H3k3k(),
+        '2c3k2k': CNN2P1H3k2k(),
+        '2c3k1k5': CNN2P1H3k1k5(),
+        '2c3k1k': CNN2P1H3k1k(),
+        '2c3k5h': CNN2P1H3k5h(),
+        '2c3k1h': CNN2P1H3k1h(),
+        '2c3k10': CNN2P1H3k10(),
+        '2c2k2k': CNN2P1H2k2k(),
+        '2c2k1k': CNN2P1H2k1k(),
+        '2c2k5h': CNN2P1H2k5h(),
+        '2c2k1h': CNN2P1H2k1h(),
+        '2c2k10': CNN2P1H2k10(),
+        '2c1k1k': CNN2P1H1k1k(),
+        '2c1k5h': CNN2P1H1k5h(),
+        '2c1k1h': CNN2P1H1k1h(),
+        '2c1k10': CNN2P1H1k10(),
         'C': ClassConv(),
         'CBN': ClassConvBN(),
         'CBN_v2': CBN_v2(),
