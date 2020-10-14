@@ -207,8 +207,9 @@ def learning_curve_acc(tr_acc, val_acc, model_name):
     plt.grid(True)
     plt.xlabel('Batches')
     plt.ylabel('Accuracy')
+    plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/{model_name}_accuracies.png')
+    plt.savefig(f'../Learning_curves/Accuracy/{model_name}_accuracies.png')
 
 
 def learning_curve_loss(tr_loss, val_loss, model_name):
