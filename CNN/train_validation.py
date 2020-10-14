@@ -223,106 +223,303 @@ def learning_curve_loss(tr_loss, val_loss, model_name):
 
 
 def get_classifier(x):
-    return {
-        '1c1h': CNN1P1H1h(),
-        '1c2h': CNN1P1H2h(),
-        '1c5h': CNN1P1H5h(),
-        '1c1k': CNN1P1H1k(),
-        '1c2k': CNN1P1H2k(),
-        '1c3k': CNN1P1H3k(),
-        '1c4k': CNN1P1H4k(),
-        '1c5k': CNN1P1H5k(),
-        '1c6k': CNN1P1H6k(),
-        '1c10k': CNN1P1H10k(),
-        '1c10k10k': CNN1P2H10k10k(),
-        '1c10k5k': CNN1P2H10k5k(),
-        '1c10k1k': CNN1P2H10k1k(),
-        '1c10k1h': CNN1P2H10k1h(),
-        '1c10k10': CNN1P2H10k10(),
-        '1c6k6k': CNN1P2H6k6k(),
-        '1c6k1k': CNN1P2H6k1k(),
-        '1c6k1h': CNN1P2H6k1h(),
-        '1c6k10': CNN1P2H6k10(),
-        '1c5k5k': CNN1P2H5k5k(),
-        '1c5k1k': CNN1P2H5k1k(),
-        '1c5k1h': CNN1P2H5k1h(),
-        '1c5k10': CNN1P2H5k10(),
-        '1c4k4k': CNN1P2H4k4k(),
-        '1c4k1k': CNN1P2H4k1k(),
-        '1c4k1h': CNN1P2H4k1h(),
-        '1c4k10': CNN1P2H4k10(),
-        '1c3k3k': CNN1P2H3k3k(),
-        '1c3k1k': CNN1P2H3k1k(),
-        '1c3k1h': CNN1P2H3k1h(),
-        '1c3k10': CNN1P2H3k10(),
-        '1c2k2k': CNN1P2H2k2k(),
-        '1c2k1k': CNN1P2H2k1k(),
-        '1c2k1h': CNN1P2H2k1h(),
-        '1c2k10': CNN1P2H2k10(),
-        '1c1k1k': CNN1P2H1k1k(),
-        '1c1k1h': CNN1P2H1k1h(),
-        '1c1k10': CNN1P2H1k10(),
-        '1c5h5h': CNN1P2H5h5h(),
-        '1c5h1h': CNN1P2H5h1h(),
-        '1c5h10': CNN1P2H5h10(),
-        '1c2h2h': CNN1P2H2h2h(),
-        '1c2h1h': CNN1P2H2h1h(),
-        '1c2h10': CNN1P2H2h10(),
-        '1c1h1h': CNN1P2H1h1h(),
-        '1c1h10': CNN1P2H1h10(),
-        '2c20k': CNN2P1H20k(),
-        '2c15k': CNN2P1H15k(),
-        '2c10k': CNN2P1H10k(),
-        '2c5k': CNN2P1H5k(),
-        '2c3k': CNN2P1H3k(),
-        '2c2k': CNN2P1H2k(),
-        '2c1k': CNN2P1H1k(),
-        '2c20k20k': CNN2P1H20k20k(),
-        '2c20k10k': CNN2P1H20k10k(),
-        '2c20k5k': CNN2P1H20k5k(),
-        '2c20k2k': CNN2P1H20k2k(),
-        '2c20k1k': CNN2P1H20k1k(),
-        '2c20k5h': CNN2P1H20k5h(),
-        '2c20k1h': CNN2P1H20k1h(),
-        '2c20k10': CNN2P1H20k10(),
-        '2c15k15k': CNN2P1H15k15k(),
-        '2c15k10k': CNN2P1H15k10k(),
-        '2c15k5k': CNN2P1H15k5k(),
-        '2c15k2k': CNN2P1H15k2k(),
-        '2c15k1k': CNN2P1H15k1k(),
-        '2c15k5h': CNN2P1H15k5h(),
-        '2c15k1h': CNN2P1H15k1h(),
-        '2c15k10': CNN2P1H15k10(),
-        '2c10k10k': CNN2P1H10k10k(),
-        '2c10k5k': CNN2P1H10k5k(),
-        '2c10k2k': CNN2P1H10k2k(),
-        '2c10k1k': CNN2P1H10k1k(),
-        '2c10k5h': CNN2P1H10k5h(),
-        '2c10k1h': CNN2P1H10k1h(),
-        '2c10k10': CNN2P1H10k10(),
-        '2c5k5k': CNN2P1H5k5k(),
-        '2c5k2k': CNN2P1H5k2k(),
-        '2c5k1k': CNN2P1H5k1k(),
-        '2c5k5h': CNN2P1H5k5h(),
-        '2c5k1h': CNN2P1H5k1h(),
-        '2c5k10': CNN2P1H5k10(),
-        '2c3k3k': CNN2P1H3k3k(),
-        '2c3k2k': CNN2P1H3k2k(),
-        '2c3k1k5': CNN2P1H3k1k5(),
-        '2c3k1k': CNN2P1H3k1k(),
-        '2c3k5h': CNN2P1H3k5h(),
-        '2c3k1h': CNN2P1H3k1h(),
-        '2c3k10': CNN2P1H3k10(),
-        '2c2k2k': CNN2P1H2k2k(),
-        '2c2k1k': CNN2P1H2k1k(),
-        '2c2k5h': CNN2P1H2k5h(),
-        '2c2k1h': CNN2P1H2k1h(),
-        '2c2k10': CNN2P1H2k10(),
-        '2c1k1k': CNN2P1H1k1k(),
-        '2c1k5h': CNN2P1H1k5h(),
-        '2c1k1h': CNN2P1H1k1h(),
-        '2c1k10': CNN2P1H1k10(),
-    }.get(x, CNN1P1H1h())
+    if x == '1c1h':
+        return CNN1P1H1h()
+    if x == '1c2h':
+        return CNN1P1H2h()
+    if x == '1c5h':
+        return CNN1P1H5h()
+    if x == '1c1k':
+        return CNN1P1H1k()
+    if x == '1c2k':
+        return CNN1P1H2k()
+    if x == '1c3k':
+        return CNN1P1H3k()
+    if x == '1c4k':
+        return CNN1P1H4k()
+    if x == '1c5k':
+        return CNN1P1H5k()
+    if x == '1c5k':
+        return CNN1P1H5k()
+    if x == '1c10k10k':
+        return CNN1P2H10k10k()
+    if x == '1c10k5k':
+        return CNN1P2H10k5k()
+    if x == '1c10k1k':
+        return CNN1P2H10k1k()
+    if x == '1c10k1h':
+        return CNN1P2H10k1h()
+    if x == '1c10k10':
+        return CNN1P2H10k10()
+    if x == '1c6k6k':
+        return CNN1P2H6k6k()
+    if x == '1c6k1k':
+        return CNN1P2H6k1k()
+    if x == '1c6k1h':
+        return CNN1P2H6k1h()
+    if x == '1c6k10':
+        return CNN1P2H6k10()
+    if x == '1c5k5k':
+        return CNN1P2H5k5k()
+    if x == '1c5k1k':
+        return CNN1P2H5k1k()
+    if x == '1c5k1h':
+        return CNN1P2H5k1h()
+    if x == '1c5k10':
+        return CNN1P2H5k10()
+    if x == '1c4k4k':
+        return CNN1P2H4k4k()
+    if x == '1c4k1k':
+        return CNN1P2H4k1k()
+    if x == '1c4k1h':
+        return CNN1P2H4k1h()
+    if x == '1c4k10':
+        return CNN1P2H4k10()
+    if x == '1c3k3k':
+        return CNN1P2H3k3k()
+    if x == '1c3k1k':
+        return CNN1P2H3k1k()
+    if x == '1c3k1h':
+        return CNN1P2H3k1h()
+    if x == '1c3k10':
+        return CNN1P2H3k10()
+    if x == '1c2k2k':
+        return CNN1P2H2k2k()
+    if x == '1c2k1k':
+        return CNN1P2H2k1k()
+    if x == '1c2k1h':
+        return CNN1P2H2k1h()
+    if x == '1c2k10':
+        return CNN1P2H2k10()
+    if x == '1c1k1k':
+        return CNN1P2H1k1k()
+    if x == '1c1k1h':
+        return CNN1P2H1k1h()
+    if x == '1c1k10':
+        return CNN1P2H1k10()
+    if x == '1c5h5h':
+        return CNN1P2H5h5h()
+    if x == '1c5h1h':
+        return CNN1P2H5h1h()
+    if x == '1c5h10':
+        return CNN1P2H5h10()
+    if x == '1c2h2h':
+        return CNN1P2H2h2h()
+    if x == '1c2h1h':
+        return CNN1P2H2h1h()
+    if x == '1c2h10':
+        return CNN1P2H2h10()
+    if x == '1c1h1h':
+        return CNN1P2H1h1h()
+    if x == '1c1h10':
+        return CNN1P2H1h10()
+    if x == '2c20k':
+        return CNN2P1H20k()
+    if x == '2c15k':
+        return CNN2P1H15k()
+    if x == '2c10k':
+        return CNN2P1H10k()
+    if x == '2c5k':
+        return CNN2P1H5k()
+    if x == '2c3k':
+        return CNN2P1H3k()
+    if x == '2c2k':
+        return CNN2P1H2k()
+    if x == '2c1k':
+        return CNN2P1H1k()
+    if x == '2c20k20k':
+        return CNN2P1H20k20k()
+    if x == '2c20k10k':
+        return CNN2P1H20k10k()
+    if x == '2c20k5k':
+        return CNN2P1H20k5k()
+    if x == '2c20k2k':
+        return CNN2P1H20k2k()
+    if x == '2c20k1k':
+        return CNN2P1H20k1k()
+    if x == '2c20k5h':
+        return CNN2P1H20k5h()
+    if x == '2c20k1h':
+        return CNN2P1H20k1h()
+    if x == '2c20k10':
+        return CNN2P1H20k10()
+    if x == '2c15k15k':
+        return CNN2P1H15k15k()
+    if x == '2c15k10k':
+        return CNN2P1H15k10k()
+    if x == '2c15k5k':
+        return CNN2P1H15k5k()
+    if x == '2c15k2k':
+        return CNN2P1H15k2k()
+    if x == '2c15k1k':
+        return CNN2P1H15k1k()
+    if x == '2c15k1h':
+        return CNN2P1H15k1h()
+    if x == '2c15k10':
+        return CNN2P1H15k10()
+    if x == '2c10k10k':
+        return CNN2P1H10k10k()
+    if x == '2c10k5k':
+        return CNN2P1H10k5k()
+    if x == '2c10k2k':
+        return CNN2P1H10k2k()
+    if x == '2c10k1k':
+        return CNN2P1H10k1k()
+    if x == '2c10k5h':
+        return CNN2P1H10k5h()
+    if x == '2c10k1h':
+        return CNN2P1H10k1h()
+    if x == '2c10k10':
+        return CNN2P1H10k10()
+    if x == '2c5k5k':
+        return CNN2P1H5k5k()
+    if x == '2c5k2k':
+        return CNN2P1H5k2k()
+    if x == '2c5k1k':
+        return CNN2P1H5k1k()
+    if x == '2c5k5h':
+        return CNN2P1H5k5h()
+    if x == '2c5k1h':
+        return CNN2P1H5k1h()
+    if x == '2c5k10':
+        return CNN2P1H5k10()
+    if x == '2c3k3k':
+        return CNN2P1H3k3k()
+    if x == '2c3k2k':
+        return CNN2P1H3k2k()
+    if x == '2c3k1k':
+        return CNN2P1H3k1k()
+    if x == '2c3k5h':
+        return CNN2P1H3k5h()
+    if x == '2c3k1h':
+        return CNN2P1H3k1h()
+    if x == '2c3k10':
+        return CNN2P1H3k10()
+    if x == '2c2k2k':
+        return CNN2P1H2k2k()
+    if x == '2c2k1k':
+        return CNN2P1H2k1k()
+    if x == '2c2k5h':
+        return CNN2P1H2k5h()
+    if x == '2c2k1h':
+        return CNN2P1H2k1h()
+    if x == '2c2k10':
+        return CNN2P1H2k10()
+    if x == '2c1k1k':
+        return CNN2P1H1k1k()
+    if x == '2c1k5h':
+        return CNN2P1H1k5h()
+    if x == '2c1k1h':
+        return CNN2P1H1k1h()
+    if x == '2c1k10':
+        return CNN2P1H1k10()
+    if x == '2c1k10':
+        return CNN2P1H1k10()
+    else:
+        return CNN2P1H1k10()
+
+
+# def get_classifier(x):
+#     return {
+#         '1c1h': CNN1P1H1h(),
+#         '1c2h': CNN1P1H2h(),
+#         '1c5h': CNN1P1H5h(),
+#         '1c1k': CNN1P1H1k(),
+#         '1c2k': CNN1P1H2k(),
+#         '1c3k': CNN1P1H3k(),
+#         '1c4k': CNN1P1H4k(),
+#         '1c5k': CNN1P1H5k(),
+#         '1c6k': CNN1P1H6k(),
+#         '1c10k': CNN1P1H10k(),
+#         '1c10k10k': CNN1P2H10k10k(),
+#         '1c10k5k': CNN1P2H10k5k(),
+#         '1c10k1k': CNN1P2H10k1k(),
+#         '1c10k1h': CNN1P2H10k1h(),
+#         '1c10k10': CNN1P2H10k10(),
+#         '1c6k6k': CNN1P2H6k6k(),
+#         '1c6k1k': CNN1P2H6k1k(),
+#         '1c6k1h': CNN1P2H6k1h(),
+#         '1c6k10': CNN1P2H6k10(),
+#         '1c5k5k': CNN1P2H5k5k(),
+#         '1c5k1k': CNN1P2H5k1k(),
+#         '1c5k1h': CNN1P2H5k1h(),
+#         '1c5k10': CNN1P2H5k10(),
+#         '1c4k4k': CNN1P2H4k4k(),
+#         '1c4k1k': CNN1P2H4k1k(),
+#         '1c4k1h': CNN1P2H4k1h(),
+#         '1c4k10': CNN1P2H4k10(),
+#         '1c3k3k': CNN1P2H3k3k(),
+#         '1c3k1k': CNN1P2H3k1k(),
+#         '1c3k1h': CNN1P2H3k1h(),
+#         '1c3k10': CNN1P2H3k10(),
+#         '1c2k2k': CNN1P2H2k2k(),
+#         '1c2k1k': CNN1P2H2k1k(),
+#         '1c2k1h': CNN1P2H2k1h(),
+#         '1c2k10': CNN1P2H2k10(),
+#         '1c1k1k': CNN1P2H1k1k(),
+#         '1c1k1h': CNN1P2H1k1h(),
+#         '1c1k10': CNN1P2H1k10(),
+#         '1c5h5h': CNN1P2H5h5h(),
+#         '1c5h1h': CNN1P2H5h1h(),
+#         '1c5h10': CNN1P2H5h10(),
+#         '1c2h2h': CNN1P2H2h2h(),
+#         '1c2h1h': CNN1P2H2h1h(),
+#         '1c2h10': CNN1P2H2h10(),
+#         '1c1h1h': CNN1P2H1h1h(),
+#         '1c1h10': CNN1P2H1h10(),
+#         '2c20k': CNN2P1H20k(),
+#         '2c15k': CNN2P1H15k(),
+#         '2c10k': CNN2P1H10k(),
+#         '2c5k': CNN2P1H5k(),
+#         '2c3k': CNN2P1H3k(),
+#         '2c2k': CNN2P1H2k(),
+#         '2c1k': CNN2P1H1k(),
+#         '2c20k20k': CNN2P1H20k20k(),
+#         '2c20k10k': CNN2P1H20k10k(),
+#         '2c20k5k': CNN2P1H20k5k(),
+#         '2c20k2k': CNN2P1H20k2k(),
+#         '2c20k1k': CNN2P1H20k1k(),
+#         '2c20k5h': CNN2P1H20k5h(),
+#         '2c20k1h': CNN2P1H20k1h(),
+#         '2c20k10': CNN2P1H20k10(),
+#         '2c15k15k': CNN2P1H15k15k(),
+#         '2c15k10k': CNN2P1H15k10k(),
+#         '2c15k5k': CNN2P1H15k5k(),
+#         '2c15k2k': CNN2P1H15k2k(),
+#         '2c15k1k': CNN2P1H15k1k(),
+#         '2c15k5h': CNN2P1H15k5h(),
+#         '2c15k1h': CNN2P1H15k1h(),
+#         '2c15k10': CNN2P1H15k10(),
+#         '2c10k10k': CNN2P1H10k10k(),
+#         '2c10k5k': CNN2P1H10k5k(),
+#         '2c10k2k': CNN2P1H10k2k(),
+#         '2c10k1k': CNN2P1H10k1k(),
+#         '2c10k5h': CNN2P1H10k5h(),
+#         '2c10k1h': CNN2P1H10k1h(),
+#         '2c10k10': CNN2P1H10k10(),
+#         '2c5k5k': CNN2P1H5k5k(),
+#         '2c5k2k': CNN2P1H5k2k(),
+#         '2c5k1k': CNN2P1H5k1k(),
+#         '2c5k5h': CNN2P1H5k5h(),
+#         '2c5k1h': CNN2P1H5k1h(),
+#         '2c5k10': CNN2P1H5k10(),
+#         '2c3k3k': CNN2P1H3k3k(),
+#         '2c3k2k': CNN2P1H3k2k(),
+#         '2c3k1k5': CNN2P1H3k1k5(),
+#         '2c3k1k': CNN2P1H3k1k(),
+#         '2c3k5h': CNN2P1H3k5h(),
+#         '2c3k1h': CNN2P1H3k1h(),
+#         '2c3k10': CNN2P1H3k10(),
+#         '2c2k2k': CNN2P1H2k2k(),
+#         '2c2k1k': CNN2P1H2k1k(),
+#         '2c2k5h': CNN2P1H2k5h(),
+#         '2c2k1h': CNN2P1H2k1h(),
+#         '2c2k10': CNN2P1H2k10(),
+#         '2c1k1k': CNN2P1H1k1k(),
+#         '2c1k5h': CNN2P1H1k5h(),
+#         '2c1k1h': CNN2P1H1k1h(),
+#         '2c1k10': CNN2P1H1k10(),
+#     }.get(x, CNN1P1H1h())
 
 
 if __name__ == "__main__":
