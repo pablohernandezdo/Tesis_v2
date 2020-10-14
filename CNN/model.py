@@ -41,14 +41,14 @@ class CNN1P1H2h(nn.Module):
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
-        self.conv3 = nn.Conv1d(50, 80, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
         self.conv4 = nn.Conv1d(100, 200, 10)
         self.l1 = nn.Linear(200, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
         self.bn1 = nn.BatchNorm1d(10)
         self.bn2 = nn.BatchNorm1d(50)
-        self.bn3 = nn.BatchNorm1d(80)
+        self.bn3 = nn.BatchNorm1d(100)
         self.bn4 = nn.BatchNorm1d(200)
         self.sigmoid = nn.Sigmoid()
 
