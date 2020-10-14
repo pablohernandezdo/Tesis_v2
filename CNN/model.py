@@ -16,9 +16,9 @@ class CNN1P1H1h(nn.Module):
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
         self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(80)
+        self.bn4 = nn.BatchNorm1d(100)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
