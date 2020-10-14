@@ -322,7 +322,7 @@ def get_classifier(x):
         '2c1k5h': CNN2P1H1k5h(),
         '2c1k1h': CNN2P1H1k1h(),
         '2c1k10': CNN2P1H1k10(),
-    }.get(x, 'hola')
+    }.get(x, CNN1P1H1h())
 
 
 if __name__ == "__main__":
