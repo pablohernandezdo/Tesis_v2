@@ -86,13 +86,13 @@ def get_classifier(x):
         '1C1h': CNN1P1H1h(),
         '1C2h': CNN1P1H2h(),
         '1C5h': CNN1P1H5h(),
-        '1C1K': CNN1P1H1k(),
-        '1C2K': CNN1P1H2k(),
-        '1C3K': CNN1P1H3k(),
-        '1C4K': CNN1P1H4k(),
-        '1C5K': CNN1P1H5k(),
-        '1C6K': CNN1P1H6k(),
-        '1C10K': CNN1P1H10k(),
+        '1C1k': CNN1P1H1k(),
+        '1C2k': CNN1P1H2k(),
+        '1C3k': CNN1P1H3k(),
+        '1C4k': CNN1P1H4k(),
+        '1C5k': CNN1P1H5k(),
+        '1C6k': CNN1P1H6k(),
+        '1C10k': CNN1P1H10k(),
         '1C10k10k': CNN1P2H10k10k(),
         '1C10k5k': CNN1P2H10k5k(),
         '1C10k1k': CNN1P2H10k1k(),
@@ -181,10 +181,7 @@ def get_classifier(x):
         '2C1k5h': CNN2P1H1k5h(),
         '2C1k1h': CNN2P1H1k1h(),
         '2C1k10': CNN2P1H1k10(),
-        'C': ClassConv(),
-        'CBN': ClassConvBN(),
-        'CBN_v2': CBN_v2(),
-    }.get(x, ClassConv())
+    }.get(x, 'hola')
 
 
 def count_parameters(model):
