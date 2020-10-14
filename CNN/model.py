@@ -49,7 +49,7 @@ class CNN1P1H2h(nn.Module):
         self.bn1 = nn.BatchNorm1d(10)
         self.bn2 = nn.BatchNorm1d(50)
         self.bn3 = nn.BatchNorm1d(80)
-        self.bn4 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
