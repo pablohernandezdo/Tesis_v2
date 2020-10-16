@@ -117,17 +117,17 @@ val="Validation_data.hdf5"
 #python ../eval.py --train_path $trn --test_path $tst \
 #              --classifier 1c6k --model_name 1c6k_1e6_256_30 > ../logs/eval/1c6k_1e6_256_30.txt
 #
-# 1c10k_1e6_256_30
-
-echo "Training model 1c10k_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 1c10k --model_name 1c10k_1e6_256_30 > ../logs/train/1c10k_1e6_256_30.txt
-
-echo "Evaluating model 1c10k_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --classifier 1c10k --model_name 1c10k_1e6_256_30 > ../logs/eval/1c10k_1e6_256_30.txt
+## 1c10k_1e6_256_30
+#
+#echo "Training model 1c10k_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 1c10k --model_name 1c10k_1e6_256_30 > ../logs/train/1c10k_1e6_256_30.txt
+#
+#echo "Evaluating model 1c10k_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --classifier 1c10k --model_name 1c10k_1e6_256_30 > ../logs/eval/1c10k_1e6_256_30.txt
 
 # 1c10k10k_1e6_256_30
 
