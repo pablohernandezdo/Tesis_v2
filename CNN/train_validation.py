@@ -415,8 +415,6 @@ def get_classifier(x):
         return CNN2P1H1k1h()
     if x == '2c1k10':
         return CNN2P1H1k10()
-    if x == '2c1k10':
-        return CNN2P1H1k10()
     else:
         return CNN2P1H1k10()
 

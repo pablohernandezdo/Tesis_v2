@@ -181,8 +181,8 @@ def get_classifier(x):
         return CNN1P1H4k()
     if x == '1c5k':
         return CNN1P1H5k()
-    if x == '1c5k':
-        return CNN1P1H5k()
+    if x == '1c10k':
+        return CNN1P1H10k()
     if x == '1c10k10k':
         return CNN1P2H10k10k()
     if x == '1c10k5k':
@@ -353,8 +353,6 @@ def get_classifier(x):
         return CNN2P1H1k5h()
     if x == '2c1k1h':
         return CNN2P1H1k1h()
-    if x == '2c1k10':
-        return CNN2P1H1k10()
     if x == '2c1k10':
         return CNN2P1H1k10()
     else:
