@@ -26,19 +26,14 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='XXL_lr0000001_bs32', help="Name of model to eval")
-    parser.add_argument("--classifier", default='XXL', help="Choose classifier architecture, C, S, XS, XL, XXL, XXXL")
-    parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
+    parser.add_argument("--model_name", default='defaultmodel', help="Name of model to eval")
+    parser.add_argument("--classifier", default='1h6k', help="Choose classifier architecture")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
+    parser.add_argument("--batch_size", type=int, default=32, help="Mini-batch size")
     args = parser.parse_args()
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-    # Train dataset
-    train_dataset = HDF5Dataset(args.train_path)
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Test dataset
     test_dataset = HDF5Dataset(args.test_path)
@@ -59,26 +54,19 @@ def main():
     print(f'Number of network parameters: {nparams}\n')
 
     # Preallocate precision and recall values
-    tr_precision = []
-    tst_precision = []
-    tr_fp_rate = []
-    tst_fp_rate = []
-    tr_recall = []
-    tst_recall = []
-    tr_fscores = []
-    tst_fscores = []
+    precision = []
+    fp_rate = []
+    recall = []
+    fscores = []
 
     # Confusion matrix
-    tr_cm = []
-    tst_cm = []
+    cm = []
 
     # Record max fscore value obtained
-    tr_max_fscore = 0
-    tst_max_fscore = 0
+    max_fscore = 0
 
     # Record threshold of best fscore
-    tr_best_thresh = 0
-    tst_best_thresh = 0
+    best_thresh = 0
 
     # Thresholds to evaluate performance on
     thresholds = np.arange(0.05, 1, 0.05)
@@ -99,9 +87,9 @@ def main():
         print(f'Threshold value: {thresh}\n')
 
         # Evaluate
-        with tqdm.tqdm(total=len(train_loader), desc='Train dataset evaluation', position=0) as train_bar:
+        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as train_bar:
             with torch.no_grad():
-                for data in train_loader:
+                for data in test_loader:
                     traces, labels = data[0].to(device), data[1].to(device)
                     outputs = net(traces)
                     predicted = (outputs > thresh)
@@ -123,141 +111,63 @@ def main():
                     train_bar.update(1)
 
         # Metrics
-        tr_pre, tr_rec, tr_fpr, tr_fscore = print_metrics(tp, fp, tn, fn)
-        tr_recall.append(tr_rec)
-        tr_fp_rate.append(tr_fpr)
-        tr_precision.append(tr_pre)
-        tr_fscores.append(tr_fscore)
+        pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn)
+        recall.append(rec)
+        fp_rate.append(fpr)
+        precision.append(pre)
+        fscores.append(fscore)
 
         # Save best conf matrix
-        if tr_fscore > tr_max_fscore:
-            tr_max_fscore = tr_fscore
-            tr_cm = np.asarray([[tp, fn], [fp, tn]])
-            tr_best_thresh = thresh
+        if fscore > max_fscore:
+            max_fscore = fscore
+            cm = np.asarray([[tp, fn], [fp, tn]])
+            best_thresh = thresh
 
         eval_1 = time.time()
         ev_1 = eval_1 - start_time
 
-        # Evaluate model on test set
-        # True/False Positives/Negatives
-        correct = 0
-        total = 0
-        tp, fp, tn, fn = 0, 0, 0, 0
+        print(f'Test evaluation time: {format_timespan(ev_1)}\n')
 
-        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as test_bar:
-            with torch.no_grad():
-                for data in test_loader:
-                    traces, labels = data[0].to(device), data[1].to(device)
-                    outputs = net(traces)
-                    predicted = (outputs > thresh)
-                    total += labels.size(0)
+    # Add point (0, 1) to PR curve
+    precision.append(1)
+    recall.append(0)
 
-                    for i, pred in enumerate(predicted):
-                        if pred:
-                            if pred == labels[i]:
-                                tp += 1
-                            else:
-                                fp += 1
-                        else:
-                            if pred == labels[i]:
-                                tn += 1
-                            else:
-                                fn += 1
+    # Add point (1, 0.5) to PR curve
+    precision.insert(0, 0.5)
+    recall.insert(0, 1)
 
-                    correct += (predicted == labels).sum().item()
-                    test_bar.update(1)
+    # Add point (0, 0)  to ROC curve
+    fp_rate.append(0)
 
-        # Metrics
-        tst_pre, tst_rec, tst_fpr, tst_fscore = print_metrics(tp, fp, tn, fn)
-        tst_recall.append(tst_rec)
-        tst_fp_rate.append(tst_fpr)
-        tst_precision.append(tst_pre)
-        tst_fscores.append(tst_fscore)
-
-        # Save best conf matrix
-        if tst_fscore > tst_max_fscore:
-            tst_max_fscore = tst_fscore
-            tst_cm = np.asarray([[tp, fn], [fp, tn]])
-            tst_best_thresh = thresh
-
-        eval_2 = time.time()
-        ev_2 = eval_2 - eval_1
-        ev_t = eval_2 - start_time
-
-        print(f'Training evaluation time: {format_timespan(ev_1)}\n'
-              f'Test evaluation time: {format_timespan(ev_2)}\n'
-              f'Total execution time: {format_timespan(ev_t)}\n\n')
+    # Add point (1, 1) to ROC curve
+    fp_rate.insert(0, 1)
 
     # Area under curve
-    tr_pr_auc = np.trapz(tr_precision, x=tr_recall[::-1])
-    tst_pr_auc = np.trapz(tst_precision, x=tst_recall[::-1])
-
-    tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate[::-1])
-    tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate[::-1])
+    pr_auc = np.trapz(precision, x=recall[::-1])
+    roc_auc = np.trapz(recall, x=fp_rate[::-1])
 
     # Print fscores
-    print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
-          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}\n\n'
-          f'Train PR AUC: {tr_pr_auc:5.3f}\n'
-          f'Test PR AUC: {tst_pr_auc:5.3f}\n\n'
-          f'Train ROC AUC: {tr_roc_auc:5.3f}\n'
-          f'Test ROC AUC: {tst_roc_auc:5.3f}\n')
+    print(f'Best train threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
+          f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
+          f'Train PR AUC: {pr_auc:5.3f}\n'
+          f'Test PR AUC: {pr_auc:5.3f}\n\n'
+          f'Train ROC AUC: {roc_auc:5.3f}\n'
+          f'Test ROC AUC: {roc_auc:5.3f}\n')
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
 
     # Confusion matrix
-    plot_confusion_matrix(tr_cm, target_names,
-                          title=f'Confusion matrix {args.model_name} train, threshold = {tr_best_thresh}',
-                          filename=f'../Confusion_matrices/Confusion_matrix_train_{args.model_name}.png')
-
-    # Confusion matrix
-    plot_confusion_matrix(tst_cm, target_names,
-                          title=f'Confusion matrix {args.model_name} test, threshold = {tst_best_thresh}',
+    plot_confusion_matrix(cm, target_names,
+                          title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
-
-    # Precision/Recall curve train dataset
-    plt.figure()
-    plt.plot(tr_recall, tr_precision)
-
-    # Annotate threshold values
-    for i, j, k in zip(tr_recall, tr_precision, thresholds):
-        plt.annotate(str(k), (i, j))
-
-    # Dumb model line
-    plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR train dataset curve for model {args.model_name}')
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-    plt.grid(True)
-    plt.savefig(f'../PR_curves/PR_train_{args.model_name}.png')
-
-    # Receiver operating characteristic curve train dataset
-    plt.figure()
-    plt.plot(tr_fp_rate, tr_recall)
-
-    # Annotate
-    for i, j, k in zip(tr_fp_rate, tr_recall, thresholds):
-        plt.annotate(str(k), (i, j))
-
-    # Dumb model line
-    plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC train dataset curve for model {args.model_name}')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('Recall')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-    plt.grid(True)
-    plt.savefig(f'../ROC_curves/ROC_train_{args.model_name}.png')
 
     # Precision/Recall curve test dataset
     plt.figure()
-    plt.plot(tst_recall, tst_precision)
+    plt.plot(recall, precision)
 
     # Annotate threshold values
-    for i, j, k in zip(tst_recall, tst_precision, thresholds):
+    for i, j, k in zip(recall, precision, thresholds):
         plt.annotate(str(k), (i, j))
 
     # Dumb model line
@@ -272,10 +182,10 @@ def main():
 
     # Receiver operating characteristic curve test dataset
     plt.figure()
-    plt.plot(tst_fp_rate, tst_recall)
+    plt.plot(fp_rate, recall)
 
     # Annotate
-    for i, j, k in zip(tst_fp_rate, tst_recall, thresholds):
+    for i, j, k in zip(fp_rate, recall, thresholds):
         plt.annotate(str(k), (i, j))
 
     # Dumb model line
