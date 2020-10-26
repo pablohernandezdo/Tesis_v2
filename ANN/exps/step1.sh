@@ -8,6 +8,8 @@ tst="Test_data.hdf5"
 trn="Train_data.hdf5"
 val="Validation_data.hdf5"
 
+# 1 hidden layer models
+
 echo "Training model 1h3k, lr = 1e-3, epochs = 5, batch_size = 256"
 python ../train_validation.py \
               --train_path $trn --val_path $val      \
@@ -51,6 +53,8 @@ python ../train_validation.py \
 echo "Evaluating model 1h3k_1e6_256"
 python ../eval.py --train_path $trn --test_path $tst \
               --classifier 1h3k --model_name 1h3k_1e6_256 > ../logs/eval/1h3k_1e6_256.txt
+
+# 2 hidden layer models
 
 echo "Training model 2h3k3k, lr = 1e-3, epochs = 5, batch_size = 256"
 python ../train_validation.py \
