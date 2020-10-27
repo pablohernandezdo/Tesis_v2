@@ -87,7 +87,7 @@ def main():
         print(f'Threshold value: {thresh}\n')
 
         # Evaluate
-        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as train_bar:
+        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation') as test_bar:
             with torch.no_grad():
                 for data in test_loader:
                     traces, labels = data[0].to(device), data[1].to(device)
@@ -108,7 +108,7 @@ def main():
                                 fn += 1
 
                     correct += (predicted == labels).sum().item()
-                    train_bar.update(1)
+                    test_bar.update()
 
         # Metrics
         pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn)
