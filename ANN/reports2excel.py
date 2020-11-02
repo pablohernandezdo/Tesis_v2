@@ -9,7 +9,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--folder_name', default='eval_curves', help='Name of folder to read log files')
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
-    parser.add_argument('--n_thresh', type=int, default=10, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # working directory
@@ -37,7 +37,7 @@ def main():
         with open(os.path.join(wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
             print(model_name)
-            
+
             # Skip initial empty lines
             f.readline()
             f.readline()
@@ -53,7 +53,29 @@ def main():
                 f.readline()
                 f.readline()
                 f.readline()
-                print(f.readline().split(':')[-1].strip())
+
+                # Read 4 cases
+                print(f'tp = {f.readline().split(":")[-1].strip()}')
+                print(f'tn = {f.readline().split(":")[-1].strip()}')
+                print(f'fp = {f.readline().split(":")[-1].strip()}')
+                print(f'fn = {f.readline().split(":")[-1].strip()}')
+
+                # Skip empty line
+                f.readline()
+
+                # Read metrics
+                print(f'acc = {f.readline().split(":")[-1].strip()}')
+                print(f'pre = {f.readline().split(":")[-1].strip()}')
+                print(f'rec = {f.readline().split(":")[-1].strip()}')
+                print(f'fpr = {f.readline().split(":")[-1].strip()}')
+                print(f'fscore = {f.readline().split(":")[-1].strip()}')
+
+                # Skip empty line
+                f.readline()
+
+                print(f'eval_time = {f.readline().split(":")[-1].strip()}')
+
+            print(thresholds)
 
         # Pa leer un solo archivo
         break
