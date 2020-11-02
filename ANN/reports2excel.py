@@ -21,7 +21,12 @@ def main():
     # Leer los archivos en la carpeta
     for fname in files:
         with open(os.path.join(wkdir, fname), 'r') as f:
-            print(f.readline())
+            model_name = fname.split('.')[0]
+
+            print(model_name)
+
+        # Pa leer un solo archivo
+        break
 
     # Por cada archivo leer las lineas y extraer
     # la informacion importante, añadirla a un dataframe
