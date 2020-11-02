@@ -12,12 +12,15 @@ def main():
     parser.add_argument('--n_thresh', type=int, default=10, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
+    # working directory
+    wkdir = os.path.join('logs', args.folder_name)
+
     # Obtener los archivos de la carpeta
-    files = os.listdir(os.path.join('logs', args.folder_name))
+    files = os.listdir(wkdir)
 
     # Leer los archivos en la carpeta
     for fname in files:
-        with open(fname, 'r') as f:
+        with open(os.path.join(wkdir, fname), 'r') as f:
             print(f.readline())
 
     # Por cada archivo leer las lineas y extraer
