@@ -36,7 +36,8 @@ def main():
     for fname in files:
         with open(os.path.join(wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
-
+            print(model_name)
+            
             # Skip initial empty lines
             f.readline()
             f.readline()
