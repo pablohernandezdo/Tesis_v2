@@ -9,7 +9,7 @@ import pandas as pd
 
 def main():
     # Create folder for report
-    Path("Excel_reports").mkdir(exist_ok=True)
+    Path("../Excel_reports").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--folder_name', default='eval_curves', help='Name of folder to read log files')
@@ -18,7 +18,7 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    wkdir = os.path.join('logs', args.folder_name)
+    wkdir = os.path.join('../logs', args.folder_name)
 
     # Variable preallocating
     models = []
@@ -116,7 +116,7 @@ def main():
         'F-score': fsc,
     })
 
-    df.to_excel('Excel_reports/test.xlsx', index=False)
+    df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)
 
 
 if __name__ == "__main__":

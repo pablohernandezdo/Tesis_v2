@@ -2297,3 +2297,9 @@ python ../eval_curves.py --test_path $tst \
 echo "Evaluating model 2h1k5k_5e5_256"
 python ../eval_curves.py --test_path $tst \
               --classifier 2h1k5k --model_name 2h1k5k_5e5_256_40 > ../logs/eval/2h1k5k_5e5_256_40.txt
+
+### REPORTS TO EXCEL
+
+echo "Creating summary of reports excel file"
+python ../report2excel.py --folder_name 'eval' \
+                -- xls_name 'step4' --n_thresh 19
