@@ -78,6 +78,21 @@ def main():
                 # Skip empty line
                 f.readline()
 
+            # Read final report
+            print(f'best thresh = {f.readline().split(":")[-2].split(",")[0].strip()}')
+            print(f'best fscore = {f.readline().split(":")[-1].strip()}')
+
+            # Skip empty line
+            f.readline()
+
+            print(f'PR AUC = {f.readline().split(":")[-1].strip()}')
+
+            # Skip empty line, aqui hay que arreglar los reportes, deberia ser 1 readline
+            f.readline()
+            f.readline()
+
+            print(f'ROC AUC = {f.readline().split(":")[-1].strip()}')
+
             print(thresholds)
 
         # Pa leer un solo archivo
