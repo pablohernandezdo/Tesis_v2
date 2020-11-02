@@ -98,8 +98,6 @@ def main():
 
             print(f'ROC AUC = {f.readline().split(":")[-1].strip()}')
 
-        # Pa leer un solo archivo
-        break
 
     df = pd.DataFrame({
         'Model_name': models,
