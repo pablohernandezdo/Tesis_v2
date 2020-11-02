@@ -17,6 +17,7 @@ def main():
 
     # Variable preallocating
     models = []
+    params = []
     thresholds = []
 
     tp = []
@@ -41,12 +42,13 @@ def main():
             model_name = fname.split('.')[0]
 
             # Skip initial empty lines
-            f.readline()
+            model_params = f.readline().split(":")[-1].strip()
             f.readline()
 
             # Start reading threshold data
             for _ in range(args.n_thresh):
                 models.append(model_name)
+                params.append(model_params)
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
@@ -91,13 +93,7 @@ def main():
             f.readline()
 
             print(f'PR AUC = {f.readline().split(":")[-1].strip()}')
-
-            # Skip empty line, aqui hay que arreglar los reportes, deberia ser 1 readline
-            f.readline()
-            f.readline()
-
             print(f'ROC AUC = {f.readline().split(":")[-1].strip()}')
-
 
     df = pd.DataFrame({
         'Model_name': models,
@@ -115,17 +111,6 @@ def main():
     })
 
     df.to_excel('test.xlsx', index=False)
-    # Por cada archivo leer las lineas y extraer
-    # la informacion importante, añadirla a un dataframe
-    # Guardar el excel
-
-    # df = pd.DataFrame({
-    #     'Col A': [1, 2, 3],
-    #     'Col B': ['A', 'B', 'C'],
-    #     'Col C': ['Hola', 'Compas', 'Compitas'],
-    # })
-    #
-    # df.to_excel('df.xlsx', index=False)
 
 
 if __name__ == "__main__":
