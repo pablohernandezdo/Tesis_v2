@@ -97,6 +97,7 @@ def main():
 
     df = pd.DataFrame({
         'Model_name': models,
+        'Parameters': params,
         'Threshold': thresholds,
         'Evaluation time': ev_tm,
         'True positives': tp,
