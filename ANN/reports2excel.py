@@ -42,7 +42,7 @@ def main():
             f.readline()
 
             # Start reading threshold data
-            for _ in args.n_thresh:
+            for _ in range(args.n_thresh):
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
 
