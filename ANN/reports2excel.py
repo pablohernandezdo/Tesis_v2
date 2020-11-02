@@ -12,10 +12,13 @@ def main():
     parser.add_argument('--n_thresh', type=int, default=10, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
-    # Leer los archivos de la carpeta
+    # Obtener los archivos de la carpeta
     files = os.listdir(os.path.join('logs', args.folder_name))
 
-    print(files)
+    # Leer los archivos en la carpeta
+    for fname in files:
+        with open(fname, 'r') as f:
+            print(f.readline())
 
     # Por cada archivo leer las lineas y extraer
     # la informacion importante, añadirla a un dataframe
