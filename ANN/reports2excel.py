@@ -15,8 +15,19 @@ def main():
     # working directory
     wkdir = os.path.join('logs', args.folder_name)
 
-    # Threshold values
+    # Variable preallocating
     thresholds = []
+
+    tp = []
+    tn = []
+    fp = []
+    fn = []
+
+    acc = []
+    pre = []
+    rec = []
+    fpr = []
+    fsc = []
 
     # Obtener los archivos de la carpeta
     files = os.listdir(wkdir)
@@ -31,15 +42,17 @@ def main():
             f.readline()
 
             # Start reading threshold data
-            thresh = f.readline().split(':')[-1].strip()
-            thresholds.append(thresh)
+            for _ in args.n_thresh:
+                thresh = f.readline().split(':')[-1].strip()
+                thresholds.append(thresh)
 
-            # Skip non-useful lines
-            f.readline()
-            f.readline()
-            print(f.readline())
-
-            # print(model_name)
+                # Skip non-useful lines
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+                print(f.readline().split(':')[-1].strip())
 
         # Pa leer un solo archivo
         break
