@@ -1,11 +1,16 @@
 import os
 import argparse
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
 
 def main():
+    # Create folder for report
+    Path("Excel_reports").mkdir(exist_ok=True)
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--folder_name', default='eval_curves', help='Name of folder to read log files')
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
@@ -111,7 +116,7 @@ def main():
         'F-score': fsc,
     })
 
-    df.to_excel('test.xlsx', index=False)
+    df.to_excel('Excel_reports/test.xlsx', index=False)
 
 
 if __name__ == "__main__":

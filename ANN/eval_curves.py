@@ -29,7 +29,7 @@ def main():
     parser.add_argument("--model_name", default='defaultmodel', help="Name of model to eval")
     parser.add_argument("--classifier", default='1h6k', help="Choose classifier architecture")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=32, help="Mini-batch size")
+    parser.add_argument("--batch_size", type=int, default=256, help="Mini-batch size")
     args = parser.parse_args()
 
     # Select training device
