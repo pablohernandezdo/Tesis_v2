@@ -116,7 +116,7 @@ def main():
         'F-score': fsc,
     })
 
-    df.to_excel('test.xlxs', index=False)
+    df.to_excel('test.xlsx', index=False)
     # Por cada archivo leer las lineas y extraer
     # la informacion importante, añadirla a un dataframe
     # Guardar el excel
