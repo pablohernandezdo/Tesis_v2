@@ -75,6 +75,9 @@ def main():
 
                 print(f'eval_time = {f.readline().split(":")[-1].strip()}')
 
+                # Read 1 threshold
+                break
+                
             print(thresholds)
 
         # Pa leer un solo archivo
