@@ -23,7 +23,10 @@ def main():
         with open(os.path.join(wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
 
-            print(model_name)
+            f.readline()
+            f.readline()
+            print(f.readline())
+            # print(model_name)
 
         # Pa leer un solo archivo
         break
