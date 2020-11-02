@@ -25,7 +25,7 @@ def main():
 
             f.readline()
             f.readline()
-            print(f.readline().strip())
+            print(f.readline().split(':')[-1].strip())
             # print(model_name)
 
         # Pa leer un solo archivo
