@@ -16,6 +16,7 @@ def main():
     wkdir = os.path.join('logs', args.folder_name)
 
     # Variable preallocating
+    models = []
     thresholds = []
 
     tp = []
@@ -29,6 +30,8 @@ def main():
     fpr = []
     fsc = []
 
+    ev_tm = []
+
     # Obtener los archivos de la carpeta
     files = os.listdir(wkdir)
 
@@ -36,7 +39,6 @@ def main():
     for fname in files:
         with open(os.path.join(wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
-            print(model_name)
 
             # Skip initial empty lines
             f.readline()
@@ -44,6 +46,8 @@ def main():
 
             # Start reading threshold data
             for _ in range(args.n_thresh):
+                models.append(model_name)
+
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
 
@@ -55,25 +59,26 @@ def main():
                 f.readline()
 
                 # Read 4 cases
-                print(f'tp = {f.readline().split(":")[-1].strip()}')
-                print(f'tn = {f.readline().split(":")[-1].strip()}')
-                print(f'fp = {f.readline().split(":")[-1].strip()}')
-                print(f'fn = {f.readline().split(":")[-1].strip()}')
+                tp.append(f.readline().split(":")[-1].strip())
+                tn.append(f.readline().split(":")[-1].strip())
+                fp.append(f.readline().split(":")[-1].strip())
+                fn.append(f.readline().split(":")[-1].strip())
 
                 # Skip empty line
                 f.readline()
 
                 # Read metrics
-                print(f'acc = {f.readline().split(":")[-1].strip()}')
-                print(f'pre = {f.readline().split(":")[-1].strip()}')
-                print(f'rec = {f.readline().split(":")[-1].strip()}')
-                print(f'fpr = {f.readline().split(":")[-1].strip()}')
-                print(f'fscore = {f.readline().split(":")[-1].strip()}')
+                acc.append(f.readline().split(":")[-1].strip())
+                pre.append(f.readline().split(":")[-1].strip())
+                rec.append(f.readline().split(":")[-1].strip())
+                fpr.append(f.readline().split(":")[-1].strip())
+                fsc.append(f.readline().split(":")[-1].strip())
 
                 # Skip empty line
                 f.readline()
 
-                print(f'eval_time = {f.readline().split(":")[-1].strip()}')
+                # Read eval time
+                ev_tm.append(f.readline().split(":")[-1].strip())
 
                 # Skip empty line
                 f.readline()
@@ -93,11 +98,25 @@ def main():
 
             print(f'ROC AUC = {f.readline().split(":")[-1].strip()}')
 
-            print(thresholds)
-
         # Pa leer un solo archivo
         break
 
+    df = pd.DataFrame({
+        'Model_name': models,
+        'Threshold': thresholds,
+        'Evaluation time': ev_tm,
+        'True positives': tp,
+        'True negatives': tn,
+        'False positives': fp,
+        'False negatives': fn,
+        'Accuracy': acc,
+        'Precision': pre,
+        'Recall': rec,
+        'False positive rate': fpr,
+        'F-score': fsc,
+    })
+
+    df.to_excel('test.xlxs', index=False)
     # Por cada archivo leer las lineas y extraer
     # la informacion importante, añadirla a un dataframe
     # Guardar el excel
