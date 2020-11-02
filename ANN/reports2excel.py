@@ -23,8 +23,8 @@ def main():
         with open(os.path.join(wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
 
-            f.readline()
-            f.readline()
+            print(f.readline())
+            print(f.readline())
             print(f.readline())
             # print(model_name)
 
