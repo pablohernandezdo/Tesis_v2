@@ -2302,4 +2302,4 @@ val="Validation_data.hdf5"
 
 echo "Creating summary of reports excel file"
 python ../reports2excel.py --folder_name 'eval' \
-                -- xls_name 'step4' --n_thresh 19
+                --xls_name 'step4' --n_thresh 19
