@@ -174,8 +174,6 @@ def main():
     plt.title(f'FP y FN modelo {args.model_name}')
     plt.xlabel('Umbrales')
     plt.ylabel('Total')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
     plt.grid(True)
     plt.legend(handles=[line_fp, line_fn], loc='best')
     plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
