@@ -20,6 +20,7 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../FPFN_curves_curves").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
@@ -59,6 +60,8 @@ def main():
     recall = []
     fscores = []
 
+    fp_plt = []
+    fn_plt = []
     # Confusion matrix
     cm = []
 
@@ -117,6 +120,9 @@ def main():
         precision.append(pre)
         fscores.append(fscore)
 
+        fp_plt.append(fp)
+        fn_plt.append(fn)
+
         # Save best conf matrix
         if fscore > max_fscore:
             max_fscore = fscore
@@ -160,9 +166,23 @@ def main():
                           title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
 
+    # Fale positives / False negatives curve
+    plt.figure()
+    line_fp, = plt.plot(fp_plt, thresholds, label='False positives')
+    line_fn, = plt.plot(fn_plt, thresholds, label='False negatives')
+
     # Precision/Recall curve test dataset
     plt.figure()
     plt.plot(recall, precision)
+
+    plt.title(f'FP y FN modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('Total')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.legend(handles=[line_fp, line_fn], loc='best')
+    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
 
     # Annotate threshold values
     for i, j, k in zip(recall, precision, thresholds):

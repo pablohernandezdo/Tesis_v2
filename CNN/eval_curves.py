@@ -20,25 +20,21 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../FPFN_curves_curves").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='XXL_lr0000001_bs32', help="Name of model to eval")
-    parser.add_argument("--classifier", default='XXL', help="Choose classifier architecture, C, S, XS, XL, XXL, XXXL")
-    parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
+    parser.add_argument("--model_name", default='defaultmodel', help="Name of model to eval")
+    parser.add_argument("--classifier", default='1h6k', help="Choose classifier architecture")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
+    parser.add_argument("--batch_size", type=int, default=256, help="Mini-batch size")
     args = parser.parse_args()
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-    # Train dataset
-    train_dataset = HDF5Dataset(args.train_path)
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Test dataset
     test_dataset = HDF5Dataset(args.test_path)
@@ -59,26 +55,21 @@ def main():
     print(f'Number of network parameters: {nparams}\n')
 
     # Preallocate precision and recall values
-    tr_precision = []
-    tst_precision = []
-    tr_fp_rate = []
-    tst_fp_rate = []
-    tr_recall = []
-    tst_recall = []
-    tr_fscores = []
-    tst_fscores = []
+    precision = []
+    fp_rate = []
+    recall = []
+    fscores = []
 
+    fp_plt = []
+    fn_plt = []
     # Confusion matrix
-    tr_cm = []
-    tst_cm = []
+    cm = []
 
     # Record max fscore value obtained
-    tr_max_fscore = 0
-    tst_max_fscore = 0
+    max_fscore = 0
 
     # Record threshold of best fscore
-    tr_best_thresh = 0
-    tst_best_thresh = 0
+    best_thresh = 0
 
     # Thresholds to evaluate performance on
     thresholds = np.arange(0.05, 1, 0.05)
@@ -99,52 +90,7 @@ def main():
         print(f'Threshold value: {thresh}\n')
 
         # Evaluate
-        with tqdm.tqdm(total=len(train_loader), desc='Train dataset evaluation', position=0) as train_bar:
-            with torch.no_grad():
-                for data in train_loader:
-                    traces, labels = data[0].to(device), data[1].to(device)
-                    outputs = net(traces)
-                    predicted = (outputs > thresh)
-                    total += labels.size(0)
-
-                    for i, pred in enumerate(predicted):
-                        if pred:
-                            if pred == labels[i]:
-                                tp += 1
-                            else:
-                                fp += 1
-                        else:
-                            if pred == labels[i]:
-                                tn += 1
-                            else:
-                                fn += 1
-
-                    correct += (predicted == labels).sum().item()
-                    train_bar.update(1)
-
-        # Metrics
-        tr_pre, tr_rec, tr_fpr, tr_fscore = print_metrics(tp, fp, tn, fn)
-        tr_recall.append(tr_rec)
-        tr_fp_rate.append(tr_fpr)
-        tr_precision.append(tr_pre)
-        tr_fscores.append(tr_fscore)
-
-        # Save best conf matrix
-        if tr_fscore > tr_max_fscore:
-            tr_max_fscore = tr_fscore
-            tr_cm = np.asarray([[tp, fn], [fp, tn]])
-            tr_best_thresh = thresh
-
-        eval_1 = time.time()
-        ev_1 = eval_1 - start_time
-
-        # Evaluate model on test set
-        # True/False Positives/Negatives
-        correct = 0
-        total = 0
-        tp, fp, tn, fn = 0, 0, 0, 0
-
-        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as test_bar:
+        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation') as test_bar:
             with torch.no_grad():
                 for data in test_loader:
                     traces, labels = data[0].to(device), data[1].to(device)
@@ -165,99 +111,81 @@ def main():
                                 fn += 1
 
                     correct += (predicted == labels).sum().item()
-                    test_bar.update(1)
+                    test_bar.update()
 
         # Metrics
-        tst_pre, tst_rec, tst_fpr, tst_fscore = print_metrics(tp, fp, tn, fn)
-        tst_recall.append(tst_rec)
-        tst_fp_rate.append(tst_fpr)
-        tst_precision.append(tst_pre)
-        tst_fscores.append(tst_fscore)
+        pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn)
+        recall.append(rec)
+        fp_rate.append(fpr)
+        precision.append(pre)
+        fscores.append(fscore)
+
+        fp_plt.append(fp)
+        fn_plt.append(fn)
 
         # Save best conf matrix
-        if tst_fscore > tst_max_fscore:
-            tst_max_fscore = tst_fscore
-            tst_cm = np.asarray([[tp, fn], [fp, tn]])
-            tst_best_thresh = thresh
+        if fscore > max_fscore:
+            max_fscore = fscore
+            cm = np.asarray([[tp, fn], [fp, tn]])
+            best_thresh = thresh
 
-        eval_2 = time.time()
-        ev_2 = eval_2 - eval_1
-        ev_t = eval_2 - start_time
+        eval_1 = time.time()
+        ev_1 = eval_1 - start_time
 
-        print(f'Training evaluation time: {format_timespan(ev_1)}\n'
-              f'Test evaluation time: {format_timespan(ev_2)}\n'
-              f'Total execution time: {format_timespan(ev_t)}\n\n')
+        print(f'Test evaluation time: {format_timespan(ev_1)}\n')
+
+    # Add point (0, 1) to PR curve
+    precision.append(1)
+    recall.append(0)
+
+    # Add point (1, 0.5) to PR curve
+    precision.insert(0, 0.5)
+    recall.insert(0, 1)
+
+    # Add point (0, 0)  to ROC curve
+    fp_rate.append(0)
+
+    # Add point (1, 1) to ROC curve
+    fp_rate.insert(0, 1)
 
     # Area under curve
-    tr_pr_auc = np.trapz(tr_precision, x=tr_recall[::-1])
-    tst_pr_auc = np.trapz(tst_precision, x=tst_recall[::-1])
-
-    tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate[::-1])
-    tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate[::-1])
+    pr_auc = np.trapz(precision, x=recall[::-1])
+    roc_auc = np.trapz(recall, x=fp_rate[::-1])
 
     # Print fscores
-    print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
-          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}\n\n'
-          f'Train PR AUC: {tr_pr_auc:5.3f}\n'
-          f'Test PR AUC: {tst_pr_auc:5.3f}\n\n'
-          f'Train ROC AUC: {tr_roc_auc:5.3f}\n'
-          f'Test ROC AUC: {tst_roc_auc:5.3f}\n')
+    print(f'Best train threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
+          f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
+          f'Test PR AUC: {pr_auc:5.3f}\n'
+          f'Test ROC AUC: {roc_auc:5.3f}')
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
 
     # Confusion matrix
-    plot_confusion_matrix(tr_cm, target_names,
-                          title=f'Confusion matrix {args.model_name} train, threshold = {tr_best_thresh}',
-                          filename=f'../Confusion_matrices/Confusion_matrix_train_{args.model_name}.png')
-
-    # Confusion matrix
-    plot_confusion_matrix(tst_cm, target_names,
-                          title=f'Confusion matrix {args.model_name} test, threshold = {tst_best_thresh}',
+    plot_confusion_matrix(cm, target_names,
+                          title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
 
-    # Precision/Recall curve train dataset
+    # Fale positives / False negatives curve
     plt.figure()
-    plt.plot(tr_recall, tr_precision)
-
-    # Annotate threshold values
-    for i, j, k in zip(tr_recall, tr_precision, thresholds):
-        plt.annotate(str(k), (i, j))
-
-    # Dumb model line
-    plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR train dataset curve for model {args.model_name}')
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-    plt.grid(True)
-    plt.savefig(f'../PR_curves/PR_train_{args.model_name}.png')
-
-    # Receiver operating characteristic curve train dataset
-    plt.figure()
-    plt.plot(tr_fp_rate, tr_recall)
-
-    # Annotate
-    for i, j, k in zip(tr_fp_rate, tr_recall, thresholds):
-        plt.annotate(str(k), (i, j))
-
-    # Dumb model line
-    plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC train dataset curve for model {args.model_name}')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('Recall')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-    plt.grid(True)
-    plt.savefig(f'../ROC_curves/ROC_train_{args.model_name}.png')
+    line_fp, = plt.plot(fp_plt, thresholds, label='False positives')
+    line_fn, = plt.plot(fn_plt, thresholds, label='False negatives')
 
     # Precision/Recall curve test dataset
     plt.figure()
-    plt.plot(tst_recall, tst_precision)
+    plt.plot(recall, precision)
+
+    plt.title(f'FP y FN modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('Total')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.legend(handles=[line_fp, line_fn], loc='best')
+    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
 
     # Annotate threshold values
-    for i, j, k in zip(tst_recall, tst_precision, thresholds):
+    for i, j, k in zip(recall, precision, thresholds):
         plt.annotate(str(k), (i, j))
 
     # Dumb model line
@@ -272,10 +200,10 @@ def main():
 
     # Receiver operating characteristic curve test dataset
     plt.figure()
-    plt.plot(tst_fp_rate, tst_recall)
+    plt.plot(fp_rate, recall)
 
     # Annotate
-    for i, j, k in zip(tst_fp_rate, tst_recall, thresholds):
+    for i, j, k in zip(fp_rate, recall, thresholds):
         plt.annotate(str(k), (i, j))
 
     # Dumb model line
@@ -293,7 +221,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
                           filename='Confusion_matrix.png', cmap=None, normalize=True):
 
     accuracy = np.trace(cm) / float(np.sum(cm))
-    misclass = 1 - accuracy
+    missclass = 1 - accuracy
 
     if cmap is None:
         cmap = plt.get_cmap('Blues')
@@ -324,7 +252,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
 
     plt.tight_layout()
     plt.ylabel('True label')
-    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, missclass))
     plt.savefig(filename)
 
 
@@ -363,12 +291,200 @@ def print_metrics(tp, fp, tn, fn):
     return precision, recall, fpr, fscore
 
 
+
 def get_classifier(x):
-    return {
-        'C': ClassConv(),
-        'CBN': ClassConvBN(),
-        'CBN_v2': CBN_v2(),
-    }.get(x, ClassConv())
+    if x == '1c1h':
+        return CNN1P1H1h()
+    if x == '1c2h':
+        return CNN1P1H2h()
+    if x == '1c5h':
+        return CNN1P1H5h()
+    if x == '1c1k':
+        return CNN1P1H1k()
+    if x == '1c2k':
+        return CNN1P1H2k()
+    if x == '1c3k':
+        return CNN1P1H3k()
+    if x == '1c4k':
+        return CNN1P1H4k()
+    if x == '1c5k':
+        return CNN1P1H5k()
+    if x == '1c10k':
+        return CNN1P1H10k()
+    if x == '1c10k10k':
+        return CNN1P2H10k10k()
+    if x == '1c10k5k':
+        return CNN1P2H10k5k()
+    if x == '1c10k1k':
+        return CNN1P2H10k1k()
+    if x == '1c10k1h':
+        return CNN1P2H10k1h()
+    if x == '1c10k10':
+        return CNN1P2H10k10()
+    if x == '1c6k6k':
+        return CNN1P2H6k6k()
+    if x == '1c6k1k':
+        return CNN1P2H6k1k()
+    if x == '1c6k1h':
+        return CNN1P2H6k1h()
+    if x == '1c6k10':
+        return CNN1P2H6k10()
+    if x == '1c5k5k':
+        return CNN1P2H5k5k()
+    if x == '1c5k1k':
+        return CNN1P2H5k1k()
+    if x == '1c5k1h':
+        return CNN1P2H5k1h()
+    if x == '1c5k10':
+        return CNN1P2H5k10()
+    if x == '1c4k4k':
+        return CNN1P2H4k4k()
+    if x == '1c4k1k':
+        return CNN1P2H4k1k()
+    if x == '1c4k1h':
+        return CNN1P2H4k1h()
+    if x == '1c4k10':
+        return CNN1P2H4k10()
+    if x == '1c3k3k':
+        return CNN1P2H3k3k()
+    if x == '1c3k1k':
+        return CNN1P2H3k1k()
+    if x == '1c3k1h':
+        return CNN1P2H3k1h()
+    if x == '1c3k10':
+        return CNN1P2H3k10()
+    if x == '1c2k2k':
+        return CNN1P2H2k2k()
+    if x == '1c2k1k':
+        return CNN1P2H2k1k()
+    if x == '1c2k1h':
+        return CNN1P2H2k1h()
+    if x == '1c2k10':
+        return CNN1P2H2k10()
+    if x == '1c1k1k':
+        return CNN1P2H1k1k()
+    if x == '1c1k1h':
+        return CNN1P2H1k1h()
+    if x == '1c1k10':
+        return CNN1P2H1k10()
+    if x == '1c5h5h':
+        return CNN1P2H5h5h()
+    if x == '1c5h1h':
+        return CNN1P2H5h1h()
+    if x == '1c5h10':
+        return CNN1P2H5h10()
+    if x == '1c2h2h':
+        return CNN1P2H2h2h()
+    if x == '1c2h1h':
+        return CNN1P2H2h1h()
+    if x == '1c2h10':
+        return CNN1P2H2h10()
+    if x == '1c1h1h':
+        return CNN1P2H1h1h()
+    if x == '1c1h10':
+        return CNN1P2H1h10()
+    if x == '2c20k':
+        return CNN2P1H20k()
+    if x == '2c15k':
+        return CNN2P1H15k()
+    if x == '2c10k':
+        return CNN2P1H10k()
+    if x == '2c5k':
+        return CNN2P1H5k()
+    if x == '2c3k':
+        return CNN2P1H3k()
+    if x == '2c2k':
+        return CNN2P1H2k()
+    if x == '2c1k':
+        return CNN2P1H1k()
+    if x == '2c20k20k':
+        return CNN2P1H20k20k()
+    if x == '2c20k10k':
+        return CNN2P1H20k10k()
+    if x == '2c20k5k':
+        return CNN2P1H20k5k()
+    if x == '2c20k2k':
+        return CNN2P1H20k2k()
+    if x == '2c20k1k':
+        return CNN2P1H20k1k()
+    if x == '2c20k5h':
+        return CNN2P1H20k5h()
+    if x == '2c20k1h':
+        return CNN2P1H20k1h()
+    if x == '2c20k10':
+        return CNN2P1H20k10()
+    if x == '2c15k15k':
+        return CNN2P1H15k15k()
+    if x == '2c15k10k':
+        return CNN2P1H15k10k()
+    if x == '2c15k5k':
+        return CNN2P1H15k5k()
+    if x == '2c15k2k':
+        return CNN2P1H15k2k()
+    if x == '2c15k1k':
+        return CNN2P1H15k1k()
+    if x == '2c15k1h':
+        return CNN2P1H15k1h()
+    if x == '2c15k10':
+        return CNN2P1H15k10()
+    if x == '2c10k10k':
+        return CNN2P1H10k10k()
+    if x == '2c10k5k':
+        return CNN2P1H10k5k()
+    if x == '2c10k2k':
+        return CNN2P1H10k2k()
+    if x == '2c10k1k':
+        return CNN2P1H10k1k()
+    if x == '2c10k5h':
+        return CNN2P1H10k5h()
+    if x == '2c10k1h':
+        return CNN2P1H10k1h()
+    if x == '2c10k10':
+        return CNN2P1H10k10()
+    if x == '2c5k5k':
+        return CNN2P1H5k5k()
+    if x == '2c5k2k':
+        return CNN2P1H5k2k()
+    if x == '2c5k1k':
+        return CNN2P1H5k1k()
+    if x == '2c5k5h':
+        return CNN2P1H5k5h()
+    if x == '2c5k1h':
+        return CNN2P1H5k1h()
+    if x == '2c5k10':
+        return CNN2P1H5k10()
+    if x == '2c3k3k':
+        return CNN2P1H3k3k()
+    if x == '2c3k2k':
+        return CNN2P1H3k2k()
+    if x == '2c3k1k':
+        return CNN2P1H3k1k()
+    if x == '2c3k5h':
+        return CNN2P1H3k5h()
+    if x == '2c3k1h':
+        return CNN2P1H3k1h()
+    if x == '2c3k10':
+        return CNN2P1H3k10()
+    if x == '2c2k2k':
+        return CNN2P1H2k2k()
+    if x == '2c2k1k':
+        return CNN2P1H2k1k()
+    if x == '2c2k5h':
+        return CNN2P1H2k5h()
+    if x == '2c2k1h':
+        return CNN2P1H2k1h()
+    if x == '2c2k10':
+        return CNN2P1H2k10()
+    if x == '2c1k1k':
+        return CNN2P1H1k1k()
+    if x == '2c1k5h':
+        return CNN2P1H1k5h()
+    if x == '2c1k1h':
+        return CNN2P1H1k1h()
+    if x == '2c1k10':
+        return CNN2P1H1k10()
+    else:
+        return CNN2P1H1k10()
 
 
 def count_parameters(model):
