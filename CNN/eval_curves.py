@@ -20,7 +20,7 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
-    Path("../FPFN_curves_curves").mkdir(exist_ok=True)
+    Path("../FPFN_curves").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
@@ -289,7 +289,6 @@ def print_metrics(tp, fp, tn, fn):
           f'F-score: {fscore:5.3f}\n')
 
     return precision, recall, fpr, fscore
-
 
 
 def get_classifier(x):
