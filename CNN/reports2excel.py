@@ -12,7 +12,7 @@ def main():
     Path("../Excel_reports").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--folder_name', default='eval_curves', help='Name of folder to read log files')
+    parser.add_argument('--folder_name', default='eval', help='Name of folder to read log files')
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
