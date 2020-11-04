@@ -12,16 +12,18 @@ def main():
     Path("../Excel_reports").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--folder_name', default='eval', help='Name of folder to read log files')
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
     args = parser.parse_args()
 
     # working directory
-    wkdir = os.path.join('../logs', args.folder_name)
+    train_wkdir = '../logs/train'
+    eval_wkdir = '../logs/eval'
 
     # Variable preallocating
     models = []
     params = []
+
+    tr_time = []
 
     tr_tp = []
     tr_tn = []
@@ -50,11 +52,23 @@ def main():
     tst_ev_tm = []
 
     # Obtener los archivos de la carpeta
-    files = os.listdir(wkdir)
+    train_files = os.listdir(train_wkdir)
+    eval_files = os.listdir(eval_wkdir)
+
+    # Leer tiempo de entrenamiento
+    for fname in train_files:
+        with open(os.path.join(train_wkdir, fname), 'r') as f:
+
+            f.readline()
+            f.readline()
+            f.readline()
+            f.readline()
+
+            tr_time.append(f.readline().split(":")[-1].strip())
 
     # Leer los archivos en la carpeta
-    for fname in files:
-        with open(os.path.join(wkdir, fname), 'r') as f:
+    for fname in eval_files:
+        with open(os.path.join(eval_wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
             models.append(model_name)
 
@@ -110,6 +124,7 @@ def main():
     df = pd.DataFrame({
         'Model_name': models,
         'Parameters': params,
+        'Training time': tr_time,
         'Train Evaluation time': tr_ev_tm,
         'Train True positives': tr_tp,
         'Train True negatives': tr_tn,
