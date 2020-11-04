@@ -168,12 +168,8 @@ def main():
 
     # Fale positives / False negatives curve
     plt.figure()
-    line_fp, = plt.plot(fp_plt, thresholds, label='False positives')
-    line_fn, = plt.plot(fn_plt, thresholds, label='False negatives')
-
-    # Precision/Recall curve test dataset
-    plt.figure()
-    plt.plot(recall, precision)
+    line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
+    line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')
 
     plt.title(f'FP y FN modelo {args.model_name}')
     plt.xlabel('Umbrales')
@@ -183,6 +179,10 @@ def main():
     plt.grid(True)
     plt.legend(handles=[line_fp, line_fn], loc='best')
     plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
+
+    # Precision/Recall curve test dataset
+    plt.figure()
+    plt.plot(recall, precision)
 
     # Annotate threshold values
     for i, j, k in zip(recall, precision, thresholds):
