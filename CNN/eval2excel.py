@@ -103,6 +103,7 @@ def main():
 
             f.readline()
             f.readline()
+            f.readline()
 
             params.append(f.readline().split(":")[-1].strip())
 
