@@ -168,8 +168,11 @@ def main():
 
     # Fale positives / False negatives curve
     plt.figure()
-    line_fp, = plt.plot(fp_plt, thresholds, label='False positives')
-    line_fn, = plt.plot(fn_plt, thresholds, label='False negatives')
+    line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
+    line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')
+
+    print(fp_plt)
+    print(fn_plt)
 
     # Precision/Recall curve test dataset
     plt.figure()
