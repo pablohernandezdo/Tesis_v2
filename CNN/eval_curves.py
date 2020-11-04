@@ -62,6 +62,7 @@ def main():
 
     fp_plt = []
     fn_plt = []
+
     # Confusion matrix
     cm = []
 

@@ -22,6 +22,7 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../FPFN_curves").mkdir(exist_ok=True)
 
     # Args
     parser = argparse.ArgumentParser()
@@ -45,6 +46,9 @@ def main():
     fp_rate = []
     recall = []
     fscores = []
+
+    fp_plt = []
+    fn_plt = []
 
     # COnfusion matrix
     cm = []
@@ -118,6 +122,9 @@ def main():
         precision.append(pre)
         fscores.append(fscore)
 
+        fp_plt.append(fp)
+        fn_plt.append(fn)
+
         # Save best conf matrix
         if fscore > max_fscore:
             max_fscore = fscore
@@ -157,6 +164,18 @@ def main():
     # Normalized confusion matrix
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
+
+    # Fale positives / False negatives curve
+    plt.figure()
+    line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
+    line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')
+
+    plt.title(f'FP y FN modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('Total')
+    plt.grid(True)
+    plt.legend(handles=[line_fp, line_fn], loc='best')
+    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
 
     # Precision/Recall curve
     plt.figure()
