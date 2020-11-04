@@ -62,7 +62,6 @@ def main():
             f.readline()
             f.readline()
             f.readline()
-            f.readline()
 
             tr_time.append(f.readline().split(":")[-1].strip())
 
