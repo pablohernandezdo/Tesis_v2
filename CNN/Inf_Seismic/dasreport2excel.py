@@ -21,7 +21,6 @@ def main():
 
     # Variable preallocating
     models = []
-    params = []
     thresholds = []
 
     francia_tp = []
