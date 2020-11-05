@@ -108,8 +108,6 @@ def main():
             # roc_auc.append(f.readline().split(":")[-1].strip())
             params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
-    print(len(params))
-
     df = pd.DataFrame({
         'Model_name': models,
         'Parameters': params,
