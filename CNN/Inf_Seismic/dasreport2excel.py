@@ -106,32 +106,11 @@ def main():
             # best_fsc.append(f.readline().split(",")[1].split(":")[-1].strip())
             # pr_auc.append(f.readline().split(":")[-1].strip())
             # roc_auc.append(f.readline().split(":")[-1].strip())
-            params.append(f.readline().split(":")[-1].strip())
-
-    print(len(models))
-    print(len(params))
-    print(len(francia_tp))
-    print(len(nevada_tp))
-    print(len(belgica_tp))
-    print(len(reykjanes_tp))
-    print(len(california_tn))
-    print(len(tides_tn))
-    print(len(utah_tn))
-    print(len(shaker_tn))
-    print(len(signals_tn))
-    print(len(tp))
-    print(len(tn))
-    print(len(fp))
-    print(len(fn))
-    print(len(acc))
-    print(len(pre))
-    print(len(rec))
-    print(len(fpr))
-    print(len(fsc))
+            # params.append(f.readline().split(":")[-1].strip())
 
     df = pd.DataFrame({
         'Model_name': models,
-        'Parameters': params,
+        # 'Parameters': params,
         'Francia tp:': francia_tp,
         'Nevada tp:': nevada_tp,
         'Belgica tp:': belgica_tp,
