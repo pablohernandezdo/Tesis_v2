@@ -131,6 +131,9 @@ def main():
         'F-score': fsc,
     })
 
+    print(len(models))
+    print(len(fsc))
+    
     df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)
 
 
