@@ -106,10 +106,10 @@ def main():
             # best_fsc.append(f.readline().split(",")[1].split(":")[-1].strip())
             # pr_auc.append(f.readline().split(":")[-1].strip())
             # roc_auc.append(f.readline().split(":")[-1].strip())
-            params.append([f.readline().split(":")[-1].strip()] * args.n_thresh)
+            params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     print(len(params))
-    
+
     df = pd.DataFrame({
         'Model_name': models,
         'Parameters': params,
