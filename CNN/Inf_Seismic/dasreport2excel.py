@@ -106,11 +106,11 @@ def main():
             # best_fsc.append(f.readline().split(",")[1].split(":")[-1].strip())
             # pr_auc.append(f.readline().split(":")[-1].strip())
             # roc_auc.append(f.readline().split(":")[-1].strip())
-            # params.append(f.readline().split(":")[-1].strip())
+            params = [f.readline().split(":")[-1].strip()] * args.n_thresh
 
     df = pd.DataFrame({
         'Model_name': models,
-        # 'Parameters': params,
+        'Parameters': params,
         'Francia tp:': francia_tp,
         'Nevada tp:': nevada_tp,
         'Belgica tp:': belgica_tp,
