@@ -38,6 +38,9 @@ def main():
     net = get_classifier(args.classifier)
     net.to(device)
 
+    # Count number of parameters
+    nparams = count_parameters(net)
+
     # Load parameters from trained model
     net.load_state_dict(torch.load('../../models/' + args.model_name + '.pth'))
     net.eval()
@@ -155,7 +158,8 @@ def main():
     # Print fscores
     print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
           f'PR AUC: {pr_auc:5.3f}\n'
-          f'ROC AUC: {roc_auc:5.3f}\n')
+          f'ROC AUC: {roc_auc:5.3f}\n'
+          f'Number of network parameters: {nparams}')
 
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
@@ -1436,6 +1440,10 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 def get_classifier(x):
