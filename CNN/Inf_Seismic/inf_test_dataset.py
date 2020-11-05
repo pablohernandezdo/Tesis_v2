@@ -122,8 +122,8 @@ def main():
         precision.append(pre)
         fscores.append(fscore)
 
-        fp_plt.append(fp)
-        fn_plt.append(fn)
+        fp_plt.append(total_fp)
+        fn_plt.append(total_fn)
 
         # Save best conf matrix
         if fscore > max_fscore:
