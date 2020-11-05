@@ -76,6 +76,8 @@ def main():
 
     for thresh in thresholds:
 
+        print(f'Threshold: {thresh}')
+
         # Count traces
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
