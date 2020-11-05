@@ -3,6 +3,7 @@ import argparse
 import itertools
 from pathlib import Path
 
+import tqdm
 import h5py
 import pywt
 import torch
@@ -73,63 +74,65 @@ def main():
     thresholds = np.around(thresholds, decimals=2)
 
     # Evaluate model on DAS test dataset
+    with tqdm.tqdm(total=len(thresholds), desc='Thresholds') as thresh_bar:
+        for thresh in thresholds:
 
-    for thresh in thresholds:
+            # Count traces
+            total_seismic, total_nseismic = 0, 0
+            total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
-        # Count traces
-        total_seismic, total_nseismic = 0, 0
-        total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
+            # Print threshold value
+            print(f'Threshold value: {thresh}\n')
 
-        # Print threshold value
-        print(f'Threshold value: {thresh}\n')
+            # Sismic classification
+            total, tp, fn = inf_francia(net, device, thresh)
+            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        # Sismic classification
-        total, tp, fn = inf_francia(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+            total, tp, fn = inf_nevada(net, device, thresh)
+            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_nevada(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+            total, tp, fn = inf_belgica(net, device, thresh)
+            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_belgica(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+            total, tp, fn = inf_reykjanes(net, device, thresh)
+            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_reykjanes(net, device, thresh)
-        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+            # # Non seismic classification
+            total, tn, fp = inf_california(net, device, thresh)
+            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        # # Non seismic classification
-        total, tn, fp = inf_california(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+            # total, tn, fp = inf_hydraulic(net, device, thresh)
+            # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        # total, tn, fp = inf_hydraulic(net, device, thresh)
-        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+            total, tn, fp = inf_tides(net, device, thresh)
+            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_tides(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+            total, tn, fp = inf_utah(net, device, thresh)
+            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_utah(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+            total, tn, fp = inf_shaker(net, device, thresh)
+            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_shaker(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+            total, tn, fp = inf_signals(net, device, thresh)
+            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_signals(net, device, thresh)
-        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+            # Metrics
+            pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+            recall.append(rec)
+            fp_rate.append(fpr)
+            precision.append(pre)
+            fscores.append(fscore)
 
-        # Metrics
-        pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
-        recall.append(rec)
-        fp_rate.append(fpr)
-        precision.append(pre)
-        fscores.append(fscore)
+            fp_plt.append(total_fp)
+            fn_plt.append(total_fn)
 
-        fp_plt.append(total_fp)
-        fn_plt.append(total_fn)
+            # Save best conf matrix
+            if fscore > max_fscore:
+                max_fscore = fscore
+                cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
+                best_thresh = thresh
 
-        # Save best conf matrix
-        if fscore > max_fscore:
-            max_fscore = fscore
-            cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
-            best_thresh = thresh
+            thresh_bar.update()
 
     # Add point (0, 1) to PR curve
     precision.append(1)
