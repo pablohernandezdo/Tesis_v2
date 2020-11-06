@@ -196,10 +196,6 @@ def main():
           f'Training time: {format_timespan(tr_t)}')
 
 
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
-
-
 def learning_curve_acc(tr_acc, val_acc, model_name):
     plt.figure()
     line_tr, = plt.plot(tr_acc, label='Training accuracy')
@@ -222,6 +218,10 @@ def learning_curve_loss(tr_loss, val_loss, model_name):
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
     plt.savefig(f'../Learning_curves/Loss/{model_name}_Losses.png')
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 def get_classifier(x):

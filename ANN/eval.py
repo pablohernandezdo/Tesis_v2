@@ -121,9 +121,8 @@ def main():
 
     print(f'Training evaluation time: {format_timespan(ev_1)}\n'
           f'Test evaluation time: {format_timespan(ev_2)}\n'
-          f'Total execution time: {format_timespan(ev_t)}\n\n')
-
-    print(f'Number of network parameters: {nparams}')
+          f'Total execution time: {format_timespan(ev_t)}\n\n'
+          f'Number of network parameters: {nparams}')
 
 
 def print_metrics(tp, fp, tn, fn):

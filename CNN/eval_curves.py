@@ -154,8 +154,7 @@ def main():
     roc_auc = np.trapz(recall, x=fp_rate[::-1])
 
     # Print fscores
-    print(f'Best train threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
-          f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
+    print(f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
           f'Test PR AUC: {pr_auc:5.3f}\n'
           f'Test ROC AUC: {roc_auc:5.3f}')
 
@@ -167,7 +166,7 @@ def main():
                           title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
 
-    # Fale positives / False negatives curve
+    # False positives / False negatives curve
     plt.figure()
     line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
     line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')

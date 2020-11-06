@@ -153,8 +153,7 @@ def main():
     roc_auc = np.trapz(recall, x=fp_rate[::-1])
 
     # Print fscores
-    print(f'Best train threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
-          f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
+    print(f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
           f'Test PR AUC: {pr_auc:5.3f}\n'
           f'Test ROC AUC: {roc_auc:5.3f}')
 

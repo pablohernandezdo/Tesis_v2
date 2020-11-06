@@ -12,18 +12,28 @@ def main():
     Path("../Excel_reports").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--folder_name', default='eval', help='Name of folder to read log files')
-    parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
+    parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # working directory
-    wkdir = os.path.join('../logs', args.folder_name)
+    wkdir = '../logs'
 
     # Variable preallocating
     models = []
     params = []
     thresholds = []
+
+    francia_tp = []
+    nevada_tp = []
+    belgica_tp = []
+    reykjanes_tp = []
+
+    california_tn = []
+    tides_tn = []
+    utah_tn = []
+    shaker_tn = []
+    signals_tn = []
 
     tp = []
     tn = []
@@ -36,75 +46,80 @@ def main():
     fpr = []
     fsc = []
 
-    ev_tm = []
+    pr_auc = []
+    roc_auc = []
+    best_fsc = []
+    best_thresh = []
 
     # Obtener los archivos de la carpeta
     files = os.listdir(wkdir)
 
-    # Leer los archivos en la carpeta
+    # Leer tiempo de entrenamiento
     for fname in files:
         with open(os.path.join(wkdir, fname), 'r') as f:
-            model_name = fname.split('.')[0]
 
-            # Skip initial empty lines
-            model_params = f.readline().split(":")[-1].strip()
-            f.readline()
+            model_name = fname.split('.')[0]
 
             # Start reading threshold data
             for _ in range(args.n_thresh):
                 models.append(model_name)
-                params.append(model_params)
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
 
-                # Skip non-useful lines
                 f.readline()
+
+                francia_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
+                nevada_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
+                belgica_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
+                reykjanes_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
+
+                f.readline()
+
+                california_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+                tides_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+                utah_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+                shaker_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+                signals_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
 
-                # Read 4 cases
                 tp.append(f.readline().split(":")[-1].strip())
                 tn.append(f.readline().split(":")[-1].strip())
                 fp.append(f.readline().split(":")[-1].strip())
                 fn.append(f.readline().split(":")[-1].strip())
 
-                # Skip empty line
                 f.readline()
 
-                # Read metrics
                 acc.append(f.readline().split(":")[-1].strip())
                 pre.append(f.readline().split(":")[-1].strip())
                 rec.append(f.readline().split(":")[-1].strip())
                 fpr.append(f.readline().split(":")[-1].strip())
                 fsc.append(f.readline().split(":")[-1].strip())
 
-                # Skip empty line
                 f.readline()
 
-                # Read eval time
-                ev_tm.append(f.readline().split(":")[-1].strip())
-
-                # Skip empty line
-                f.readline()
-
-            # Read final report
-            print(f'best thresh = {f.readline().split(":")[-2].split(",")[0].strip()}')
-            print(f'best fscore = {f.readline().split(":")[-1].strip()}')
-
-            # Skip empty line
-            f.readline()
-
-            print(f'PR AUC = {f.readline().split(":")[-1].strip()}')
-            print(f'ROC AUC = {f.readline().split(":")[-1].strip()}')
+            # best_thresh.append(f.readline().split(",")[0].split(":")[-1].strip())
+            # best_fsc.append(f.readline().split(",")[1].split(":")[-1].strip())
+            # pr_auc.append(f.readline().split(":")[-1].strip())
+            # roc_auc.append(f.readline().split(":")[-1].strip())
+            params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     df = pd.DataFrame({
         'Model_name': models,
         'Parameters': params,
-        'Threshold': thresholds,
-        'Evaluation time': ev_tm,
+        'Francia tp:': francia_tp,
+        'Nevada tp:': nevada_tp,
+        'Belgica tp:': belgica_tp,
+        'Reykjanes tp:': reykjanes_tp,
+        'California tn:': california_tn,
+        'Tides tn:': tides_tn,
+        'Utah tn:': utah_tn,
+        'Shaker tn:': shaker_tn,
+        'Signals tn:': signals_tn,
         'True positives': tp,
         'True negatives': tn,
         'False positives': fp,
