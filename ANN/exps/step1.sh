@@ -99,3 +99,8 @@ python ../train_validation.py \
 echo "Evaluating model 2h3k3k_1e6_256"
 python ../eval.py --train_path $trn --test_path $tst \
               --classifier 2h3k3k --model_name 2h3k3k_1e6_256 > ../logs/eval/2h3k3k_1e6_256.txt
+
+# reports 2 excel
+
+echo "Creating summary of reports excel file"
+python ../traineval2excel.py --xls_name 'ANN_step1'
