@@ -1227,3 +1227,8 @@ python ../train_validation.py \
 echo "Evaluating model 2h1_1_1e4_256"
 python ../eval.py --train_path $trn --test_path $tst \
               --classifier 2h1_1 --model_name 2h1_1_1e4_256_30 > ../logs/eval/2h1_1_1e4_256_30.txt
+
+# reports 2 excel
+
+echo "Creating summary of reports excel file"
+python ../traineval2excel.py --xls_name 'ANN_step3'

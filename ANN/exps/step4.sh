@@ -2297,3 +2297,8 @@ python ../eval.py --train_path $trn --test_path $tst \
 #echo "Evaluating model 2h1k5k_5e5_256"
 #python ../eval.py --train_path $trn --test_path $tst \
 #              --classifier 2h1k5k --model_name 2h1k5k_5e5_256_40 > ../logs/eval/2h1k5k_5e5_256_40.txt
+
+# reports 2 excel
+
+echo "Creating summary of reports excel file"
+python ../traineval2excel.py --xls_name 'ANN_step4'

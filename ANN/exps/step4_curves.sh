@@ -2297,9 +2297,8 @@ val="Validation_data.hdf5"
 #echo "Evaluating model 2h1k5k_5e5_256"
 #python ../eval_curves.py --test_path $tst \
 #              --classifier 2h1k5k --model_name 2h1k5k_5e5_256_40 > ../logs/eval/2h1k5k_5e5_256_40.txt
-#
-### REPORTS TO EXCEL
+
+# reports 2 excel
 
 echo "Creating summary of reports excel file"
-python ../reports2excel.py --folder_name 'eval' \
-                --xls_name 'step4' --n_thresh 19
+python ../trainevalcurves2excel.py --xls_name 'ANN_step4_curves'

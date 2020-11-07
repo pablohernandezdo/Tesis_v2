@@ -17,12 +17,15 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    wkdir = '../logs/eval_curves'
+    train_wkdir = '../logs/train'
+    eval_wkdir = '../logs/eval'
 
     # Variable preallocating
     models = []
     params = []
     thresholds = []
+
+    tr_time = []
 
     tp = []
     tn = []
@@ -38,11 +41,21 @@ def main():
     ev_tm = []
 
     # Obtener los archivos de la carpeta
-    files = os.listdir(wkdir)
+    train_files = os.listdir(train_wkdir)
+    eval_files = os.listdir(eval_wkdir)
+
+    # Leer tiempo de entrenamiento
+    for fname in train_files:
+        with open(os.path.join(train_wkdir, fname), 'r') as f:
+            f.readline()
+            f.readline()
+            f.readline()
+
+            tr_time.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     # Leer los archivos en la carpeta
-    for fname in files:
-        with open(os.path.join(wkdir, fname), 'r') as f:
+    for fname in eval_files:
+        with open(os.path.join(eval_wkdir, fname), 'r') as f:
             model_name = fname.split('.')[0]
 
             # Skip initial empty lines
@@ -102,6 +115,7 @@ def main():
     df = pd.DataFrame({
         'Model_name': models,
         'Parameters': params,
+        'Training time': tr_time,
         'Threshold': thresholds,
         'Evaluation time': ev_tm,
         'True positives': tp,
