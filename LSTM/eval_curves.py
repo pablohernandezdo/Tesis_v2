@@ -20,25 +20,22 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../Fscore_curves").mkdir(exist_ok=True)
+    Path("../FPFN_curves").mkdir(exist_ok=True)
 
     # Measure exec time
     start_time = time.time()
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='XXL_lr0000001_bs32', help="Name of model to eval")
-    parser.add_argument("--classifier", default='XXL', help="Choose classifier architecture, C, S, XS, XL, XXL, XXXL")
-    parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
+    parser.add_argument("--model_name", default='defaultmodel', help="Name of model to eval")
+    parser.add_argument("--classifier", default='1h6k', help="Choose classifier architecture")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
+    parser.add_argument("--batch_size", type=int, default=256, help="Mini-batch size")
     args = parser.parse_args()
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-    # Train dataset
-    train_dataset = HDF5Dataset(args.train_path)
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 
     # Test dataset
     test_dataset = HDF5Dataset(args.test_path)
@@ -59,26 +56,21 @@ def main():
     print(f'Number of network parameters: {nparams}\n')
 
     # Preallocate precision and recall values
-    tr_precision = []
-    tst_precision = []
-    tr_fp_rate = []
-    tst_fp_rate = []
-    tr_recall = []
-    tst_recall = []
-    tr_fscores = []
-    tst_fscores = []
+    precision = []
+    fp_rate = []
+    recall = []
+    fscores = []
 
+    fp_plt = []
+    fn_plt = []
     # Confusion matrix
-    tr_cm = []
-    tst_cm = []
+    cm = []
 
     # Record max fscore value obtained
-    tr_max_fscore = 0
-    tst_max_fscore = 0
+    max_fscore = 0
 
     # Record threshold of best fscore
-    tr_best_thresh = 0
-    tst_best_thresh = 0
+    best_thresh = 0
 
     # Thresholds to evaluate performance on
     thresholds = np.arange(0.05, 1, 0.05)
@@ -99,52 +91,7 @@ def main():
         print(f'Threshold value: {thresh}\n')
 
         # Evaluate
-        with tqdm.tqdm(total=len(train_loader), desc='Train dataset evaluation', position=0) as train_bar:
-            with torch.no_grad():
-                for data in train_loader:
-                    traces, labels = data[0].to(device), data[1].to(device)
-                    outputs = net(traces)
-                    predicted = (outputs > thresh)
-                    total += labels.size(0)
-
-                    for i, pred in enumerate(predicted):
-                        if pred:
-                            if pred == labels[i]:
-                                tp += 1
-                            else:
-                                fp += 1
-                        else:
-                            if pred == labels[i]:
-                                tn += 1
-                            else:
-                                fn += 1
-
-                    correct += (predicted == labels).sum().item()
-                    train_bar.update(1)
-
-        # Metrics
-        tr_pre, tr_rec, tr_fpr, tr_fscore = print_metrics(tp, fp, tn, fn)
-        tr_recall.append(tr_rec)
-        tr_fp_rate.append(tr_fpr)
-        tr_precision.append(tr_pre)
-        tr_fscores.append(tr_fscore)
-
-        # Save best conf matrix
-        if tr_fscore > tr_max_fscore:
-            tr_max_fscore = tr_fscore
-            tr_cm = np.asarray([[tp, fn], [fp, tn]])
-            tr_best_thresh = thresh
-
-        eval_1 = time.time()
-        ev_1 = eval_1 - start_time
-
-        # Evaluate model on test set
-        # True/False Positives/Negatives
-        correct = 0
-        total = 0
-        tp, fp, tn, fn = 0, 0, 0, 0
-
-        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as test_bar:
+        with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation') as test_bar:
             with torch.no_grad():
                 for data in test_loader:
                     traces, labels = data[0].to(device), data[1].to(device)
@@ -165,99 +112,87 @@ def main():
                                 fn += 1
 
                     correct += (predicted == labels).sum().item()
-                    test_bar.update(1)
+                    test_bar.update()
 
         # Metrics
-        tst_pre, tst_rec, tst_fpr, tst_fscore = print_metrics(tp, fp, tn, fn)
-        tst_recall.append(tst_rec)
-        tst_fp_rate.append(tst_fpr)
-        tst_precision.append(tst_pre)
-        tst_fscores.append(tst_fscore)
+        pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn)
+        recall.append(rec)
+        fp_rate.append(fpr)
+        precision.append(pre)
+        fscores.append(fscore)
+
+        fp_plt.append(fp)
+        fn_plt.append(fn)
 
         # Save best conf matrix
-        if tst_fscore > tst_max_fscore:
-            tst_max_fscore = tst_fscore
-            tst_cm = np.asarray([[tp, fn], [fp, tn]])
-            tst_best_thresh = thresh
+        if fscore > max_fscore:
+            max_fscore = fscore
+            cm = np.asarray([[tp, fn], [fp, tn]])
+            best_thresh = thresh
 
-        eval_2 = time.time()
-        ev_2 = eval_2 - eval_1
-        ev_t = eval_2 - start_time
+        eval_1 = time.time()
+        ev_1 = eval_1 - start_time
 
-        print(f'Training evaluation time: {format_timespan(ev_1)}\n'
-              f'Test evaluation time: {format_timespan(ev_2)}\n'
-              f'Total execution time: {format_timespan(ev_t)}\n\n')
+        print(f'Test evaluation time: {format_timespan(ev_1)}\n')
+
+    # Add point (0, 1) to PR curve
+    precision.append(1)
+    recall.append(0)
+
+    # Add point (1, 0.5) to PR curve
+    precision.insert(0, 0.5)
+    recall.insert(0, 1)
+
+    # Add point (0, 0)  to ROC curve
+    fp_rate.append(0)
+
+    # Add point (1, 1) to ROC curve
+    fp_rate.insert(0, 1)
 
     # Area under curve
-    tr_pr_auc = np.trapz(tr_precision, x=tr_recall[::-1])
-    tst_pr_auc = np.trapz(tst_precision, x=tst_recall[::-1])
-
-    tr_roc_auc = np.trapz(tr_recall, x=tr_fp_rate[::-1])
-    tst_roc_auc = np.trapz(tst_recall, x=tst_fp_rate[::-1])
+    pr_auc = np.trapz(precision, x=recall[::-1])
+    roc_auc = np.trapz(recall, x=fp_rate[::-1])
 
     # Print fscores
-    print(f'Best train threshold: {tr_best_thresh}, f-score: {tr_max_fscore:5.3f}\n'
-          f'Best test threshold: {tst_best_thresh}, f-score: {tst_max_fscore:5.3f}\n\n'
-          f'Train PR AUC: {tr_pr_auc:5.3f}\n'
-          f'Test PR AUC: {tst_pr_auc:5.3f}\n\n'
-          f'Train ROC AUC: {tr_roc_auc:5.3f}\n'
-          f'Test ROC AUC: {tst_roc_auc:5.3f}\n')
+    print(f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
+          f'Test PR AUC: {pr_auc:5.3f}\n'
+          f'Test ROC AUC: {roc_auc:5.3f}')
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
 
     # Confusion matrix
-    plot_confusion_matrix(tr_cm, target_names,
-                          title=f'Confusion matrix {args.model_name} train, threshold = {tr_best_thresh}',
-                          filename=f'../Confusion_matrices/Confusion_matrix_train_{args.model_name}.png')
-
-    # Confusion matrix
-    plot_confusion_matrix(tst_cm, target_names,
-                          title=f'Confusion matrix {args.model_name} test, threshold = {tst_best_thresh}',
+    plot_confusion_matrix(cm, target_names,
+                          title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
 
-    # Precision/Recall curve train dataset
+    # F-score vs thresholds curve
     plt.figure()
-    plt.plot(tr_recall, tr_precision)
-
-    # Annotate threshold values
-    for i, j, k in zip(tr_recall, tr_precision, thresholds):
-        plt.annotate(str(k), (i, j))
-
-    # Dumb model line
-    plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR train dataset curve for model {args.model_name}')
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.plot(thresholds, fscores)
+    plt.title(f'Fscores por umbral modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('F-score')
     plt.grid(True)
-    plt.savefig(f'../PR_curves/PR_train_{args.model_name}.png')
+    plt.savefig(f'../Fscore_curves/Fscore_{args.model_name}.png')
 
-    # Receiver operating characteristic curve train dataset
+    # False positives / False negatives curve
     plt.figure()
-    plt.plot(tr_fp_rate, tr_recall)
+    line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
+    line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')
 
-    # Annotate
-    for i, j, k in zip(tr_fp_rate, tr_recall, thresholds):
-        plt.annotate(str(k), (i, j))
-
-    # Dumb model line
-    plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC train dataset curve for model {args.model_name}')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('Recall')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.title(f'FP y FN modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('Total')
     plt.grid(True)
-    plt.savefig(f'../ROC_curves/ROC_train_{args.model_name}.png')
+    plt.legend(handles=[line_fp, line_fn], loc='best')
+    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
 
     # Precision/Recall curve test dataset
     plt.figure()
-    plt.plot(tst_recall, tst_precision)
+    plt.plot(recall, precision)
 
     # Annotate threshold values
-    for i, j, k in zip(tst_recall, tst_precision, thresholds):
+    for i, j, k in zip(recall, precision, thresholds):
         plt.annotate(str(k), (i, j))
 
     # Dumb model line
@@ -272,10 +207,10 @@ def main():
 
     # Receiver operating characteristic curve test dataset
     plt.figure()
-    plt.plot(tst_fp_rate, tst_recall)
+    plt.plot(fp_rate, recall)
 
     # Annotate
-    for i, j, k in zip(tst_fp_rate, tst_recall, thresholds):
+    for i, j, k in zip(fp_rate, recall, thresholds):
         plt.annotate(str(k), (i, j))
 
     # Dumb model line
@@ -293,7 +228,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
                           filename='Confusion_matrix.png', cmap=None, normalize=True):
 
     accuracy = np.trace(cm) / float(np.sum(cm))
-    misclass = 1 - accuracy
+    missclass = 1 - accuracy
 
     if cmap is None:
         cmap = plt.get_cmap('Blues')
@@ -324,7 +259,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
 
     plt.tight_layout()
     plt.ylabel('True label')
-    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, missclass))
     plt.savefig(filename)
 
 
@@ -365,9 +300,117 @@ def print_metrics(tp, fp, tn, fn):
 
 def get_classifier(x):
     return {
-        'LSTM': CNNLSTMANN(),
-        'LSTM_v2': CNNLSTMANN_v2(),
-    }.get(x, CNNLSTMANN())
+        '1h6k': OneHidden6k(),
+        '1h5k': OneHidden5k(),
+        '1h4k': OneHidden4k(),
+        '1h3k': OneHidden3k(),
+        '1h2k': OneHidden2k(),
+        '1h1k': OneHidden1k(),
+        '1h5h': OneHidden5h(),
+        '1h1h': OneHidden1h(),
+        '1h10': OneHidden10(),
+        '1h1': OneHidden1(),
+        '2h6k6k': TwoHidden6k6k(),
+        '2h6k5k': TwoHidden6k5k(),
+        '2h6k4k': TwoHidden6k4k(),
+        '2h6k3k': TwoHidden6k3k(),
+        '2h6k2k': TwoHidden6k2k(),
+        '2h6k1k': TwoHidden6k1k(),
+        '2h6k5h': TwoHidden6k5h(),
+        '2h6k1h': TwoHidden6k1h(),
+        '2h6k10': TwoHidden6k10(),
+        '2h6k1': TwoHidden6k1(),
+        '2h5k6k': TwoHidden5k6k(),
+        '2h5k5k': TwoHidden5k5k(),
+        '2h5k4k': TwoHidden5k4k(),
+        '2h5k3k': TwoHidden5k3k(),
+        '2h5k2k': TwoHidden5k2k(),
+        '2h5k1k': TwoHidden5k1k(),
+        '2h5k5h': TwoHidden5k5h(),
+        '2h5k1h': TwoHidden5k1h(),
+        '2h5k10': TwoHidden5k10(),
+        '2h5k1': TwoHidden5k1(),
+        '2h4k6k': TwoHidden4k6k(),
+        '2h4k5k': TwoHidden4k5k(),
+        '2h4k4k': TwoHidden4k4k(),
+        '2h4k3k': TwoHidden4k3k(),
+        '2h4k2k': TwoHidden4k2k(),
+        '2h4k1k': TwoHidden4k1k(),
+        '2h4k5h': TwoHidden4k5h(),
+        '2h4k1h': TwoHidden4k1h(),
+        '2h4k10': TwoHidden4k10(),
+        '2h4k1': TwoHidden4k1(),
+        '2h3k6k': TwoHidden3k6k(),
+        '2h3k5k': TwoHidden3k5k(),
+        '2h3k4k': TwoHidden3k4k(),
+        '2h3k3k': TwoHidden3k3k(),
+        '2h3k2k': TwoHidden3k2k(),
+        '2h3k1k': TwoHidden3k1k(),
+        '2h3k5h': TwoHidden3k5h(),
+        '2h3k1h': TwoHidden3k1h(),
+        '2h3k10': TwoHidden3k10(),
+        '2h3k1': TwoHidden3k1(),
+        '2h2k6k': TwoHidden2k6k(),
+        '2h2k5k': TwoHidden2k5k(),
+        '2h2k4k': TwoHidden2k4k(),
+        '2h2k3k': TwoHidden2k3k(),
+        '2h2k2k': TwoHidden2k2k(),
+        '2h2k1k': TwoHidden2k1k(),
+        '2h2k5h': TwoHidden2k5h(),
+        '2h2k1h': TwoHidden2k1h(),
+        '2h2k10': TwoHidden2k10(),
+        '2h2k1': TwoHidden2k1(),
+        '2h1k6k': TwoHidden1k6k(),
+        '2h1k5k': TwoHidden1k5k(),
+        '2h1k4k': TwoHidden1k4k(),
+        '2h1k3k': TwoHidden1k3k(),
+        '2h1k2k': TwoHidden1k2k(),
+        '2h1k1k': TwoHidden1k1k(),
+        '2h1k5h': TwoHidden1k5h(),
+        '2h1k1h': TwoHidden1k1h(),
+        '2h1k10': TwoHidden1k10(),
+        '2h1k1': TwoHidden1k1(),
+        '2h5h6k': TwoHidden5h6k(),
+        '2h5h5k': TwoHidden5h5k(),
+        '2h5h4k': TwoHidden5h4k(),
+        '2h5h3k': TwoHidden5h3k(),
+        '2h5h2k': TwoHidden5h2k(),
+        '2h5h1k': TwoHidden5h1k(),
+        '2h5h5h': TwoHidden5h5h(),
+        '2h5h1h': TwoHidden5h1h(),
+        '2h5h10': TwoHidden5h10(),
+        '2h5h1': TwoHidden5h1(),
+        '2h1h6k': TwoHidden1h6k(),
+        '2h1h5k': TwoHidden1h5k(),
+        '2h1h4k': TwoHidden1h4k(),
+        '2h1h3k': TwoHidden1h3k(),
+        '2h1h2k': TwoHidden1h2k(),
+        '2h1h1k': TwoHidden1h1k(),
+        '2h1h5h': TwoHidden1h5h(),
+        '2h1h1h': TwoHidden1h1h(),
+        '2h1h10': TwoHidden1h10(),
+        '2h1h1': TwoHidden1h1(),
+        '2h10_6k': TwoHidden10_6k(),
+        '2h10_5k': TwoHidden10_5k(),
+        '2h10_4k': TwoHidden10_4k(),
+        '2h10_3k': TwoHidden10_3k(),
+        '2h10_2k': TwoHidden10_2k(),
+        '2h10_1k': TwoHidden10_1k(),
+        '2h10_5h': TwoHidden10_5h(),
+        '2h10_1h': TwoHidden10_1h(),
+        '2h10_10': TwoHidden10_10(),
+        '2h10_1': TwoHidden1_1(),
+        '2h1_6k': TwoHidden1_6k(),
+        '2h1_5k': TwoHidden1_5k(),
+        '2h1_4k': TwoHidden1_4k(),
+        '2h1_3k': TwoHidden1_3k(),
+        '2h1_2k': TwoHidden1_2k(),
+        '2h1_1k': TwoHidden1_1k(),
+        '2h1_5h': TwoHidden1_5h(),
+        '2h1_1h': TwoHidden1_1h(),
+        '2h1_10': TwoHidden1_10(),
+        '2h1_1': TwoHidden1_1(),
+    }.get(x, OneHidden6k())
 
 
 def count_parameters(model):

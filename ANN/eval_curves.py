@@ -20,6 +20,7 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../Fscore_curves").mkdir(exist_ok=True)
     Path("../FPFN_curves").mkdir(exist_ok=True)
 
     # Measure exec time
@@ -165,7 +166,16 @@ def main():
                           title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
 
-    # Fale positives / False negatives curve
+    # F-score vs thresholds curve
+    plt.figure()
+    plt.plot(thresholds, fscores)
+    plt.title(f'Fscores por umbral modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('F-score')
+    plt.grid(True)
+    plt.savefig(f'../Fscore_curves/Fscore_{args.model_name}.png')
+
+    # False positives / False negatives curve
     plt.figure()
     line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
     line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')

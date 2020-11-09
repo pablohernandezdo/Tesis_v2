@@ -3,7 +3,6 @@ import argparse
 import itertools
 from pathlib import Path
 
-import tqdm
 import h5py
 import pywt
 import torch
@@ -23,12 +22,13 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../Fscore_curves").mkdir(exist_ok=True)
     Path("../FPFN_curves").mkdir(exist_ok=True)
 
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
-    parser.add_argument("--classifier", default='CBN', help="Choose classifier architecture, C, CBN")
+    parser.add_argument("--classifier", default='C', help="Choose classifier architecture")
     args = parser.parse_args()
 
     # Select training device
@@ -37,9 +37,6 @@ def main():
     # Load specified Classifier
     net = get_classifier(args.classifier)
     net.to(device)
-
-    # Count number of parameters
-    nparams = count_parameters(net)
 
     # Load parameters from trained model
     net.load_state_dict(torch.load('../../models/' + args.model_name + '.pth'))
@@ -51,9 +48,6 @@ def main():
     recall = []
     fscores = []
 
-    fp_plt = []
-    fn_plt = []
-
     # COnfusion matrix
     cm = []
 
@@ -64,10 +58,9 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    # thresholds = [0.6]
+    # thresholds = [0.65]
     # thresholds = np.arange(0.4, 1, 0.05)
     thresholds = np.arange(0.1, 1, 0.05)
-    # thresholds = np.arange(0.1, 1, 0.1)
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
     # thresholds = np.linspace(0.4, 0.8, 5)
@@ -77,65 +70,60 @@ def main():
     thresholds = np.around(thresholds, decimals=2)
 
     # Evaluate model on DAS test dataset
-    with tqdm.tqdm(total=len(thresholds), desc='Thresholds') as thresh_bar:
-        for thresh in thresholds:
 
-            # Count traces
-            total_seismic, total_nseismic = 0, 0
-            total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
+    for thresh in thresholds:
 
-            # Print threshold value
-            print(f'Threshold value: {thresh}\n')
+        # Count traces
+        total_seismic, total_nseismic = 0, 0
+        total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
-            # Sismic classification
-            total, tp, fn = inf_francia(net, device, thresh)
-            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        # Print threshold value
+        print(f'Threshold value: {thresh}\n')
 
-            total, tp, fn = inf_nevada(net, device, thresh)
-            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        # Sismic classification
+        total, tp, fn = inf_francia(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-            total, tp, fn = inf_belgica(net, device, thresh)
-            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        total, tp, fn = inf_nevada(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-            total, tp, fn = inf_reykjanes(net, device, thresh)
-            total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
+        total, tp, fn = inf_belgica(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-            # # Non seismic classification
-            total, tn, fp = inf_california(net, device, thresh)
-            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        total, tp, fn = inf_reykjanes(net, device, thresh)
+        total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-            # total, tn, fp = inf_hydraulic(net, device, thresh)
-            # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # # Non seismic classification
+        total, tn, fp = inf_california(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-            total, tn, fp = inf_tides(net, device, thresh)
-            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        # total, tn, fp = inf_hydraulic(net, device, thresh)
+        # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-            total, tn, fp = inf_utah(net, device, thresh)
-            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        total, tn, fp = inf_tides(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-            total, tn, fp = inf_shaker(net, device, thresh)
-            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        total, tn, fp = inf_utah(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-            total, tn, fp = inf_signals(net, device, thresh)
-            total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+        total, tn, fp = inf_shaker(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-            # Metrics
-            pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
-            recall.append(rec)
-            fp_rate.append(fpr)
-            precision.append(pre)
-            fscores.append(fscore)
+        total, tn, fp = inf_signals(net, device, thresh)
+        total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-            fp_plt.append(total_fp)
-            fn_plt.append(total_fn)
+        # Metrics
+        pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
+        recall.append(rec)
+        fp_rate.append(fpr)
+        precision.append(pre)
+        fscores.append(fscore)
 
-            # Save best conf matrix
-            if fscore > max_fscore:
-                max_fscore = fscore
-                cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
-                best_thresh = thresh
-
-            thresh_bar.update()
+        # Save best conf matrix
+        if fscore > max_fscore:
+            max_fscore = fscore
+            cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
+            best_thresh = thresh
 
     # Add point (0, 1) to PR curve
     precision.append(1)
@@ -158,8 +146,7 @@ def main():
     # Print fscores
     print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
           f'PR AUC: {pr_auc:5.3f}\n'
-          f'ROC AUC: {roc_auc:5.3f}\n'
-          f'Number of network parameters: {nparams}')
+          f'ROC AUC: {roc_auc:5.3f}\n')
 
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
@@ -172,7 +159,16 @@ def main():
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
 
-    # Fale positives / False negatives curve
+    # F-score vs thresholds curve
+    plt.figure()
+    plt.plot(thresholds, fscores)
+    plt.title(f'Fscores por umbral modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('F-score')
+    plt.grid(True)
+    plt.savefig(f'../Fscore_curves/Fscore_{args.model_name}.png')
+
+    # False positives / False negatives curve
     plt.figure()
     line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
     line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')
@@ -1440,10 +1436,6 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
-
-
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 def get_classifier(x):

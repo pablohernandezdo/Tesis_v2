@@ -22,11 +22,13 @@ def main():
     Path("../Confusion_matrices").mkdir(exist_ok=True)
     Path("../PR_curves").mkdir(exist_ok=True)
     Path("../ROC_curves").mkdir(exist_ok=True)
+    Path("../Fscore_curves").mkdir(exist_ok=True)
+    Path("../FPFN_curves").mkdir(exist_ok=True)
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='LSTM_1epch', help="Classifier model path")
-    parser.add_argument("--classifier", default='LSTM', help="Choose classifier architecture")
+    parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
+    parser.add_argument("--classifier", default='C', help="Choose classifier architecture")
     args = parser.parse_args()
 
     # Select training device
@@ -44,6 +46,9 @@ def main():
     precision = []
     fp_rate = []
     recall = []
+    fscores = []
+
+    # COnfusion matrix
     cm = []
 
     # Record max fscore value obtained
@@ -53,25 +58,27 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = [0.99]
-    # thresholds = np.arange(0.9, 1, 0.02)
+    # thresholds = [0.65]
     # thresholds = np.arange(0.4, 1, 0.05)
-    # thresholds = np.arange(0.1, 1, 0.1)
+    thresholds = np.arange(0.1, 1, 0.05)
     # thresholds = np.linspace(0.05, 0.9, 18)
     # thresholds = np.linspace(0, 1, 11)
     # thresholds = np.linspace(0.4, 0.8, 5)
     # thresholds = np.linspace(0.5, 0.7, 11)
 
     # Round threshold values
-    thresholds = np.around(thresholds, decimals=3)
+    thresholds = np.around(thresholds, decimals=2)
 
-    # For different threshold values
+    # Evaluate model on DAS test dataset
+
     for thresh in thresholds:
-        print(f'THRESHOLD: {thresh}')
 
         # Count traces
         total_seismic, total_nseismic = 0, 0
         total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
+
+        # Print threshold value
+        print(f'Threshold value: {thresh}\n')
 
         # Sismic classification
         total, tp, fn = inf_francia(net, device, thresh)
@@ -110,12 +117,36 @@ def main():
         recall.append(rec)
         fp_rate.append(fpr)
         precision.append(pre)
+        fscores.append(fscore)
 
         # Save best conf matrix
         if fscore > max_fscore:
             max_fscore = fscore
             cm = np.asarray([[total_tp, total_fn], [total_fp, total_tn]])
             best_thresh = thresh
+
+    # Add point (0, 1) to PR curve
+    precision.append(1)
+    recall.append(0)
+
+    # Add point (1, 0.5) to PR curve
+    precision.insert(0, 0.5)
+    recall.insert(0, 1)
+
+    # Add point (0, 0)  to ROC curve
+    fp_rate.append(0)
+
+    # Add point (1, 1) to ROC curve
+    fp_rate.insert(0, 1)
+
+    # Area under curves
+    pr_auc = np.trapz(precision, x=recall[::-1])
+    roc_auc = np.trapz(recall, x=fp_rate[::-1])
+
+    # Print fscores
+    print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
+          f'PR AUC: {pr_auc:5.3f}\n'
+          f'ROC AUC: {roc_auc:5.3f}\n')
 
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
@@ -128,9 +159,30 @@ def main():
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
                           filename=f'../Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
 
+    # F-score vs thresholds curve
+    plt.figure()
+    plt.plot(thresholds, fscores)
+    plt.title(f'Fscores por umbral modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('F-score')
+    plt.grid(True)
+    plt.savefig(f'../Fscore_curves/Fscore_{args.model_name}.png')
+
+    # False positives / False negatives curve
+    plt.figure()
+    line_fp, = plt.plot(thresholds, fp_plt, label='False positives')
+    line_fn, = plt.plot(thresholds, fn_plt, label='False negatives')
+
+    plt.title(f'FP y FN modelo {args.model_name}')
+    plt.xlabel('Umbrales')
+    plt.ylabel('Total')
+    plt.grid(True)
+    plt.legend(handles=[line_fp, line_fn], loc='best')
+    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
+
     # Precision/Recall curve
     plt.figure()
-    plt.plot(recall, precision)
+    plt.plot(recall, precision, '-o', markersize=4)
 
     # Annotate threshold values
     for i, j, k in zip(recall, precision, thresholds):
@@ -148,7 +200,7 @@ def main():
 
     # Receiver operating characteristic curve
     plt.figure()
-    plt.plot(fp_rate, recall)
+    plt.plot(fp_rate, recall, '-o', markersize=4)
 
     # Annotate
     for i, j, k in zip(fp_rate, recall, thresholds):
@@ -216,9 +268,7 @@ def inf_francia(net, device, thresh):
                 fn += 1
 
     # Results
-    print(f'Total Francia traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Francia true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -379,9 +429,7 @@ def inf_nevada(net, device, thresh):
     #         fn += 1
 
     # Results
-    print(f'Total Nevada traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Nevada true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -453,9 +501,7 @@ def inf_belgica(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Total Belgica traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Belgica true positives: {tp}/{total}')
 
     return total, tp, fn
 
@@ -563,9 +609,7 @@ def inf_reykjanes(net, device, thresh):
             fn += 1
 
     # Results
-    print(f'Total Reykjanes traces: {total}\n'
-          f'True positives: {tp}\n'
-          f'False negatives: {fn}\n')
+    print(f'Reykjanes true positives: {tp}/{total}\n')
 
     return total, tp, fn
 
@@ -609,9 +653,7 @@ def inf_california(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Total California traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'California true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -727,9 +769,7 @@ def inf_hydraulic(net, device, thresh):
                 tn += 1
 
     # Results
-    print(f'Total Hydraulic traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Hydraulic true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -775,9 +815,7 @@ def inf_tides(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Tides traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Tides true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -820,9 +858,7 @@ def inf_utah(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Utah traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Utah true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -964,9 +1000,7 @@ def inf_vibroseis(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Vibroseis traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Vibroseis true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -1012,9 +1046,7 @@ def inf_shaker(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total Shaker traces: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Shaker true negatives: {tn}/{total}')
 
     return total, tn, fp
 
@@ -1310,9 +1342,7 @@ def inf_signals(net, device, thresh):
             tn += 1
 
     # Results
-    print(f'Total test signals: {total}\n'
-          f'True negatives: {tn}\n'
-          f'False positives: {fp}\n')
+    print(f'Test signals true negatives: {tn}/{total}\n')
 
     return total, tn, fp
 
@@ -1323,7 +1353,7 @@ def sum_triple(i1, i2, i3, s1, s2, s3):
 
 def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
 
-    acc = (tp + tn) / (tp + fp + tn +fn)
+    acc = (tp + tn) / (tp + fp + tn + fn)
 
     # Evaluation metrics
     if (not tp) and (not fp):
@@ -1349,50 +1379,17 @@ def print_metrics(total_seismic, total_nseismic, tp, fp, tn, fn):
           f'Accuracy: {acc:5.3f}\n'
           f'Precision: {precision:5.3f}\n'
           f'Recall: {recall:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n'
-          f'False positive rate: {fpr:5.3f}\n')
+          f'False positive rate: {fpr:5.3f}\n'
+          f'F-score: {fscore:5.3f}\n')
 
     return precision, recall, fpr, fscore
 
 
-# ESTA FUNCION LA SAQUÉ DE https://www.kaggle.com/grfiv4/plot-a-confusion-matrix
-# HAY QUE MODIFICARLA PA QUE SEA MAS MEJOR
-def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='Confusion_matrix.png', cmap=None, normalize=True):
-    """
-    given a sklearn confusion matrix (cm), make a nice plot
-
-    Arguments
-    ---------
-    cm:           confusion matrix from sklearn.metrics.confusion_matrix
-
-    target_names: given classification classes such as [0, 1, 2]
-                  the class names, for example: ['high', 'medium', 'low']
-
-    title:        the text to display at the top of the matrix
-
-    cmap:         the gradient of the values displayed from matplotlib.pyplot.cm
-                  see http://matplotlib.org/examples/color/colormaps_reference.html
-                  plt.get_cmap('jet') or plt.cm.Blues
-
-    normalize:    If False, plot the raw numbers
-                  If True, plot the proportions
-
-    Usage
-    -----
-    plot_confusion_matrix(cm           = cm,                  # confusion matrix created by
-                                                              # sklearn.metrics.confusion_matrix
-                          normalize    = True,                # show proportions
-                          target_names = y_labels_vals,       # list of names of the classes
-                          title        = best_estimator_name) # title of graph
-
-    Citiation
-    ---------
-    http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
-
-    """
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
+                          filename='Confusion_matrix.png', cmap=None, normalize=True):
 
     accuracy = np.trace(cm) / float(np.sum(cm))
-    misclass = 1 - accuracy
+    missclass = 1 - accuracy
 
     if cmap is None:
         cmap = plt.get_cmap('Blues')
@@ -1423,15 +1420,8 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', filename='
 
     plt.tight_layout()
     plt.ylabel('True label')
-    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
+    plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, missclass))
     plt.savefig(filename)
-
-
-def get_classifier(x):
-    return {
-        'LSTM': CNNLSTMANN(),
-        'LSTM_v2': CNNLSTMANN_v2(),
-    }.get(x, CNNLSTMANN())
 
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
@@ -1446,6 +1436,121 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, dat)
     return y
+
+
+def get_classifier(x):
+    return {
+        '1h6k': OneHidden6k(),
+        '1h5k': OneHidden5k(),
+        '1h4k': OneHidden4k(),
+        '1h3k': OneHidden3k(),
+        '1h2k': OneHidden2k(),
+        '1h1k': OneHidden1k(),
+        '1h5h': OneHidden5h(),
+        '1h1h': OneHidden1h(),
+        '1h10': OneHidden10(),
+        '1h1': OneHidden1(),
+        '2h6k6k': TwoHidden6k6k(),
+        '2h6k5k': TwoHidden6k5k(),
+        '2h6k4k': TwoHidden6k4k(),
+        '2h6k3k': TwoHidden6k3k(),
+        '2h6k2k': TwoHidden6k2k(),
+        '2h6k1k': TwoHidden6k1k(),
+        '2h6k5h': TwoHidden6k5h(),
+        '2h6k1h': TwoHidden6k1h(),
+        '2h6k10': TwoHidden6k10(),
+        '2h6k1': TwoHidden6k1(),
+        '2h5k6k': TwoHidden5k6k(),
+        '2h5k5k': TwoHidden5k5k(),
+        '2h5k4k': TwoHidden5k4k(),
+        '2h5k3k': TwoHidden5k3k(),
+        '2h5k2k': TwoHidden5k2k(),
+        '2h5k1k': TwoHidden5k1k(),
+        '2h5k5h': TwoHidden5k5h(),
+        '2h5k1h': TwoHidden5k1h(),
+        '2h5k10': TwoHidden5k10(),
+        '2h5k1': TwoHidden5k1(),
+        '2h4k6k': TwoHidden4k6k(),
+        '2h4k5k': TwoHidden4k5k(),
+        '2h4k4k': TwoHidden4k4k(),
+        '2h4k3k': TwoHidden4k3k(),
+        '2h4k2k': TwoHidden4k2k(),
+        '2h4k1k': TwoHidden4k1k(),
+        '2h4k5h': TwoHidden4k5h(),
+        '2h4k1h': TwoHidden4k1h(),
+        '2h4k10': TwoHidden4k10(),
+        '2h4k1': TwoHidden4k1(),
+        '2h3k6k': TwoHidden3k6k(),
+        '2h3k5k': TwoHidden3k5k(),
+        '2h3k4k': TwoHidden3k4k(),
+        '2h3k3k': TwoHidden3k3k(),
+        '2h3k2k': TwoHidden3k2k(),
+        '2h3k1k': TwoHidden3k1k(),
+        '2h3k5h': TwoHidden3k5h(),
+        '2h3k1h': TwoHidden3k1h(),
+        '2h3k10': TwoHidden3k10(),
+        '2h3k1': TwoHidden3k1(),
+        '2h2k6k': TwoHidden2k6k(),
+        '2h2k5k': TwoHidden2k5k(),
+        '2h2k4k': TwoHidden2k4k(),
+        '2h2k3k': TwoHidden2k3k(),
+        '2h2k2k': TwoHidden2k2k(),
+        '2h2k1k': TwoHidden2k1k(),
+        '2h2k5h': TwoHidden2k5h(),
+        '2h2k1h': TwoHidden2k1h(),
+        '2h2k10': TwoHidden2k10(),
+        '2h2k1': TwoHidden2k1(),
+        '2h1k6k': TwoHidden1k6k(),
+        '2h1k5k': TwoHidden1k5k(),
+        '2h1k4k': TwoHidden1k4k(),
+        '2h1k3k': TwoHidden1k3k(),
+        '2h1k2k': TwoHidden1k2k(),
+        '2h1k1k': TwoHidden1k1k(),
+        '2h1k5h': TwoHidden1k5h(),
+        '2h1k1h': TwoHidden1k1h(),
+        '2h1k10': TwoHidden1k10(),
+        '2h1k1': TwoHidden1k1(),
+        '2h5h6k': TwoHidden5h6k(),
+        '2h5h5k': TwoHidden5h5k(),
+        '2h5h4k': TwoHidden5h4k(),
+        '2h5h3k': TwoHidden5h3k(),
+        '2h5h2k': TwoHidden5h2k(),
+        '2h5h1k': TwoHidden5h1k(),
+        '2h5h5h': TwoHidden5h5h(),
+        '2h5h1h': TwoHidden5h1h(),
+        '2h5h10': TwoHidden5h10(),
+        '2h5h1': TwoHidden5h1(),
+        '2h1h6k': TwoHidden1h6k(),
+        '2h1h5k': TwoHidden1h5k(),
+        '2h1h4k': TwoHidden1h4k(),
+        '2h1h3k': TwoHidden1h3k(),
+        '2h1h2k': TwoHidden1h2k(),
+        '2h1h1k': TwoHidden1h1k(),
+        '2h1h5h': TwoHidden1h5h(),
+        '2h1h1h': TwoHidden1h1h(),
+        '2h1h10': TwoHidden1h10(),
+        '2h1h1': TwoHidden1h1(),
+        '2h10_6k': TwoHidden10_6k(),
+        '2h10_5k': TwoHidden10_5k(),
+        '2h10_4k': TwoHidden10_4k(),
+        '2h10_3k': TwoHidden10_3k(),
+        '2h10_2k': TwoHidden10_2k(),
+        '2h10_1k': TwoHidden10_1k(),
+        '2h10_5h': TwoHidden10_5h(),
+        '2h10_1h': TwoHidden10_1h(),
+        '2h10_10': TwoHidden10_10(),
+        '2h10_1': TwoHidden1_1(),
+        '2h1_6k': TwoHidden1_6k(),
+        '2h1_5k': TwoHidden1_5k(),
+        '2h1_4k': TwoHidden1_4k(),
+        '2h1_3k': TwoHidden1_3k(),
+        '2h1_2k': TwoHidden1_2k(),
+        '2h1_1k': TwoHidden1_1k(),
+        '2h1_5h': TwoHidden1_5h(),
+        '2h1_1h': TwoHidden1_1h(),
+        '2h1_10': TwoHidden1_10(),
+        '2h1_1': TwoHidden1_1(),
+    }.get(x, OneHidden6k())
 
 
 if __name__ == "__main__":
