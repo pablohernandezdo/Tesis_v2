@@ -17,6 +17,7 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='XXL_lr0000001_bs32', help="Name of model to eval")
+    parser.add_argument("--model_folder", default='default', help="Folder to save model")
     parser.add_argument("--classifier", default='XXL', help="Choose classifier architecture, C, S, XS, XL, XXL, XXXL")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
@@ -43,7 +44,7 @@ def main():
     nparams = count_parameters(net)
 
     # Load from trained model
-    net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../models/' + args.model_folder + '/' + args.model_name + '.pth'))
     net.eval()
 
     # Evaluate model on training dataset

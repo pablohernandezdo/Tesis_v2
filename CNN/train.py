@@ -19,6 +19,7 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='Default_model', help="Name of model to save")
+    parser.add_argument("--model_folder", default='default', help="Folder to save model")
     parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
@@ -68,7 +69,7 @@ def main():
                 epoch_bar.update()
 
     # Save model
-    torch.save(net.state_dict(), '../models/' + args.model_name + '.pth')
+    torch.save(net.state_dict(), '../models/' + args.model_folder + '/' + args.model_name + '.pth')
 
     # Measure training, and execution times
     end_tm = time.time()

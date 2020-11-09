@@ -16,23 +16,24 @@ from dataset import HDF5Dataset
 
 
 def main():
-    # Create curves folders
-    Path("../Confusion_matrices").mkdir(exist_ok=True)
-    Path("../PR_curves").mkdir(exist_ok=True)
-    Path("../ROC_curves").mkdir(exist_ok=True)
-    Path("../Fscore_curves").mkdir(exist_ok=True)
-    Path("../FPFN_curves").mkdir(exist_ok=True)
-
     # Measure exec time
     start_time = time.time()
 
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='defaultmodel', help="Name of model to eval")
+    parser.add_argument("--model_folder", default='default', help="Folder to save model")
     parser.add_argument("--classifier", default='1h6k', help="Choose classifier architecture")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=256, help="Mini-batch size")
     args = parser.parse_args()
+
+    # Create curves folders
+    Path(f"../Confusion_matrices/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../PR_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../ROC_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Fscore_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../FPFN_curves/{args.model_folder}").mkdir(exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -49,7 +50,7 @@ def main():
     nparams = count_parameters(net)
 
     # Load from trained model
-    net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
+    net.load_state_dict(torch.load('../models/' + args.model_folder + '/' + args.model_name + '.pth'))
     net.eval()
 
     # Print number of network parameters
@@ -164,7 +165,7 @@ def main():
     # Confusion matrix
     plot_confusion_matrix(cm, target_names,
                           title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
-                          filename=f'../Confusion_matrices/Confusion_matrix_test_{args.model_name}.png')
+                          filename=f'../Confusion_matrices/{args.model_folder}/Confusion_matrix_test_{args.model_name}.png')
 
     # F-score vs thresholds curve
     plt.figure()
@@ -173,7 +174,7 @@ def main():
     plt.xlabel('Umbrales')
     plt.ylabel('F-score')
     plt.grid(True)
-    plt.savefig(f'../Fscore_curves/Fscore_{args.model_name}.png')
+    plt.savefig(f'../Fscore_curves/{args.model_folder}/Fscore_{args.model_name}.png')
 
     # False positives / False negatives curve
     plt.figure()
@@ -185,7 +186,7 @@ def main():
     plt.ylabel('Total')
     plt.grid(True)
     plt.legend(handles=[line_fp, line_fn], loc='best')
-    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
+    plt.savefig(f'../FPFN_curves/{args.model_folder}/FPFN_{args.model_name}.png')
 
     # Precision/Recall curve test dataset
     plt.figure()
@@ -203,7 +204,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.savefig(f'../PR_curves/PR_test_{args.model_name}.png')
+    plt.savefig(f'../PR_curves/{args.model_folder}/PR_test_{args.model_name}.png')
 
     # Receiver operating characteristic curve test dataset
     plt.figure()

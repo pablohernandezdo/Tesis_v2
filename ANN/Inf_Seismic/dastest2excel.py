@@ -13,11 +13,12 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
+    parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # working directory
-    wkdir = '../logs'
+    wkdir = '../logs/' + args.archives_folder
 
     # Variable preallocating
     models = []

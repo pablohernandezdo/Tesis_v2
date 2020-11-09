@@ -13,12 +13,13 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
+    parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # working directory
-    train_wkdir = '../logs/train'
-    eval_wkdir = '../logs/eval'
+    train_wkdir = '../logs/train/' + args.archives_folder
+    eval_wkdir = '../logs/eval/' + args.archives_folder
 
     # Variable preallocating
     models = []
