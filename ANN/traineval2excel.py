@@ -125,33 +125,33 @@ def main():
     best_idx = np.argsort(tst_fsc)
 
     # Get general parameters
-    best_models = [models[i] for i in best_idx[:args.best]]
-    best_params = [params[i] for i in best_idx[:args.best]]
-    best_tr_time = [tr_time[i] for i in best_idx[:args.best]]
-    best_tr_ev_tm = [tr_ev_tm[i] for i in best_idx[:args.best]]
+    best_models = [models[i] for i in best_idx[::-1][:args.best]]
+    best_params = [params[i] for i in best_idx[::-1][:args.best]]
+    best_tr_time = [tr_time[i] for i in best_idx[::-1][:args.best]]
+    best_tr_ev_tm = [tr_ev_tm[i] for i in best_idx[::-1][:args.best]]
 
     # Get train parameters
-    best_tr_tp = [tr_tp[i] for i in best_idx[:args.best]]
-    best_tr_tn = [tr_tn[i] for i in best_idx[:args.best]]
-    best_tr_fp = [tr_fp[i] for i in best_idx[:args.best]]
-    best_tr_fn = [tr_fn[i] for i in best_idx[:args.best]]
-    best_tr_acc = [tr_acc[i] for i in best_idx[:args.best]]
-    best_tr_pre = [tr_pre[i] for i in best_idx[:args.best]]
-    best_tr_rec = [tr_rec[i] for i in best_idx[:args.best]]
-    best_tr_fpr = [tr_fpr[i] for i in best_idx[:args.best]]
-    best_tr_fsc = [tr_fsc[i] for i in best_idx[:args.best]]
+    best_tr_tp = [tr_tp[i] for i in best_idx[::-1][:args.best]]
+    best_tr_tn = [tr_tn[i] for i in best_idx[::-1][:args.best]]
+    best_tr_fp = [tr_fp[i] for i in best_idx[::-1][:args.best]]
+    best_tr_fn = [tr_fn[i] for i in best_idx[::-1][:args.best]]
+    best_tr_acc = [tr_acc[i] for i in best_idx[::-1][:args.best]]
+    best_tr_pre = [tr_pre[i] for i in best_idx[::-1][:args.best]]
+    best_tr_rec = [tr_rec[i] for i in best_idx[::-1][:args.best]]
+    best_tr_fpr = [tr_fpr[i] for i in best_idx[::-1][:args.best]]
+    best_tr_fsc = [tr_fsc[i] for i in best_idx[::-1][:args.best]]
 
     # Get test parameters
-    best_tst_ev_tm = [tst_ev_tm[i] for i in best_idx[:args.best]]
-    best_tst_tp = [tst_tp[i] for i in best_idx[:args.best]]
-    best_tst_tn = [tst_tn[i] for i in best_idx[:args.best]]
-    best_tst_fp = [tst_fp[i] for i in best_idx[:args.best]]
-    best_tst_fn = [tst_fn[i] for i in best_idx[:args.best]]
-    best_tst_acc = [tst_acc[i] for i in best_idx[:args.best]]
-    best_tst_pre = [tst_pre[i] for i in best_idx[:args.best]]
-    best_tst_rec = [tst_rec[i] for i in best_idx[:args.best]]
-    best_tst_fpr = [tst_fpr[i] for i in best_idx[:args.best]]
-    best_tst_fsc = [tst_fsc[i] for i in best_idx[:args.best]]
+    best_tst_ev_tm = [tst_ev_tm[i] for i in best_idx[::-1][:args.best]]
+    best_tst_tp = [tst_tp[i] for i in best_idx[::-1][:args.best]]
+    best_tst_tn = [tst_tn[i] for i in best_idx[::-1][:args.best]]
+    best_tst_fp = [tst_fp[i] for i in best_idx[::-1][:args.best]]
+    best_tst_fn = [tst_fn[i] for i in best_idx[::-1][:args.best]]
+    best_tst_acc = [tst_acc[i] for i in best_idx[::-1][:args.best]]
+    best_tst_pre = [tst_pre[i] for i in best_idx[::-1][:args.best]]
+    best_tst_rec = [tst_rec[i] for i in best_idx[::-1][:args.best]]
+    best_tst_fpr = [tst_fpr[i] for i in best_idx[::-1][:args.best]]
+    best_tst_fsc = [tst_fsc[i] for i in best_idx[::-1][:args.best]]
 
     df1 = pd.DataFrame({
         'Model_name': models,

@@ -122,22 +122,22 @@ def main():
     # Get the 10 highest F-score models
     best_idx = np.argsort(fsc)
 
-    best_models = [models[i] for i in best_idx[:args.best]]
-    best_params = [params[i] for i in best_idx[:args.best]]
-    best_tr_time = [tr_time[i] for i in best_idx[:args.best]]
-    best_thresholds = [thresholds[i] for i in best_idx[:args.best]]
-    best_ev_tm = [ev_tm[i] for i in best_idx[:args.best]]
-    best_tp = [tp[i] for i in best_idx[:args.best]]
-    best_tn = [tn[i] for i in best_idx[:args.best]]
-    best_fp = [fp[i] for i in best_idx[:args.best]]
-    best_fn = [fn[i] for i in best_idx[:args.best]]
-    best_acc = [acc[i] for i in best_idx[:args.best]]
-    best_pre = [pre[i] for i in best_idx[:args.best]]
-    best_rec = [rec[i] for i in best_idx[:args.best]]
-    best_fpr = [fpr[i] for i in best_idx[:args.best]]
-    best_fsc = [fsc[i] for i in best_idx[:args.best]]
-    best_pr_auc = [pr_auc[i] for i in best_idx[:args.best]]
-    best_roc_auc = [roc_auc[i] for i in best_idx[:args.best]]
+    best_models = [models[i] for i in best_idx[::-1][:args.best]]
+    best_params = [params[i] for i in best_idx[::-1][:args.best]]
+    best_tr_time = [tr_time[i] for i in best_idx[::-1][:args.best]]
+    best_thresholds = [thresholds[i] for i in best_idx[::-1][:args.best]]
+    best_ev_tm = [ev_tm[i] for i in best_idx[::-1][:args.best]]
+    best_tp = [tp[i] for i in best_idx[::-1][:args.best]]
+    best_tn = [tn[i] for i in best_idx[::-1][:args.best]]
+    best_fp = [fp[i] for i in best_idx[::-1][:args.best]]
+    best_fn = [fn[i] for i in best_idx[::-1][:args.best]]
+    best_acc = [acc[i] for i in best_idx[::-1][:args.best]]
+    best_pre = [pre[i] for i in best_idx[::-1][:args.best]]
+    best_rec = [rec[i] for i in best_idx[::-1][:args.best]]
+    best_fpr = [fpr[i] for i in best_idx[::-1][:args.best]]
+    best_fsc = [fsc[i] for i in best_idx[::-1][:args.best]]
+    best_pr_auc = [pr_auc[i] for i in best_idx[::-1][:args.best]]
+    best_roc_auc = [roc_auc[i] for i in best_idx[::-1][:args.best]]
 
     df1 = pd.DataFrame({
         'Model_name': models,
