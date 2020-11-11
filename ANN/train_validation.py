@@ -83,7 +83,6 @@ def main():
 
             # Early stopping
             if all(val_acc <= i for i in earlys) and args.earlystop:
-                print('Early stopping training')
                 break
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
@@ -171,7 +170,6 @@ def main():
 
                     # Early stopping
                     if all(val_acc <= i for i in earlys) and args.earlystop:
-                        print('Early stopping training')
                         break
 
                 # Update epochs bar
