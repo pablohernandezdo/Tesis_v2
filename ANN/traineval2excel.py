@@ -206,7 +206,8 @@ def main():
     })
 
     # Create a Pandas Excel writer using XlsxWriter as the engine
-    writer = pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='xlsxwriter')
+    # writer = pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='xlsxwriter')
+    writer = pd.ExcelWriter(f'{args.xls_name}.xlsx', engine='xlsxwriter')
     print(f'../Excel_reports/{args.xls_name}.xlsx')
 
     # Write each dataframe to a different worksheet
