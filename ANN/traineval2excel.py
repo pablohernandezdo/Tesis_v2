@@ -205,12 +205,11 @@ def main():
         'Test F-score': best_tst_fsc,
     })
 
-    # Create a Pandas Excel writer using XlsxWriter as the engine
-    writer = pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='openpyxl')
+    with pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
 
-    # Write each dataframe to a different worksheet
-    df1.to_excel(writer, sheet_name='Full')
-    df2.to_excel(writer, sheet_name='Best')
+        # Write each dataframe to a different worksheet
+        df1.to_excel(writer, sheet_name='Full')
+        df2.to_excel(writer, sheet_name='Best')
 
 
 if __name__ == "__main__":
