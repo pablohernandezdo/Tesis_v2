@@ -14,6 +14,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
     parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
+    parser.add_argument('--best', type=int, default=10, help='Number of best models to save report')
     args = parser.parse_args()
 
     # working directory
@@ -120,7 +121,39 @@ def main():
 
             params.append(f.readline().split(":")[-1].strip())
 
-    df = pd.DataFrame({
+    # Get the 10 highest F-score models
+    best_idx = np.argsort(tst_fsc)
+
+    # Get general parameters
+    best_models = [models[i] for i in best_idx[:args.best]]
+    best_params = [params[i] for i in best_idx[:args.best]]
+    best_tr_time = [tr_time[i] for i in best_idx[:args.best]]
+    best_tr_ev_tm = [tr_ev_tm[i] for i in best_idx[:args.best]]
+
+    # Get train parameters
+    best_tr_tp = [tr_tp[i] for i in best_idx[:args.best]]
+    best_tr_tn = [tr_tn[i] for i in best_idx[:args.best]]
+    best_tr_fp = [tr_fp[i] for i in best_idx[:args.best]]
+    best_tr_fn = [tr_fn[i] for i in best_idx[:args.best]]
+    best_tr_acc = [tr_acc[i] for i in best_idx[:args.best]]
+    best_tr_pre = [tr_pre[i] for i in best_idx[:args.best]]
+    best_tr_rec = [tr_rec[i] for i in best_idx[:args.best]]
+    best_tr_fpr = [tr_fpr[i] for i in best_idx[:args.best]]
+    best_tr_fsc = [tr_fsc[i] for i in best_idx[:args.best]]
+
+    # Get test parameters
+    best_tst_ev_tm = [tst_ev_tm[i] for i in best_idx[:args.best]]
+    best_tst_tp = [tst_tp[i] for i in best_idx[:args.best]]
+    best_tst_tn = [tst_tn[i] for i in best_idx[:args.best]]
+    best_tst_fp = [tst_fp[i] for i in best_idx[:args.best]]
+    best_tst_fn = [tst_fn[i] for i in best_idx[:args.best]]
+    best_tst_acc = [tst_acc[i] for i in best_idx[:args.best]]
+    best_tst_pre = [tst_pre[i] for i in best_idx[:args.best]]
+    best_tst_rec = [tst_rec[i] for i in best_idx[:args.best]]
+    best_tst_fpr = [tst_fpr[i] for i in best_idx[:args.best]]
+    best_tst_fsc = [tst_fsc[i] for i in best_idx[:args.best]]
+
+    df1 = pd.DataFrame({
         'Model_name': models,
         'Parameters': params,
         'Training time': tr_time,
@@ -146,7 +179,38 @@ def main():
         'Test F-score': tst_fsc,
     })
 
-    df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)
+    df2 = pd.DataFrame({
+        'Model_name': best_models,
+        'Parameters': best_params,
+        'Training time': best_tr_time,
+        'Train Evaluation time': best_tr_ev_tm,
+        'Train True positives': best_tr_tp,
+        'Train True negatives': best_tr_tn,
+        'Train False positives': best_tr_fp,
+        'Train False negatives': best_tr_fn,
+        'Train Accuracy': best_tr_acc,
+        'Train Precision': best_tr_pre,
+        'Train Recall': best_tr_rec,
+        'Train False positive rate': best_tr_fpr,
+        'Train F-score': best_tr_fsc,
+        'Test Evaluation time': best_tst_ev_tm,
+        'Test True positives': best_tst_tp,
+        'Test True negatives': best_tst_tn,
+        'Test False positives': best_tst_fp,
+        'Test False negatives': best_tst_fn,
+        'Test Accuracy': best_tst_acc,
+        'Test Precision': best_tst_pre,
+        'Test Recall': best_tst_rec,
+        'Test False positive rate': best_tst_fpr,
+        'Test F-score': best_tst_fsc,
+    })
+
+    # Create a Pandas Excel writer using XlsxWriter as the engine
+    writer = pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='xlsxwriter')
+
+    # Write each dataframe to a different worksheet
+    df1.to_excel(writer, sheet_name='Full', index=False)
+    df2.to_excel(writer, sheet_name='Best', index=False)
 
 
 if __name__ == "__main__":
