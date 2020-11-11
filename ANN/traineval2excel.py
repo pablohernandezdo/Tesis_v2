@@ -208,8 +208,8 @@ def main():
     with pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
 
         # Write each dataframe to a different worksheet
-        df1.to_excel(writer, sheet_name='Full')
-        df2.to_excel(writer, sheet_name='Best')
+        df1.to_excel(writer, sheet_name='Full', index=False)
+        df2.to_excel(writer, sheet_name='Best', index=False)
 
 
 if __name__ == "__main__":
