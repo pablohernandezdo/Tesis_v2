@@ -206,13 +206,12 @@ def main():
     })
 
     # Create a Pandas Excel writer using XlsxWriter as the engine
-    # writer = pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='xlsxwriter')
-    writer = pd.ExcelWriter(f'{args.xls_name}.xlsx', engine='xlsxwriter')
+    writer = pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='xlsxwriter')
     print(f'../Excel_reports/{args.xls_name}.xlsx')
 
     # Write each dataframe to a different worksheet
-    df1.to_excel(writer, sheet_name='Full', index=False)
-    df2.to_excel(writer, sheet_name='Best', index=False)
+    df1.to_excel(writer, sheet_name='Full')
+    df2.to_excel(writer, sheet_name='Best')
 
 
 if __name__ == "__main__":
