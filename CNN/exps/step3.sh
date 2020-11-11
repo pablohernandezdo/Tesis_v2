@@ -1271,3 +1271,8 @@ python ../train_validation.py \
 echo "Evaluating model 2c1k10_1e6_256_30"
 python ../eval.py --train_path $trn --test_path $tst \
               --classifier 2c1k10 --model_name 2c1k10_1e6_256_30 > ../logs/eval/step3/2c1k10_1e6_256_30.txt
+
+# reports 2 excel
+
+echo "Creating summary of reports excel file"
+python ../traineval2excel.py --xls_name 'CNN_step3' --archives_folder 'step3'
