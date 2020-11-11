@@ -49,8 +49,6 @@ def main():
 
     pr_auc = []
     roc_auc = []
-    best_fsc = []
-    best_thresh = []
 
     # Obtener los archivos de la carpeta
     files = os.listdir(wkdir)
@@ -105,8 +103,8 @@ def main():
 
             # best_thresh.append(f.readline().split(",")[0].split(":")[-1].strip())
             # best_fsc.append(f.readline().split(",")[1].split(":")[-1].strip())
-            # pr_auc.append(f.readline().split(":")[-1].strip())
-            # roc_auc.append(f.readline().split(":")[-1].strip())
+            pr_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
+            roc_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     df = pd.DataFrame({
@@ -130,6 +128,8 @@ def main():
         'Recall': rec,
         'False positive rate': fpr,
         'F-score': fsc,
+        'PR AUC': pr_auc,
+        'ROC AUC': roc_auc,
     })
 
     df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)

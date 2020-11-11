@@ -41,6 +41,9 @@ def main():
 
     ev_tm = []
 
+    pr_auc = []
+    roc_auc = []
+
     # Obtener los archivos de la carpeta
     train_files = os.listdir(train_wkdir)
     eval_files = os.listdir(eval_wkdir)
@@ -104,14 +107,16 @@ def main():
                 f.readline()
 
             # Read final report
-            print(f'best thresh = {f.readline().split(":")[-2].split(",")[0].strip()}')
-            print(f'best fscore = {f.readline().split(":")[-1].strip()}')
+            # print(f'best thresh = {f.readline().split(":")[-2].split(",")[0].strip()}')
+            # print(f'best fscore = {f.readline().split(":")[-1].strip()}')
+            f.readline()
+            f.readline()
 
             # Skip empty line
             f.readline()
 
-            print(f'PR AUC = {f.readline().split(":")[-1].strip()}')
-            print(f'ROC AUC = {f.readline().split(":")[-1].strip()}')
+            pr_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
+            roc_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     df = pd.DataFrame({
         'Model_name': models,
@@ -128,6 +133,8 @@ def main():
         'Recall': rec,
         'False positive rate': fpr,
         'F-score': fsc,
+        'PR AUC': pr_auc,
+        'ROC AUC': roc_auc,
     })
 
     df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)
