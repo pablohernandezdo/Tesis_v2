@@ -29,11 +29,11 @@ def main():
     args = parser.parse_args()
 
     # Create curves folders
-    Path(f"../Confusion_matrices/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../PR_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../ROC_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../Fscore_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../FPFN_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Confusion_matrices/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../PR_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../ROC_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Fscore_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
