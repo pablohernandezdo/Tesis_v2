@@ -22,6 +22,7 @@ def main():
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
     parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
+    parser.add_argument("--beta", type=float, default=2, help="Fscore beta parameter")
     args = parser.parse_args()
 
     # Select training device
@@ -77,7 +78,7 @@ def main():
                 train_bar.update(1)
 
     # Evaluation metrics
-    _, _, _, _ = print_metrics(tp, fp, tn, fn)
+    _, _, _, _ = print_metrics(tp, fp, tn, fn, args.beta)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
@@ -113,7 +114,7 @@ def main():
                 test_bar.update(1)
 
     # Evaluation metrics
-    _, _, _, _ = print_metrics(tp, fp, tn, fn)
+    _, _, _, _ = print_metrics(tp, fp, tn, fn, args.beta)
 
     eval_2 = time.time()
     ev_2 = eval_2 - eval_1
@@ -126,7 +127,7 @@ def main():
     print(f'Number of network parameters: {nparams}')
 
 
-def print_metrics(tp, fp, tn, fn):
+def print_metrics(tp, fp, tn, fn, beta):
     acc = (tp + tn) / (tp + fp + tn + fn)
 
     # Evaluation metrics
@@ -141,7 +142,7 @@ def print_metrics(tp, fp, tn, fn):
     if (not precision) and (not recall):
         fscore = 0
     else:
-        fscore = 2 * (precision * recall) / (precision + recall)
+        fscore = (1 + beta**2) * (precision * recall) / ((beta**2)*precision + recall)
 
     # Results
     print(f'Total seismic traces: {tp + fn}\n'

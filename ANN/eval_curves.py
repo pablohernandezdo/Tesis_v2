@@ -26,6 +26,7 @@ def main():
     parser.add_argument("--classifier", default='1h6k', help="Choose classifier architecture")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=256, help="Mini-batch size")
+    parser.add_argument("--beta", type=float, default=2, help="Fscore beta parameter")
     args = parser.parse_args()
 
     # Create curves folders
@@ -116,7 +117,7 @@ def main():
                     test_bar.update()
 
         # Metrics
-        pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn)
+        pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn, args.beta)
         recall.append(rec)
         fp_rate.append(fpr)
         precision.append(pre)
@@ -264,7 +265,7 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
     plt.savefig(filename)
 
 
-def print_metrics(tp, fp, tn, fn):
+def print_metrics(tp, fp, tn, fn, beta):
 
     acc = (tp + tn) / (tp + fp + tn + fn)
 
@@ -280,7 +281,7 @@ def print_metrics(tp, fp, tn, fn):
     if (not precision) and (not recall):
         fscore = 0
     else:
-        fscore = 2 * (precision * recall) / (precision + recall)
+        fscore = (1 + beta**2) * (precision * recall) / ((beta**2)*precision + recall)
 
     # Results
     print(f'Total seismic traces: {tp + fn}\n'
