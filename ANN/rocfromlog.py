@@ -97,6 +97,11 @@ def main():
     calc_pr_auc = np.trapz(pre, x=rec[::-1])
     calc_roc_auc = np.trapz(rec, x=fpr[::-1])
 
+    print(f'pr_auc: {pr_auc}')
+    print(f'calc_pr_auc: {calc_pr_auc}')
+    print(f'roc_auc: {roc_auc}')
+    print(f'calc_roc_auc: {calc_roc_auc}')
+
 
 if __name__ == "__main__":
     main()
