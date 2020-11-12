@@ -140,8 +140,8 @@ def main():
     fp_rate.insert(0, 1)
 
     # Area under curves
-    pr_auc = np.trapz(precision, x=recall[::-1])
-    roc_auc = np.trapz(recall, x=fp_rate[::-1])
+    pr_auc = np.trapz(precision[::-1], x=recall[::-1])
+    roc_auc = np.trapz(recall[::-1], x=fp_rate[::-1])
 
     # Print fscores
     print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
