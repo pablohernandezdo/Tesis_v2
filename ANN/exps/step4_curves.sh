@@ -1442,17 +1442,17 @@ val="Validation_data.hdf5"
 #
 ## Learning rate 5e-5
 #
-#echo "Training model 2h5h2k, lr = 5e-5, epochs = 5, batch_size = 256"
-#python ../train_validation.py \
-#              --model_folder step4_curves --patience 20 \
-#              --train_path $trn --val_path $val      \
-#              --n_epochs 5 --lr 5e-5 --batch_size 256 \
-#              --classifier 2h5h2k --model_name 2h5h2k_5e5_256_20 > ../logs/train/step4_curves/2h5h2k_5e5_256_20.txt
-#
-#echo "Evaluating model 2h5h2k_5e5_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4_curves \
-#              --classifier 2h5h2k --model_name 2h5h2k_5e5_256_20 > ../logs/eval/step4_curves/2h5h2k_5e5_256_20.txt
+echo "Training model 2h5h2k, lr = 5e-5, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --model_folder step4_curves --patience 20 \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 5e-5 --batch_size 256 \
+              --classifier 2h5h2k --model_name 2h5h2k_5e5_256_20 > ../logs/train/step4_curves/2h5h2k_5e5_256_20.txt
+
+echo "Evaluating model 2h5h2k_5e5_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4_curves \
+              --classifier 2h5h2k --model_name 2h5h2k_5e5_256_20 > ../logs/eval/step4_curves/2h5h2k_5e5_256_20.txt
 #
 #echo "Training model 2h5h2k, lr = 5e-5, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
