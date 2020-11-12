@@ -11,7 +11,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', default='2h1k5k_5e5_256_20', help='Name of model to obtain curves')
-    parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
+    parser.add_argument('--archives_folder', default='step4_curves', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
