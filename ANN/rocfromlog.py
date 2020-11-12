@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
@@ -101,6 +101,34 @@ def main():
     print(f'calc_pr_auc: {calc_pr_auc}')
     print(f'roc_auc: {roc_auc}')
     print(f'calc_roc_auc: {calc_roc_auc}')
+
+    # Precision/Recall curve test dataset
+    plt.figure()
+    plt.plot(rec, pre)
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR test dataset curve for model {args.model_name}')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.show()
+
+    # Receiver operating characteristic curve test dataset
+    plt.figure()
+    plt.plot(fpr, rec)
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC test dataset curve for model {args.model_name}')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ == "__main__":
