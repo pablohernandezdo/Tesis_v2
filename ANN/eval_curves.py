@@ -223,7 +223,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.savefig(f'../ROC_curves/ROC_test_{args.model_name}.png')
+    plt.savefig(f'../ROC_curves/{args.model_folder}/ROC_test_{args.model_name}.png')
 
 
 def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
