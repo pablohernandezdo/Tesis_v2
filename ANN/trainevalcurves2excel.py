@@ -15,7 +15,7 @@ def main():
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
     parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
-    parser.add_argument('--best', type=int, default=10, help='Number of best models to save report')
+    parser.add_argument('--best', type=int, default=10,  help='Number of best models to save report')
     args = parser.parse_args()
 
     # working directory
@@ -111,9 +111,6 @@ def main():
             # print(f'best thresh = {f.readline().split(":")[-2].split(",")[0].strip()}')
             # print(f'best fscore = {f.readline().split(":")[-1].strip()}')
             f.readline()
-            f.readline()
-
-            # Skip empty line
             f.readline()
 
             pr_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
