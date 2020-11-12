@@ -114,7 +114,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.show()
+    plt.savefig('prfromlog.png')
 
     # Receiver operating characteristic curve test dataset
     plt.figure()
@@ -128,7 +128,7 @@ def main():
     plt.xlim(0, 1)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.show()
+    plt.savefig('rocfromlog.png')
 
 
 if __name__ == "__main__":
