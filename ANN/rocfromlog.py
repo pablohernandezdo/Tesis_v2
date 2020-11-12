@@ -104,8 +104,8 @@ def main():
     plt.title(f'PR test dataset curve for model {args.model_name}')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.xlim(-0.2, 1.2)
-    plt.ylim(-0.2, 1.2)
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
     plt.grid(True)
     plt.savefig('ROCfromLog/prfromlog.png')
 
@@ -118,8 +118,8 @@ def main():
     plt.title(f'ROC test dataset curve for model {args.model_name}')
     plt.xlabel('False Positive Rate')
     plt.ylabel('Recall')
-    plt.xlim(-0.2, 1.2)
-    plt.ylim(-0.2, 1.2)
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.savefig('ROCfromLog/rocfromlog.png')
 
