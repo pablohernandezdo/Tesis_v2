@@ -5,6 +5,7 @@ from pathlib import Path
 
 import numpy as np
 
+
 def main():
     # Create folder for report
     Path("ROCfromLog").mkdir(exist_ok=True)
@@ -66,6 +67,7 @@ def main():
         pr_auc = f.readline().split(":")[-1].strip()
         roc_auc = f.readline().split(":")[-1].strip()
 
+
     print(f'precision: {pre}')
     print(f'recall: {rec}')
     print(f'fpr: {fpr}')
@@ -88,6 +90,10 @@ def main():
     print(f'recall: {rec}')
     print(f'fpr: {fpr}')
 
+    pre = np.array(pre)
+    rec = np.array(rec)
+    fpr = np.array(fpr)
+    
     # Area under curve
     calc_pr_auc = np.trapz(pre, x=rec[::-1])
     calc_roc_auc = np.trapz(rec, x=fpr[::-1])
