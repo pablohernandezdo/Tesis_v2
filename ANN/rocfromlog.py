@@ -71,18 +71,18 @@ def main():
     print(f'fpr: {fpr}')
 
     # Add point (0, 1) to PR curve
-    pre.append(1)
-    rec.append(0)
+    pre.append(1.0)
+    rec.append(0.0)
 
     # Add point (1, 0.5) to PR curve
     pre.insert(0, 0.5)
-    rec.insert(0, 1)
+    rec.insert(0, 1.0)
 
     # Add point (0, 0)  to ROC curve
-    fpr.append(0)
+    fpr.append(0.0)
 
     # Add point (1, 1) to ROC curve
-    fpr.insert(0, 1)
+    fpr.insert(0, 1.0)
 
     print(f'precision: {pre}')
     print(f'recall: {rec}')
