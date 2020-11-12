@@ -85,7 +85,7 @@ def main():
     rec = [float(i) for i in rec]
     fpr = [float(i) for i in fpr]
 
-    print(f'pre: {pre[::-1]}\n'
+    print(f'fpr: {fpr[::-1]}\n'
           f'rec: {rec[::-1]}')
 
     # Area under curve
