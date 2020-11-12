@@ -85,11 +85,11 @@ def main():
     rec = [float(i) for i in rec]
     fpr = [float(i) for i in fpr]
 
-    print(f'pre: {pre}\n'
+    print(f'pre: {pre[::-1]}\n'
           f'rec: {rec[::-1]}')
 
     # Area under curve
-    calc_pr_auc = np.trapz(pre, x=rec[::-1])
+    calc_pr_auc = np.trapz(pre[::-1], x=rec[::-1])
     calc_roc_auc = np.trapz(rec, x=fpr[::-1])
 
     print(f'pr_auc: {pr_auc}')
