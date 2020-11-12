@@ -67,7 +67,6 @@ def main():
         pr_auc = f.readline().split(":")[-1].strip()
         roc_auc = f.readline().split(":")[-1].strip()
 
-
     print(f'precision: {pre}')
     print(f'recall: {rec}')
     print(f'fpr: {fpr}')
@@ -90,10 +89,10 @@ def main():
     print(f'recall: {rec}')
     print(f'fpr: {fpr}')
 
-    pre = np.array(pre)
-    rec = np.array(rec)
-    fpr = np.array(fpr)
-    
+    pre = [float(i) for i in pre]
+    rec = [float(i) for i in rec]
+    fpr = [float(i) for i in fpr]
+
     # Area under curve
     calc_pr_auc = np.trapz(pre, x=rec[::-1])
     calc_roc_auc = np.trapz(rec, x=fpr[::-1])
