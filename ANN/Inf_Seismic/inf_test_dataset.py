@@ -19,11 +19,11 @@ from model import *
 
 def main():
     # Create images and animations folder
-    Path("../Confusion_matrices").mkdir(exist_ok=True)
-    Path("../PR_curves").mkdir(exist_ok=True)
-    Path("../ROC_curves").mkdir(exist_ok=True)
-    Path("../Fscore_curves").mkdir(exist_ok=True)
-    Path("../FPFN_curves").mkdir(exist_ok=True)
+    Path("../Analysis/Confusion_matrices").mkdir(parents=True, exist_ok=True)
+    Path("../Analysis/PR_curves").mkdir(exist_ok=True)
+    Path("../Analysis/ROC_curves").mkdir(exist_ok=True)
+    Path("../Analysis/Fscore_curves").mkdir(exist_ok=True)
+    Path("../Analysis/FPFN_curves").mkdir(exist_ok=True)
 
     # Args
     parser = argparse.ArgumentParser()
@@ -153,11 +153,11 @@ def main():
 
     # Confusion matrix
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
-                          filename=f'../Confusion_matrices/Confusion_matrix_{args.model_name}.png', normalize=False)
+                          filename=f'../Analysis/Confusion_matrices/Confusion_matrix_{args.model_name}.png', normalize=False)
 
     # Normalized confusion matrix
     plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
-                          filename=f'../Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
+                          filename=f'../Analysis/Confusion_matrices/Confusion_matrix_norm_{args.model_name}.png')
 
     # F-score vs thresholds curve
     plt.figure()
@@ -166,7 +166,7 @@ def main():
     plt.xlabel('Umbrales')
     plt.ylabel('F-score')
     plt.grid(True)
-    plt.savefig(f'../Fscore_curves/Fscore_{args.model_name}.png')
+    plt.savefig(f'../Analysis/Fscore_curves/Fscore_{args.model_name}.png')
 
     # False positives / False negatives curve
     plt.figure()
@@ -178,7 +178,7 @@ def main():
     plt.ylabel('Total')
     plt.grid(True)
     plt.legend(handles=[line_fp, line_fn], loc='best')
-    plt.savefig(f'../FPFN_curves/FPFN_{args.model_name}.png')
+    plt.savefig(f'../Analysis/FPFN_curves/FPFN_{args.model_name}.png')
 
     # Precision/Recall curve
     plt.figure()
@@ -193,10 +193,10 @@ def main():
     plt.title(f'PR curve for model {args.model_name}')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.savefig(f'../PR_curves/PR_{args.model_name}.png')
+    plt.savefig(f'../Analysis/PR_curves/PR_{args.model_name}.png')
 
     # Receiver operating characteristic curve
     plt.figure()
@@ -211,10 +211,10 @@ def main():
     plt.title(f'ROC curve for model {args.model_name}')
     plt.xlabel('False Positive Rate')
     plt.ylabel('Recall')
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.savefig(f'../ROC_curves/ROC_{args.model_name}.png')
+    plt.savefig(f'../Analysis/ROC_curves/ROC_{args.model_name}.png')
 
 
 def normalize_trace(trace):

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
-    Path("ROCfromLog").mkdir(exist_ok=True)
+    Path("Analysis/ROCfromLog").mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', default='2h1k5k_5e5_256_20', help='Name of model to obtain curves')
@@ -18,7 +18,7 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    wkdir = 'logs/eval/' + args.archives_folder
+    wkdir = 'Analysis/logs/eval/' + args.archives_folder
 
     # Variable preallocating
     pre = []
@@ -107,7 +107,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.savefig('ROCfromLog/prfromlog.png')
+    plt.savefig('Analysis/ROCfromLog/prfromlog.png')
 
     # Receiver operating characteristic curve test dataset
     plt.figure()
@@ -121,7 +121,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.savefig('ROCfromLog/rocfromlog.png')
+    plt.savefig('Analysis/ROCfromLog/rocfromlog.png')
 
 
 if __name__ == "__main__":

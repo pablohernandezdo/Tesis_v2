@@ -9,7 +9,7 @@ import pandas as pd
 
 def main():
     # Create folder for report
-    Path("../Excel_reports").mkdir(exist_ok=True)
+    Path("../Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
@@ -19,8 +19,8 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    train_wkdir = '../logs/train/' + args.archives_folder
-    eval_wkdir = '../logs/eval/' + args.archives_folder
+    train_wkdir = '../Analysis/logs/train/' + args.archives_folder
+    eval_wkdir = '../Analysis/logs/eval/' + args.archives_folder
 
     # Variable preallocating
     models = []
@@ -175,7 +175,7 @@ def main():
     })
 
     # Write report to excel
-    with pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
+    with pd.ExcelWriter(f'../Analysis/Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
 
         # Write each dataframe to a different worksheet
         df1.to_excel(writer, sheet_name='Full', index=False)

@@ -38,8 +38,8 @@ def main():
     args = parser.parse_args()
 
     # Create learning curves folder
-    Path("../Learning_curves/" + args.model_folder + "/" + "Accuracy").mkdir(exist_ok=True, parents=True)
-    Path("../Learning_curves/" + args.model_folder + "/" + "Loss").mkdir(exist_ok=True)
+    Path("../Analysis/Learning_curves/" + args.model_folder + "/" + "Accuracy").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Learning_curves/" + args.model_folder + "/" + "Loss").mkdir(exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -204,7 +204,7 @@ def learning_curve_acc(tr_acc, val_acc, model_name, model_folder):
     plt.ylabel('Accuracy')
     plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/{model_folder}/Accuracy/{model_name}_accuracies.png')
+    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Accuracy/{model_name}_accuracies.png')
 
 
 def learning_curve_loss(tr_loss, val_loss, model_name, model_folder):
@@ -216,7 +216,7 @@ def learning_curve_loss(tr_loss, val_loss, model_name, model_folder):
     plt.ylabel('Accuracy')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/{model_folder}/Loss/{model_name}_Losses.png')
+    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Loss/{model_name}_Losses.png')
 
 
 def count_parameters(model):
