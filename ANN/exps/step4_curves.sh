@@ -2493,10 +2493,10 @@ val="Validation_data.hdf5"
 ##              --n_epochs 5 --lr 5e-5 --batch_size 256 \
 ##              --classifier 2h1k5k --model_name 2h1k5k_5e5_256_40 > ../Analysis/logs/train/step4_curves/2h1k5k_5e5_256_40.txt
 ##
-echo "Evaluating model 2h1k5k_5e5_256"
-python ../eval_curves.py --test_path $tst \
-              --model_folder step4_curves \
-              --classifier 2h1k5k --model_name 2h1k5k_5e5_256_40 > ../Analysis/logs/eval/step4_curves/2h1k5k_5e5_256_40.txt
+#echo "Evaluating model 2h1k5k_5e5_256"
+#python ../eval_curves.py --test_path $tst \
+#              --model_folder step4_curves \
+#              --classifier 2h1k5k --model_name 2h1k5k_5e5_256_40 > ../Analysis/logs/eval/step4_curves/2h1k5k_5e5_256_40.txt
 
 # reports 2 excel
 
