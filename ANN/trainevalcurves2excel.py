@@ -54,8 +54,8 @@ def main():
         with open(os.path.join(train_wkdir, fname), 'r') as f:
             f.readline()
             f.readline()
-            f.readline()
 
+            params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             tr_time.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     # Leer los archivos en la carpeta
@@ -64,13 +64,12 @@ def main():
             model_name = fname.split('.')[0]
 
             # Skip initial empty lines
-            model_params = f.readline().split(":")[-1].strip()
+            f.readline()
             f.readline()
 
             # Start reading threshold data
             for _ in range(args.n_thresh):
                 models.append(model_name)
-                params.append(model_params)
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
