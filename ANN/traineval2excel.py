@@ -180,8 +180,6 @@ def main():
     # Sort number of parameters
     param_idxs = np.argsort(params)
 
-    print(param_idxs)
-
     # Get train parameters
     models2 = [models[i] for i in param_idxs[::-1]]
     params2 = [params[i] for i in param_idxs[::-1]]
