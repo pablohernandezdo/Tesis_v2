@@ -112,7 +112,7 @@ def main():
 
     df = pd.DataFrame({
         'Model_name': models,
-        'Threshold': thresh,
+        'Threshold': thresholds,
         #'Parameters': params,
         'Francia tp:': francia_tp,
         'Nevada tp:': nevada_tp,
