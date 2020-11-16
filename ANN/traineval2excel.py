@@ -5,11 +5,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
+import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
     Path("../Excel_reports").mkdir(exist_ok=True)
+    Path("../Curves_parameters").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
@@ -152,6 +153,33 @@ def main():
     best_tst_rec = [tst_rec[i] for i in best_idx[::-1][:args.best]]
     best_tst_fpr = [tst_fpr[i] for i in best_idx[::-1][:args.best]]
     best_tst_fsc = [tst_fsc[i] for i in best_idx[::-1][:args.best]]
+
+    # Sort number of parameters
+    param_idxs = params.argsort()
+
+    models = models[param_idxs[::-1]]
+    params = params[param_idxs[::-1]]
+    tr_time = tr_time[param_idxs[::-1]]
+    tr_ev_tm = tr_ev_tm[param_idxs[::-1]]
+    tr_tp = tr_tp[param_idxs[::-1]]
+    tr_tn = tr_tn[param_idxs[::-1]]
+    tr_fp = tr_fp[param_idxs[::-1]]
+    tr_fn = tr_fn[param_idxs[::-1]]
+    tr_acc = tr_acc[param_idxs[::-1]]
+    tr_pre = tr_pre[param_idxs[::-1]]
+    tr_rec = tr_rec[param_idxs[::-1]]
+    tr_fpr = tr_fpr[param_idxs[::-1]]
+    tr_fsc = tr_fsc[param_idxs[::-1]]
+    tst_ev_tm = tst_ev_tm[param_idxs[::-1]]
+    tst_tp = tst_tp[param_idxs[::-1]]
+    tst_tn = tst_tn[param_idxs[::-1]]
+    tst_fp = tst_fp[param_idxs[::-1]]
+    tst_fn = tst_fn[param_idxs[::-1]]
+    tst_acc = tst_acc[param_idxs[::-1]]
+    tst_pre = tst_pre[param_idxs[::-1]]
+    tst_rec = tst_rec[param_idxs[::-1]]
+    tst_fpr = tst_fpr[param_idxs[::-1]]
+    tst_fsc = tst_fsc[param_idxs[::-1]]
 
     df1 = pd.DataFrame({
         'Model_name': models,
