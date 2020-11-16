@@ -122,8 +122,30 @@ def main():
 
             params.append(f.readline().split(":")[-1].strip())
 
-    # Get the 10 highest F-score models
+    # Arrays to floats
+    tr_tp = list(map(float, tr_tp))
+    tr_tn = list(map(float, tr_tn))
+    tr_fp = list(map(float, tr_fp))
+    tr_fn = list(map(float, tr_fn))
+    tr_acc = list(map(float, tr_acc))
+    tr_pre = list(map(float, tr_pre))
+    tr_rec = list(map(float, tr_rec))
+    tr_fpr = list(map(float, tr_fpr))
+    tr_fsc = list(map(float, tr_fsc))
+
+    tst_tp = list(map(float, tst_tp))
+    tst_tn = list(map(float, tst_tn))
+    tst_fp = list(map(float, tst_fp))
+    tst_fn = list(map(float, tst_fn))
+    tst_acc = list(map(float, tst_acc))
+    tst_pre = list(map(float, tst_pre))
+    tst_rec = list(map(float, tst_rec))
+    tst_fpr = list(map(float, tst_fpr))
     tst_fsc = list(map(float, tst_fsc))
+
+    params = list(map(int, params))
+
+    # Get the 10 highest F-score models
     best_idx = np.argsort(tst_fsc)
 
     # Get general parameters
@@ -156,7 +178,6 @@ def main():
     best_tst_fsc = [tst_fsc[i] for i in best_idx[::-1][:args.best]]
 
     # Sort number of parameters
-    params = list(map(int, params))
     param_idxs = np.argsort(params)
 
     print(param_idxs)
