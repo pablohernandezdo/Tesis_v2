@@ -165,27 +165,31 @@ def main():
     best_tr_ev_tm = [tr_ev_tm[i] for i in param_idxs[::-1][:args.best]]
 
     # Get train parameters
-    tr_tp = [tr_tp[i] for i in param_idxs[::-1][:args.best]]
-    tr_tn = [tr_tn[i] for i in param_idxs[::-1][:args.best]]
-    tr_fp = [tr_fp[i] for i in param_idxs[::-1][:args.best]]
-    tr_fn = [tr_fn[i] for i in param_idxs[::-1][:args.best]]
-    tr_acc = [tr_acc[i] for i in param_idxs[::-1][:args.best]]
-    tr_pre = [tr_pre[i] for i in param_idxs[::-1][:args.best]]
-    tr_rec = [tr_rec[i] for i in param_idxs[::-1][:args.best]]
-    tr_fpr = [tr_fpr[i] for i in param_idxs[::-1][:args.best]]
-    tr_fsc = [tr_fsc[i] for i in param_idxs[::-1][:args.best]]
+    models2 = [models[i] for i in param_idxs[::-1][:args.best]]
+    params2 = [params[i] for i in param_idxs[::-1][:args.best]]
+    tr_time2 = [tr_time[i] for i in param_idxs[::-1][:args.best]]
+    tr_ev_tm2 = [tr_ev_tm[i] for i in param_idxs[::-1][:args.best]]
+    tr_tp2 = [tr_tp[i] for i in param_idxs[::-1][:args.best]]
+    tr_tn2 = [tr_tn[i] for i in param_idxs[::-1][:args.best]]
+    tr_fp2 = [tr_fp[i] for i in param_idxs[::-1][:args.best]]
+    tr_fn2 = [tr_fn[i] for i in param_idxs[::-1][:args.best]]
+    tr_acc2 = [tr_acc[i] for i in param_idxs[::-1][:args.best]]
+    tr_pre2 = [tr_pre[i] for i in param_idxs[::-1][:args.best]]
+    tr_rec2 = [tr_rec[i] for i in param_idxs[::-1][:args.best]]
+    tr_fpr2 = [tr_fpr[i] for i in param_idxs[::-1][:args.best]]
+    tr_fsc2 = [tr_fsc[i] for i in param_idxs[::-1][:args.best]]
 
     # Get test parameters
-    tst_ev_tm = [tst_ev_tm[i] for i in param_idxs[::-1][:args.best]]
-    tst_tp = [tst_tp[i] for i in param_idxs[::-1][:args.best]]
-    tst_tn = [tst_tn[i] for i in param_idxs[::-1][:args.best]]
-    tst_fp = [tst_fp[i] for i in param_idxs[::-1][:args.best]]
-    tst_fn = [tst_fn[i] for i in param_idxs[::-1][:args.best]]
-    tst_acc = [tst_acc[i] for i in param_idxs[::-1][:args.best]]
-    tst_pre = [tst_pre[i] for i in param_idxs[::-1][:args.best]]
-    tst_rec = [tst_rec[i] for i in param_idxs[::-1][:args.best]]
-    tst_fpr = [tst_fpr[i] for i in param_idxs[::-1][:args.best]]
-    tst_fsc = [tst_fsc[i] for i in param_idxs[::-1][:args.best]]
+    tst_ev_tm2 = [tst_ev_tm[i] for i in param_idxs[::-1][:args.best]]
+    tst_tp2 = [tst_tp[i] for i in param_idxs[::-1][:args.best]]
+    tst_tn2 = [tst_tn[i] for i in param_idxs[::-1][:args.best]]
+    tst_fp2 = [tst_fp[i] for i in param_idxs[::-1][:args.best]]
+    tst_fn2 = [tst_fn[i] for i in param_idxs[::-1][:args.best]]
+    tst_acc2 = [tst_acc[i] for i in param_idxs[::-1][:args.best]]
+    tst_pre2 = [tst_pre[i] for i in param_idxs[::-1][:args.best]]
+    tst_rec2 = [tst_rec[i] for i in param_idxs[::-1][:args.best]]
+    tst_fpr2 = [tst_fpr[i] for i in param_idxs[::-1][:args.best]]
+    tst_fsc2 = [tst_fsc[i] for i in param_idxs[::-1][:args.best]]
 
     # models = models[param_idxs[::-1]]
     # params = params[param_idxs[::-1]]
@@ -212,29 +216,29 @@ def main():
     # tst_fsc = tst_fsc[param_idxs[::-1]]
 
     df1 = pd.DataFrame({
-        'Model_name': models,
-        'Parameters': params,
-        'Training time': tr_time,
-        'Train Evaluation time': tr_ev_tm,
-        'Train True positives': tr_tp,
-        'Train True negatives': tr_tn,
-        'Train False positives': tr_fp,
-        'Train False negatives': tr_fn,
-        'Train Accuracy': tr_acc,
-        'Train Precision': tr_pre,
-        'Train Recall': tr_rec,
-        'Train False positive rate': tr_fpr,
-        'Train F-score': tr_fsc,
-        'Test Evaluation time': tst_ev_tm,
-        'Test True positives': tst_tp,
-        'Test True negatives': tst_tn,
-        'Test False positives': tst_fp,
-        'Test False negatives': tst_fn,
-        'Test Accuracy': tst_acc,
-        'Test Precision': tst_pre,
-        'Test Recall': tst_rec,
-        'Test False positive rate': tst_fpr,
-        'Test F-score': tst_fsc,
+        'Model_name': models2,
+        'Parameters': params2,
+        'Training time': tr_time2,
+        'Train Evaluation time': tr_ev_tm2,
+        'Train True positives': tr_tp2,
+        'Train True negatives': tr_tn2,
+        'Train False positives': tr_fp2,
+        'Train False negatives': tr_fn2,
+        'Train Accuracy': tr_acc2,
+        'Train Precision': tr_pre2,
+        'Train Recall': tr_rec2,
+        'Train False positive rate': tr_fpr2,
+        'Train F-score': tr_fsc2,
+        'Test Evaluation time': tst_ev_tm2,
+        'Test True positives': tst_tp2,
+        'Test True negatives': tst_tn2,
+        'Test False positives': tst_fp2,
+        'Test False negatives': tst_fn2,
+        'Test Accuracy': tst_acc2,
+        'Test Precision': tst_pre2,
+        'Test Recall': tst_rec2,
+        'Test False positive rate': tst_fpr2,
+        'Test F-score': tst_fsc2,
     })
 
     df2 = pd.DataFrame({
