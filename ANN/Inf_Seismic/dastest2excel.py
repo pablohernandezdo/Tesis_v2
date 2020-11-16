@@ -9,7 +9,7 @@ import pandas as pd
 
 def main():
     # Create folder for report
-    Path("../Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
+    Path("../Excel_reports").mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
@@ -18,7 +18,7 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    wkdir = '../Analysis/logs/' + args.archives_folder
+    wkdir = '../logs/' + args.archives_folder
 
     # Variable preallocating
     models = []
@@ -132,7 +132,7 @@ def main():
         'ROC AUC': roc_auc,
     })
 
-    df.to_excel(f'../Analysis/Excel_reports/{args.xls_name}.xlsx', index=False)
+    df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)
 
 
 if __name__ == "__main__":
