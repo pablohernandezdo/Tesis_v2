@@ -43,3 +43,8 @@ mf="step4"
 # Test dataset inference on 2h5h2k_5e5_256_30 model
 echo "Running DAS test dataset inference on 2h5h2k_5e5_256_30 model"
 python ../inf_test_dataset.py --model_folder $mf --model_name 2h5h2k_5e5_256_30 --classifier 2h5h2k  > ../logs/itd/2h5h2k_5e5_256_30.txt
+
+# reports 2 excel
+
+echo "Creating summary of reports excel file"
+python ../trainevalcurves2excel.py --xls_name 'ANN_step5' --archives_folder 'itd'
