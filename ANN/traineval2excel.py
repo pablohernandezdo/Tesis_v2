@@ -161,11 +161,6 @@ def main():
 
     print(param_idxs)
 
-    best_models = [models[i] for i in param_idxs[::-1][:args.best]]
-    best_params = [params[i] for i in param_idxs[::-1][:args.best]]
-    best_tr_time = [tr_time[i] for i in param_idxs[::-1][:args.best]]
-    best_tr_ev_tm = [tr_ev_tm[i] for i in param_idxs[::-1][:args.best]]
-
     # Get train parameters
     models2 = [models[i] for i in param_idxs[::-1]]
     params2 = [params[i] for i in param_idxs[::-1]]
