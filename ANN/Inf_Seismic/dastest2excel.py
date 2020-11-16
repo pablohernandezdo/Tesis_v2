@@ -103,13 +103,16 @@ def main():
 
             # best_thresh.append(f.readline().split(",")[0].split(":")[-1].strip())
             # best_fsc.append(f.readline().split(",")[1].split(":")[-1].strip())
+
+            f.readline()
+
             pr_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             roc_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
-            params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
+            #params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
     df = pd.DataFrame({
         'Model_name': models,
-        'Parameters': params,
+        #'Parameters': params,
         'Francia tp:': francia_tp,
         'Nevada tp:': nevada_tp,
         'Belgica tp:': belgica_tp,
