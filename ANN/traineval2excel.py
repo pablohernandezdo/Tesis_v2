@@ -157,6 +157,8 @@ def main():
     # Sort number of parameters
     param_idxs = np.argsort(params)
 
+    print(param_idxs)
+
     models = models[param_idxs[::-1]]
     params = params[param_idxs[::-1]]
     tr_time = tr_time[param_idxs[::-1]]
