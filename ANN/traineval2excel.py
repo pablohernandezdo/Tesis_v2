@@ -155,7 +155,7 @@ def main():
     best_tst_fsc = [tst_fsc[i] for i in best_idx[::-1][:args.best]]
 
     # Sort number of parameters
-    param_idxs = params.argsort()
+    param_idxs = np.argsort(params)
 
     models = models[param_idxs[::-1]]
     params = params[param_idxs[::-1]]
