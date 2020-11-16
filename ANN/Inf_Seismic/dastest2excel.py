@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
     parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
     parser.add_argument('--n_thresh', type=int, default=18, help='Number of thresholds evaluated')
+    parser.add_argument('--best', type=int, default=10, help='Number of best models to save report')
     args = parser.parse_args()
 
     # working directory
@@ -22,7 +23,6 @@ def main():
 
     # Variable preallocating
     models = []
-    params = []
     thresholds = []
 
     francia_tp = []
@@ -108,12 +108,37 @@ def main():
 
             pr_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             roc_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
-            #params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
+            # params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
-    df = pd.DataFrame({
+    # Get the 10 highest F-score models
+    best_idx = np.argsort(fsc)
+
+    best_models = [models[i] for i in best_idx[::-1][:args.best]]
+    best_thresholds = [thresholds[i] for i in best_idx[::-1][:args.best]]
+    best_francia_tp = [francia_tp[i] for i in best_idx[::-1][:args.best]]
+    best_nevada_tp = [nevada_tp[i] for i in best_idx[::-1][:args.best]]
+    best_belgica_tp = [belgica_tp[i] for i in best_idx[::-1][:args.best]]
+    best_reykjanes_tp = [reykjanes_tp[i] for i in best_idx[::-1][:args.best]]
+    best_california_tn = [california_tn[i] for i in best_idx[::-1][:args.best]]
+    best_tides_tn = [tides_tn[i] for i in best_idx[::-1][:args.best]]
+    best_utah_tn = [utah_tn[i] for i in best_idx[::-1][:args.best]]
+    best_shaker_tn = [shaker_tn[i] for i in best_idx[::-1][:args.best]]
+    best_signals_tn = [signals_tn[i] for i in best_idx[::-1][:args.best]]
+    best_tp = [fp[i] for i in best_idx[::-1][:args.best]]
+    best_tn = [fn[i] for i in best_idx[::-1][:args.best]]
+    best_fp = [fn[i] for i in best_idx[::-1][:args.best]]
+    best_fn = [fn[i] for i in best_idx[::-1][:args.best]]
+    best_acc = [acc[i] for i in best_idx[::-1][:args.best]]
+    best_pre = [pre[i] for i in best_idx[::-1][:args.best]]
+    best_rec = [rec[i] for i in best_idx[::-1][:args.best]]
+    best_fpr = [fpr[i] for i in best_idx[::-1][:args.best]]
+    best_fsc = [fsc[i] for i in best_idx[::-1][:args.best]]
+    best_pr_auc = [pr_auc[i] for i in best_idx[::-1][:args.best]]
+    best_roc_auc = [roc_auc[i] for i in best_idx[::-1][:args.best]]
+
+    df1 = pd.DataFrame({
         'Model_name': models,
         'Threshold': thresholds,
-        #'Parameters': params,
         'Francia tp:': francia_tp,
         'Nevada tp:': nevada_tp,
         'Belgica tp:': belgica_tp,
@@ -136,7 +161,37 @@ def main():
         'ROC AUC': roc_auc,
     })
 
-    df.to_excel(f'../Excel_reports/{args.xls_name}.xlsx', index=False)
+    df2 = pd.DataFrame({
+        'Model_name': best_models,
+        'Threshold': best_thresholds,
+        'Francia tp:': best_francia_tp,
+        'Nevada tp:': best_nevada_tp,
+        'Belgica tp:': best_belgica_tp,
+        'Reykjanes tp:': best_reykjanes_tp,
+        'California tn:': best_california_tn,
+        'Tides tn:': best_tides_tn,
+        'Utah tn:': best_utah_tn,
+        'Shaker tn:': best_shaker_tn,
+        'Signals tn:': best_signals_tn,
+        'True positives': best_tp,
+        'True negatives': best_tn,
+        'False positives': best_fp,
+        'False negatives': best_fn,
+        'Accuracy': best_acc,
+        'Precision': best_pre,
+        'Recall': best_rec,
+        'False positive rate': best_fpr,
+        'F-score': best_fsc,
+        'PR AUC': best_pr_auc,
+        'ROC AUC': best_roc_auc,
+    })
+
+    # Write report to excel
+    with pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
+
+        # Write each dataframe to a different worksheet
+        df1.to_excel(writer, sheet_name='Full', index=False)
+        df2.to_excel(writer, sheet_name='Best', index=False)
 
 
 if __name__ == "__main__":
