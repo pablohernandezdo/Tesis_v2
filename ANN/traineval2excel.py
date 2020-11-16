@@ -123,6 +123,7 @@ def main():
             params.append(f.readline().split(":")[-1].strip())
 
     # Get the 10 highest F-score models
+    tst_fsc = list(map(float, tst_fsc))
     best_idx = np.argsort(tst_fsc)
 
     # Get general parameters
@@ -155,6 +156,7 @@ def main():
     best_tst_fsc = [tst_fsc[i] for i in best_idx[::-1][:args.best]]
 
     # Sort number of parameters
+    params = list(map(int, params))
     param_idxs = np.argsort(params)
 
     print(param_idxs)
