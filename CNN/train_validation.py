@@ -16,10 +16,6 @@ from dataset import HDF5Dataset
 
 
 def main():
-    # Create learning curves folder
-    Path("../Learning_curves/Accuracy").mkdir(exist_ok=True, parents=True)
-    Path("../Learning_curves/Loss").mkdir(exist_ok=True)
-
     # Measure exec time
     start_time = time.time()
 
@@ -32,14 +28,18 @@ def main():
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
-    parser.add_argument("--eval_iter", type=int, default=2, help="Number of batches between validations")
+    parser.add_argument("--eval_iter", type=int, default=1, help="Number of batches between validations")
     parser.add_argument("--earlystop", type=int, default=1, help="Early stopping flag, 0 no early stopping")
     parser.add_argument("--patience", type=int, default=30, help="Early stopping patience")
-    parser.add_argument("--lr", type=float, default=0.000001, help="Adam learning rate")
+    parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
     parser.add_argument("--b2", type=float, default=0.99, help="adam: decay of first order momentum of gradient")
     args = parser.parse_args()
+
+    # Create learning curves folder
+    Path("../Analysis/Learning_curves/" + args.model_folder + "/" + "Accuracy").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Learning_curves/" + args.model_folder + "/" + "Loss").mkdir(exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -83,7 +83,6 @@ def main():
 
             # Early stopping
             if all(val_acc <= i for i in earlys) and args.earlystop:
-                print('Early stopping training')
                 break
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
@@ -171,7 +170,6 @@ def main():
 
                     # Early stopping
                     if all(val_acc <= i for i in earlys) and args.earlystop:
-                        print('Early stopping training')
                         break
 
                 # Update epochs bar
@@ -187,21 +185,17 @@ def main():
     tr_t = end_tm - start_time
 
     # Plot train and validation accuracies
-    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
+    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name, args.model_folder)
 
     # Plot train and validation losses
-    learning_curve_loss(tr_losses, val_losses, args.model_name)
+    learning_curve_loss(tr_losses, val_losses, args.model_name, args.model_folder)
 
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
           f'Training time: {format_timespan(tr_t)}')
 
 
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
-
-
-def learning_curve_acc(tr_acc, val_acc, model_name):
+def learning_curve_acc(tr_acc, val_acc, model_name, model_folder):
     plt.figure()
     line_tr, = plt.plot(tr_acc, label='Training accuracy')
     line_val, = plt.plot(val_acc, label='Validation accuracy')
@@ -210,10 +204,10 @@ def learning_curve_acc(tr_acc, val_acc, model_name):
     plt.ylabel('Accuracy')
     plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/Accuracy/{model_name}_accuracies.png')
+    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Accuracy/{model_name}_accuracies.png')
 
 
-def learning_curve_loss(tr_loss, val_loss, model_name):
+def learning_curve_loss(tr_loss, val_loss, model_name, model_folder):
     plt.figure()
     line_tr, = plt.plot(tr_loss, label='Training Loss')
     line_val, = plt.plot(val_loss, label='Validation Loss')
@@ -222,7 +216,11 @@ def learning_curve_loss(tr_loss, val_loss, model_name):
     plt.ylabel('Accuracy')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/Loss/{model_name}_Losses.png')
+    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Loss/{model_name}_Losses.png')
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 def get_classifier(x):
@@ -418,109 +416,6 @@ def get_classifier(x):
         return CNN2P1H1k10()
     else:
         return CNN2P1H1k10()
-
-
-# def get_classifier(x):
-#     return {
-#         '1c1h': CNN1P1H1h(),
-#         '1c2h': CNN1P1H2h(),
-#         '1c5h': CNN1P1H5h(),
-#         '1c1k': CNN1P1H1k(),
-#         '1c2k': CNN1P1H2k(),
-#         '1c3k': CNN1P1H3k(),
-#         '1c4k': CNN1P1H4k(),
-#         '1c5k': CNN1P1H5k(),
-#         '1c6k': CNN1P1H6k(),
-#         '1c10k': CNN1P1H10k(),
-#         '1c10k10k': CNN1P2H10k10k(),
-#         '1c10k5k': CNN1P2H10k5k(),
-#         '1c10k1k': CNN1P2H10k1k(),
-#         '1c10k1h': CNN1P2H10k1h(),
-#         '1c10k10': CNN1P2H10k10(),
-#         '1c6k6k': CNN1P2H6k6k(),
-#         '1c6k1k': CNN1P2H6k1k(),
-#         '1c6k1h': CNN1P2H6k1h(),
-#         '1c6k10': CNN1P2H6k10(),
-#         '1c5k5k': CNN1P2H5k5k(),
-#         '1c5k1k': CNN1P2H5k1k(),
-#         '1c5k1h': CNN1P2H5k1h(),
-#         '1c5k10': CNN1P2H5k10(),
-#         '1c4k4k': CNN1P2H4k4k(),
-#         '1c4k1k': CNN1P2H4k1k(),
-#         '1c4k1h': CNN1P2H4k1h(),
-#         '1c4k10': CNN1P2H4k10(),
-#         '1c3k3k': CNN1P2H3k3k(),
-#         '1c3k1k': CNN1P2H3k1k(),
-#         '1c3k1h': CNN1P2H3k1h(),
-#         '1c3k10': CNN1P2H3k10(),
-#         '1c2k2k': CNN1P2H2k2k(),
-#         '1c2k1k': CNN1P2H2k1k(),
-#         '1c2k1h': CNN1P2H2k1h(),
-#         '1c2k10': CNN1P2H2k10(),
-#         '1c1k1k': CNN1P2H1k1k(),
-#         '1c1k1h': CNN1P2H1k1h(),
-#         '1c1k10': CNN1P2H1k10(),
-#         '1c5h5h': CNN1P2H5h5h(),
-#         '1c5h1h': CNN1P2H5h1h(),
-#         '1c5h10': CNN1P2H5h10(),
-#         '1c2h2h': CNN1P2H2h2h(),
-#         '1c2h1h': CNN1P2H2h1h(),
-#         '1c2h10': CNN1P2H2h10(),
-#         '1c1h1h': CNN1P2H1h1h(),
-#         '1c1h10': CNN1P2H1h10(),
-#         '2c20k': CNN2P1H20k(),
-#         '2c15k': CNN2P1H15k(),
-#         '2c10k': CNN2P1H10k(),
-#         '2c5k': CNN2P1H5k(),
-#         '2c3k': CNN2P1H3k(),
-#         '2c2k': CNN2P1H2k(),
-#         '2c1k': CNN2P1H1k(),
-#         '2c20k20k': CNN2P1H20k20k(),
-#         '2c20k10k': CNN2P1H20k10k(),
-#         '2c20k5k': CNN2P1H20k5k(),
-#         '2c20k2k': CNN2P1H20k2k(),
-#         '2c20k1k': CNN2P1H20k1k(),
-#         '2c20k5h': CNN2P1H20k5h(),
-#         '2c20k1h': CNN2P1H20k1h(),
-#         '2c20k10': CNN2P1H20k10(),
-#         '2c15k15k': CNN2P1H15k15k(),
-#         '2c15k10k': CNN2P1H15k10k(),
-#         '2c15k5k': CNN2P1H15k5k(),
-#         '2c15k2k': CNN2P1H15k2k(),
-#         '2c15k1k': CNN2P1H15k1k(),
-#         '2c15k5h': CNN2P1H15k5h(),
-#         '2c15k1h': CNN2P1H15k1h(),
-#         '2c15k10': CNN2P1H15k10(),
-#         '2c10k10k': CNN2P1H10k10k(),
-#         '2c10k5k': CNN2P1H10k5k(),
-#         '2c10k2k': CNN2P1H10k2k(),
-#         '2c10k1k': CNN2P1H10k1k(),
-#         '2c10k5h': CNN2P1H10k5h(),
-#         '2c10k1h': CNN2P1H10k1h(),
-#         '2c10k10': CNN2P1H10k10(),
-#         '2c5k5k': CNN2P1H5k5k(),
-#         '2c5k2k': CNN2P1H5k2k(),
-#         '2c5k1k': CNN2P1H5k1k(),
-#         '2c5k5h': CNN2P1H5k5h(),
-#         '2c5k1h': CNN2P1H5k1h(),
-#         '2c5k10': CNN2P1H5k10(),
-#         '2c3k3k': CNN2P1H3k3k(),
-#         '2c3k2k': CNN2P1H3k2k(),
-#         '2c3k1k5': CNN2P1H3k1k5(),
-#         '2c3k1k': CNN2P1H3k1k(),
-#         '2c3k5h': CNN2P1H3k5h(),
-#         '2c3k1h': CNN2P1H3k1h(),
-#         '2c3k10': CNN2P1H3k10(),
-#         '2c2k2k': CNN2P1H2k2k(),
-#         '2c2k1k': CNN2P1H2k1k(),
-#         '2c2k5h': CNN2P1H2k5h(),
-#         '2c2k1h': CNN2P1H2k1h(),
-#         '2c2k10': CNN2P1H2k10(),
-#         '2c1k1k': CNN2P1H1k1k(),
-#         '2c1k5h': CNN2P1H1k5h(),
-#         '2c1k1h': CNN2P1H1k1h(),
-#         '2c1k10': CNN2P1H1k10(),
-#     }.get(x, CNN1P1H1h())
 
 
 if __name__ == "__main__":

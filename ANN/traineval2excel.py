@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def main():
     # Create folder for report
     Path("../Excel_reports").mkdir(exist_ok=True)

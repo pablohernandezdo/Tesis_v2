@@ -104,6 +104,10 @@ def main():
           f'Training time: {format_timespan(tr_t)}')
 
 
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
 def get_classifier(x):
     return {
         '1h6k': OneHidden6k(),
@@ -217,10 +221,6 @@ def get_classifier(x):
         '2h1_10': TwoHidden1_10(),
         '2h1_1': TwoHidden1_1(),
     }.get(x, OneHidden6k())
-
-
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":
