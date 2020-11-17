@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # 1 linear output layer
-
 # 16
 
 class Lstm_16_16_1_1(nn.Module):
