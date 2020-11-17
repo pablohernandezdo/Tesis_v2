@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p ../Analysis/logs/train/step1
-mkdir -p ../Analysis/logs/train/step1
+mkdir -p ../Analysis/logs/eval/step1
 mkdir -p ../models/step1
 
 tst="Test_data.hdf5"
