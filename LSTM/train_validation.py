@@ -16,10 +16,6 @@ from dataset import HDF5Dataset
 
 
 def main():
-    # Create learning curves folder
-    Path("../Learning_curves/Accuracy").mkdir(exist_ok=True, parents=True)
-    Path("../Learning_curves/Loss").mkdir(exist_ok=True)
-
     # Measure exec time
     start_time = time.time()
 
@@ -27,21 +23,26 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='Default_model', help="Name of model to save")
     parser.add_argument("--model_folder", default='default', help="Folder to save model")
-    parser.add_argument("--classifier", default='LSTM', help="Choose classifier architecture")
+    parser.add_argument("--classifier", default='C', help="Choose classifier architecture, C, CBN")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--val_path", default='Validation_data.hdf5', help="HDF5 validation Dataset path")
     parser.add_argument("--n_epochs", type=int, default=1, help="Number of epochs of training")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
-    parser.add_argument("--eval_iter", type=int, default=20, help="Number of batches between validations")
-    parser.add_argument("--patience", type=int, default=15, help="Early stopping patience")
+    parser.add_argument("--eval_iter", type=int, default=1, help="Number of batches between validations")
+    parser.add_argument("--earlystop", type=int, default=1, help="Early stopping flag, 0 no early stopping")
+    parser.add_argument("--patience", type=int, default=30, help="Early stopping patience")
     parser.add_argument("--lr", type=float, default=0.00001, help="Adam learning rate")
     parser.add_argument("--wd", type=float, default=0, help="weight decay parameter")
     parser.add_argument("--b1", type=float, default=0.9, help="adam: decay of first order momentum of gradient")
     parser.add_argument("--b2", type=float, default=0.99, help="adam: decay of first order momentum of gradient")
     args = parser.parse_args()
 
+    # Create learning curves folder
+    Path("../Analysis/Learning_curves/" + args.model_folder + "/" + "Accuracy").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Learning_curves/" + args.model_folder + "/" + "Loss").mkdir(exist_ok=True)
+
     # Select training device
-    device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Train dataset
     train_dataset = HDF5Dataset(args.train_path)
@@ -81,8 +82,7 @@ def main():
             n_correct, n_total = 0, 0
 
             # Early stopping
-            if all(val_acc <= i for i in earlys):
-                print('Early stopping training')
+            if all(val_acc <= i for i in earlys) and args.earlystop:
                 break
 
             with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
@@ -169,8 +169,7 @@ def main():
                     batch_bar.update()
 
                     # Early stopping
-                    if all(val_acc <= i for i in earlys):
-                        print('Early stopping training')
+                    if all(val_acc <= i for i in earlys) and args.earlystop:
                         break
 
                 # Update epochs bar
@@ -186,32 +185,29 @@ def main():
     tr_t = end_tm - start_time
 
     # Plot train and validation accuracies
-    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name)
+    learning_curve_acc(tr_accuracies, val_accuracies, args.model_name, args.model_folder)
 
     # Plot train and validation losses
-    learning_curve_loss(tr_losses, val_losses, args.model_name)
+    learning_curve_loss(tr_losses, val_losses, args.model_name, args.model_folder)
 
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {nparams}\n'
           f'Training time: {format_timespan(tr_t)}')
 
 
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
-
-
-def learning_curve_acc(tr_acc, val_acc, model_name):
+def learning_curve_acc(tr_acc, val_acc, model_name, model_folder):
     plt.figure()
     line_tr, = plt.plot(tr_acc, label='Training accuracy')
     line_val, = plt.plot(val_acc, label='Validation accuracy')
     plt.grid(True)
     plt.xlabel('Batches')
     plt.ylabel('Accuracy')
+    plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/{model_name}_accuracies.png')
+    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Accuracy/{model_name}_accuracies.png')
 
 
-def learning_curve_loss(tr_loss, val_loss, model_name):
+def learning_curve_loss(tr_loss, val_loss, model_name, model_folder):
     plt.figure()
     line_tr, = plt.plot(tr_loss, label='Training Loss')
     line_val, = plt.plot(val_loss, label='Validation Loss')
@@ -220,7 +216,11 @@ def learning_curve_loss(tr_loss, val_loss, model_name):
     plt.ylabel('Accuracy')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Learning_curves/Loss/{model_name}_Losses.png')
+    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Loss/{model_name}_Losses.png')
+
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 def get_classifier(x):

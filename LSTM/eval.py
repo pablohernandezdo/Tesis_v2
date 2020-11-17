@@ -3,8 +3,8 @@ import argparse
 
 import tqdm
 import torch
-from humanfriendly import format_timespan
 from torch.utils.data import DataLoader
+from humanfriendly import format_timespan
 
 from model import *
 from dataset import HDF5Dataset
@@ -16,8 +16,9 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='Default_model', help="Name of model to eval")
-    parser.add_argument("--classifier", default='LSTM', help="Choose classifier architecture")
+    parser.add_argument("--model_name", default='XXL_lr0000001_bs32', help="Name of model to eval")
+    parser.add_argument("--model_folder", default='default', help="Folder to save model")
+    parser.add_argument("--classifier", default='XXL', help="Choose classifier architecture, C, S, XS, XL, XXL, XXXL")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
@@ -43,8 +44,8 @@ def main():
     # Count number of parameters
     nparams = count_parameters(net)
 
-    # Load parameters from trained model
-    net.load_state_dict(torch.load('../models/' + args.model_name + '.pth'))
+    # Load from trained model
+    net.load_state_dict(torch.load('../models/' + args.model_folder + '/' + args.model_name + '.pth'))
     net.eval()
 
     # Evaluate model on training dataset
@@ -122,9 +123,8 @@ def main():
 
     print(f'Training evaluation time: {format_timespan(ev_1)}\n'
           f'Test evaluation time: {format_timespan(ev_2)}\n'
-          f'Total execution time: {format_timespan(ev_t)}\n\n')
-
-    print(f'Number of network parameters: {nparams}')
+          f'Total execution time: {format_timespan(ev_t)}\n\n'
+          f'Number of network parameters: {nparams}')
 
 
 def print_metrics(tp, fp, tn, fn, beta):
@@ -161,15 +161,15 @@ def print_metrics(tp, fp, tn, fn, beta):
     return precision, recall, fpr, fscore
 
 
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
 def get_classifier(x):
     return {
         'LSTM': CNNLSTMANN(),
         'LSTM_v2': CNNLSTMANN_v2(),
     }.get(x, CNNLSTMANN())
-
-
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 if __name__ == "__main__":
