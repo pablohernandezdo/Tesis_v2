@@ -109,10 +109,506 @@ def count_parameters(model):
 
 
 def get_classifier(x):
-    return {
-        'LSTM': CNNLSTMANN(),
-        'LSTM_v2': CNNLSTMANN_v2(),
-    }.get(x, CNNLSTMANN())
+    if x == 'Lstm_16_16_1_1':
+        return Lstm_16_16_1_1()
+    if x == 'Lstm_16_16_2_1':
+        return Lstm_16_16_2_1()
+    if x == 'Lstm_16_16_5_1':
+        return Lstm_16_16_5_1()
+    if x == 'Lstm_16_16_10_1':
+        return Lstm_16_16_10_1()
+    if x == 'Lstm_16_16_20_1':
+        return Lstm_16_16_20_1()
+    if x == 'Lstm_16_32_1_1':
+        return Lstm_16_32_1_1()
+    if x == 'Lstm_16_32_2_1':
+        return Lstm_16_32_2_1()
+    if x == 'Lstm_16_32_5_1':
+        return Lstm_16_32_5_1()
+    if x == 'Lstm_16_32_10_1':
+        return Lstm_16_32_10_1()
+    if x == 'Lstm_16_32_20_1':
+        return Lstm_16_32_20_1()
+    if x == 'Lstm_16_64_1_1':
+        return Lstm_16_64_1_1()
+    if x == 'Lstm_16_64_2_1':
+        return Lstm_16_64_2_1()
+    if x == 'Lstm_16_64_5_1':
+        return Lstm_16_64_5_1()
+    if x == 'Lstm_16_64_10_1':
+        return Lstm_16_64_10_1()
+    if x == 'Lstm_16_64_20_1':
+        return Lstm_16_64_20_1()
+    if x == 'Lstm_16_128_1_1':
+        return Lstm_16_128_1_1()
+    if x == 'Lstm_16_128_2_1':
+        return Lstm_16_128_2_1()
+    if x == 'Lstm_16_128_5_1':
+        return Lstm_16_128_5_1()
+    if x == 'Lstm_16_128_10_1':
+        return Lstm_16_128_10_1()
+    if x == 'Lstm_16_128_20_1':
+        return Lstm_16_128_20_1()
+    if x == 'Lstm_16_256_1_1':
+        return Lstm_16_256_1_1()
+    if x == 'Lstm_16_256_2_1':
+        return Lstm_16_256_2_1()
+    if x == 'Lstm_16_256_5_1':
+        return Lstm_16_256_5_1()
+    if x == 'Lstm_16_256_10_1':
+        return Lstm_16_256_10_1()
+    if x == 'Lstm_16_256_20_1':
+        return Lstm_16_256_20_1()
+    if x == 'Lstm_32_16_1_1':
+        return Lstm_32_16_1_1()
+    if x == 'Lstm_32_16_2_1':
+        return Lstm_32_16_2_1()
+    if x == 'Lstm_32_16_5_1':
+        return Lstm_32_16_5_1()
+    if x == 'Lstm_32_16_10_1':
+        return Lstm_32_16_10_1()
+    if x == 'Lstm_32_16_20_1':
+        return Lstm_32_16_20_1()
+    if x == 'Lstm_32_32_1_1':
+        return Lstm_32_32_1_1()
+    if x == 'Lstm_32_32_2_1':
+        return Lstm_32_32_2_1()
+    if x == 'Lstm_32_32_5_1':
+        return Lstm_32_32_5_1()
+    if x == 'Lstm_32_32_10_1':
+        return Lstm_32_32_10_1()
+    if x == 'Lstm_32_32_20_1':
+        return Lstm_32_32_20_1()
+    if x == 'Lstm_32_64_1_1':
+        return Lstm_32_64_1_1()
+    if x == 'Lstm_32_64_2_1':
+        return Lstm_32_64_2_1()
+    if x == 'Lstm_32_64_5_1':
+        return Lstm_32_64_5_1()
+    if x == 'Lstm_32_64_10_1':
+        return Lstm_32_64_10_1()
+    if x == 'Lstm_32_64_20_1':
+        return Lstm_32_64_20_1()
+    if x == 'Lstm_32_128_1_1':
+        return Lstm_32_128_1_1()
+    if x == 'Lstm_32_128_2_1':
+        return Lstm_32_128_2_1()
+    if x == 'Lstm_32_128_5_1':
+        return Lstm_32_128_5_1()
+    if x == 'Lstm_32_128_10_1':
+        return Lstm_32_128_10_1()
+    if x == 'Lstm_32_128_20_1':
+        return Lstm_32_128_20_1()
+    if x == 'Lstm_32_256_1_1':
+        return Lstm_32_256_1_1()
+    if x == 'Lstm_32_256_2_1':
+        return Lstm_32_256_2_1()
+    if x == 'Lstm_32_256_5_1':
+        return Lstm_32_256_5_1()
+    if x == 'Lstm_32_256_10_1':
+        return Lstm_32_256_10_1()
+    if x == 'Lstm_32_256_20_1':
+        return Lstm_32_256_20_1()
+    if x == 'Lstm_64_16_1_1':
+        return Lstm_64_16_1_1()
+    if x == 'Lstm_64_16_2_1':
+        return Lstm_64_16_2_1()
+    if x == 'Lstm_64_16_5_1':
+        return Lstm_64_16_5_1()
+    if x == 'Lstm_64_16_10_1':
+        return Lstm_64_16_10_1()
+    if x == 'Lstm_64_16_20_1':
+        return Lstm_64_16_20_1()
+    if x == 'Lstm_64_32_1_1':
+        return Lstm_64_32_1_1()
+    if x == 'Lstm_64_32_2_1':
+        return Lstm_64_32_2_1()
+    if x == 'Lstm_64_32_5_1':
+        return Lstm_64_32_5_1()
+    if x == 'Lstm_64_32_10_1':
+        return Lstm_64_32_10_1()
+    if x == 'Lstm_64_32_20_1':
+        return Lstm_64_32_20_1()
+    if x == 'Lstm_64_64_1_1':
+        return Lstm_64_64_1_1()
+    if x == 'Lstm_64_64_2_1':
+        return Lstm_64_64_2_1()
+    if x == 'Lstm_64_64_5_1':
+        return Lstm_64_64_5_1()
+    if x == 'Lstm_64_64_10_1':
+        return Lstm_64_64_10_1()
+    if x == 'Lstm_64_64_20_1':
+        return Lstm_64_64_20_1()
+    if x == 'Lstm_64_128_1_1':
+        return Lstm_64_128_1_1()
+    if x == 'Lstm_64_128_2_1':
+        return Lstm_64_128_2_1()
+    if x == 'Lstm_64_128_5_1':
+        return Lstm_64_128_5_1()
+    if x == 'Lstm_64_128_10_1':
+        return Lstm_64_128_10_1()
+    if x == 'Lstm_64_128_20_1':
+        return Lstm_64_128_20_1()
+    if x == 'Lstm_64_256_1_1':
+        return Lstm_64_256_1_1()
+    if x == 'Lstm_64_256_2_1':
+        return Lstm_64_256_2_1()
+    if x == 'Lstm_64_256_5_1':
+        return Lstm_64_256_5_1()
+    if x == 'Lstm_64_256_10_1':
+        return Lstm_64_256_10_1()
+    if x == 'Lstm_64_256_20_1':
+        return Lstm_64_256_20_1()
+    if x == 'Lstm_128_16_1_1':
+        return Lstm_128_16_1_1()
+    if x == 'Lstm_128_16_2_1':
+        return Lstm_128_16_2_1()
+    if x == 'Lstm_128_16_5_1':
+        return Lstm_128_16_5_1()
+    if x == 'Lstm_128_16_10_1':
+        return Lstm_128_16_10_1()
+    if x == 'Lstm_128_16_20_1':
+        return Lstm_128_16_20_1()
+    if x == 'Lstm_128_32_1_1':
+        return Lstm_128_32_1_1()
+    if x == 'Lstm_128_32_2_1':
+        return Lstm_128_32_2_1()
+    if x == 'Lstm_128_32_5_1':
+        return Lstm_128_32_5_1()
+    if x == 'Lstm_128_32_10_1':
+        return Lstm_128_32_10_1()
+    if x == 'Lstm_128_32_20_1':
+        return Lstm_128_32_20_1()
+    if x == 'Lstm_128_64_1_1':
+        return Lstm_128_64_1_1()
+    if x == 'Lstm_128_64_2_1':
+        return Lstm_128_64_2_1()
+    if x == 'Lstm_128_64_5_1':
+        return Lstm_128_64_5_1()
+    if x == 'Lstm_128_64_10_1':
+        return Lstm_128_64_10_1()
+    if x == 'Lstm_128_64_20_1':
+        return Lstm_128_64_20_1()
+    if x == 'Lstm_128_128_1_1':
+        return Lstm_128_128_1_1()
+    if x == 'Lstm_128_128_2_1':
+        return Lstm_128_128_2_1()
+    if x == 'Lstm_128_128_5_1':
+        return Lstm_128_128_5_1()
+    if x == 'Lstm_128_128_10_1':
+        return Lstm_128_128_10_1()
+    if x == 'Lstm_128_128_20_1':
+        return Lstm_128_128_20_1()
+    if x == 'Lstm_128_256_1_1':
+        return Lstm_128_256_1_1()
+    if x == 'Lstm_128_256_2_1':
+        return Lstm_128_256_2_1()
+    if x == 'Lstm_128_256_5_1':
+        return Lstm_128_256_5_1()
+    if x == 'Lstm_128_256_10_1':
+        return Lstm_128_256_10_1()
+    if x == 'Lstm_128_256_20_1':
+        return Lstm_128_256_20_1()
+    if x == 'Lstm_256_16_1_1':
+        return Lstm_256_16_1_1()
+    if x == 'Lstm_256_16_2_1':
+        return Lstm_256_16_2_1()
+    if x == 'Lstm_256_16_5_1':
+        return Lstm_256_16_5_1()
+    if x == 'Lstm_256_16_10_1':
+        return Lstm_256_16_10_1()
+    if x == 'Lstm_256_16_20_1':
+        return Lstm_256_16_20_1()
+    if x == 'Lstm_256_32_1_1':
+        return Lstm_256_32_1_1()
+    if x == 'Lstm_256_32_2_1':
+        return Lstm_256_32_2_1()
+    if x == 'Lstm_256_32_5_1':
+        return Lstm_256_32_5_1()
+    if x == 'Lstm_256_32_10_1':
+        return Lstm_256_32_10_1()
+    if x == 'Lstm_256_32_20_1':
+        return Lstm_256_32_20_1()
+    if x == 'Lstm_256_64_1_1':
+        return Lstm_256_64_1_1()
+    if x == 'Lstm_256_64_2_1':
+        return Lstm_256_64_2_1()
+    if x == 'Lstm_256_64_5_1':
+        return Lstm_256_64_5_1()
+    if x == 'Lstm_256_64_10_1':
+        return Lstm_256_64_10_1()
+    if x == 'Lstm_256_64_20_1':
+        return Lstm_256_64_20_1()
+    if x == 'Lstm_256_128_1_1':
+        return Lstm_256_128_1_1()
+    if x == 'Lstm_256_128_2_1':
+        return Lstm_256_128_2_1()
+    if x == 'Lstm_256_128_5_1':
+        return Lstm_256_128_5_1()
+    if x == 'Lstm_256_128_10_1':
+        return Lstm_256_128_10_1()
+    if x == 'Lstm_256_128_20_1':
+        return Lstm_256_128_20_1()
+    if x == 'Lstm_256_256_1_1':
+        return Lstm_256_256_1_1()
+    if x == 'Lstm_256_256_2_1':
+        return Lstm_256_256_2_1()
+    if x == 'Lstm_256_256_5_1':
+        return Lstm_256_256_5_1()
+    if x == 'Lstm_256_256_10_1':
+        return Lstm_256_256_10_1()
+    if x == 'Lstm_256_256_20_1':
+        return Lstm_256_256_20_1()
+    if x == 'Lstm_16_16_1_2':
+        return Lstm_16_16_1_2()
+    if x == 'Lstm_16_16_2_2':
+        return Lstm_16_16_2_2()
+    if x == 'Lstm_16_16_5_2':
+        return Lstm_16_16_5_2()
+    if x == 'Lstm_16_16_10_2':
+        return Lstm_16_16_10_2()
+    if x == 'Lstm_16_16_20_2':
+        return Lstm_16_16_20_2()
+    if x == 'Lstm_16_32_1_2':
+        return Lstm_16_32_1_2()
+    if x == 'Lstm_16_32_2_2':
+        return Lstm_16_32_2_2()
+    if x == 'Lstm_16_32_5_2':
+        return Lstm_16_32_5_2()
+    if x == 'Lstm_16_32_10_2':
+        return Lstm_16_32_10_2()
+    if x == 'Lstm_16_32_20_2':
+        return Lstm_16_32_20_2()
+    if x == 'Lstm_16_64_1_2':
+        return Lstm_16_64_1_2()
+    if x == 'Lstm_16_64_2_2':
+        return Lstm_16_64_2_2()
+    if x == 'Lstm_16_64_5_2':
+        return Lstm_16_64_5_2()
+    if x == 'Lstm_16_64_10_2':
+        return Lstm_16_64_10_2()
+    if x == 'Lstm_16_64_20_2':
+        return Lstm_16_64_20_2()
+    if x == 'Lstm_16_128_1_2':
+        return Lstm_16_128_1_2()
+    if x == 'Lstm_16_128_2_2':
+        return Lstm_16_128_2_2()
+    if x == 'Lstm_16_128_5_2':
+        return Lstm_16_128_5_2()
+    if x == 'Lstm_16_128_10_2':
+        return Lstm_16_128_10_2()
+    if x == 'Lstm_16_128_20_2':
+        return Lstm_16_128_20_2()
+    if x == 'Lstm_16_256_1_2':
+        return Lstm_16_256_1_2()
+    if x == 'Lstm_16_256_2_2':
+        return Lstm_16_256_2_2()
+    if x == 'Lstm_16_256_5_2':
+        return Lstm_16_256_5_2()
+    if x == 'Lstm_16_256_10_2':
+        return Lstm_16_256_10_2()
+    if x == 'Lstm_16_256_20_2':
+        return Lstm_16_256_20_2()
+    if x == 'Lstm_32_16_1_2':
+        return Lstm_32_16_1_2()
+    if x == 'Lstm_32_16_2_2':
+        return Lstm_32_16_2_2()
+    if x == 'Lstm_32_16_5_2':
+        return Lstm_32_16_5_2()
+    if x == 'Lstm_32_16_10_2':
+        return Lstm_32_16_10_2()
+    if x == 'Lstm_32_16_20_2':
+        return Lstm_32_16_20_2()
+    if x == 'Lstm_32_32_1_2':
+        return Lstm_32_32_1_2()
+    if x == 'Lstm_32_32_2_2':
+        return Lstm_32_32_2_2()
+    if x == 'Lstm_32_32_5_2':
+        return Lstm_32_32_5_2()
+    if x == 'Lstm_32_32_10_2':
+        return Lstm_32_32_10_2()
+    if x == 'Lstm_32_32_20_2':
+        return Lstm_32_32_20_2()
+    if x == 'Lstm_32_64_1_2':
+        return Lstm_32_64_1_2()
+    if x == 'Lstm_32_64_2_2':
+        return Lstm_32_64_2_2()
+    if x == 'Lstm_32_64_5_2':
+        return Lstm_32_64_5_2()
+    if x == 'Lstm_32_64_10_2':
+        return Lstm_32_64_10_2()
+    if x == 'Lstm_32_64_20_2':
+        return Lstm_32_64_20_2()
+    if x == 'Lstm_32_128_1_2':
+        return Lstm_32_128_1_2()
+    if x == 'Lstm_32_128_2_2':
+        return Lstm_32_128_2_2()
+    if x == 'Lstm_32_128_5_2':
+        return Lstm_32_128_5_2()
+    if x == 'Lstm_32_128_10_2':
+        return Lstm_32_128_10_2()
+    if x == 'Lstm_32_128_20_2':
+        return Lstm_32_128_20_2()
+    if x == 'Lstm_32_256_1_2':
+        return Lstm_32_256_1_2()
+    if x == 'Lstm_32_256_2_2':
+        return Lstm_32_256_2_2()
+    if x == 'Lstm_32_256_5_2':
+        return Lstm_32_256_5_2()
+    if x == 'Lstm_32_256_10_2':
+        return Lstm_32_256_10_2()
+    if x == 'Lstm_32_256_20_2':
+        return Lstm_32_256_20_2()
+    if x == 'Lstm_64_16_1_2':
+        return Lstm_64_16_1_2()
+    if x == 'Lstm_64_16_2_2':
+        return Lstm_64_16_2_2()
+    if x == 'Lstm_64_16_5_2':
+        return Lstm_64_16_5_2()
+    if x == 'Lstm_64_16_10_2':
+        return Lstm_64_16_10_2()
+    if x == 'Lstm_64_16_20_2':
+        return Lstm_64_16_20_2()
+    if x == 'Lstm_64_32_1_2':
+        return Lstm_64_32_1_2()
+    if x == 'Lstm_64_32_2_2':
+        return Lstm_64_32_2_2()
+    if x == 'Lstm_64_32_5_2':
+        return Lstm_64_32_5_2()
+    if x == 'Lstm_64_32_10_2':
+        return Lstm_64_32_10_2()
+    if x == 'Lstm_64_32_20_2':
+        return Lstm_64_32_20_2()
+    if x == 'Lstm_64_64_1_2':
+        return Lstm_64_64_1_2()
+    if x == 'Lstm_64_64_2_2':
+        return Lstm_64_64_2_2()
+    if x == 'Lstm_64_64_5_2':
+        return Lstm_64_64_5_2()
+    if x == 'Lstm_64_64_10_2':
+        return Lstm_64_64_10_2()
+    if x == 'Lstm_64_64_20_2':
+        return Lstm_64_64_20_2()
+    if x == 'Lstm_64_128_1_2':
+        return Lstm_64_128_1_2()
+    if x == 'Lstm_64_128_2_2':
+        return Lstm_64_128_2_2()
+    if x == 'Lstm_64_128_5_2':
+        return Lstm_64_128_5_2()
+    if x == 'Lstm_64_128_10_2':
+        return Lstm_64_128_10_2()
+    if x == 'Lstm_64_128_20_2':
+        return Lstm_64_128_20_2()
+    if x == 'Lstm_64_256_1_2':
+        return Lstm_64_256_1_2()
+    if x == 'Lstm_64_256_2_2':
+        return Lstm_64_256_2_2()
+    if x == 'Lstm_64_256_5_2':
+        return Lstm_64_256_5_2()
+    if x == 'Lstm_64_256_10_2':
+        return Lstm_64_256_10_2()
+    if x == 'Lstm_64_256_20_2':
+        return Lstm_64_256_20_2()
+    if x == 'Lstm_128_16_1_2':
+        return Lstm_128_16_1_2()
+    if x == 'Lstm_128_16_2_2':
+        return Lstm_128_16_2_2()
+    if x == 'Lstm_128_16_5_2':
+        return Lstm_128_16_5_2()
+    if x == 'Lstm_128_16_10_2':
+        return Lstm_128_16_10_2()
+    if x == 'Lstm_128_16_20_2':
+        return Lstm_128_16_20_2()
+    if x == 'Lstm_128_32_1_2':
+        return Lstm_128_32_1_2()
+    if x == 'Lstm_128_32_2_2':
+        return Lstm_128_32_2_2()
+    if x == 'Lstm_128_32_5_2':
+        return Lstm_128_32_5_2()
+    if x == 'Lstm_128_32_10_2':
+        return Lstm_128_32_10_2()
+    if x == 'Lstm_128_32_20_2':
+        return Lstm_128_32_20_2()
+    if x == 'Lstm_128_64_1_2':
+        return Lstm_128_64_1_2()
+    if x == 'Lstm_128_64_2_2':
+        return Lstm_128_64_2_2()
+    if x == 'Lstm_128_64_5_2':
+        return Lstm_128_64_5_2()
+    if x == 'Lstm_128_64_10_2':
+        return Lstm_128_64_10_2()
+    if x == 'Lstm_128_64_20_2':
+        return Lstm_128_64_20_2()
+    if x == 'Lstm_128_128_1_2':
+        return Lstm_128_128_1_2()
+    if x == 'Lstm_128_128_2_2':
+        return Lstm_128_128_2_2()
+    if x == 'Lstm_128_128_5_2':
+        return Lstm_128_128_5_2()
+    if x == 'Lstm_128_128_10_2':
+        return Lstm_128_128_10_2()
+    if x == 'Lstm_128_128_20_2':
+        return Lstm_128_128_20_2()
+    if x == 'Lstm_128_256_1_2':
+        return Lstm_128_256_1_2()
+    if x == 'Lstm_128_256_2_2':
+        return Lstm_128_256_2_2()
+    if x == 'Lstm_128_256_5_2':
+        return Lstm_128_256_5_2()
+    if x == 'Lstm_128_256_10_2':
+        return Lstm_128_256_10_2()
+    if x == 'Lstm_128_256_20_2':
+        return Lstm_128_256_20_2()
+    if x == 'Lstm_256_16_1_2':
+        return Lstm_256_16_1_2()
+    if x == 'Lstm_256_16_2_2':
+        return Lstm_256_16_2_2()
+    if x == 'Lstm_256_16_5_2':
+        return Lstm_256_16_5_2()
+    if x == 'Lstm_256_16_10_2':
+        return Lstm_256_16_10_2()
+    if x == 'Lstm_256_16_20_2':
+        return Lstm_256_16_20_2()
+    if x == 'Lstm_256_32_1_2':
+        return Lstm_256_32_1_2()
+    if x == 'Lstm_256_32_2_2':
+        return Lstm_256_32_2_2()
+    if x == 'Lstm_256_32_5_2':
+        return Lstm_256_32_5_2()
+    if x == 'Lstm_256_32_10_2':
+        return Lstm_256_32_10_2()
+    if x == 'Lstm_256_32_20_2':
+        return Lstm_256_32_20_2()
+    if x == 'Lstm_256_64_1_2':
+        return Lstm_256_64_1_2()
+    if x == 'Lstm_256_64_2_2':
+        return Lstm_256_64_2_2()
+    if x == 'Lstm_256_64_5_2':
+        return Lstm_256_64_5_2()
+    if x == 'Lstm_256_64_10_2':
+        return Lstm_256_64_10_2()
+    if x == 'Lstm_256_64_20_2':
+        return Lstm_256_64_20_2()
+    if x == 'Lstm_256_128_1_2':
+        return Lstm_256_128_1_2()
+    if x == 'Lstm_256_128_2_2':
+        return Lstm_256_128_2_2()
+    if x == 'Lstm_256_128_5_2':
+        return Lstm_256_128_5_2()
+    if x == 'Lstm_256_128_10_2':
+        return Lstm_256_128_10_2()
+    if x == 'Lstm_256_128_20_2':
+        return Lstm_256_128_20_2()
+    if x == 'Lstm_256_256_1_2':
+        return Lstm_256_256_1_2()
+    if x == 'Lstm_256_256_2_2':
+        return Lstm_256_256_2_2()
+    if x == 'Lstm_256_256_5_2':
+        return Lstm_256_256_5_2()
+    if x == 'Lstm_256_256_10_2':
+        return Lstm_256_256_10_2()
+    if x == 'Lstm_256_256_20_2':
+        return Lstm_256_256_20_2()
 
 
 if __name__ == "__main__":

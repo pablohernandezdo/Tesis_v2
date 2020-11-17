@@ -64,6 +64,7 @@ class Lstm_16_16_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_16_2_1(nn.Module):
     def __init__(self):
         super(Lstm_16_16_2_1, self).__init__()
@@ -121,6 +122,7 @@ class Lstm_16_16_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_16_5_1(nn.Module):
     def __init__(self):
@@ -180,6 +182,7 @@ class Lstm_16_16_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_16_10_1(nn.Module):
     def __init__(self):
         super(Lstm_16_16_10_1, self).__init__()
@@ -237,6 +240,7 @@ class Lstm_16_16_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_16_20_1(nn.Module):
     def __init__(self):
@@ -296,6 +300,7 @@ class Lstm_16_16_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_32_1_1(nn.Module):
     def __init__(self):
         super(Lstm_16_32_1_1, self).__init__()
@@ -353,6 +358,7 @@ class Lstm_16_32_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_32_2_1(nn.Module):
     def __init__(self):
@@ -412,6 +418,7 @@ class Lstm_16_32_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_32_5_1(nn.Module):
     def __init__(self):
         super(Lstm_16_32_5_1, self).__init__()
@@ -469,6 +476,7 @@ class Lstm_16_32_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_32_10_1(nn.Module):
     def __init__(self):
@@ -528,6 +536,7 @@ class Lstm_16_32_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_32_20_1(nn.Module):
     def __init__(self):
         super(Lstm_16_32_20_1, self).__init__()
@@ -585,6 +594,7 @@ class Lstm_16_32_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_64_1_1(nn.Module):
     def __init__(self):
@@ -644,6 +654,7 @@ class Lstm_16_64_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_64_2_1(nn.Module):
     def __init__(self):
         super(Lstm_16_64_2_1, self).__init__()
@@ -701,6 +712,7 @@ class Lstm_16_64_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_64_5_1(nn.Module):
     def __init__(self):
@@ -760,6 +772,7 @@ class Lstm_16_64_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_64_10_1(nn.Module):
     def __init__(self):
         super(Lstm_16_64_10_1, self).__init__()
@@ -817,6 +830,7 @@ class Lstm_16_64_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_64_20_1(nn.Module):
     def __init__(self):
@@ -876,6 +890,7 @@ class Lstm_16_64_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_128_1_1(nn.Module):
     def __init__(self):
         super(Lstm_16_128_1_1, self).__init__()
@@ -933,6 +948,7 @@ class Lstm_16_128_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_128_2_1(nn.Module):
     def __init__(self):
@@ -992,6 +1008,7 @@ class Lstm_16_128_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_128_5_1(nn.Module):
     def __init__(self):
         super(Lstm_16_128_5_1, self).__init__()
@@ -1049,6 +1066,7 @@ class Lstm_16_128_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_128_10_1(nn.Module):
     def __init__(self):
@@ -1108,6 +1126,7 @@ class Lstm_16_128_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_128_20_1(nn.Module):
     def __init__(self):
         super(Lstm_16_128_20_1, self).__init__()
@@ -1165,6 +1184,7 @@ class Lstm_16_128_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_256_1_1(nn.Module):
     def __init__(self):
@@ -1224,6 +1244,7 @@ class Lstm_16_256_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_256_2_1(nn.Module):
     def __init__(self):
         super(Lstm_16_256_2_1, self).__init__()
@@ -1281,6 +1302,7 @@ class Lstm_16_256_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_16_256_5_1(nn.Module):
     def __init__(self):
@@ -1340,6 +1362,7 @@ class Lstm_16_256_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_256_10_1(nn.Module):
     def __init__(self):
         super(Lstm_16_256_10_1, self).__init__()
@@ -1398,6 +1421,7 @@ class Lstm_16_256_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_16_256_20_1(nn.Module):
     def __init__(self):
         super(Lstm_16_256_20_1, self).__init__()
@@ -1455,6 +1479,7 @@ class Lstm_16_256_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 # 32
 
@@ -1515,6 +1540,7 @@ class Lstm_32_16_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_16_2_1(nn.Module):
     def __init__(self):
         super(Lstm_32_16_2_1, self).__init__()
@@ -1571,6 +1597,7 @@ class Lstm_32_16_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_16_5_1(nn.Module):
     def __init__(self):
@@ -1629,6 +1656,7 @@ class Lstm_32_16_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_16_10_1(nn.Module):
     def __init__(self):
         super(Lstm_32_16_10_1, self).__init__()
@@ -1685,6 +1713,7 @@ class Lstm_32_16_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_16_20_1(nn.Module):
     def __init__(self):
@@ -1743,6 +1772,7 @@ class Lstm_32_16_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_32_1_1(nn.Module):
     def __init__(self):
         super(Lstm_32_32_1_1, self).__init__()
@@ -1799,6 +1829,7 @@ class Lstm_32_32_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_32_2_1(nn.Module):
     def __init__(self):
@@ -1857,6 +1888,7 @@ class Lstm_32_32_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_32_5_1(nn.Module):
     def __init__(self):
         super(Lstm_32_32_5_1, self).__init__()
@@ -1913,6 +1945,7 @@ class Lstm_32_32_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_32_10_1(nn.Module):
     def __init__(self):
@@ -1971,6 +2004,7 @@ class Lstm_32_32_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_32_20_1(nn.Module):
     def __init__(self):
         super(Lstm_32_32_20_1, self).__init__()
@@ -2027,6 +2061,7 @@ class Lstm_32_32_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_64_1_1(nn.Module):
     def __init__(self):
@@ -2085,6 +2120,7 @@ class Lstm_32_64_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_64_2_1(nn.Module):
     def __init__(self):
         super(Lstm_32_64_2_1, self).__init__()
@@ -2141,6 +2177,7 @@ class Lstm_32_64_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_64_5_1(nn.Module):
     def __init__(self):
@@ -2199,6 +2236,7 @@ class Lstm_32_64_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_64_10_1(nn.Module):
     def __init__(self):
         super(Lstm_32_64_10_1, self).__init__()
@@ -2255,6 +2293,7 @@ class Lstm_32_64_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_64_20_1(nn.Module):
     def __init__(self):
@@ -2313,6 +2352,7 @@ class Lstm_32_64_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_128_1_1(nn.Module):
     def __init__(self):
         super(Lstm_32_128_1_1, self).__init__()
@@ -2369,6 +2409,7 @@ class Lstm_32_128_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_128_2_1(nn.Module):
     def __init__(self):
@@ -2427,6 +2468,7 @@ class Lstm_32_128_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_128_5_1(nn.Module):
     def __init__(self):
         super(Lstm_32_128_5_1, self).__init__()
@@ -2483,6 +2525,7 @@ class Lstm_32_128_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_128_10_1(nn.Module):
     def __init__(self):
@@ -2541,6 +2584,7 @@ class Lstm_32_128_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_128_20_1(nn.Module):
     def __init__(self):
         super(Lstm_32_128_20_1, self).__init__()
@@ -2597,6 +2641,7 @@ class Lstm_32_128_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_256_1_1(nn.Module):
     def __init__(self):
@@ -2655,6 +2700,7 @@ class Lstm_32_256_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_256_2_1(nn.Module):
     def __init__(self):
         super(Lstm_32_256_2_1, self).__init__()
@@ -2711,6 +2757,7 @@ class Lstm_32_256_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_32_256_5_1(nn.Module):
     def __init__(self):
@@ -2769,6 +2816,7 @@ class Lstm_32_256_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_256_10_1(nn.Module):
     def __init__(self):
         super(Lstm_32_256_10_1, self).__init__()
@@ -2826,6 +2874,7 @@ class Lstm_32_256_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_32_256_20_1(nn.Module):
     def __init__(self):
         super(Lstm_32_256_20_1, self).__init__()
@@ -2882,6 +2931,7 @@ class Lstm_32_256_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 # 64
 
@@ -2942,6 +2992,7 @@ class Lstm_64_16_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_16_2_1(nn.Module):
     def __init__(self):
         super(Lstm_64_16_2_1, self).__init__()
@@ -2998,6 +3049,7 @@ class Lstm_64_16_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_16_5_1(nn.Module):
     def __init__(self):
@@ -3056,6 +3108,7 @@ class Lstm_64_16_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_16_10_1(nn.Module):
     def __init__(self):
         super(Lstm_64_16_10_1, self).__init__()
@@ -3112,6 +3165,7 @@ class Lstm_64_16_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_16_20_1(nn.Module):
     def __init__(self):
@@ -3170,6 +3224,7 @@ class Lstm_64_16_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_32_1_1(nn.Module):
     def __init__(self):
         super(Lstm_64_32_1_1, self).__init__()
@@ -3226,6 +3281,7 @@ class Lstm_64_32_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_32_2_1(nn.Module):
     def __init__(self):
@@ -3284,6 +3340,7 @@ class Lstm_64_32_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_32_5_1(nn.Module):
     def __init__(self):
         super(Lstm_64_32_5_1, self).__init__()
@@ -3340,6 +3397,7 @@ class Lstm_64_32_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_32_10_1(nn.Module):
     def __init__(self):
@@ -3398,6 +3456,7 @@ class Lstm_64_32_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_32_20_1(nn.Module):
     def __init__(self):
         super(Lstm_64_32_20_1, self).__init__()
@@ -3454,6 +3513,7 @@ class Lstm_64_32_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_64_1_1(nn.Module):
     def __init__(self):
@@ -3512,6 +3572,7 @@ class Lstm_64_64_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_64_2_1(nn.Module):
     def __init__(self):
         super(Lstm_64_64_2_1, self).__init__()
@@ -3568,6 +3629,7 @@ class Lstm_64_64_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_64_5_1(nn.Module):
     def __init__(self):
@@ -3626,6 +3688,7 @@ class Lstm_64_64_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_64_10_1(nn.Module):
     def __init__(self):
         super(Lstm_64_64_10_1, self).__init__()
@@ -3682,6 +3745,7 @@ class Lstm_64_64_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_64_20_1(nn.Module):
     def __init__(self):
@@ -3740,6 +3804,7 @@ class Lstm_64_64_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_128_1_1(nn.Module):
     def __init__(self):
         super(Lstm_64_128_1_1, self).__init__()
@@ -3796,6 +3861,7 @@ class Lstm_64_128_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_128_2_1(nn.Module):
     def __init__(self):
@@ -3854,6 +3920,7 @@ class Lstm_64_128_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_128_5_1(nn.Module):
     def __init__(self):
         super(Lstm_64_128_5_1, self).__init__()
@@ -3910,6 +3977,7 @@ class Lstm_64_128_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_128_10_1(nn.Module):
     def __init__(self):
@@ -3968,6 +4036,7 @@ class Lstm_64_128_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_128_20_1(nn.Module):
     def __init__(self):
         super(Lstm_64_128_20_1, self).__init__()
@@ -4024,6 +4093,7 @@ class Lstm_64_128_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_256_1_1(nn.Module):
     def __init__(self):
@@ -4082,6 +4152,7 @@ class Lstm_64_256_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_256_2_1(nn.Module):
     def __init__(self):
         super(Lstm_64_256_2_1, self).__init__()
@@ -4138,6 +4209,7 @@ class Lstm_64_256_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_256_5_1(nn.Module):
     def __init__(self):
@@ -4196,6 +4268,7 @@ class Lstm_64_256_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_64_256_10_1(nn.Module):
     def __init__(self):
         super(Lstm_64_256_10_1, self).__init__()
@@ -4252,6 +4325,7 @@ class Lstm_64_256_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_64_256_20_1(nn.Module):
     def __init__(self):
@@ -4310,7 +4384,9 @@ class Lstm_64_256_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 # 128
+
 
 class Lstm_128_16_1_1(nn.Module):
     def __init__(self):
@@ -4369,6 +4445,7 @@ class Lstm_128_16_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_16_2_1(nn.Module):
     def __init__(self):
         super(Lstm_128_16_2_1, self).__init__()
@@ -4425,6 +4502,7 @@ class Lstm_128_16_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_16_5_1(nn.Module):
     def __init__(self):
@@ -4483,6 +4561,7 @@ class Lstm_128_16_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_16_10_1(nn.Module):
     def __init__(self):
         super(Lstm_128_16_10_1, self).__init__()
@@ -4539,6 +4618,7 @@ class Lstm_128_16_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_16_20_1(nn.Module):
     def __init__(self):
@@ -4597,6 +4677,7 @@ class Lstm_128_16_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_32_1_1(nn.Module):
     def __init__(self):
         super(Lstm_128_32_1_1, self).__init__()
@@ -4653,6 +4734,7 @@ class Lstm_128_32_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_32_2_1(nn.Module):
     def __init__(self):
@@ -4711,6 +4793,7 @@ class Lstm_128_32_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_32_5_1(nn.Module):
     def __init__(self):
         super(Lstm_128_32_5_1, self).__init__()
@@ -4767,6 +4850,7 @@ class Lstm_128_32_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_32_10_1(nn.Module):
     def __init__(self):
@@ -4825,6 +4909,7 @@ class Lstm_128_32_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_32_20_1(nn.Module):
     def __init__(self):
         super(Lstm_128_32_20_1, self).__init__()
@@ -4881,6 +4966,7 @@ class Lstm_128_32_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_64_1_1(nn.Module):
     def __init__(self):
@@ -4939,6 +5025,7 @@ class Lstm_128_64_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_64_2_1(nn.Module):
     def __init__(self):
         super(Lstm_128_64_2_1, self).__init__()
@@ -4995,6 +5082,7 @@ class Lstm_128_64_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_64_5_1(nn.Module):
     def __init__(self):
@@ -5053,6 +5141,7 @@ class Lstm_128_64_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_64_10_1(nn.Module):
     def __init__(self):
         super(Lstm_128_64_10_1, self).__init__()
@@ -5109,6 +5198,7 @@ class Lstm_128_64_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_64_20_1(nn.Module):
     def __init__(self):
@@ -5167,6 +5257,7 @@ class Lstm_128_64_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_128_1_1(nn.Module):
     def __init__(self):
         super(Lstm_128_128_1_1, self).__init__()
@@ -5223,6 +5314,7 @@ class Lstm_128_128_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_128_2_1(nn.Module):
     def __init__(self):
@@ -5281,6 +5373,7 @@ class Lstm_128_128_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_128_5_1(nn.Module):
     def __init__(self):
         super(Lstm_128_128_5_1, self).__init__()
@@ -5337,6 +5430,7 @@ class Lstm_128_128_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_128_10_1(nn.Module):
     def __init__(self):
@@ -5395,6 +5489,7 @@ class Lstm_128_128_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_128_20_1(nn.Module):
     def __init__(self):
         super(Lstm_128_128_20_1, self).__init__()
@@ -5451,6 +5546,7 @@ class Lstm_128_128_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_256_1_1(nn.Module):
     def __init__(self):
@@ -5509,6 +5605,7 @@ class Lstm_128_256_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_256_2_1(nn.Module):
     def __init__(self):
         super(Lstm_128_256_2_1, self).__init__()
@@ -5565,6 +5662,7 @@ class Lstm_128_256_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_256_5_1(nn.Module):
     def __init__(self):
@@ -5623,6 +5721,7 @@ class Lstm_128_256_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_128_256_10_1(nn.Module):
     def __init__(self):
         super(Lstm_128_256_10_1, self).__init__()
@@ -5679,6 +5778,7 @@ class Lstm_128_256_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_128_256_20_1(nn.Module):
     def __init__(self):
@@ -5797,6 +5897,7 @@ class Lstm_256_16_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_16_2_1(nn.Module):
     def __init__(self):
         super(Lstm_256_16_2_1, self).__init__()
@@ -5853,6 +5954,7 @@ class Lstm_256_16_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_16_5_1(nn.Module):
     def __init__(self):
@@ -5911,6 +6013,7 @@ class Lstm_256_16_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_16_10_1(nn.Module):
     def __init__(self):
         super(Lstm_256_16_10_1, self).__init__()
@@ -5967,6 +6070,7 @@ class Lstm_256_16_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_16_20_1(nn.Module):
     def __init__(self):
@@ -6025,6 +6129,7 @@ class Lstm_256_16_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_32_1_1(nn.Module):
     def __init__(self):
         super(Lstm_256_32_1_1, self).__init__()
@@ -6081,6 +6186,7 @@ class Lstm_256_32_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_32_2_1(nn.Module):
     def __init__(self):
@@ -6139,6 +6245,7 @@ class Lstm_256_32_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_32_5_1(nn.Module):
     def __init__(self):
         super(Lstm_256_32_5_1, self).__init__()
@@ -6195,6 +6302,7 @@ class Lstm_256_32_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_32_10_1(nn.Module):
     def __init__(self):
@@ -6253,6 +6361,7 @@ class Lstm_256_32_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_32_20_1(nn.Module):
     def __init__(self):
         super(Lstm_256_32_20_1, self).__init__()
@@ -6309,6 +6418,7 @@ class Lstm_256_32_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_64_1_1(nn.Module):
     def __init__(self):
@@ -6367,6 +6477,7 @@ class Lstm_256_64_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_64_2_1(nn.Module):
     def __init__(self):
         super(Lstm_256_64_2_1, self).__init__()
@@ -6423,6 +6534,7 @@ class Lstm_256_64_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_64_5_1(nn.Module):
     def __init__(self):
@@ -6481,6 +6593,7 @@ class Lstm_256_64_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_64_10_1(nn.Module):
     def __init__(self):
         super(Lstm_256_64_10_1, self).__init__()
@@ -6537,6 +6650,7 @@ class Lstm_256_64_10_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_64_20_1(nn.Module):
     def __init__(self):
@@ -6595,6 +6709,7 @@ class Lstm_256_64_20_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_128_1_1(nn.Module):
     def __init__(self):
         super(Lstm_256_128_1_1, self).__init__()
@@ -6651,6 +6766,7 @@ class Lstm_256_128_1_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_128_2_1(nn.Module):
     def __init__(self):
@@ -6709,6 +6825,7 @@ class Lstm_256_128_2_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_128_5_1(nn.Module):
     def __init__(self):
         super(Lstm_256_128_5_1, self).__init__()
@@ -6765,6 +6882,7 @@ class Lstm_256_128_5_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_128_10_1(nn.Module):
     def __init__(self):
@@ -6823,6 +6941,7 @@ class Lstm_256_128_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_128_20_1(nn.Module):
     def __init__(self):
         super(Lstm_256_128_20_1, self).__init__()
@@ -6879,6 +6998,7 @@ class Lstm_256_128_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_256_1_1(nn.Module):
     def __init__(self):
@@ -6937,6 +7057,7 @@ class Lstm_256_256_1_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_256_2_1(nn.Module):
     def __init__(self):
         super(Lstm_256_256_2_1, self).__init__()
@@ -6993,6 +7114,7 @@ class Lstm_256_256_2_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 class Lstm_256_256_5_1(nn.Module):
     def __init__(self):
@@ -7051,6 +7173,7 @@ class Lstm_256_256_5_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_256_10_1(nn.Module):
     def __init__(self):
         super(Lstm_256_256_10_1, self).__init__()
@@ -7108,6 +7231,7 @@ class Lstm_256_256_10_1(nn.Module):
 
         return self.sigmoid(out_l1)
 
+
 class Lstm_256_256_20_1(nn.Module):
     def __init__(self):
         super(Lstm_256_256_20_1, self).__init__()
@@ -7164,6 +7288,7 @@ class Lstm_256_256_20_1(nn.Module):
         out_l1 = self.l1(out_lstm)
 
         return self.sigmoid(out_l1)
+
 
 # 2 linear output layers
 
@@ -7227,6 +7352,7 @@ class Lstm_16_16_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_16_2_2(nn.Module):
     def __init__(self):
         super(Lstm_16_16_2_2, self).__init__()
@@ -7286,6 +7412,7 @@ class Lstm_16_16_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_16_5_2(nn.Module):
     def __init__(self):
@@ -7347,6 +7474,7 @@ class Lstm_16_16_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_16_10_2(nn.Module):
     def __init__(self):
         super(Lstm_16_16_10_2, self).__init__()
@@ -7406,6 +7534,7 @@ class Lstm_16_16_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_16_20_2(nn.Module):
     def __init__(self):
@@ -7467,6 +7596,7 @@ class Lstm_16_16_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_32_1_2(nn.Module):
     def __init__(self):
         super(Lstm_16_32_1_2, self).__init__()
@@ -7526,6 +7656,7 @@ class Lstm_16_32_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_32_2_2(nn.Module):
     def __init__(self):
@@ -7587,6 +7718,7 @@ class Lstm_16_32_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_32_5_2(nn.Module):
     def __init__(self):
         super(Lstm_16_32_5_2, self).__init__()
@@ -7646,6 +7778,7 @@ class Lstm_16_32_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_32_10_2(nn.Module):
     def __init__(self):
@@ -7707,6 +7840,7 @@ class Lstm_16_32_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_32_20_2(nn.Module):
     def __init__(self):
         super(Lstm_16_32_20_2, self).__init__()
@@ -7766,6 +7900,7 @@ class Lstm_16_32_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_64_1_2(nn.Module):
     def __init__(self):
@@ -7827,6 +7962,7 @@ class Lstm_16_64_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_64_2_2(nn.Module):
     def __init__(self):
         super(Lstm_16_64_2_2, self).__init__()
@@ -7886,6 +8022,7 @@ class Lstm_16_64_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_64_5_2(nn.Module):
     def __init__(self):
@@ -7947,6 +8084,7 @@ class Lstm_16_64_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_64_10_2(nn.Module):
     def __init__(self):
         super(Lstm_16_64_10_2, self).__init__()
@@ -8006,6 +8144,7 @@ class Lstm_16_64_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_64_20_2(nn.Module):
     def __init__(self):
@@ -8067,9 +8206,10 @@ class Lstm_16_64_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_128_1_2(nn.Module):
     def __init__(self):
-        super(Lstm_16_128_1_2 self).__init__()
+        super(Lstm_16_128_1_2, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(2, 4, 3, padding=1, stride=2)
@@ -8126,6 +8266,7 @@ class Lstm_16_128_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_128_2_2(nn.Module):
     def __init__(self):
@@ -8187,6 +8328,7 @@ class Lstm_16_128_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_128_5_2(nn.Module):
     def __init__(self):
         super(Lstm_16_128_5_2, self).__init__()
@@ -8246,6 +8388,7 @@ class Lstm_16_128_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_128_10_2(nn.Module):
     def __init__(self):
@@ -8307,6 +8450,7 @@ class Lstm_16_128_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_128_20_2(nn.Module):
     def __init__(self):
         super(Lstm_16_128_20_2, self).__init__()
@@ -8366,6 +8510,7 @@ class Lstm_16_128_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_256_1_2(nn.Module):
     def __init__(self):
@@ -8427,6 +8572,7 @@ class Lstm_16_256_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_256_2_2(nn.Module):
     def __init__(self):
         super(Lstm_16_256_2_2, self).__init__()
@@ -8486,6 +8632,7 @@ class Lstm_16_256_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_16_256_5_2(nn.Module):
     def __init__(self):
@@ -8547,6 +8694,7 @@ class Lstm_16_256_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_256_10_2(nn.Module):
     def __init__(self):
         super(Lstm_16_256_10_2, self).__init__()
@@ -8607,6 +8755,7 @@ class Lstm_16_256_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_16_256_20_2(nn.Module):
     def __init__(self):
         super(Lstm_16_256_20_2, self).__init__()
@@ -8666,6 +8815,7 @@ class Lstm_16_256_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 # 32
 
@@ -8728,6 +8878,7 @@ class Lstm_32_16_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_16_2_2(nn.Module):
     def __init__(self):
         super(Lstm_32_16_2_2, self).__init__()
@@ -8786,6 +8937,7 @@ class Lstm_32_16_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_16_5_2(nn.Module):
     def __init__(self):
@@ -8846,6 +8998,7 @@ class Lstm_32_16_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_16_10_2(nn.Module):
     def __init__(self):
         super(Lstm_32_16_10_2, self).__init__()
@@ -8904,6 +9057,7 @@ class Lstm_32_16_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_16_20_2(nn.Module):
     def __init__(self):
@@ -8964,6 +9118,7 @@ class Lstm_32_16_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_32_1_2(nn.Module):
     def __init__(self):
         super(Lstm_32_32_1_2, self).__init__()
@@ -9022,6 +9177,7 @@ class Lstm_32_32_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_32_2_2(nn.Module):
     def __init__(self):
@@ -9082,6 +9238,7 @@ class Lstm_32_32_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_32_5_2(nn.Module):
     def __init__(self):
         super(Lstm_32_32_5_2, self).__init__()
@@ -9140,6 +9297,7 @@ class Lstm_32_32_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_32_10_2(nn.Module):
     def __init__(self):
@@ -9200,6 +9358,7 @@ class Lstm_32_32_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_32_20_2(nn.Module):
     def __init__(self):
         super(Lstm_32_32_20_2, self).__init__()
@@ -9258,6 +9417,7 @@ class Lstm_32_32_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_64_1_2(nn.Module):
     def __init__(self):
@@ -9318,6 +9478,7 @@ class Lstm_32_64_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_64_2_2(nn.Module):
     def __init__(self):
         super(Lstm_32_64_2_2, self).__init__()
@@ -9376,6 +9537,7 @@ class Lstm_32_64_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_64_5_2(nn.Module):
     def __init__(self):
@@ -9436,6 +9598,7 @@ class Lstm_32_64_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_64_10_2(nn.Module):
     def __init__(self):
         super(Lstm_32_64_10_2, self).__init__()
@@ -9494,6 +9657,7 @@ class Lstm_32_64_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_64_20_2(nn.Module):
     def __init__(self):
@@ -9554,6 +9718,7 @@ class Lstm_32_64_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_128_1_2(nn.Module):
     def __init__(self):
         super(Lstm_32_128_1_2, self).__init__()
@@ -9612,6 +9777,7 @@ class Lstm_32_128_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_128_2_2(nn.Module):
     def __init__(self):
@@ -9672,6 +9838,7 @@ class Lstm_32_128_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_128_5_2(nn.Module):
     def __init__(self):
         super(Lstm_32_128_5_2, self).__init__()
@@ -9730,6 +9897,7 @@ class Lstm_32_128_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_128_10_2(nn.Module):
     def __init__(self):
@@ -9790,6 +9958,7 @@ class Lstm_32_128_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_128_20_2(nn.Module):
     def __init__(self):
         super(Lstm_32_128_20_2, self).__init__()
@@ -9848,6 +10017,7 @@ class Lstm_32_128_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_256_1_2(nn.Module):
     def __init__(self):
@@ -9908,6 +10078,7 @@ class Lstm_32_256_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_256_2_2(nn.Module):
     def __init__(self):
         super(Lstm_32_256_2_2, self).__init__()
@@ -9966,6 +10137,7 @@ class Lstm_32_256_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_32_256_5_2(nn.Module):
     def __init__(self):
@@ -10026,6 +10198,7 @@ class Lstm_32_256_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_256_10_2(nn.Module):
     def __init__(self):
         super(Lstm_32_256_10_2, self).__init__()
@@ -10085,6 +10258,7 @@ class Lstm_32_256_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_32_256_20_2(nn.Module):
     def __init__(self):
         super(Lstm_32_256_20_2, self).__init__()
@@ -10143,6 +10317,7 @@ class Lstm_32_256_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 # 64
 
@@ -10205,6 +10380,7 @@ class Lstm_64_16_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_16_2_2(nn.Module):
     def __init__(self):
         super(Lstm_64_16_2_2, self).__init__()
@@ -10263,6 +10439,7 @@ class Lstm_64_16_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_16_5_2(nn.Module):
     def __init__(self):
@@ -10323,6 +10500,7 @@ class Lstm_64_16_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_16_10_2(nn.Module):
     def __init__(self):
         super(Lstm_64_16_10_2, self).__init__()
@@ -10381,6 +10559,7 @@ class Lstm_64_16_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_16_20_2(nn.Module):
     def __init__(self):
@@ -10441,6 +10620,7 @@ class Lstm_64_16_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_32_1_2(nn.Module):
     def __init__(self):
         super(Lstm_64_32_1_2, self).__init__()
@@ -10499,6 +10679,7 @@ class Lstm_64_32_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_32_2_2(nn.Module):
     def __init__(self):
@@ -10559,6 +10740,7 @@ class Lstm_64_32_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_32_5_2(nn.Module):
     def __init__(self):
         super(Lstm_64_32_5_2, self).__init__()
@@ -10617,6 +10799,7 @@ class Lstm_64_32_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_32_10_2(nn.Module):
     def __init__(self):
@@ -10677,6 +10860,7 @@ class Lstm_64_32_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_32_20_2(nn.Module):
     def __init__(self):
         super(Lstm_64_32_20_2, self).__init__()
@@ -10735,6 +10919,7 @@ class Lstm_64_32_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_64_1_2(nn.Module):
     def __init__(self):
@@ -10795,6 +10980,7 @@ class Lstm_64_64_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_64_2_2(nn.Module):
     def __init__(self):
         super(Lstm_64_64_2_2, self).__init__()
@@ -10853,6 +11039,7 @@ class Lstm_64_64_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_64_5_2(nn.Module):
     def __init__(self):
@@ -10913,6 +11100,7 @@ class Lstm_64_64_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_64_10_2(nn.Module):
     def __init__(self):
         super(Lstm_64_64_10_2, self).__init__()
@@ -10971,6 +11159,7 @@ class Lstm_64_64_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_64_20_2(nn.Module):
     def __init__(self):
@@ -11031,6 +11220,7 @@ class Lstm_64_64_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_128_1_2(nn.Module):
     def __init__(self):
         super(Lstm_64_128_1_2, self).__init__()
@@ -11089,6 +11279,7 @@ class Lstm_64_128_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_128_2_2(nn.Module):
     def __init__(self):
@@ -11149,6 +11340,7 @@ class Lstm_64_128_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_128_5_2(nn.Module):
     def __init__(self):
         super(Lstm_64_128_5_2, self).__init__()
@@ -11207,6 +11399,7 @@ class Lstm_64_128_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_128_10_2(nn.Module):
     def __init__(self):
@@ -11267,6 +11460,7 @@ class Lstm_64_128_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_128_20_2(nn.Module):
     def __init__(self):
         super(Lstm_64_128_20_2, self).__init__()
@@ -11325,6 +11519,7 @@ class Lstm_64_128_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_256_1_2(nn.Module):
     def __init__(self):
@@ -11385,6 +11580,7 @@ class Lstm_64_256_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_256_2_2(nn.Module):
     def __init__(self):
         super(Lstm_64_256_2_2, self).__init__()
@@ -11443,6 +11639,7 @@ class Lstm_64_256_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_64_256_5_2(nn.Module):
     def __init__(self):
@@ -11503,6 +11700,7 @@ class Lstm_64_256_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_256_10_2(nn.Module):
     def __init__(self):
         super(Lstm_64_256_10_2, self).__init__()
@@ -11562,6 +11760,7 @@ class Lstm_64_256_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_64_256_20_2(nn.Module):
     def __init__(self):
         super(Lstm_64_256_20_2, self).__init__()
@@ -11620,6 +11819,7 @@ class Lstm_64_256_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 # 128
 
@@ -11682,6 +11882,7 @@ class Lstm_128_16_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_16_2_2(nn.Module):
     def __init__(self):
         super(Lstm_128_16_2_2, self).__init__()
@@ -11740,6 +11941,7 @@ class Lstm_128_16_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_16_5_2(nn.Module):
     def __init__(self):
@@ -11800,6 +12002,7 @@ class Lstm_128_16_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_16_10_2(nn.Module):
     def __init__(self):
         super(Lstm_128_16_10_2, self).__init__()
@@ -11858,6 +12061,7 @@ class Lstm_128_16_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_16_20_2(nn.Module):
     def __init__(self):
@@ -11918,6 +12122,7 @@ class Lstm_128_16_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_32_1_2(nn.Module):
     def __init__(self):
         super(Lstm_128_32_1_2, self).__init__()
@@ -11976,6 +12181,7 @@ class Lstm_128_32_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_32_2_2(nn.Module):
     def __init__(self):
@@ -12036,6 +12242,7 @@ class Lstm_128_32_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_32_5_2(nn.Module):
     def __init__(self):
         super(Lstm_128_32_5_2, self).__init__()
@@ -12094,6 +12301,7 @@ class Lstm_128_32_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_32_10_2(nn.Module):
     def __init__(self):
@@ -12154,6 +12362,7 @@ class Lstm_128_32_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_32_20_2(nn.Module):
     def __init__(self):
         super(Lstm_128_32_20_2, self).__init__()
@@ -12212,6 +12421,7 @@ class Lstm_128_32_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_64_1_2(nn.Module):
     def __init__(self):
@@ -12272,6 +12482,7 @@ class Lstm_128_64_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_64_2_2(nn.Module):
     def __init__(self):
         super(Lstm_128_64_2_2, self).__init__()
@@ -12330,6 +12541,7 @@ class Lstm_128_64_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_64_5_2(nn.Module):
     def __init__(self):
@@ -12390,6 +12602,7 @@ class Lstm_128_64_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_64_10_2(nn.Module):
     def __init__(self):
         super(Lstm_128_64_10_2, self).__init__()
@@ -12448,6 +12661,7 @@ class Lstm_128_64_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_64_20_2(nn.Module):
     def __init__(self):
@@ -12508,6 +12722,7 @@ class Lstm_128_64_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_128_1_2(nn.Module):
     def __init__(self):
         super(Lstm_128_128_1_2, self).__init__()
@@ -12566,6 +12781,7 @@ class Lstm_128_128_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_128_2_2(nn.Module):
     def __init__(self):
@@ -12626,6 +12842,7 @@ class Lstm_128_128_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_128_5_2(nn.Module):
     def __init__(self):
         super(Lstm_128_128_5_2, self).__init__()
@@ -12684,6 +12901,7 @@ class Lstm_128_128_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_128_10_2(nn.Module):
     def __init__(self):
@@ -12744,6 +12962,7 @@ class Lstm_128_128_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_128_20_2(nn.Module):
     def __init__(self):
         super(Lstm_128_128_20_2, self).__init__()
@@ -12802,6 +13021,7 @@ class Lstm_128_128_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_256_1_2(nn.Module):
     def __init__(self):
@@ -12862,6 +13082,7 @@ class Lstm_128_256_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_256_2_2(nn.Module):
     def __init__(self):
         super(Lstm_128_256_2_2, self).__init__()
@@ -12920,6 +13141,7 @@ class Lstm_128_256_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_256_5_2(nn.Module):
     def __init__(self):
@@ -12980,6 +13202,7 @@ class Lstm_128_256_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_128_256_10_2(nn.Module):
     def __init__(self):
         super(Lstm_128_256_10_2, self).__init__()
@@ -13038,6 +13261,7 @@ class Lstm_128_256_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_128_256_20_2(nn.Module):
     def __init__(self):
@@ -13160,6 +13384,7 @@ class Lstm_256_16_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_16_2_2(nn.Module):
     def __init__(self):
         super(Lstm_256_16_2_2, self).__init__()
@@ -13218,6 +13443,7 @@ class Lstm_256_16_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_16_5_2(nn.Module):
     def __init__(self):
@@ -13278,6 +13504,7 @@ class Lstm_256_16_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_16_10_2(nn.Module):
     def __init__(self):
         super(Lstm_256_16_10_2, self).__init__()
@@ -13336,6 +13563,7 @@ class Lstm_256_16_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_16_20_2(nn.Module):
     def __init__(self):
@@ -13396,6 +13624,7 @@ class Lstm_256_16_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_32_1_2(nn.Module):
     def __init__(self):
         super(Lstm_256_32_1_2, self).__init__()
@@ -13454,6 +13683,7 @@ class Lstm_256_32_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_32_2_2(nn.Module):
     def __init__(self):
@@ -13514,6 +13744,7 @@ class Lstm_256_32_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_32_5_2(nn.Module):
     def __init__(self):
         super(Lstm_256_32_5_2, self).__init__()
@@ -13572,6 +13803,7 @@ class Lstm_256_32_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_32_10_2(nn.Module):
     def __init__(self):
@@ -13632,6 +13864,7 @@ class Lstm_256_32_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_32_20_2(nn.Module):
     def __init__(self):
         super(Lstm_256_32_20_2, self).__init__()
@@ -13690,6 +13923,7 @@ class Lstm_256_32_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_64_1_2(nn.Module):
     def __init__(self):
@@ -13750,6 +13984,7 @@ class Lstm_256_64_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_64_2_2(nn.Module):
     def __init__(self):
         super(Lstm_256_64_2_2, self).__init__()
@@ -13808,6 +14043,7 @@ class Lstm_256_64_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_64_5_2(nn.Module):
     def __init__(self):
@@ -13868,6 +14104,7 @@ class Lstm_256_64_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_64_10_2(nn.Module):
     def __init__(self):
         super(Lstm_256_64_10_2, self).__init__()
@@ -13926,6 +14163,7 @@ class Lstm_256_64_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_64_20_2(nn.Module):
     def __init__(self):
@@ -13986,6 +14224,7 @@ class Lstm_256_64_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_128_1_2(nn.Module):
     def __init__(self):
         super(Lstm_256_128_1_2, self).__init__()
@@ -14044,6 +14283,7 @@ class Lstm_256_128_1_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_128_2_2(nn.Module):
     def __init__(self):
@@ -14104,6 +14344,7 @@ class Lstm_256_128_2_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_128_5_2(nn.Module):
     def __init__(self):
         super(Lstm_256_128_5_2, self).__init__()
@@ -14162,6 +14403,7 @@ class Lstm_256_128_5_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_128_10_2(nn.Module):
     def __init__(self):
@@ -14222,6 +14464,7 @@ class Lstm_256_128_10_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_128_20_2(nn.Module):
     def __init__(self):
         super(Lstm_256_128_20_2, self).__init__()
@@ -14280,6 +14523,7 @@ class Lstm_256_128_20_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_256_1_2(nn.Module):
     def __init__(self):
@@ -14340,6 +14584,7 @@ class Lstm_256_256_1_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_256_2_2(nn.Module):
     def __init__(self):
         super(Lstm_256_256_2_2, self).__init__()
@@ -14398,6 +14643,7 @@ class Lstm_256_256_2_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_256_5_2(nn.Module):
     def __init__(self):
@@ -14458,6 +14704,7 @@ class Lstm_256_256_5_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 class Lstm_256_256_10_2(nn.Module):
     def __init__(self):
         super(Lstm_256_256_10_2, self).__init__()
@@ -14516,6 +14763,7 @@ class Lstm_256_256_10_2(nn.Module):
         out_l2 = F.relu(self.l2(out_l1))
 
         return self.sigmoid(out_l2)
+
 
 class Lstm_256_256_20_2(nn.Module):
     def __init__(self):
@@ -14576,7 +14824,9 @@ class Lstm_256_256_20_2(nn.Module):
 
         return self.sigmoid(out_l2)
 
+
 # MODELO ORIGINAL
+
 
 class CNNLSTMANN(nn.Module):
     def __init__(self):
