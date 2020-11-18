@@ -187,7 +187,7 @@ def main():
     })
 
     # Write report to excel
-    with pd.ExcelWriter(f'../Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
+    with pd.ExcelWriter(f'../Analysis/Excel_reports/{args.xls_name}.xlsx', engine='openpyxl') as writer:
 
         # Write each dataframe to a different worksheet
         df1.to_excel(writer, sheet_name='Full', index=False)
