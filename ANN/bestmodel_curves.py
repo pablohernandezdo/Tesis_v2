@@ -22,7 +22,7 @@ def main():
     train_wkdir = 'Analysis/logs/train/' + args.archives_folder
     eval_wkdir = 'Analysis/logs/eval/' + args.archives_folder
 
-    models = args.best_models.strip().split(' ') + '.pth'
+    models = args.best_models.strip().split(' ')
 
     print(models)
 
