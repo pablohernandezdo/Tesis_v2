@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
-    Path("../Excel_reports").mkdir(exist_ok=True)
-    Path("../Curves_parameters").mkdir(exist_ok=True)
+    Path("../Analysis/Excel_reports").mkdir(exist_ok=True)
+    Path("../Analysis/Curves_parameters").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
