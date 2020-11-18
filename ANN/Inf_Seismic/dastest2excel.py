@@ -9,7 +9,7 @@ import pandas as pd
 
 def main():
     # Create folder for report
-    Path("../Excel_reports").mkdir(parents=True, exist_ok=True)
+    Path("../Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
@@ -19,7 +19,7 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    wkdir = '../logs/' + args.archives_folder
+    wkdir = '../Analysis/logs/' + args.archives_folder
 
     # Variable preallocating
     models = []
