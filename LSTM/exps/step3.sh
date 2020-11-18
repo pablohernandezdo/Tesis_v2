@@ -704,7 +704,7 @@ python ../eval.py --train_path $trn --test_path $tst \
               --model_folder step3 \
               --classifier Lstm_64_32_1_1 --model_name Lstm_64_32_1_1_30 > ../Analysis/logs/eval/step3/Lstm_64_32_1_1_30.txt
 
-echo "Training model Lstm_64_32_1_2_30, lr = 1e-3, epochs = 5, batch_size = 256"
+echo "Training model Lstm_64_32_2_1_30, lr = 1e-3, epochs = 5, batch_size = 256"
 python ../train_validation.py \
               --patience 30 --model_folder step3 \
               --train_path $trn --val_path $val      \
