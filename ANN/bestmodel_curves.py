@@ -74,6 +74,10 @@ def main():
 
                 print(pre)
                 
+                f.readline()
+                f.readline()
+                f.readline()
+
             # Aqui armar la curva y agregarlas a la lista mayor
             pr_curves.append([rec, pre])
             roc_curves.append([fpr, rec])
