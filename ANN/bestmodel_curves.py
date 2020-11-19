@@ -72,8 +72,6 @@ def main():
                 fpr.append(f.readline().split(":")[-1].strip())
                 fsc.append(f.readline().split(":")[-1].strip())
 
-                print(pre)
-                
                 f.readline()
                 f.readline()
                 f.readline()
@@ -89,51 +87,51 @@ def main():
         fsc = []
         thresholds = []
 
-    # # Curvas PR
-    # plt.figure()
-    #
-    # for crv in pr_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.hlines(0.5, 0, 1, 'b', '--')
-    # plt.title(f'PR curves best models ANN')
-    # plt.xlabel('Recall')
-    # plt.ylabel('Precision')
-    # # plt.xlim(-0.02, 1.02)
-    # # plt.ylim(0.48, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Curves_parameters/best_PR_ann.png')
-    #
-    # # Curva ROC
-    # plt.figure()
-    #
-    # for crv in roc_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.plot([0, 1], [0, 1], 'b--')
-    # plt.title(f'ROC curves best models ANN')
-    # plt.xlabel('False Positive Rate')
-    # plt.ylabel('Recall')
-    # # plt.xlim(-0.02, 1.02)
-    # # plt.ylim(-0.02, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Curves_parameters/best_ROC_ann.png')
-    #
-    # # Curva Fscore
-    # plt.figure()
-    #
-    # for crv in fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # plt.title(f'Fscore vs thresholds curves best models ANN')
-    # plt.xlabel('Threshold')
-    # plt.ylabel('F-score')
-    # # plt.xlim(-0.02, 1.02)
-    # # plt.ylim(-0.02, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Curves_parameters/best_Fscore_ann.png')
+    # Curvas PR
+    plt.figure()
+
+    for crv in pr_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models ANN')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Curves_parameters/best_PR_ann.png')
+
+    # Curva ROC
+    plt.figure()
+
+    for crv in roc_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curves best models ANN')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Curves_parameters/best_ROC_ann.png')
+
+    # Curva Fscore
+    plt.figure()
+
+    for crv in fscore_curves:
+        plt.plot(crv[0], crv[1])
+
+    plt.title(f'Fscore vs thresholds curves best models ANN')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Curves_parameters/best_Fscore_ann.png')
 
 
 if __name__ == "__main__":
