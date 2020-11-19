@@ -101,7 +101,8 @@ def main():
     plt.figure()
 
     for crv in pr_curves:
-        plt.plot(crv[1], crv[0])
+        print(f'rec: {crv[0]}\npre: {crv[1]}')
+        plt.plot(crv[0], crv[1])
         break
 
     # Dumb model line
