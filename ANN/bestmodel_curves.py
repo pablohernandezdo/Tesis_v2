@@ -84,7 +84,7 @@ def main():
             pr_aucs.append(f.readline().split(":")[-1].strip())
             roc_aucs.append(f.readline().split(":")[-1].strip())
 
-            print(f'rec: {rec}\npre: {pre}\nfpr: {fpr}\nfsc: {fsc}')
+            # print(f'rec: {rec}\npre: {pre}\nfpr: {fpr}\nfsc: {fsc}')
 
             # Aqui armar la curva y agregarlas a la lista mayor
             pr_curves.append([rec, pre])
