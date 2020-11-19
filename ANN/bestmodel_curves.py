@@ -86,6 +86,11 @@ def main():
 
             # print(f'rec: {rec}\npre: {pre}\nfpr: {fpr}\nfsc: {fsc}')
 
+            pre = list(map(float, pre))
+            rec = list(map(float, rec))
+            fpr = list(map(float, fpr))
+            fsc = list(map(float, fsc))
+
             # Aqui armar la curva y agregarlas a la lista mayor
             pr_curves.append([rec, pre])
             roc_curves.append([fpr, rec])
@@ -96,6 +101,8 @@ def main():
         fpr = []
         fsc = []
         thresholds = []
+
+    # Str to float
 
     # Test PR
     plt.figure()
