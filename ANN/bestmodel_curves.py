@@ -97,13 +97,11 @@ def main():
         fsc = []
         thresholds = []
 
-    print(f'Len PR: {len(pr_curves)}')
-
     # Test PR
     plt.figure()
 
     for crv in pr_curves:
-        plt.plot(crv[0], crv[1])
+        plt.plot(crv[1], crv[0])
         break
 
     # Dumb model line
