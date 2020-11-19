@@ -13,4 +13,4 @@ mdl="mdl 22h1k4k_1e4_256_20.txt"
 
 # Get best models PR, ROC and Fscore curves
 python ../bestmodel_curves.py --archives_folder 'step4_curves' \
-                              --best_models "$mdl"
+                              --best_models $mdl
