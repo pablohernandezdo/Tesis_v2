@@ -76,6 +76,14 @@ def main():
                 f.readline()
                 f.readline()
 
+            # Terminar de leer el archivo
+            best_fscore = f.readline().split(",")[-1].strip().split(":")[-1].strip()
+
+            f.readline()
+
+            pr_aucs.append(f.readline().split(":")[-1].strip())
+            roc_aucs.append(f.readline().split(":")[-1].strip())
+
             # Aqui armar la curva y agregarlas a la lista mayor
             pr_curves.append([rec, pre])
             roc_curves.append([fpr, rec])
