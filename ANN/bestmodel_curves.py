@@ -14,15 +14,19 @@ def main():
     Path("../Analysis/Curves_parameters").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
+    parser.add_argument('--best_folder', default='default', help='Best models log folder')
+    parser.add_argument('--avg_folder', default='default', help='Average models log folder')
     parser.add_argument('--best_models', default='', help='Best model names space separated')
+    parser.add_argument('--avg_models', default='', help='Average model names space separated')
     parser.add_argument('--n_thresh', type=int, default=18, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # working directory
-    eval_wkdir = '../Analysis/logs/eval/' + args.archives_folder
+    best_eval_wkdir = '../Analysis/logs/eval/' + args.best_folder
+    avg_eval_wkdir = '../Analysis/logs/eval/' + args.avg_folder
 
-    models = args.best_models.strip().split(' ')
+    best_models = args.best_models.strip().split(' ')
+    avg_models = args.avg_models.strip().split(' ')
 
     # Variable preallocating
     thresholds = []
@@ -36,11 +40,84 @@ def main():
     roc_curves = []
     fscore_curves = []
 
-    pr_aucs = []
-    roc_aucs = []
+    avg_pre = []
+    avg_rec = []
+    avg_fpr = []
+    avg_fsc = []
 
-    for f_name in models:
-        with open(os.path.join(eval_wkdir, f_name), 'r') as f:
+    avg_pr_curves = []
+    avg_roc_curves = []
+    avg_fscore_curves = []
+
+    avg_pr_aucs = []
+    avg_roc_aucs = []
+
+    for f_name in avg_models:
+        with open(os.path.join(avg_eval_wkdir, f_name), 'r') as f:
+
+            f.readline()
+            f.readline()
+
+            for _ in range(args.n_thresh):
+
+                thresh = f.readline().split(':')[-1].strip()
+                thresholds.append(thresh)
+
+                # Skip non-useful lines
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                # acc
+                f.readline()
+
+                # Read metrics
+                avg_pre.append(f.readline().split(":")[-1].strip())
+                avg_rec.append(f.readline().split(":")[-1].strip())
+                avg_fpr.append(f.readline().split(":")[-1].strip())
+                avg_fsc.append(f.readline().split(":")[-1].strip())
+
+                f.readline()
+                f.readline()
+                f.readline()
+
+            # Terminar de leer el archivo
+            best_fscore = f.readline().split(",")[-1].strip().split(":")[-1].strip()
+
+            f.readline()
+
+            avg_pr_aucs.append(f.readline().split(":")[-1].strip())
+            avg_roc_aucs.append(f.readline().split(":")[-1].strip())
+
+            # print(f'rec: {rec}\npre: {pre}\nfpr: {fpr}\nfsc: {fsc}')
+
+            avg_pre = list(map(float, avg_pre))
+            avg_rec = list(map(float, avg_rec))
+            avg_fpr = list(map(float, avg_fpr))
+            avg_fsc = list(map(float, avg_fsc))
+            thresholds = list(map(float, thresholds))
+
+            # Aqui armar la curva y agregarlas a la lista mayor
+            avg_pr_curves.append([avg_rec, avg_pre])
+            avg_roc_curves.append([avg_fpr, avg_rec])
+            avg_fscore_curves.append([thresholds, avg_fsc])
+
+        avg_pre = []
+        avg_rec = []
+        avg_fpr = []
+        avg_fsc = []
+        thresholds = []
+
+    for f_name in best_models:
+        with open(os.path.join(best_eval_wkdir, f_name), 'r') as f:
 
             f.readline()
             f.readline()
@@ -106,6 +183,9 @@ def main():
     # Curvas PR
     plt.figure()
 
+    for crv in avg_pr_curves:
+        plt.plot(crv[0], crv[1])
+
     for crv in pr_curves:
         plt.plot(crv[0], crv[1])
 
@@ -122,6 +202,9 @@ def main():
     # Curva ROC
     plt.figure()
 
+    for crv in avg_roc_curves:
+        plt.plot(crv[0], crv[1])
+
     for crv in roc_curves:
         plt.plot(crv[0], crv[1])
 
@@ -137,6 +220,9 @@ def main():
 
     # Curva Fscore
     plt.figure()
+
+    for crv in avg_fscore_curves:
+        plt.plot(crv[0], crv[1])
 
     for crv in fscore_curves:
         plt.plot(crv[0], crv[1])
