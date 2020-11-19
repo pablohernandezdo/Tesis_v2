@@ -90,6 +90,7 @@ def main():
             rec = list(map(float, rec))
             fpr = list(map(float, fpr))
             fsc = list(map(float, fsc))
+            thresholds = list(map(float, thresholds))
 
             # Aqui armar la curva y agregarlas a la lista mayor
             pr_curves.append([rec, pre])
