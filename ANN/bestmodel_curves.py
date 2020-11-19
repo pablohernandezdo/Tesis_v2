@@ -94,8 +94,8 @@ def main():
     plt.title(f'PR curves best models ANN')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(0.48, 1.02)
+    # plt.xlim(-0.02, 1.02)
+    # plt.ylim(0.48, 1.02)
     plt.grid(True)
     plt.savefig(f'../Analysis/Curves_parameters/best_PR_ann.png')
 
@@ -110,8 +110,8 @@ def main():
     plt.title(f'ROC curves best models ANN')
     plt.xlabel('False Positive Rate')
     plt.ylabel('Recall')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(-0.02, 1.02)
+    # plt.xlim(-0.02, 1.02)
+    # plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.savefig(f'../Analysis/Curves_parameters/best_ROC_ann.png')
 
@@ -124,8 +124,8 @@ def main():
     plt.title(f'Fscore vs thresholds curves best models ANN')
     plt.xlabel('Threshold')
     plt.ylabel('F-score')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(-0.02, 1.02)
+    # plt.xlim(-0.02, 1.02)
+    # plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.savefig(f'../Analysis/Curves_parameters/best_Fscore_ann.png')
 
