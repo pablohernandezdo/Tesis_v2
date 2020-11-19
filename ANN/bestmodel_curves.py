@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
-    Path("Analysis/Excel_reports").mkdir(exist_ok=True)
-    Path("Analysis/Curves_parameters").mkdir(exist_ok=True)
+    Path("../Analysis/Excel_reports").mkdir(exist_ok=True)
+    Path("../Analysis/Curves_parameters").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
@@ -20,7 +20,7 @@ def main():
     args = parser.parse_args()
 
     # working directory
-    eval_wkdir = 'Analysis/logs/eval/' + args.archives_folder
+    eval_wkdir = '../Analysis/logs/eval/' + args.archives_folder
 
     models = args.best_models.strip().split(' ')
 
@@ -97,7 +97,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.savefig(f'Analysis/Curves_parameters/best_PR_ann.png')
+    plt.savefig(f'../Analysis/Curves_parameters/best_PR_ann.png')
 
     # Curva ROC
     plt.figure()
@@ -113,7 +113,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.savefig(f'Analysis/Curves_parameters/best_ROC_ann.png')
+    plt.savefig(f'../Analysis/Curves_parameters/best_ROC_ann.png')
 
     # Curva Fscore
     plt.figure()
@@ -127,7 +127,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.savefig(f'Analysis/Curves_parameters/best_Fscore_ann.png')
+    plt.savefig(f'../Analysis/Curves_parameters/best_Fscore_ann.png')
 
 
 if __name__ == "__main__":
