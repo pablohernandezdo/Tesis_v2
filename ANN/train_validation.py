@@ -213,7 +213,7 @@ def learning_curve_loss(tr_loss, val_loss, model_name, model_folder):
     line_val, = plt.plot(val_loss, label='Validation Loss')
     plt.grid(True)
     plt.xlabel('Batches')
-    plt.ylabel('Accuracy')
+    plt.ylabel('Loss')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
     plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Loss/{model_name}_Losses.png')
