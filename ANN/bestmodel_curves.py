@@ -40,6 +40,9 @@ def main():
     roc_curves = []
     fscore_curves = []
 
+    pr_aucs = []
+    roc_aucs = []
+
     avg_pre = []
     avg_rec = []
     avg_fpr = []
