@@ -8,9 +8,9 @@ mf="step4"
 #echo "Running DAS test dataset inference on 2h2k5k_5e5_256_25 model"
 #python ../inf_test_dataset.py --model_folder $mf --model_name 2h2k5k_5e5_256_25 --classifier 2h2k5k  > ../Analysis/logs/itd/2h2k5k_5e5_256_25.txt
 #
-## Test dataset inference on 2h2k5k_5e5_256_25 model
-#echo "Running DAS test dataset inference on 2h2k5k_5e5_256_25 model"
-#python ../inf_test_dataset.py --model_folder $mf --model_name 2h2k5k_5e5_256_25 --classifier 2h2k5k  > ../Analysis/logs/itd/2h2k5k_5e5_256_25.txt
+# Test dataset inference on 2h1k5k_5e5_256_20 model
+echo "Running DAS test dataset inference on 2h1k5k_5e5_256_20 model"
+python ../inf_test_dataset.py --model_folder $mf --model_name 2h1k5k_5e5_256_20 --classifier 2h1k5k  > ../Analysis/logs/itd/2h1k5k_5e5_256_20.txt
 #
 ## Test dataset inference on 2h1k6k_5e5_256_20 model
 #echo "Running DAS test dataset inference on 2h1k6k_5e5_256_20 model"
