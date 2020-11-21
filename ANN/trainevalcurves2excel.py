@@ -127,6 +127,8 @@ def main():
     fpr = list(map(float, fpr))
     fsc = list(map(float, fsc))
 
+    params = list(map(float, params))
+
     # Get the 10 highest F-score models
     best_idx = np.argsort(fsc)
 
