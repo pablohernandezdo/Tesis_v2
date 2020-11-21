@@ -1145,24 +1145,24 @@ val="Validation_data.hdf5"
 #              --model_folder step3 \
 #              --classifier 2h10_3k --model_name 2h10_3k_1e4_256_30 > ../Analysis/logs/eval/step3/2h10_3k_1e4_256_30.txt
 ##
-echo "Training model 2h10_2k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --patience 30 --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h10_2k --model_name 2h10_2k_1e4_256_30 > ../Analysis/logs/train/step3/2h10_2k_1e4_256_30.txt
+#echo "Training model 2h10_2k, lr = 1e-4, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --patience 30 --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+#              --classifier 2h10_2k --model_name 2h10_2k_1e4_256_30 > ../Analysis/logs/train/step3/2h10_2k_1e4_256_30.txt
 ##
 #echo "Evaluating model 2h10_2k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
 #              --model_folder step3 \
 #              --classifier 2h10_2k --model_name 2h10_2k_1e4_256_30 > ../Analysis/logs/eval/step3/2h10_2k_1e4_256_30.txt
 ##
-echo "Training model 2h10_1k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --patience 30 --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h10_1k --model_name 2h10_1k_1e4_256_30 > ../Analysis/logs/train/step3/2h10_1k_1e4_256_30.txt
+#echo "Training model 2h10_1k, lr = 1e-4, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --patience 30 --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+#              --classifier 2h10_1k --model_name 2h10_1k_1e4_256_30 > ../Analysis/logs/train/step3/2h10_1k_1e4_256_30.txt
 ##
 #echo "Evaluating model 2h10_1k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
@@ -1266,12 +1266,12 @@ python ../train_validation.py \
 #              --model_folder step3 \
 #              --classifier 2h1_3k --model_name 2h1_3k_1e4_256_30 > ../Analysis/logs/eval/step3/2h1_3k_1e4_256_30.txt
 ##
-echo "Training model 2h1_2k, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --patience 30 --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-4 --batch_size 256 \
-              --classifier 2h1_2k --model_name 2h1_2k_1e4_256_30 > ../Analysis/logs/train/step3/2h1_2k_1e4_256_30.txt
+#echo "Training model 2h1_2k, lr = 1e-4, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --patience 30 --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 5 --lr 1e-4 --batch_size 256 \
+#              --classifier 2h1_2k --model_name 2h1_2k_1e4_256_30 > ../Analysis/logs/train/step3/2h1_2k_1e4_256_30.txt
 ##
 #echo "Evaluating model 2h1_2k_1e4_256"
 #python ../eval.py --train_path $trn --test_path $tst \
