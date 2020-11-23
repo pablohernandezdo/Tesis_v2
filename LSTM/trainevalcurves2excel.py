@@ -115,6 +115,23 @@ def main():
             pr_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             roc_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
+    # Arrays to floats
+
+    tp = list(map(float, tp))
+    tn = list(map(float, tn))
+    fp = list(map(float, fp))
+    fn = list(map(float, fn))
+    acc = list(map(float, acc))
+    pre = list(map(float, pre))
+    rec = list(map(float, rec))
+    fpr = list(map(float, fpr))
+    fsc = list(map(float, fsc))
+
+    params = list(map(float, params))
+
+    pr_auc = list(map(float, pr_auc))
+    roc_auc = list(map(float, roc_auc))
+
     # Get the 10 highest F-score models
     best_idx = np.argsort(fsc)
 

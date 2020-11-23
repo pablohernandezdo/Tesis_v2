@@ -110,6 +110,33 @@ def main():
             roc_auc.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             # params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
+    francia_tp = list(map(float, francia_tp))
+    nevada_tp = list(map(float, nevada_tp))
+    belgica_tp = list(map(float, belgica_tp))
+    reykjanes_tp = list(map(float, reykjanes_tp))
+
+    california_tn = list(map(float, california_tn))
+    tides_tn = list(map(float, tides_tn))
+    utah_tn = list(map(float, utah_tn))
+    shaker_tn = list(map(float, shaker_tn))
+    signals_tn = list(map(float, signals_tn))
+
+    tp = list(map(float, tp))
+    tn = list(map(float, tn))
+    fp = list(map(float, fp))
+    fn = list(map(float, fn))
+
+    acc = list(map(float, acc))
+    pre = list(map(float, pre))
+    rec = list(map(float, rec))
+    fpr = list(map(float, fpr))
+    fsc = list(map(float, fsc))
+
+    thresholds = list(map(float, thresholds))
+
+    pr_auc = list(map(float, pr_auc))
+    roc_auc = list(map(float, roc_auc))
+
     # Get the 10 highest F-score models
     best_idx = np.argsort(fsc)
 
