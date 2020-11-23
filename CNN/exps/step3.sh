@@ -376,17 +376,17 @@ python ../eval.py --train_path $trn --test_path $tst \
 #
 # 1c4k10_1e6_256_30
 
-echo "Training model 1c4k10_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 1c4k10 --model_name 1c4k10_1e6_256_30 > ../Analysis/logs/train/step3/1c4k10_1e6_256_30.txt
-
-echo "Evaluating model 1c4k10_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 1c4k1k0 --model_name 1c4k10_1e6_256_30 > ../Analysis/logs/eval/step3/1c4k10_1e6_256_30.txt
+#echo "Training model 1c4k10_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 1c4k10 --model_name 1c4k10_1e6_256_30 > ../Analysis/logs/train/step3/1c4k10_1e6_256_30.txt
+#
+#echo "Evaluating model 1c4k10_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 1c4k1k0 --model_name 1c4k10_1e6_256_30 > ../Analysis/logs/eval/step3/1c4k10_1e6_256_30.txt
 
 ## 1c3k3k_1e6_256_30
 #
@@ -698,17 +698,17 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # 2c5k_1e6_256_30
 
-echo "Training model 2c5k_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k --model_name 2c5k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k_1e6_256_30.txt
-
-echo "Evaluating model 2c5k_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k --model_name 2c5k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k_1e6_256_30.txt
+#echo "Training model 2c5k_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k --model_name 2c5k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k --model_name 2c5k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k_1e6_256_30.txt
 
 ## 2c3k_1e6_256_30
 #
@@ -936,17 +936,17 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # 2c15k5h_1e6_256_30
 
-echo "Training model 2c15k5h_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c15k5h --model_name 2c15k5h_1e6_256_30 > ../Analysis/logs/train/step3/2c15k5h_1e6_256_30.txt
-
-echo "Evaluating model 2c15k5h_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c15k5h --model_name 2c15k5h_1e6_256_30 > ../Analysis/logs/eval/step3/2c15k5h_1e6_256_30.txt
+#echo "Training model 2c15k5h_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c15k5h --model_name 2c15k5h_1e6_256_30 > ../Analysis/logs/train/step3/2c15k5h_1e6_256_30.txt
+#
+#echo "Evaluating model 2c15k5h_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c15k5h --model_name 2c15k5h_1e6_256_30 > ../Analysis/logs/eval/step3/2c15k5h_1e6_256_30.txt
 
 # 2c15k1h_1e6_256_30
 
@@ -1076,87 +1076,87 @@ python ../eval.py --train_path $trn --test_path $tst \
 
 # 2c5k5k_1e6_256_30
 
-echo "Training model 2c5k5k_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k5k --model_name 2c5k5k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k5k_1e6_256_30.txt
-
-echo "Evaluating model 2c5k5k_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k5k --model_name 2c5k5k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k5k_1e6_256_30.txt
+#echo "Training model 2c5k5k_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k5k --model_name 2c5k5k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k5k_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k5k_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k5k --model_name 2c5k5k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k5k_1e6_256_30.txt
 
 # 2c5k2k_1e6_256_30
 
-echo "Training model 2c5k2k_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k2k --model_name 2c5k2k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k2k_1e6_256_30.txt
-
-echo "Evaluating model 2c5k2k_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k2k --model_name 2c5k2k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k2k_1e6_256_30.txt
+#echo "Training model 2c5k2k_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k2k --model_name 2c5k2k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k2k_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k2k_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k2k --model_name 2c5k2k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k2k_1e6_256_30.txt
 
 # 2c5k1k_1e6_256_30
 
-echo "Training model 2c5k1k_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k1k --model_name 2c5k1k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k1k_1e6_256_30.txt
-
-echo "Evaluating model 2c5k1k_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k1k --model_name 2c5k1k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k1k_1e6_256_30.txt
+#echo "Training model 2c5k1k_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k1k --model_name 2c5k1k_1e6_256_30 > ../Analysis/logs/train/step3/2c5k1k_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k1k_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k1k --model_name 2c5k1k_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k1k_1e6_256_30.txt
 
 # 2c5k5h_1e6_256_30
 
-echo "Training model 2c5k5h_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k5h --model_name 2c5k5h_1e6_256_30 > ../Analysis/logs/train/step3/2c5k5h_1e6_256_30.txt
-
-echo "Evaluating model 2c5k5h_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k5h --model_name 2c5k5h_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k5h_1e6_256_30.txt
+#echo "Training model 2c5k5h_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k5h --model_name 2c5k5h_1e6_256_30 > ../Analysis/logs/train/step3/2c5k5h_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k5h_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k5h --model_name 2c5k5h_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k5h_1e6_256_30.txt
 
 # 2c5k1h_1e6_256_30
 
-echo "Training model 2c5k1h_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k1h --model_name 2c5k1h_1e6_256_30 > ../Analysis/logs/train/step3/2c5k1h_1e6_256_30.txt
-
-echo "Evaluating model 2c5k1h_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k1h --model_name 2c5k1h_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k1h_1e6_256_30.txt
+#echo "Training model 2c5k1h_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k1h --model_name 2c5k1h_1e6_256_30 > ../Analysis/logs/train/step3/2c5k1h_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k1h_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k1h --model_name 2c5k1h_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k1h_1e6_256_30.txt
 
 # 2c5k10_1e6_256_30
 
-echo "Training model 2c5k10_30, lr = 1e-6, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step3 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
-              --classifier 2c5k10 --model_name 2c5k10_1e6_256_30 > ../Analysis/logs/train/step3/2c5k10_1e6_256_30.txt
-
-echo "Evaluating model 2c5k10_1e6_256_30"
-python ../eval.py --train_path $trn --test_path $tst \
-              --model_folder step3 \
-              --classifier 2c5k10 --model_name 2c5k10_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k10_1e6_256_30.txt
+#echo "Training model 2c5k10_30, lr = 1e-6, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step3 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 20 --lr 1e-6 --batch_size 256 --patience 30 \
+#              --classifier 2c5k10 --model_name 2c5k10_1e6_256_30 > ../Analysis/logs/train/step3/2c5k10_1e6_256_30.txt
+#
+#echo "Evaluating model 2c5k10_1e6_256_30"
+#python ../eval.py --train_path $trn --test_path $tst \
+#              --model_folder step3 \
+#              --classifier 2c5k10 --model_name 2c5k10_1e6_256_30 > ../Analysis/logs/eval/step3/2c5k10_1e6_256_30.txt
 #
 ## 2c3k3k_1e6_256_30
 #
