@@ -3,6 +3,7 @@ import argparse
 import itertools
 from pathlib import Path
 
+import tqdm
 import h5py
 import pywt
 import torch
@@ -33,7 +34,7 @@ def main():
     Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
     # Select training device
-    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
     net = get_classifier(args.classifier)
@@ -241,25 +242,28 @@ def inf_francia(net, device, thresh):
     traces = traces[:66]
 
     # For every trace in the file
-    for trace in traces:
-        if np.max(np.abs(trace)):
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
+    with tqdm.tqdm(total=len(traces), desc='Francia dataset evaluation') as francia_bar:
+        for trace in traces:
+            if np.max(np.abs(trace)):
+                # Normalize
+                trace = trace / np.max(np.abs(trace))
 
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+                # Numpy to Torch
+                trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh)
+                # Prediction
+                out_trace = net(trace.float())
+                pred_trace = (out_trace > thresh)
 
-            # Count traces
-            total += 1
+                # Count traces
+                total += 1
 
-            if pred_trace:
-                tp += 1
-            else:
-                fn += 1
+                if pred_trace:
+                    tp += 1
+                else:
+                    fn += 1
+
+                francia_bar.update()
 
     # Results
     print(f'Francia true positives: {tp}/{total}')
@@ -331,30 +335,33 @@ def inf_nevada(net, device, thresh):
     # npad = 1500
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Nevada dataset evaluation') as nevada_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Zero pad
-        # trace = np.pad(trace, (npad, npad), mode='constant')
+            # Zero pad
+            # trace = np.pad(trace, (npad, npad), mode='constant')
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            tp += 1
-        else:
-            fn += 1
+            if pred_trace:
+                tp += 1
+            else:
+                fn += 1
+
+            nevada_bar.update()
 
     # # Load Nevada dataset file 747
     # f = '../../../Data/Nevada/PoroTomo_iDAS025_160321073747.sgy'
@@ -472,27 +479,30 @@ def inf_belgica(net, device, thresh):
 
     traces = np.vstack((avg_data, avg_fil1, avg_fil2, avg_fil3))
 
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Belgica dataset evaluation') as belgica_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        output = net(trace.float())
+            # Prediction
+            output = net(trace.float())
 
-        predicted = (output > thresh)
+            predicted = (output > thresh)
 
-        total += 1
+            total += 1
 
-        if predicted:
-            tp += 1
-        else:
-            fn += 1
+            if predicted:
+                tp += 1
+            else:
+                fn += 1
+
+            belgica_bar.update()
 
     # Results
     print(f'Belgica true positives: {tp}/{total}')
@@ -571,36 +581,39 @@ def inf_reykjanes(net, device, thresh):
     final_samples = 6000
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 700)
+    with tqdm.tqdm(total=len(traces), desc='Reykjanes dataset evaluation') as reykjanes_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 700)
 
-        # Random place to put signal in
-        idx = rng.choice(final_samples - len(trace), size=1)
+            # Random place to put signal in
+            idx = rng.choice(final_samples - len(trace), size=1)
 
-        # Number of samples to zero pad on the right side
-        right_pad = final_samples - idx - len(trace)
+            # Number of samples to zero pad on the right side
+            right_pad = final_samples - idx - len(trace)
 
-        # Zero pad signal
-        trace = np.pad(trace, (idx.item(), right_pad.item()), mode='constant')
+            # Zero pad signal
+            trace = np.pad(trace, (idx.item(), right_pad.item()), mode='constant')
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            tp += 1
-        else:
-            fn += 1
+            if pred_trace:
+                tp += 1
+            else:
+                fn += 1
+
+            reykjanes_bar.update()
 
     # Results
     print(f'Reykjanes true positives: {tp}/{total}\n')
@@ -620,31 +633,34 @@ def inf_california(net, device, thresh):
     traces = traces.transpose()
 
     # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 41228)
-        tr = tr[:36000]
-        tr = np.reshape(tr, (-1, 6000))
+    with tqdm.tqdm(total=len(traces), desc='California dataset evaluation') as california_bar:
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 41228)
+            tr = tr[:36000]
+            tr = np.reshape(tr, (-1, 6000))
 
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
+            for trace in tr:
+                # Normalize
+                trace = trace / np.max(np.abs(trace))
 
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+                # Numpy to Torch
+                trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-            # Prediction
-            out_trace = net(trace.float())
-            # pred_trace = torch.round(out_trace.data).item()
-            pred_trace = (out_trace > thresh)
+                # Prediction
+                out_trace = net(trace.float())
+                # pred_trace = torch.round(out_trace.data).item()
+                pred_trace = (out_trace > thresh)
 
-            # Count traces
-            total += 1
+                # Count traces
+                total += 1
 
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
+                if pred_trace:
+                    fp += 1
+                else:
+                    tn += 1
+
+                california_bar.update()
 
     # Results
     print(f'California true negatives: {tn}/{total}')
@@ -664,31 +680,34 @@ def inf_hydraulic(net, device, thresh):
         traces = f['data'][()]
 
     # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 12000)
+    with tqdm.tqdm(total=len(traces), desc='Hydraulic dataset 1 evaluation') as hydraulic1_bar:
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 12000)
 
-        # Reshape
-        tr = np.reshape(tr, (-1, 6000))
+            # Reshape
+            tr = np.reshape(tr, (-1, 6000))
 
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
+            for trace in tr:
+                # Normalize
+                trace = trace / np.max(np.abs(trace))
 
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+                # Numpy to Torch
+                trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh)
+                # Prediction
+                out_trace = net(trace.float())
+                pred_trace = (out_trace > thresh)
 
-            # Count traces
-            total += 1
+                # Count traces
+                total += 1
 
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
+                if pred_trace:
+                    fp += 1
+                else:
+                    tn += 1
+
+                hydraulic1_bar.update()
 
     file = '../../../Data/Hydraulic/CSULB500Pa10secP_141210174309.mat'
 
@@ -697,34 +716,37 @@ def inf_hydraulic(net, device, thresh):
         traces = f['data'][()]
 
     # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 205623)
+    with tqdm.tqdm(total=len(traces), desc='Hydraulic dataset 2 evaluation') as hydraulic2_bar:
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 205623)
 
-        # Discard extra samples
-        tr = tr[:(6000 * 34)]
+            # Discard extra samples
+            tr = tr[:(6000 * 34)]
 
-        # Reshape
-        tr = np.reshape(tr, (-1, 6000))
+            # Reshape
+            tr = np.reshape(tr, (-1, 6000))
 
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
+            for trace in tr:
+                # Normalize
+                trace = trace / np.max(np.abs(trace))
 
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+                # Numpy to Torch
+                trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh)
+                # Prediction
+                out_trace = net(trace.float())
+                pred_trace = (out_trace > thresh)
 
-            # Count traces
-            total += 1
+                # Count traces
+                total += 1
 
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
+                if pred_trace:
+                    fp += 1
+                else:
+                    tn += 1
+
+                hydraulic2_bar.update()
 
     file = '../../../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
 
@@ -733,34 +755,37 @@ def inf_hydraulic(net, device, thresh):
         traces = f['data'][()]
 
     # For every trace in the file
-    for tr in traces:
-        # Resample
-        tr = signal.resample(tr, 600272)
+    with tqdm.tqdm(total=len(traces), desc='Hydraulic dataset 3 evaluation') as hydraulic3_bar:
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 600272)
 
-        # Discard extra samples
-        tr = tr[:600000]
+            # Discard extra samples
+            tr = tr[:600000]
 
-        # Reshape
-        tr = np.reshape(tr, (-1, 6000))
+            # Reshape
+            tr = np.reshape(tr, (-1, 6000))
 
-        for trace in tr:
-            # Normalize
-            trace = trace / np.max(np.abs(trace))
+            for trace in tr:
+                # Normalize
+                trace = trace / np.max(np.abs(trace))
 
-            # Numpy to Torch
-            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+                # Numpy to Torch
+                trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-            # Prediction
-            out_trace = net(trace.float())
-            pred_trace = (out_trace > thresh)
+                # Prediction
+                out_trace = net(trace.float())
+                pred_trace = (out_trace > thresh)
 
-            # Count traces
-            total += 1
+                # Count traces
+                total += 1
 
-            if pred_trace:
-                fp += 1
-            else:
-                tn += 1
+                if pred_trace:
+                    fp += 1
+                else:
+                    tn += 1
+
+                hydraulic3_bar.update()
 
     # Results
     print(f'Hydraulic true negatives: {tn}/{total}')
@@ -789,24 +814,27 @@ def inf_tides(net, device, thresh):
     traces = traces.reshape(-1, 6000)
 
     # For every trace in the file
-    for trace in traces:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+    with tqdm.tqdm(total=len(traces), desc='Tides dataset evaluation') as tides_bar:
+        for trace in traces:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            tides_bar.update()
 
     # Results
     print(f'Tides true negatives: {tn}/{total}')
@@ -829,27 +857,30 @@ def inf_utah(net, device, thresh):
         traces = segyio.tools.collect(segy.trace[:])
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Utah dataset evaluation') as utah_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            utah_bar.update()
 
     # Results
     print(f'Utah true negatives: {tn}/{total}')
@@ -872,27 +903,30 @@ def inf_vibroseis(net, device, thresh):
         traces = segyio.tools.collect(segy.trace[:])
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Vibroseis dataset 047 evaluation') as vibroseis1_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            vibroseis1_bar.update()
 
     # Load Nevada dataset file 117
     f = '../../../Data/Vibroseis/PoroTomo_iDAS025_160325140117.sgy'
@@ -905,27 +939,30 @@ def inf_vibroseis(net, device, thresh):
         traces = segyio.tools.collect(segy.trace[:])
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Vibroseis dataset 117 evaluation') as vibroseis2_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            vibroseis2_bar.update()
 
     # Load Nevada dataset file 048
     f = '../../../Data/Vibroseis/PoroTomo_iDAS16043_160325140048.sgy'
@@ -938,27 +975,30 @@ def inf_vibroseis(net, device, thresh):
         traces = segyio.tools.collect(segy.trace[:])
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Vibroseis dataset 048 evaluation') as vibroseis3_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            vibroseis3_bar.update()
 
     # Load Vibroseis data file 118
     f = '../../../Data/Vibroseis/PoroTomo_iDAS16043_160325140118.sgy'
@@ -971,27 +1011,30 @@ def inf_vibroseis(net, device, thresh):
         traces = segyio.tools.collect(segy.trace[:])
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6000)
+    with tqdm.tqdm(total=len(traces), desc='Vibroseis dataset 118 evaluation') as vibroseis4_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6000)
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            vibroseis4_bar.update()
 
     # Results
     print(f'Vibroseis true negatives: {tn}/{total}')
@@ -1014,30 +1057,33 @@ def inf_shaker(net, device, thresh):
         traces = segyio.tools.collect(segy.trace[:])
 
     # For every trace in the file
-    for trace in traces:
-        # Resample
-        trace = signal.resample(trace, 6300)
+    with tqdm.tqdm(total=len(traces), desc='Shaker dataset evaluation') as shaker_bar:
+        for trace in traces:
+            # Resample
+            trace = signal.resample(trace, 6300)
 
-        # Discard last 300 samples
-        trace = trace[:6000]
+            # Discard last 300 samples
+            trace = trace[:6000]
 
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            shaker_bar.update()
 
     # Results
     print(f'Shaker true negatives: {tn}/{total}')
@@ -1180,160 +1226,184 @@ def inf_signals(net, device, thresh):
         tn += 1
 
     # For every trace in wvs1
-    for trace in wvs1:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+    with tqdm.tqdm(total=len(wvs1), desc='Signals wvs1 evaluation') as wvs1_bar:
+        for trace in wvs1:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
 
-    # For every trace in wvs1
-    for trace in wvs2:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
-
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
-
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
-
-        # Count traces
-        total += 1
-
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            wvs1_bar.update()
 
     # For every trace in wvs1
-    for trace in wvs3:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+    with tqdm.tqdm(total=len(wvs2), desc='Signals wvs2 evaluation') as wvs2_bar:
+        for trace in wvs2:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            wvs2_bar.update()
 
     # For every trace in wvs1
-    for trace in wvs1_ns:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+    with tqdm.tqdm(total=len(wvs3), desc='Signals wvs3 evaluation') as wvs3_bar:
+        for trace in wvs3:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Count traces
-        total += 1
+            # Count traces
+            total += 1
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
 
-    for trace in wvs2_ns:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            wvs3_bar.update()
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+    # For every trace in wvs1
+    with tqdm.tqdm(total=len(wvs1_ns), desc='Signals wvs1_ns evaluation') as wvs1_ns_bar:
+        for trace in wvs1_ns:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        # Count traces
-        total += 1
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            # Count traces
+            total += 1
 
-    for trace in wvs3_ns:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            wvs1_ns_bar.update()
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+    with tqdm.tqdm(total=len(wvs2_ns), desc='Signals wvs2_ns evaluation') as wvs2_ns_bar:
+        for trace in wvs2_ns:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        # Count traces
-        total += 1
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-    for trace in wvs_pad:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Count traces
+            total += 1
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            wvs2_ns_bar.update()
 
-        # Count traces
-        total += 1
+    with tqdm.tqdm(total=len(wvs3_ns), desc='Signals wvs3_ns evaluation') as wvs3_ns_bar:
+        for trace in wvs3_ns:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
-    for trace in lets:
-        # Normalize
-        trace = trace / np.max(np.abs(trace))
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
 
-        # Numpy to Torch
-        trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+            # Count traces
+            total += 1
 
-        # Prediction
-        out_trace = net(trace.float())
-        pred_trace = (out_trace > thresh)
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
 
-        # Count traces
-        total += 1
+            wvs3_ns_bar.update()
 
-        if pred_trace:
-            fp += 1
-        else:
-            tn += 1
+    with tqdm.tqdm(total=len(wvs_pad), desc='Signals wvs_pad evaluation') as wvs_pad_bar:
+        for trace in wvs_pad:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
+
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
+
+            # Count traces
+            total += 1
+
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            wvs_pad_bar.update()
+
+    with tqdm.tqdm(total=len(lets), desc='Signals wavelets evaluation') as wvlets_bar:
+        for trace in lets:
+            # Normalize
+            trace = trace / np.max(np.abs(trace))
+
+            # Numpy to Torch
+            trace = torch.from_numpy(trace).to(device).unsqueeze(0)
+
+            # Prediction
+            out_trace = net(trace.float())
+            pred_trace = (out_trace > thresh)
+
+            # Count traces
+            total += 1
+
+            if pred_trace:
+                fp += 1
+            else:
+                tn += 1
+
+            wvlets_bar.update()
 
     # Results
     print(f'Test signals true negatives: {tn}/{total}\n')
