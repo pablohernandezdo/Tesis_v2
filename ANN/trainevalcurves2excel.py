@@ -129,6 +129,9 @@ def main():
 
     params = list(map(float, params))
 
+    pr_auc = list(map(float, pr_auc))
+    roc_auc = list(map(float, roc_auc))
+
     # Get the 10 highest F-score models
     best_idx = np.argsort(fsc)
 
