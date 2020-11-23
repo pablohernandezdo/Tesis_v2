@@ -2520,4 +2520,4 @@ python ../train_validation.py \
 # reports 2 excel
 
 echo "Creating summary of reports excel file"
-python ../trainevalcurves2excel.py --xls_name 'LSTM_step4' --archives_folder 'step4'
+python ../trainevalcurves2excel.py --xls_name 'LSTM_step4' --archives_folder 'step4' --best 20
