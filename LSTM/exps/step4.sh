@@ -11,12 +11,12 @@ val="Validation_data.hdf5"
 # Lstm_64_64_1_1
 # Learning rate 1e-3
 
-echo "Training model Lstm_16_16_1_1_1e3_256_20, lr = 1e-3, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --model_folder step4 --patience 20 \
-              --train_path $trn --val_path $val      \
-              --n_epochs 5 --lr 1e-3 --batch_size 256 \
-              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e3_256_20 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e3_256_20.txt
+#echo "Training model Lstm_16_16_1_1_1e3_256_20, lr = 1e-3, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --model_folder step4 --patience 20 \
+#              --train_path $trn --val_path $val      \
+#              --n_epochs 5 --lr 1e-3 --batch_size 256 \
+#              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e3_256_20 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e3_256_20.txt
 
 #echo "Evaluating model Lstm_16_16_1_1_1e3_256_20"
 #python ../eval_curves.py --test_path $tst \
@@ -2520,4 +2520,4 @@ python ../train_validation.py \
 # reports 2 excel
 
 echo "Creating summary of reports excel file"
-python ../trainevalcurves2excel.py --xls_name 'LSTM_step4' --archives_folder 'step4' --best 20
+python ../trainevalcurves2excel.py --xls_name 'LSTM_step4' --archives_folder 'step4' --best 40
