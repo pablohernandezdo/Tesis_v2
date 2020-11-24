@@ -128,6 +128,7 @@ def main():
     fsc = list(map(float, fsc))
 
     params = list(map(float, params))
+    thresholds = list(map(float, thresholds))
 
     pr_auc = list(map(float, pr_auc))
     roc_auc = list(map(float, roc_auc))
