@@ -41,7 +41,7 @@ class Cnn1_5k(nn.Module):
 
         self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
         self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 1000, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
         self.conv4 = nn.Conv1d(1000, 5000, 10)
         self.l1 = nn.Linear(5000, 1)
         self.p1 = nn.AvgPool1d(3)
