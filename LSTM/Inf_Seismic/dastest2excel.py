@@ -68,18 +68,18 @@ def main():
 
                 f.readline()
 
-                francia_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
-                nevada_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
-                belgica_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
-                reykjanes_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
+                francia_tp.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                nevada_tp.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                belgica_tp.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                reykjanes_tp.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
 
                 f.readline()
 
-                california_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
-                tides_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
-                utah_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
-                shaker_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
-                signals_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+                california_tn.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                tides_tn.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                utah_tn.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                shaker_tn.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
+                signals_tn.append(f.readline().split(":")[-1].strip().split("/")[0].strip())
 
                 f.readline()
                 f.readline()
