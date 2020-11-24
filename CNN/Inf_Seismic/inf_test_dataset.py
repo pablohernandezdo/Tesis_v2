@@ -1503,198 +1503,448 @@ def butter_bandpass_filter(dat, lowcut, highcut, fs, order=5):
 
 
 def get_classifier(x):
-    if x == '1c1h':
-        return CNN1P1H1h()
-    if x == '1c2h':
-        return CNN1P1H2h()
-    if x == '1c5h':
-        return CNN1P1H5h()
-    if x == '1c1k':
-        return CNN1P1H1k()
-    if x == '1c2k':
-        return CNN1P1H2k()
-    if x == '1c3k':
-        return CNN1P1H3k()
-    if x == '1c4k':
-        return CNN1P1H4k()
-    if x == '1c5k':
-        return CNN1P1H5k()
-    if x == '1c10k':
-        return CNN1P1H10k()
-    if x == '1c10k10k':
-        return CNN1P2H10k10k()
-    if x == '1c10k5k':
-        return CNN1P2H10k5k()
-    if x == '1c10k1k':
-        return CNN1P2H10k1k()
-    if x == '1c10k1h':
-        return CNN1P2H10k1h()
-    if x == '1c10k10':
-        return CNN1P2H10k10()
-    if x == '1c6k6k':
-        return CNN1P2H6k6k()
-    if x == '1c6k1k':
-        return CNN1P2H6k1k()
-    if x == '1c6k1h':
-        return CNN1P2H6k1h()
-    if x == '1c6k10':
-        return CNN1P2H6k10()
-    if x == '1c5k5k':
-        return CNN1P2H5k5k()
-    if x == '1c5k1k':
-        return CNN1P2H5k1k()
-    if x == '1c5k1h':
-        return CNN1P2H5k1h()
-    if x == '1c5k10':
-        return CNN1P2H5k10()
-    if x == '1c4k4k':
-        return CNN1P2H4k4k()
-    if x == '1c4k1k':
-        return CNN1P2H4k1k()
-    if x == '1c4k1h':
-        return CNN1P2H4k1h()
-    if x == '1c4k10':
-        return CNN1P2H4k10()
-    if x == '1c3k3k':
-        return CNN1P2H3k3k()
-    if x == '1c3k1k':
-        return CNN1P2H3k1k()
-    if x == '1c3k1h':
-        return CNN1P2H3k1h()
-    if x == '1c3k10':
-        return CNN1P2H3k10()
-    if x == '1c2k2k':
-        return CNN1P2H2k2k()
-    if x == '1c2k1k':
-        return CNN1P2H2k1k()
-    if x == '1c2k1h':
-        return CNN1P2H2k1h()
-    if x == '1c2k10':
-        return CNN1P2H2k10()
-    if x == '1c1k1k':
-        return CNN1P2H1k1k()
-    if x == '1c1k1h':
-        return CNN1P2H1k1h()
-    if x == '1c1k10':
-        return CNN1P2H1k10()
-    if x == '1c5h5h':
-        return CNN1P2H5h5h()
-    if x == '1c5h1h':
-        return CNN1P2H5h1h()
-    if x == '1c5h10':
-        return CNN1P2H5h10()
-    if x == '1c2h2h':
-        return CNN1P2H2h2h()
-    if x == '1c2h1h':
-        return CNN1P2H2h1h()
-    if x == '1c2h10':
-        return CNN1P2H2h10()
-    if x == '1c1h1h':
-        return CNN1P2H1h1h()
-    if x == '1c1h10':
-        return CNN1P2H1h10()
-    if x == '2c20k':
-        return CNN2P1H20k()
-    if x == '2c15k':
-        return CNN2P1H15k()
-    if x == '2c10k':
-        return CNN2P1H10k()
-    if x == '2c5k':
-        return CNN2P1H5k()
-    if x == '2c3k':
-        return CNN2P1H3k()
-    if x == '2c2k':
-        return CNN2P1H2k()
-    if x == '2c1k':
-        return CNN2P1H1k()
-    if x == '2c20k20k':
-        return CNN2P1H20k20k()
-    if x == '2c20k10k':
-        return CNN2P1H20k10k()
-    if x == '2c20k5k':
-        return CNN2P1H20k5k()
-    if x == '2c20k2k':
-        return CNN2P1H20k2k()
-    if x == '2c20k1k':
-        return CNN2P1H20k1k()
-    if x == '2c20k5h':
-        return CNN2P1H20k5h()
-    if x == '2c20k1h':
-        return CNN2P1H20k1h()
-    if x == '2c20k10':
-        return CNN2P1H20k10()
-    if x == '2c15k15k':
-        return CNN2P1H15k15k()
-    if x == '2c15k10k':
-        return CNN2P1H15k10k()
-    if x == '2c15k5k':
-        return CNN2P1H15k5k()
-    if x == '2c15k2k':
-        return CNN2P1H15k2k()
-    if x == '2c15k1k':
-        return CNN2P1H15k1k()
-    if x == '2c15k1h':
-        return CNN2P1H15k1h()
-    if x == '2c15k10':
-        return CNN2P1H15k10()
-    if x == '2c10k10k':
-        return CNN2P1H10k10k()
-    if x == '2c10k5k':
-        return CNN2P1H10k5k()
-    if x == '2c10k2k':
-        return CNN2P1H10k2k()
-    if x == '2c10k1k':
-        return CNN2P1H10k1k()
-    if x == '2c10k5h':
-        return CNN2P1H10k5h()
-    if x == '2c10k1h':
-        return CNN2P1H10k1h()
-    if x == '2c10k10':
-        return CNN2P1H10k10()
-    if x == '2c5k5k':
-        return CNN2P1H5k5k()
-    if x == '2c5k2k':
-        return CNN2P1H5k2k()
-    if x == '2c5k1k':
-        return CNN2P1H5k1k()
-    if x == '2c5k5h':
-        return CNN2P1H5k5h()
-    if x == '2c5k1h':
-        return CNN2P1H5k1h()
-    if x == '2c5k10':
-        return CNN2P1H5k10()
-    if x == '2c3k3k':
-        return CNN2P1H3k3k()
-    if x == '2c3k2k':
-        return CNN2P1H3k2k()
-    if x == '2c3k1k':
-        return CNN2P1H3k1k()
-    if x == '2c3k5h':
-        return CNN2P1H3k5h()
-    if x == '2c3k1h':
-        return CNN2P1H3k1h()
-    if x == '2c3k10':
-        return CNN2P1H3k10()
-    if x == '2c2k2k':
-        return CNN2P1H2k2k()
-    if x == '2c2k1k':
-        return CNN2P1H2k1k()
-    if x == '2c2k5h':
-        return CNN2P1H2k5h()
-    if x == '2c2k1h':
-        return CNN2P1H2k1h()
-    if x == '2c2k10':
-        return CNN2P1H2k10()
-    if x == '2c1k1k':
-        return CNN2P1H1k1k()
-    if x == '2c1k5h':
-        return CNN2P1H1k5h()
-    if x == '2c1k1h':
-        return CNN2P1H1k1h()
-    if x == '2c1k10':
-        return CNN2P1H1k10()
+    if x == 'Cnn1_6k':
+        return Cnn1_6k()
+    if x == 'Cnn1_5k':
+        return Cnn1_5k()
+    if x == 'Cnn1_4k':
+        return Cnn1_4k()
+    if x == 'Cnn1_3k':
+        return Cnn1_3k()
+    if x == 'Cnn1_2k':
+        return Cnn1_2k()
+    if x == 'Cnn1_1k':
+        return Cnn1_1k()
+    if x == 'Cnn1_5h':
+        return Cnn1_5h()
+    if x == 'Cnn1_2h':
+        return Cnn1_2h()
+    if x == 'Cnn1_5h':
+        return Cnn1_1h()
+    if x == 'Cnn1_10':
+        return Cnn1_10()
+    if x == 'Cnn1_6k_6k':
+        return Cnn1_6k_6k()
+    if x == 'Cnn1_6k_5k':
+        return Cnn1_6k_5k()
+    if x == 'Cnn1_6k_4k':
+        return Cnn1_6k_4k()
+    if x == 'Cnn1_6k_3k':
+        return Cnn1_6k_3k()
+    if x == 'Cnn1_6k_2k':
+        return Cnn1_6k_2k()
+    if x == 'Cnn1_6k_1k':
+        return Cnn1_6k_1k()
+    if x == 'Cnn1_6k_5h':
+        return Cnn1_6k_5h()
+    if x == 'Cnn1_6k_2h':
+        return Cnn1_6k_2h()
+    if x == 'Cnn1_6k_1h':
+        return Cnn1_6k_1h()
+    if x == 'Cnn1_6k_10':
+        return Cnn1_6k_10()
+    if x == 'Cnn1_5k_6k':
+        return Cnn1_5k_6k()
+    if x == 'Cnn1_5k_5k':
+        return Cnn1_5k_5k()
+    if x == 'Cnn1_5k_4k':
+        return Cnn1_5k_4k()
+    if x == 'Cnn1_5k_3k':
+        return Cnn1_5k_3k()
+    if x == 'Cnn1_5k_2k':
+        return Cnn1_5k_2k()
+    if x == 'Cnn1_5k_1k':
+        return Cnn1_5k_1k()
+    if x == 'Cnn1_5k_5h':
+        return Cnn1_5k_5h()
+    if x == 'Cnn1_5k_2h':
+        return Cnn1_5k_2h()
+    if x == 'Cnn1_5k_1h':
+        return Cnn1_5k_1h()
+    if x == 'Cnn1_5k_10':
+        return Cnn1_5k_10()
+    if x == 'Cnn1_4k_6k':
+        return Cnn1_4k_6k()
+    if x == 'Cnn1_4k_5k':
+        return Cnn1_4k_5k()
+    if x == 'Cnn1_4k_4k':
+        return Cnn1_4k_4k()
+    if x == 'Cnn1_4k_3k':
+        return Cnn1_4k_3k()
+    if x == 'Cnn1_4k_2k':
+        return Cnn1_4k_2k()
+    if x == 'Cnn1_4k_1k':
+        return Cnn1_4k_1k()
+    if x == 'Cnn1_4k_5h':
+        return Cnn1_4k_5h()
+    if x == 'Cnn1_4k_2h':
+        return Cnn1_4k_2h()
+    if x == 'Cnn1_4k_1h':
+        return Cnn1_4k_1h()
+    if x == 'Cnn1_4k_10':
+        return Cnn1_4k_10()
+    if x == 'Cnn1_3k_6k':
+        return Cnn1_3k_6k()
+    if x == 'Cnn1_3k_5k':
+        return Cnn1_3k_5k()
+    if x == 'Cnn1_3k_4k':
+        return Cnn1_3k_4k()
+    if x == 'Cnn1_3k_3k':
+        return Cnn1_3k_3k()
+    if x == 'Cnn1_3k_2k':
+        return Cnn1_3k_2k()
+    if x == 'Cnn1_3k_1k':
+        return Cnn1_3k_1k()
+    if x == 'Cnn1_3k_5h':
+        return Cnn1_3k_5h()
+    if x == 'Cnn1_3k_2h':
+        return Cnn1_3k_2h()
+    if x == 'Cnn1_3k_1h':
+        return Cnn1_3k_1h()
+    if x == 'Cnn1_3k_10':
+        return Cnn1_3k_10()
+    if x == 'Cnn1_2k_6k':
+        return Cnn1_2k_6k()
+    if x == 'Cnn1_2k_5k':
+        return Cnn1_2k_5k()
+    if x == 'Cnn1_2k_4k':
+        return Cnn1_2k_4k()
+    if x == 'Cnn1_2k_3k':
+        return Cnn1_2k_3k()
+    if x == 'Cnn1_2k_2k':
+        return Cnn1_2k_2k()
+    if x == 'Cnn1_2k_1k':
+        return Cnn1_2k_1k()
+    if x == 'Cnn1_2k_5h':
+        return Cnn1_2k_5h()
+    if x == 'Cnn1_2k_2h':
+        return Cnn1_2k_2h()
+    if x == 'Cnn1_2k_1h':
+        return Cnn1_2k_1h()
+    if x == 'Cnn1_2k_10':
+        return Cnn1_2k_10()
+    if x == 'Cnn1_1k_6k':
+        return Cnn1_1k_6k()
+    if x == 'Cnn1_1k_5k':
+        return Cnn1_1k_5k()
+    if x == 'Cnn1_1k_4k':
+        return Cnn1_1k_4k()
+    if x == 'Cnn1_1k_3k':
+        return Cnn1_1k_3k()
+    if x == 'Cnn1_1k_2k':
+        return Cnn1_1k_2k()
+    if x == 'Cnn1_1k_1k':
+        return Cnn1_1k_1k()
+    if x == 'Cnn1_1k_5h':
+        return Cnn1_1k_5h()
+    if x == 'Cnn1_1k_2h':
+        return Cnn1_1k_2h()
+    if x == 'Cnn1_1k_1h':
+        return Cnn1_1k_1h()
+    if x == 'Cnn1_1k_10':
+        return Cnn1_1k_10()
+    if x == 'Cnn1_5h_6k':
+        return Cnn1_5h_6k()
+    if x == 'Cnn1_5h_5k':
+        return Cnn1_5h_5k()
+    if x == 'Cnn1_5h_4k':
+        return Cnn1_5h_4k()
+    if x == 'Cnn1_5h_3k':
+        return Cnn1_5h_3k()
+    if x == 'Cnn1_5h_2k':
+        return Cnn1_5h_2k()
+    if x == 'Cnn1_5h_1k':
+        return Cnn1_5h_1k()
+    if x == 'Cnn1_5h_5h':
+        return Cnn1_5h_5h()
+    if x == 'Cnn1_5h_2h':
+        return Cnn1_5h_2h()
+    if x == 'Cnn1_5h_1h':
+        return Cnn1_5h_1h()
+    if x == 'Cnn1_5h_10':
+        return Cnn1_5h_10()
+    if x == 'Cnn1_2h_6k':
+        return Cnn1_2h_6k()
+    if x == 'Cnn1_2h_5k':
+        return Cnn1_2h_5k()
+    if x == 'Cnn1_2h_4k':
+        return Cnn1_2h_4k()
+    if x == 'Cnn1_2h_3k':
+        return Cnn1_2h_3k()
+    if x == 'Cnn1_2h_2k':
+        return Cnn1_2h_2k()
+    if x == 'Cnn1_2h_1k':
+        return Cnn1_2h_1k()
+    if x == 'Cnn1_2h_5h':
+        return Cnn1_2h_5h()
+    if x == 'Cnn1_2h_2h':
+        return Cnn1_2h_2h()
+    if x == 'Cnn1_2h_1h':
+        return Cnn1_2h_1h()
+    if x == 'Cnn1_2h_10':
+        return Cnn1_2h_10()
+    if x == 'Cnn1_1h_6k':
+        return Cnn1_1h_6k()
+    if x == 'Cnn1_1h_5k':
+        return Cnn1_1h_5k()
+    if x == 'Cnn1_1h_4k':
+        return Cnn1_1h_4k()
+    if x == 'Cnn1_1h_3k':
+        return Cnn1_1h_3k()
+    if x == 'Cnn1_1h_2k':
+        return Cnn1_1h_2k()
+    if x == 'Cnn1_1h_1k':
+        return Cnn1_1h_1k()
+    if x == 'Cnn1_1h_5h':
+        return Cnn1_1h_5h()
+    if x == 'Cnn1_1h_2h':
+        return Cnn1_1h_2h()
+    if x == 'Cnn1_1h_1h':
+        return Cnn1_1h_1h()
+    if x == 'Cnn1_1h_10':
+        return Cnn1_1h_10()
+    if x == 'Cnn1_10_6k':
+        return Cnn1_10_6k()
+    if x == 'Cnn1_10_5k':
+        return Cnn1_10_5k()
+    if x == 'Cnn1_10_4k':
+        return Cnn1_10_4k()
+    if x == 'Cnn1_10_3k':
+        return Cnn1_10_3k()
+    if x == 'Cnn1_10_2k':
+        return Cnn1_10_2k()
+    if x == 'Cnn1_10_1k':
+        return Cnn1_10_1k()
+    if x == 'Cnn1_10_5h':
+        return Cnn1_10_5h()
+    if x == 'Cnn1_10_2h':
+        return Cnn1_10_2h()
+    if x == 'Cnn1_10_1h':
+        return Cnn1_10_1h()
+    if x == 'Cnn1_10_10':
+        return Cnn1_10_10()
+    if x == 'Cnn2_6k':
+        return Cnn2_6k()
+    if x == 'Cnn2_5k':
+        return Cnn2_5k()
+    if x == 'Cnn2_4k':
+        return Cnn2_4k()
+    if x == 'Cnn2_3k':
+        return Cnn2_3k()
+    if x == 'Cnn2_2k':
+        return Cnn2_2k()
+    if x == 'Cnn2_1k':
+        return Cnn2_1k()
+    if x == 'Cnn2_5h':
+        return Cnn2_5h()
+    if x == 'Cnn2_2h':
+        return Cnn2_2h()
+    if x == 'Cnn2_5h':
+        return Cnn2_1h()
+    if x == 'Cnn2_10':
+        return Cnn2_10()
+    if x == 'Cnn2_6k_6k':
+        return Cnn2_6k_6k()
+    if x == 'Cnn2_6k_5k':
+        return Cnn2_6k_5k()
+    if x == 'Cnn2_6k_4k':
+        return Cnn2_6k_4k()
+    if x == 'Cnn2_6k_3k':
+        return Cnn2_6k_3k()
+    if x == 'Cnn2_6k_2k':
+        return Cnn2_6k_2k()
+    if x == 'Cnn2_6k_1k':
+        return Cnn2_6k_1k()
+    if x == 'Cnn2_6k_5h':
+        return Cnn2_6k_5h()
+    if x == 'Cnn2_6k_2h':
+        return Cnn2_6k_2h()
+    if x == 'Cnn2_6k_1h':
+        return Cnn2_6k_1h()
+    if x == 'Cnn2_6k_10':
+        return Cnn2_6k_10()
+    if x == 'Cnn2_5k_6k':
+        return Cnn2_5k_6k()
+    if x == 'Cnn2_5k_5k':
+        return Cnn2_5k_5k()
+    if x == 'Cnn2_5k_4k':
+        return Cnn2_5k_4k()
+    if x == 'Cnn2_5k_3k':
+        return Cnn2_5k_3k()
+    if x == 'Cnn2_5k_2k':
+        return Cnn2_5k_2k()
+    if x == 'Cnn2_5k_1k':
+        return Cnn2_5k_1k()
+    if x == 'Cnn2_5k_5h':
+        return Cnn2_5k_5h()
+    if x == 'Cnn2_5k_2h':
+        return Cnn2_5k_2h()
+    if x == 'Cnn2_5k_1h':
+        return Cnn2_5k_1h()
+    if x == 'Cnn2_5k_10':
+        return Cnn2_5k_10()
+    if x == 'Cnn2_4k_6k':
+        return Cnn2_4k_6k()
+    if x == 'Cnn2_4k_5k':
+        return Cnn2_4k_5k()
+    if x == 'Cnn2_4k_4k':
+        return Cnn2_4k_4k()
+    if x == 'Cnn2_4k_3k':
+        return Cnn2_4k_3k()
+    if x == 'Cnn2_4k_2k':
+        return Cnn2_4k_2k()
+    if x == 'Cnn2_4k_1k':
+        return Cnn2_4k_1k()
+    if x == 'Cnn2_4k_5h':
+        return Cnn2_4k_5h()
+    if x == 'Cnn2_4k_2h':
+        return Cnn2_4k_2h()
+    if x == 'Cnn2_4k_1h':
+        return Cnn2_4k_1h()
+    if x == 'Cnn2_4k_10':
+        return Cnn2_4k_10()
+    if x == 'Cnn2_3k_6k':
+        return Cnn2_3k_6k()
+    if x == 'Cnn2_3k_5k':
+        return Cnn2_3k_5k()
+    if x == 'Cnn2_3k_4k':
+        return Cnn2_3k_4k()
+    if x == 'Cnn2_3k_3k':
+        return Cnn2_3k_3k()
+    if x == 'Cnn2_3k_2k':
+        return Cnn2_3k_2k()
+    if x == 'Cnn2_3k_1k':
+        return Cnn2_3k_1k()
+    if x == 'Cnn2_3k_5h':
+        return Cnn2_3k_5h()
+    if x == 'Cnn2_3k_2h':
+        return Cnn2_3k_2h()
+    if x == 'Cnn2_3k_1h':
+        return Cnn2_3k_1h()
+    if x == 'Cnn2_3k_10':
+        return Cnn2_3k_10()
+    if x == 'Cnn2_2k_6k':
+        return Cnn2_2k_6k()
+    if x == 'Cnn2_2k_5k':
+        return Cnn2_2k_5k()
+    if x == 'Cnn2_2k_4k':
+        return Cnn2_2k_4k()
+    if x == 'Cnn2_2k_3k':
+        return Cnn2_2k_3k()
+    if x == 'Cnn2_2k_2k':
+        return Cnn2_2k_2k()
+    if x == 'Cnn2_2k_1k':
+        return Cnn2_2k_1k()
+    if x == 'Cnn2_2k_5h':
+        return Cnn2_2k_5h()
+    if x == 'Cnn2_2k_2h':
+        return Cnn2_2k_2h()
+    if x == 'Cnn2_2k_1h':
+        return Cnn2_2k_1h()
+    if x == 'Cnn2_2k_10':
+        return Cnn2_2k_10()
+    if x == 'Cnn2_1k_6k':
+        return Cnn2_1k_6k()
+    if x == 'Cnn2_1k_5k':
+        return Cnn2_1k_5k()
+    if x == 'Cnn2_1k_4k':
+        return Cnn2_1k_4k()
+    if x == 'Cnn2_1k_3k':
+        return Cnn2_1k_3k()
+    if x == 'Cnn2_1k_2k':
+        return Cnn2_1k_2k()
+    if x == 'Cnn2_1k_1k':
+        return Cnn2_1k_1k()
+    if x == 'Cnn2_1k_5h':
+        return Cnn2_1k_5h()
+    if x == 'Cnn2_1k_2h':
+        return Cnn2_1k_2h()
+    if x == 'Cnn2_1k_1h':
+        return Cnn2_1k_1h()
+    if x == 'Cnn2_1k_10':
+        return Cnn2_1k_10()
+    if x == 'Cnn2_5h_6k':
+        return Cnn2_5h_6k()
+    if x == 'Cnn2_5h_5k':
+        return Cnn2_5h_5k()
+    if x == 'Cnn2_5h_4k':
+        return Cnn2_5h_4k()
+    if x == 'Cnn2_5h_3k':
+        return Cnn2_5h_3k()
+    if x == 'Cnn2_5h_2k':
+        return Cnn2_5h_2k()
+    if x == 'Cnn2_5h_1k':
+        return Cnn2_5h_1k()
+    if x == 'Cnn2_5h_5h':
+        return Cnn2_5h_5h()
+    if x == 'Cnn2_5h_2h':
+        return Cnn2_5h_2h()
+    if x == 'Cnn2_5h_1h':
+        return Cnn2_5h_1h()
+    if x == 'Cnn2_5h_10':
+        return Cnn2_5h_10()
+    if x == 'Cnn2_2h_6k':
+        return Cnn2_2h_6k()
+    if x == 'Cnn2_2h_5k':
+        return Cnn2_2h_5k()
+    if x == 'Cnn2_2h_4k':
+        return Cnn2_2h_4k()
+    if x == 'Cnn2_2h_3k':
+        return Cnn2_2h_3k()
+    if x == 'Cnn2_2h_2k':
+        return Cnn2_2h_2k()
+    if x == 'Cnn2_2h_1k':
+        return Cnn2_2h_1k()
+    if x == 'Cnn2_2h_5h':
+        return Cnn2_2h_5h()
+    if x == 'Cnn2_2h_2h':
+        return Cnn2_2h_2h()
+    if x == 'Cnn2_2h_1h':
+        return Cnn2_2h_1h()
+    if x == 'Cnn2_2h_10':
+        return Cnn2_2h_10()
+    if x == 'Cnn2_1h_6k':
+        return Cnn2_1h_6k()
+    if x == 'Cnn2_1h_5k':
+        return Cnn2_1h_5k()
+    if x == 'Cnn2_1h_4k':
+        return Cnn2_1h_4k()
+    if x == 'Cnn2_1h_3k':
+        return Cnn2_1h_3k()
+    if x == 'Cnn2_1h_2k':
+        return Cnn2_1h_2k()
+    if x == 'Cnn2_1h_1k':
+        return Cnn2_1h_1k()
+    if x == 'Cnn2_1h_5h':
+        return Cnn2_1h_5h()
+    if x == 'Cnn2_1h_2h':
+        return Cnn2_1h_2h()
+    if x == 'Cnn2_1h_1h':
+        return Cnn2_1h_1h()
+    if x == 'Cnn2_1h_10':
+        return Cnn2_1h_10()
+    if x == 'Cnn2_10_6k':
+        return Cnn2_10_6k()
+    if x == 'Cnn2_10_5k':
+        return Cnn2_10_5k()
+    if x == 'Cnn2_10_4k':
+        return Cnn2_10_4k()
+    if x == 'Cnn2_10_3k':
+        return Cnn2_10_3k()
+    if x == 'Cnn2_10_2k':
+        return Cnn2_10_2k()
+    if x == 'Cnn2_10_1k':
+        return Cnn2_10_1k()
+    if x == 'Cnn2_10_5h':
+        return Cnn2_10_5h()
+    if x == 'Cnn2_10_2h':
+        return Cnn2_10_2h()
+    if x == 'Cnn2_10_1h':
+        return Cnn2_10_1h()
+    if x == 'Cnn2_10_10':
+        return Cnn2_10_10()
     else:
-        return CNN2P1H1k10()
+        return Cnn2_10_10()
 
 
 if __name__ == "__main__":
