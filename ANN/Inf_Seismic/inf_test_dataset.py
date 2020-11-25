@@ -153,14 +153,10 @@ def main():
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
 
-    # Confusion matrix
+    # Normalized confusion matrix
     plot_confusion_matrix(cm, target_names,
                           title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
-                          filename=f'../Analysis/Confusion_matrices/{args.model_folder}/Confusion_matrix_{args.model_name}.png', normalize=False)
-
-    # Normalized confusion matrix
-    plot_confusion_matrix(cm, target_names, title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
-                          filename=f'../Analysis/Confusion_matrices/{args.model_folder}/Confusion_matrix_norm_{args.model_name}.png')
+                          filename=f'../Analysis/Confusion_matrices/{args.model_folder}/Confusion_matrix_das_{args.model_name}.png')
 
     # F-score vs thresholds curve
     plt.figure()

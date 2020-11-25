@@ -165,8 +165,8 @@ def main():
 
     # Confusion matrix
     plot_confusion_matrix(cm, target_names,
-                          title=f'Confusion matrix {args.model_name} train, threshold = {best_thresh}',
-                          filename=f'../Analysis/Confusion_matrices/{args.model_folder}/Confusion_matrix_test_{args.model_name}.png')
+                          title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
+                          filename=f'../Analysis/Confusion_matrices/{args.model_folder}/Confusion_matrix_STEAD_{args.model_name}.png')
 
     # F-score vs thresholds curve
     plt.figure()
