@@ -2,7 +2,7 @@
 
 mkdir -p ../Analysis/logs/itd
 
-mf="step5"
+mf="step4"
 
 # Test dataset inference on 2h2k5k_5e5_256_25 model
 echo "Running DAS test dataset inference on 2h2k5k_5e5_256_25 model"
