@@ -34,7 +34,7 @@ def main():
     Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
     # Select training device
-    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     # Load specified Classifier
     net = get_classifier(args.classifier)
@@ -63,7 +63,8 @@ def main():
     best_thresh = 0
 
     # Threshold values
-    thresholds = np.arange(0.05, 1, 0.05)
+    # thresholds = np.arange(0.05, 1, 0.05)
+    thresholds = [0.05]
 
     # Round threshold values
     thresholds = np.around(thresholds, decimals=2)
