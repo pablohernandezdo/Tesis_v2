@@ -125,7 +125,8 @@ def main():
 
     print(len(tr_tp))
     for i in tr_tp:
-        print(i)
+        if i == '':
+            print('YAS')
 
     # Arrays to floats
     tr_tp = list(map(float, tr_tp))
