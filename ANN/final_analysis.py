@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
-    Path("../Analysis/Final").mkdir(exist_ok=True)
+    Path("../Analysis/Final/Averages").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Final/PR_curves").mkdir(exist_ok=True)
+    Path("../Analysis/Final/ROC_curves").mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--step4_folder', default='default', help='Best step4 models log folder')
@@ -290,7 +292,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Curves_parameters/best_PR_ann.png')
+    plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
 
     # Curva ROC
     plt.figure()
@@ -309,7 +311,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Curves_parameters/best_ROC_ann.png')
+    plt.savefig(f'../Analysis/Final/Averages/best_ROC_ann.png')
 
     # Curva Fscore
     plt.figure()
@@ -326,7 +328,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Curves_parameters/best_Fscore_ann.png')
+    plt.savefig(f'../Analysis/Final/Averages/best_Fscore_ann.png')
 
     #  Comparar las curvas de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
