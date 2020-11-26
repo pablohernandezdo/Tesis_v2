@@ -124,24 +124,26 @@ def main():
             avg_pr_aucs.append(f.readline().split(":")[-1].strip())
             avg_roc_aucs.append(f.readline().split(":")[-1].strip())
 
-            # print(f'rec: {rec}\npre: {pre}\nfpr: {fpr}\nfsc: {fsc}')
-
             avg_pre = list(map(float, avg_pre))
             avg_rec = list(map(float, avg_rec))
             avg_fpr = list(map(float, avg_fpr))
             avg_fsc = list(map(float, avg_fsc))
             thresholds = list(map(float, thresholds))
 
-            avg_best_fscores = list(map(float, avg_best_fscores))
-            avg_pr_aucs = list(map(float, avg_pr_aucs))
-            avg_roc_aucs = list(map(float, avg_roc_aucs))
-
             # Aqui armar la curva y agregarlas a la lista mayor
             avg_pr_curves.append([avg_rec, avg_pre])
             avg_roc_curves.append([avg_fpr, avg_rec])
             avg_fscore_curves.append([thresholds, avg_fsc])
 
-    thresholds = []
+            avg_pre = []
+            avg_rec = []
+            avg_fpr = []
+            avg_fsc = []
+            thresholds = []
+
+    avg_best_fscores = list(map(float, avg_best_fscores))
+    avg_pr_aucs = list(map(float, avg_pr_aucs))
+    avg_roc_aucs = list(map(float, avg_roc_aucs))
 
     for f_name in best_models:
         with open(os.path.join(step4_eval_wkdir, f_name), 'r') as f:
@@ -196,16 +198,20 @@ def main():
             step4_fsc = list(map(float, step4_fsc))
             thresholds = list(map(float, thresholds))
 
-            step4_best_fscores = list(map(float, avg_best_fscores))
-            step4_pr_aucs = list(map(float, avg_pr_aucs))
-            step4_roc_aucs = list(map(float, avg_roc_aucs))
-
             # Aqui armar la curva y agregarlas a la lista mayor
             step4_pr_curves.append([step4_rec, step4_pre])
             step4_roc_curves.append([step4_fpr, step4_rec])
             step4_fscore_curves.append([thresholds, step4_fsc])
 
-    thresholds = []
+            step4_pre = []
+            step4_rec = []
+            step4_fpr = []
+            step4_fsc = []
+            thresholds = []
+
+    step4_best_fscores = list(map(float, step4_best_fscores))
+    step4_pr_aucs = list(map(float, step4_pr_aucs))
+    step4_roc_aucs = list(map(float, step4_roc_aucs))
 
     for f_name in best_models:
         with open(os.path.join(step5_eval_wkdir, f_name), 'r') as f:
@@ -273,38 +279,41 @@ def main():
             step5_fsc = list(map(float, step5_fsc))
             thresholds = list(map(float, thresholds))
 
-            step5_best_fscores = list(map(float, step5_best_fscores))
-            step5_pr_aucs = list(map(float, step5_pr_aucs))
-            step5_roc_aucs = list(map(float, step5_roc_aucs))
-
             # Aqui armar la curva y agregarlas a la lista mayor
             step5_pr_curves.append([step5_rec, step5_pre])
             step5_roc_curves.append([step5_fpr, step5_rec])
             step5_fscore_curves.append([thresholds, step5_fsc])
 
+            step5_pre = []
+            step5_rec = []
+            step5_fpr = []
+            step5_fsc = []
+            thresholds = []
+
+    step5_best_fscores = list(map(float, step5_best_fscores))
+    step5_pr_aucs = list(map(float, step5_pr_aucs))
+    step5_roc_aucs = list(map(float, step5_roc_aucs))
+
     # Comparacion mejores curvas step4 y modelos promedio
 
     # Curvas PR
-    # plt.figure()
+    plt.figure()
 
-    print(avg_pr_curves[0])
-    print(avg_pr_curves[1])
+    for crv in avg_pr_curves:
+        plt.plot(crv[0], crv[1])
 
-    # for crv in avg_pr_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # for crv in step4_pr_curves:
-    # #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.hlines(0.5, 0, 1, 'b', '--')
-    # plt.title(f'PR curves best models ANN')
-    # plt.xlabel('Recall')
-    # plt.ylabel('Precision')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(0.48, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
+    for crv in step4_pr_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models ANN')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
 
     # Curva ROC
     # plt.figure()
