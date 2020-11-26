@@ -124,9 +124,9 @@ def main():
             params.append(f.readline().split(":")[-1].strip())
 
     print(len(tr_tp))
-    for i in tr_tp:
-        if i == '':
-            print('YAS')
+    for i, el in enumerate(tr_tp):
+        if el == '':
+            print(f'YAS, {i}')
 
     # Arrays to floats
     tr_tp = list(map(float, tr_tp))
