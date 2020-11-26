@@ -344,8 +344,8 @@ def main():
         mdl = mdl.split('.')[0].strip()
         plt.figure()
 
-        line_st4 = plt.plot(pr_step4[0], pr_step4[1], label="STEAD PR curve")
-        line_st5 = plt.plot(pr_step5[0], pr_step5[1], label="DAS PR curve")
+        line_st4, = plt.plot(pr_step4[0], pr_step4[1], label="STEAD PR curve")
+        line_st5, = plt.plot(pr_step5[0], pr_step5[1], label="DAS PR curve")
 
         plt.title(f'Comparacion curva PR STEAD y DAS modelo {mdl}')
         plt.xlabel('Recall')
