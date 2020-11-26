@@ -288,6 +288,7 @@ def main():
     # plt.figure()
 
     print(avg_pr_curves[0])
+    print(avg_pr_curves[1])
 
     # for crv in avg_pr_curves:
     #     plt.plot(crv[0], crv[1])
