@@ -253,6 +253,8 @@ def main():
             step5_pr_aucs.append(f.readline().split(":")[-1].strip())
             step5_roc_aucs.append(f.readline().split(":")[-1].strip())
 
+            print(step5_pre)
+
             step5_pre = list(map(float, step5_pre))
             step5_rec = list(map(float, step5_rec))
             step5_fpr = list(map(float, step5_fpr))
