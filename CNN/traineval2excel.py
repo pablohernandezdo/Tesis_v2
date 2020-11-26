@@ -124,7 +124,7 @@ def main():
             params.append(f.readline().split(":")[-1].strip())
 
     print(eval_files[17])
-    
+
     # print(len(tr_tp))
     # for i, el in enumerate(tr_tp):
     #     if el == '':
