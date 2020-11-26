@@ -30,7 +30,7 @@ def main():
     best_models = args.best_models.strip().split(' ')
     avg_models = args.avg_models.strip().split(' ')
 
-    # Variable preallocating
+    # Metrics
     thresholds = []
 
     step4_pre = []
@@ -38,37 +38,40 @@ def main():
     step4_fpr = []
     step4_fsc = []
 
-    step4_pr_curves = []
-    step4_roc_curves = []
-    step4_fscore_curves = []
-
-    step4_pr_aucs = []
-    step4_roc_aucs = []
-
     step5_pre = []
     step5_rec = []
     step5_fpr = []
     step5_fsc = []
-
-    step5_pr_curves = []
-    step5_roc_curves = []
-    step5_fscore_curves = []
-
-    step5_pr_aucs = []
-    step5_roc_aucs = []
 
     avg_pre = []
     avg_rec = []
     avg_fpr = []
     avg_fsc = []
 
+    # Lists of PR, ROC and Fscore curves
+    step4_pr_curves = []
+    step4_roc_curves = []
+    step4_fscore_curves = []
+
+    step5_pr_curves = []
+    step5_roc_curves = []
+    step5_fscore_curves = []
+
     avg_pr_curves = []
     avg_roc_curves = []
     avg_fscore_curves = []
 
+    # PR and ROC AUCs
+    step4_pr_aucs = []
+    step4_roc_aucs = []
+
+    step5_pr_aucs = []
+    step5_roc_aucs = []
+
     avg_pr_aucs = []
     avg_roc_aucs = []
 
+    # Best Fscores
     avg_best_fscores = []
     step4_best_fscores = []
     step5_best_fscores = []
@@ -268,62 +271,78 @@ def main():
             step5_roc_curves.append([step5_fpr, step5_rec])
             step5_fscore_curves.append([thresholds, step5_fsc])
 
-    # # Curvas PR
-    # plt.figure()
-    #
-    # for crv in avg_pr_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # for crv in pr_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.hlines(0.5, 0, 1, 'b', '--')
-    # plt.title(f'PR curves best models ANN')
-    # plt.xlabel('Recall')
-    # plt.ylabel('Precision')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(0.48, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Curves_parameters/best_PR_ann.png')
-    #
-    # # Curva ROC
-    # plt.figure()
-    #
-    # for crv in avg_roc_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # for crv in roc_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.plot([0, 1], [0, 1], 'b--')
-    # plt.title(f'ROC curves best models ANN')
-    # plt.xlabel('False Positive Rate')
-    # plt.ylabel('Recall')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(-0.02, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Curves_parameters/best_ROC_ann.png')
-    #
-    # # Curva Fscore
-    # plt.figure()
-    #
-    # for crv in avg_fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # for crv in fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # plt.title(f'Fscore vs thresholds curves best models ANN')
-    # plt.xlabel('Threshold')
-    # plt.ylabel('F-score')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(-0.02, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Curves_parameters/best_Fscore_ann.png')
-    #
-    # # Comparar las curvas de STEAD Y DAS, calculando el area bajo la curva de Fcore vs umbrales
+    # Comparacion mejores curvas step4 y modelos promedio
+
+    # Curvas PR
+    plt.figure()
+
+    for crv in avg_pr_curves:
+        plt.plot(crv[0], crv[1])
+
+    for crv in step4_pr_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models ANN')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Curves_parameters/best_PR_ann.png')
+
+    # Curva ROC
+    plt.figure()
+
+    for crv in avg_roc_curves:
+        plt.plot(crv[0], crv[1])
+
+    for crv in step4_roc_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curves best models ANN')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Curves_parameters/best_ROC_ann.png')
+
+    # Curva Fscore
+    plt.figure()
+
+    for crv in avg_fscore_curves:
+        plt.plot(crv[0], crv[1])
+
+    for crv in step4_fscore_curves:
+        plt.plot(crv[0], crv[1])
+
+    plt.title(f'Fscore vs thresholds curves best models ANN')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Curves_parameters/best_Fscore_ann.png')
+
+    #  Comparar las curvas de STEAD Y DAS
+    for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
+        plt.figure()
+
+        line_st4 = plt.plot(pr_step4[0], pr_step4[1], label="STEAD PR curve")
+        line_st5 = plt.plot(pr_step5[0], pr_step5[1], label="DAS PR curve")
+
+        plt.title(f'Comparacion curva PR STEAD y DAS modelo {mdl}')
+        plt.xlabel('Recall')
+        plt.ylabel('Precision')
+        plt.xlim(-0.02, 1.02)
+        plt.ylim(0.48, 1.02)
+        plt.grid(True)
+        plt.legend(handles=[line_st4, line_st5], loc='best')
+        plt.savefig(f'../Analysis/Final/PR_curves/{mdl}/Comparacion_PR_{mdl}.png')
 
 
 if __name__ == "__main__":
