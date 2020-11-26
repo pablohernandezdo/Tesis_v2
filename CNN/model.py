@@ -2015,7 +2015,7 @@ class Cnn1_1k_5k(nn.Module):
         self.bn1 = nn.BatchNorm1d(50)
         self.bn2 = nn.BatchNorm1d(100)
         self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(1000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
