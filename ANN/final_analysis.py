@@ -202,41 +202,41 @@ def main():
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
 
-                # Skip non-useful lines
+                # Space after threshold
                 f.readline()
 
-                f.readline()
-                f.readline()
-                f.readline()
-                f.readline()
-
+                # True positives
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
 
+                # Space
                 f.readline()
 
-                f.readline()
-                f.readline()
-                f.readline()
-                f.readline()
-
+                # True negatives
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
 
+                # Space
+                f.readline()
+
+                # Total seismic, non-seismic
+                f.readline()
+                f.readline()
+
+                # Space
+                f.readline()
+
+                # Total TP, TN, FP, FN
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
 
-                f.readline()
-                f.readline()
-                f.readline()
-                f.readline()
-
+                # Space and Accuracy
                 f.readline()
                 f.readline()
 
