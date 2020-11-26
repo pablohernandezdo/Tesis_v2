@@ -132,6 +132,10 @@ def main():
             avg_fsc = list(map(float, avg_fsc))
             thresholds = list(map(float, thresholds))
 
+            avg_best_fscores = list(map(float, avg_best_fscores))
+            avg_pr_aucs = list(map(float, avg_pr_aucs))
+            avg_roc_aucs = list(map(float, avg_roc_aucs))
+
             # Aqui armar la curva y agregarlas a la lista mayor
             avg_pr_curves.append([avg_rec, avg_pre])
             avg_roc_curves.append([avg_fpr, avg_rec])
@@ -191,6 +195,10 @@ def main():
             step4_fpr = list(map(float, step4_fpr))
             step4_fsc = list(map(float, step4_fsc))
             thresholds = list(map(float, thresholds))
+
+            step4_best_fscores = list(map(float, avg_best_fscores))
+            step4_pr_aucs = list(map(float, avg_pr_aucs))
+            step4_roc_aucs = list(map(float, avg_roc_aucs))
 
             # Aqui armar la curva y agregarlas a la lista mayor
             step4_pr_curves.append([step4_rec, step4_pre])
@@ -263,10 +271,11 @@ def main():
             step5_rec = list(map(float, step5_rec))
             step5_fpr = list(map(float, step5_fpr))
             step5_fsc = list(map(float, step5_fsc))
+            thresholds = list(map(float, thresholds))
+
             step5_best_fscores = list(map(float, step5_best_fscores))
             step5_pr_aucs = list(map(float, step5_pr_aucs))
             step5_roc_aucs = list(map(float, step5_roc_aucs))
-            thresholds = list(map(float, thresholds))
 
             # Aqui armar la curva y agregarlas a la lista mayor
             step5_pr_curves.append([step5_rec, step5_pre])
@@ -333,10 +342,6 @@ def main():
     #  Comparar las curvas de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
-        print(pr_step4)
-        # print(pr_step5)
-        print(mdl)
-        break
         plt.figure()
 
         line_st4 = plt.plot(pr_step4[0], pr_step4[1], label="STEAD PR curve")
@@ -350,6 +355,7 @@ def main():
         plt.grid(True)
         plt.legend(handles=[line_st4, line_st5], loc='best')
         plt.savefig(f'../Analysis/Final/PR_curves/{mdl}/Comparacion_PR_{mdl}.png')
+        break
 
 
 if __name__ == "__main__":
