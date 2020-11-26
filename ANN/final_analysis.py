@@ -285,23 +285,25 @@ def main():
     # Comparacion mejores curvas step4 y modelos promedio
 
     # Curvas PR
-    plt.figure()
+    # plt.figure()
 
-    for crv in avg_pr_curves:
-        plt.plot(crv[0], crv[1])
-
-    # for crv in step4_pr_curves:
+    print(avg_pr_curves)
+    
+    # for crv in avg_pr_curves:
     #     plt.plot(crv[0], crv[1])
-
-    # Dumb model line
-    plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR curves best models ANN')
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(0.48, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
+    #
+    # # for crv in step4_pr_curves:
+    # #     plt.plot(crv[0], crv[1])
+    #
+    # # Dumb model line
+    # plt.hlines(0.5, 0, 1, 'b', '--')
+    # plt.title(f'PR curves best models ANN')
+    # plt.xlabel('Recall')
+    # plt.ylabel('Precision')
+    # plt.xlim(-0.02, 1.02)
+    # plt.ylim(0.48, 1.02)
+    # plt.grid(True)
+    # plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
 
     # Curva ROC
     # plt.figure()
