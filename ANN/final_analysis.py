@@ -197,9 +197,6 @@ def main():
     for f_name in best_models:
         with open(os.path.join(step5_eval_wkdir, f_name), 'r') as f:
 
-            f.readline()
-            f.readline()
-
             for _ in range(args.n_thresh):
 
                 thresh = f.readline().split(':')[-1].strip()
@@ -207,6 +204,7 @@ def main():
 
                 # Skip non-useful lines
                 f.readline()
+
                 f.readline()
                 f.readline()
                 f.readline()
@@ -216,9 +214,30 @@ def main():
                 f.readline()
                 f.readline()
                 f.readline()
+
                 f.readline()
 
-                # acc
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                f.readline()
                 f.readline()
 
                 # Read metrics
@@ -228,23 +247,19 @@ def main():
                 step5_fsc.append(f.readline().split(":")[-1].strip())
 
                 f.readline()
-                f.readline()
-                f.readline()
 
             # Terminar de leer el archivo
             step5_best_fscores.append(f.readline().split(",")[-1].strip().split(":")[-1].strip())
-
-            f.readline()
-
             step5_pr_aucs.append(f.readline().split(":")[-1].strip())
             step5_roc_aucs.append(f.readline().split(":")[-1].strip())
-
-            # print(f'rec: {rec}\npre: {pre}\nfpr: {fpr}\nfsc: {fsc}')
 
             step5_pre = list(map(float, step5_pre))
             step5_rec = list(map(float, step5_rec))
             step5_fpr = list(map(float, step5_fpr))
             step5_fsc = list(map(float, step5_fsc))
+            step5_best_fscores = list(map(float, step5_best_fscores))
+            step5_pr_aucs = list(map(float, step5_pr_aucs))
+            step5_roc_aucs = list(map(float, step5_roc_aucs))
             thresholds = list(map(float, thresholds))
 
             # Aqui armar la curva y agregarlas a la lista mayor
