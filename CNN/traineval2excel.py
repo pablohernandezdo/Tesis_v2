@@ -123,6 +123,8 @@ def main():
 
             params.append(f.readline().split(":")[-1].strip())
 
+    print(tr_tp)
+    
     # Arrays to floats
     tr_tp = list(map(float, tr_tp))
     tr_tn = list(map(float, tr_tn))
