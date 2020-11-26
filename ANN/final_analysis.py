@@ -354,7 +354,7 @@ def main():
         plt.ylim(0.48, 1.02)
         plt.grid(True)
         plt.legend(handles=[line_st4, line_st5], loc='best')
-        plt.savefig(f'../Analysis/Final/PR_curves/{mdl}/Comparacion_PR_{mdl}.png')
+        plt.savefig(f'../Analysis/Final/PR_curves/Comparacion_PR_{mdl}.png')
         break
 
 
