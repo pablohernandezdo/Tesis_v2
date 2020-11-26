@@ -123,10 +123,12 @@ def main():
 
             params.append(f.readline().split(":")[-1].strip())
 
-    print(len(tr_tp))
-    for i, el in enumerate(tr_tp):
-        if el == '':
-            print(f'YAS, {i}')
+    print(eval_files[17])
+    
+    # print(len(tr_tp))
+    # for i, el in enumerate(tr_tp):
+    #     if el == '':
+    #         print(f'YAS, {i}')
 
     # Arrays to floats
     tr_tp = list(map(float, tr_tp))
