@@ -332,6 +332,10 @@ def main():
 
     #  Comparar las curvas de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
+        print(pr_step4)
+        print(pr_step5)
+        print(mdl)
+        break
         plt.figure()
 
         line_st4 = plt.plot(pr_step4[0], pr_step4[1], label="STEAD PR curve")
