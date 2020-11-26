@@ -334,7 +334,7 @@ def main():
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         print(pr_step4)
-        print(pr_step5)
+        # print(pr_step5)
         print(mdl)
         break
         plt.figure()
