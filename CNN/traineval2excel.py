@@ -124,7 +124,8 @@ def main():
             params.append(f.readline().split(":")[-1].strip())
 
     print(len(tr_tp))
-    print(tr_tp)
+    for i in tr_tp:
+        print(i)
 
     # Arrays to floats
     tr_tp = list(map(float, tr_tp))
