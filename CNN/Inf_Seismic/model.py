@@ -4,21 +4,21 @@ import torch.nn.functional as F
 # CNN TIPO 1 CON UNA CAPA LINEAL
 
 
-class CNN1P1H1h(nn.Module):
+class Cnn1_6k(nn.Module):
     def __init__(self):
-        super(CNN1P1H1h, self).__init__()
+        super(Cnn1_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
-        self.conv3 = nn.Conv1d(50, 80, 2, stride=2)
-        self.conv4 = nn.Conv1d(80, 100, 10)
-        self.l1 = nn.Linear(100, 1)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(50)
-        self.bn3 = nn.BatchNorm1d(80)
-        self.bn4 = nn.BatchNorm1d(100)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -35,21 +35,21 @@ class CNN1P1H1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P1H2h(nn.Module):
+class Cnn1_5k(nn.Module):
     def __init__(self):
-        super(CNN1P1H2h, self).__init__()
+        super(Cnn1_5k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
-        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
-        self.conv4 = nn.Conv1d(100, 200, 10)
-        self.l1 = nn.Linear(200, 1)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(50)
-        self.bn3 = nn.BatchNorm1d(100)
-        self.bn4 = nn.BatchNorm1d(200)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -66,9 +66,133 @@ class CNN1P1H2h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P1H5h(nn.Module):
+class Cnn1_4k(nn.Module):
     def __init__(self):
-        super(CNN1P1H5h, self).__init__()
+        super(Cnn1_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = self.l1(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = self.l1(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = self.l1(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = self.l1(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
@@ -97,21 +221,21 @@ class CNN1P1H5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P1H1k(nn.Module):
+class Cnn1_2h(nn.Module):
     def __init__(self):
-        super(CNN1P1H1k, self).__init__()
+        super(Cnn1_2h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 1000, 10)
-        self.l1 = nn.Linear(1000, 1)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
         self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -128,21 +252,21 @@ class CNN1P1H1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P1H2k(nn.Module):
+class Cnn1_1h(nn.Module):
     def __init__(self):
-        super(CNN1P1H2k, self).__init__()
+        super(Cnn1_1h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv4 = nn.Conv1d(1000, 2000, 10)
-        self.l1 = nn.Linear(2000, 1)
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(1000)
-        self.bn4 = nn.BatchNorm1d(2000)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -159,145 +283,21 @@ class CNN1P1H2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P1H3k(nn.Module):
+class Cnn1_10(nn.Module):
     def __init__(self):
-        super(CNN1P1H3k, self).__init__()
+        super(Cnn1_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv4 = nn.Conv1d(1000, 3000, 10)
-        self.l1 = nn.Linear(3000, 1)
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(1000)
-        self.bn4 = nn.BatchNorm1d(3000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = self.l1(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P1H4k(nn.Module):
-    def __init__(self):
-        super(CNN1P1H4k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv4 = nn.Conv1d(1000, 4000, 10)
-        self.l1 = nn.Linear(4000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(1000)
-        self.bn4 = nn.BatchNorm1d(4000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = self.l1(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P1H5k(nn.Module):
-    def __init__(self):
-        super(CNN1P1H5k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv4 = nn.Conv1d(1000, 5000, 10)
-        self.l1 = nn.Linear(5000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(1000)
-        self.bn4 = nn.BatchNorm1d(5000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = self.l1(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P1H6k(nn.Module):
-    def __init__(self):
-        super(CNN1P1H6k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv4 = nn.Conv1d(1000, 6000, 10)
-        self.l1 = nn.Linear(6000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(1000)
-        self.bn4 = nn.BatchNorm1d(6000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = self.l1(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P1H10k(nn.Module):
-    def __init__(self):
-        super(CNN1P1H10k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
-        self.conv2 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 5000, 2, stride=2)
-        self.conv4 = nn.Conv1d(5000, 10000, 10)
-        self.l1 = nn.Linear(10000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(1000)
-        self.bn3 = nn.BatchNorm1d(5000)
-        self.bn4 = nn.BatchNorm1d(10000)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -317,186 +317,21 @@ class CNN1P1H10k(nn.Module):
 # CNN TIPO 1 CON DOS CAPAS LINEALEs
 
 
-class CNN1P2H10k10k(nn.Module):
+class Cnn1_6k_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H10k10k, self).__init__()
+        super(Cnn1_6k_6k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
-        self.conv2 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 5000, 2, stride=2)
-        self.conv4 = nn.Conv1d(5000, 10000, 10)
-        self.l1 = nn.Linear(10000, 10000)
-        self.l2 = nn.Linear(10000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(1000)
-        self.bn3 = nn.BatchNorm1d(5000)
-        self.bn4 = nn.BatchNorm1d(10000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P2H10k5k(nn.Module):
-    def __init__(self):
-        super(CNN1P2H10k5k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
-        self.conv2 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 5000, 2, stride=2)
-        self.conv4 = nn.Conv1d(5000, 10000, 10)
-        self.l1 = nn.Linear(10000, 5000)
-        self.l2 = nn.Linear(5000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(1000)
-        self.bn3 = nn.BatchNorm1d(5000)
-        self.bn4 = nn.BatchNorm1d(10000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P2H10k1k(nn.Module):
-    def __init__(self):
-        super(CNN1P2H10k1k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
-        self.conv2 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 5000, 2, stride=2)
-        self.conv4 = nn.Conv1d(5000, 10000, 10)
-        self.l1 = nn.Linear(10000, 1000)
-        self.l2 = nn.Linear(1000, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(1000)
-        self.bn3 = nn.BatchNorm1d(5000)
-        self.bn4 = nn.BatchNorm1d(10000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P2H10k1h(nn.Module):
-    def __init__(self):
-        super(CNN1P2H10k1h, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
-        self.conv2 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 5000, 2, stride=2)
-        self.conv4 = nn.Conv1d(5000, 10000, 10)
-        self.l1 = nn.Linear(10000, 100)
-        self.l2 = nn.Linear(100, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(1000)
-        self.bn3 = nn.BatchNorm1d(5000)
-        self.bn4 = nn.BatchNorm1d(10000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P2H10k10(nn.Module):
-    def __init__(self):
-        super(CNN1P2H10k10, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
-        self.conv2 = nn.Conv1d(100, 1000, 2, stride=2)
-        self.conv3 = nn.Conv1d(1000, 5000, 2, stride=2)
-        self.conv4 = nn.Conv1d(5000, 10000, 10)
-        self.l1 = nn.Linear(10000, 10)
-        self.l2 = nn.Linear(10, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(1000)
-        self.bn3 = nn.BatchNorm1d(5000)
-        self.bn4 = nn.BatchNorm1d(10000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN1P2H6k6k(nn.Module):
-    def __init__(self):
-        super(CNN1P2H6k6k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 6000, 10)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
         self.l1 = nn.Linear(6000, 6000)
         self.l2 = nn.Linear(6000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
@@ -515,21 +350,153 @@ class CNN1P2H6k6k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H6k1k(nn.Module):
+class Cnn1_6k_5k(nn.Module):
     def __init__(self):
-        super(CNN1P2H6k1k, self).__init__()
+        super(Cnn1_6k_5k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 6000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_6k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_6k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_6k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_6k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_6k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_6k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_6k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_6k_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
         self.l1 = nn.Linear(6000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
@@ -548,21 +515,87 @@ class CNN1P2H6k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H6k1h(nn.Module):
+class Cnn1_6k_5h(nn.Module):
     def __init__(self):
-        super(CNN1P2H6k1h, self).__init__()
+        super(Cnn1_6k_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 6000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_6k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_6k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
+        self.l1 = nn.Linear(6000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_6k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_6k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
         self.l1 = nn.Linear(6000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
@@ -581,21 +614,21 @@ class CNN1P2H6k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H6k10(nn.Module):
+class Cnn1_6k_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H6k10, self).__init__()
+        super(Cnn1_6k_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 6000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 6000, 10)
         self.l1 = nn.Linear(6000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
@@ -614,21 +647,54 @@ class CNN1P2H6k10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5k5k(nn.Module):
+class Cnn1_5k_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H5k5k, self).__init__()
+        super(Cnn1_5k_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 5000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
         self.l1 = nn.Linear(5000, 5000)
         self.l2 = nn.Linear(5000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(5000)
         self.sigmoid = nn.Sigmoid()
 
@@ -647,21 +713,120 @@ class CNN1P2H5k5k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5k1k(nn.Module):
+class Cnn1_5k_4k(nn.Module):
     def __init__(self):
-        super(CNN1P2H5k1k, self).__init__()
+        super(Cnn1_5k_4k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 5000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5k_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
         self.l1 = nn.Linear(5000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(5000)
         self.sigmoid = nn.Sigmoid()
 
@@ -680,21 +845,87 @@ class CNN1P2H5k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5k1h(nn.Module):
+class Cnn1_5k_5h(nn.Module):
     def __init__(self):
-        super(CNN1P2H5k1h, self).__init__()
+        super(Cnn1_5k_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 5000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_5k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
+        self.l1 = nn.Linear(5000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_5k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
         self.l1 = nn.Linear(5000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(5000)
         self.sigmoid = nn.Sigmoid()
 
@@ -713,21 +944,21 @@ class CNN1P2H5k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5k10(nn.Module):
+class Cnn1_5k_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H5k10, self).__init__()
+        super(Cnn1_5k_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 5000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 5000, 10)
         self.l1 = nn.Linear(5000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(5000)
         self.sigmoid = nn.Sigmoid()
 
@@ -746,21 +977,87 @@ class CNN1P2H5k10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H4k4k(nn.Module):
+class Cnn1_4k_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H4k4k, self).__init__()
+        super(Cnn1_4k_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 4000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_4k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_4k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_4k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_4k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
         self.l1 = nn.Linear(4000, 4000)
         self.l2 = nn.Linear(4000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(4000)
         self.sigmoid = nn.Sigmoid()
 
@@ -779,21 +1076,87 @@ class CNN1P2H4k4k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H4k1k(nn.Module):
+class Cnn1_4k_3k(nn.Module):
     def __init__(self):
-        super(CNN1P2H4k1k, self).__init__()
+        super(Cnn1_4k_3k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 4000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_4k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_4k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_4k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_4k_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
         self.l1 = nn.Linear(4000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(4000)
         self.sigmoid = nn.Sigmoid()
 
@@ -812,21 +1175,87 @@ class CNN1P2H4k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H4k1h(nn.Module):
+class Cnn1_4k_5h(nn.Module):
     def __init__(self):
-        super(CNN1P2H4k1h, self).__init__()
+        super(Cnn1_4k_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 4000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_4k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_4k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
+        self.l1 = nn.Linear(4000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_4k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_4k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
         self.l1 = nn.Linear(4000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(4000)
         self.sigmoid = nn.Sigmoid()
 
@@ -845,21 +1274,21 @@ class CNN1P2H4k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H4k10(nn.Module):
+class Cnn1_4k_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H4k10, self).__init__()
+        super(Cnn1_4k_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 4000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 4000, 10)
         self.l1 = nn.Linear(4000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(4000)
         self.sigmoid = nn.Sigmoid()
 
@@ -878,21 +1307,120 @@ class CNN1P2H4k10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H3k3k(nn.Module):
+class Cnn1_3k_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H3k3k, self).__init__()
+        super(Cnn1_3k_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 3000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
         self.l1 = nn.Linear(3000, 3000)
         self.l2 = nn.Linear(3000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(3000)
         self.sigmoid = nn.Sigmoid()
 
@@ -911,21 +1439,54 @@ class CNN1P2H3k3k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H3k1k(nn.Module):
+class Cnn1_3k_2k(nn.Module):
     def __init__(self):
-        super(CNN1P2H3k1k, self).__init__()
+        super(Cnn1_3k_2k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 3000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
         self.l1 = nn.Linear(3000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(3000)
         self.sigmoid = nn.Sigmoid()
 
@@ -944,21 +1505,87 @@ class CNN1P2H3k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H3k1h(nn.Module):
+class Cnn1_3k_5h(nn.Module):
     def __init__(self):
-        super(CNN1P2H3k1h, self).__init__()
+        super(Cnn1_3k_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 3000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
+        self.l1 = nn.Linear(3000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_3k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_3k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
         self.l1 = nn.Linear(3000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(3000)
         self.sigmoid = nn.Sigmoid()
 
@@ -977,21 +1604,21 @@ class CNN1P2H3k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H3k10(nn.Module):
+class Cnn1_3k_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H3k10, self).__init__()
+        super(Cnn1_3k_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 3000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 3000, 10)
         self.l1 = nn.Linear(3000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(3000)
         self.sigmoid = nn.Sigmoid()
 
@@ -1010,21 +1637,153 @@ class CNN1P2H3k10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2k2k(nn.Module):
+class Cnn1_2k_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H2k2k, self).__init__()
+        super(Cnn1_2k_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 2000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
         self.l1 = nn.Linear(2000, 2000)
         self.l2 = nn.Linear(2000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(2000)
         self.sigmoid = nn.Sigmoid()
 
@@ -1043,21 +1802,21 @@ class CNN1P2H2k2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2k1k(nn.Module):
+class Cnn1_2k_1k(nn.Module):
     def __init__(self):
-        super(CNN1P2H2k1k, self).__init__()
+        super(Cnn1_2k_1k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 2000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
         self.l1 = nn.Linear(2000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(2000)
         self.sigmoid = nn.Sigmoid()
 
@@ -1076,21 +1835,87 @@ class CNN1P2H2k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2k1h(nn.Module):
+class Cnn1_2k_5h(nn.Module):
     def __init__(self):
-        super(CNN1P2H2k1h, self).__init__()
+        super(Cnn1_2k_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 2000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
+        self.l1 = nn.Linear(2000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
+        self.bn4 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_2k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
         self.l1 = nn.Linear(2000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(2000)
         self.sigmoid = nn.Sigmoid()
 
@@ -1109,21 +1934,21 @@ class CNN1P2H2k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2k10(nn.Module):
+class Cnn1_2k_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H2k10, self).__init__()
+        super(Cnn1_2k_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 2000, 10)
+        self.conv1 = nn.Conv1d(1, 100, 2, stride=2)
+        self.conv2 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv3 = nn.Conv1d(500, 1000, 2, stride=2)
+        self.conv4 = nn.Conv1d(1000, 2000, 10)
         self.l1 = nn.Linear(2000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(500)
+        self.bn3 = nn.BatchNorm1d(1000)
         self.bn4 = nn.BatchNorm1d(2000)
         self.sigmoid = nn.Sigmoid()
 
@@ -1142,19 +1967,184 @@ class CNN1P2H2k10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H1k1k(nn.Module):
+class Cnn1_1k_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H1k1k, self).__init__()
+        super(Cnn1_1k_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
         self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
         self.conv4 = nn.Conv1d(500, 1000, 10)
         self.l1 = nn.Linear(1000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
+        self.bn1 = nn.BatchNorm1d(50)
         self.bn2 = nn.BatchNorm1d(100)
         self.bn3 = nn.BatchNorm1d(500)
         self.bn4 = nn.BatchNorm1d(1000)
@@ -1175,19 +2165,85 @@ class CNN1P2H1k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H1k1h(nn.Module):
+class Cnn1_1k_5h(nn.Module):
     def __init__(self):
-        super(CNN1P2H1k1h, self).__init__()
+        super(Cnn1_1k_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
+        self.conv4 = nn.Conv1d(500, 1000, 10)
+        self.l1 = nn.Linear(1000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(50)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(500)
+        self.bn4 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_1k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
         self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
         self.conv4 = nn.Conv1d(500, 1000, 10)
         self.l1 = nn.Linear(1000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
+        self.bn1 = nn.BatchNorm1d(50)
         self.bn2 = nn.BatchNorm1d(100)
         self.bn3 = nn.BatchNorm1d(500)
         self.bn4 = nn.BatchNorm1d(1000)
@@ -1208,19 +2264,19 @@ class CNN1P2H1k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H1k10(nn.Module):
+class Cnn1_1k_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H1k10, self).__init__()
+        super(Cnn1_1k_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv1 = nn.Conv1d(1, 50, 2, stride=2)
+        self.conv2 = nn.Conv1d(50, 100, 2, stride=2)
         self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
         self.conv4 = nn.Conv1d(500, 1000, 10)
         self.l1 = nn.Linear(1000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
+        self.bn1 = nn.BatchNorm1d(50)
         self.bn2 = nn.BatchNorm1d(100)
         self.bn3 = nn.BatchNorm1d(500)
         self.bn4 = nn.BatchNorm1d(1000)
@@ -1241,9 +2297,207 @@ class CNN1P2H1k10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5h5h(nn.Module):
+class Cnn1_5h_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H5h5h, self).__init__()
+        super(Cnn1_5h_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_5h(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
@@ -1274,9 +2528,42 @@ class CNN1P2H5h5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5h1h(nn.Module):
+class Cnn1_5h_2h(nn.Module):
     def __init__(self):
-        super(CNN1P2H5h1h, self).__init__()
+        super(Cnn1_5h_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 2, stride=2)
+        self.conv4 = nn.Conv1d(200, 500, 10)
+        self.l1 = nn.Linear(500, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_5h_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_5h_1h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
@@ -1307,9 +2594,9 @@ class CNN1P2H5h1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H5h10(nn.Module):
+class Cnn1_5h_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H5h10, self).__init__()
+        super(Cnn1_5h_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
@@ -1340,9 +2627,240 @@ class CNN1P2H5h10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2h2h(nn.Module):
+class Cnn1_2h_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H2h2h, self).__init__()
+        super(Cnn1_2h_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_5h(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
+        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
+        self.conv4 = nn.Conv1d(100, 200, 10)
+        self.l1 = nn.Linear(200, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_2h_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_2h_2h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
@@ -1373,9 +2891,9 @@ class CNN1P2H2h2h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2h1h(nn.Module):
+class Cnn1_2h_1h(nn.Module):
     def __init__(self):
-        super(CNN1P2H2h1h, self).__init__()
+        super(Cnn1_2h_1h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
@@ -1406,16 +2924,16 @@ class CNN1P2H2h1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H2h10(nn.Module):
+class Cnn1_2h_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H2h10, self).__init__()
+        super(Cnn1_2h_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
         self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
         self.conv3 = nn.Conv1d(50, 100, 2, stride=2)
         self.conv4 = nn.Conv1d(100, 200, 10)
-        self.l1 = nn.Linear(200, 10)
-        self.l2 = nn.Linear(10, 1)
+        self.l1 = nn.Linear(200, 200)
+        self.l2 = nn.Linear(200, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
         self.bn1 = nn.BatchNorm1d(10)
@@ -1439,21 +2957,285 @@ class CNN1P2H2h10(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H1h1h(nn.Module):
+class Cnn1_1h_6k(nn.Module):
     def __init__(self):
-        super(CNN1P2H1h1h, self).__init__()
+        super(Cnn1_1h_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
-        self.conv3 = nn.Conv1d(50, 80, 2, stride=2)
-        self.conv4 = nn.Conv1d(80, 100, 10)
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_5k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_4k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_5h(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
+        self.l1 = nn.Linear(100, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
+        self.bn4 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_1h_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_1h_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
         self.l1 = nn.Linear(100, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(50)
-        self.bn3 = nn.BatchNorm1d(80)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
         self.bn4 = nn.BatchNorm1d(100)
         self.sigmoid = nn.Sigmoid()
 
@@ -1472,21 +3254,21 @@ class CNN1P2H1h1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN1P2H1h10(nn.Module):
+class Cnn1_1h_10(nn.Module):
     def __init__(self):
-        super(CNN1P2H1h10, self).__init__()
+        super(Cnn1_1h_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 50, 2, stride=2)
-        self.conv3 = nn.Conv1d(50, 80, 2, stride=2)
-        self.conv4 = nn.Conv1d(80, 100, 10)
+        self.conv1 = nn.Conv1d(1, 5, 2, stride=2)
+        self.conv2 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv3 = nn.Conv1d(10, 50, 2, stride=2)
+        self.conv4 = nn.Conv1d(50, 100, 10)
         self.l1 = nn.Linear(100, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.AvgPool1d(3)
         self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(50)
-        self.bn3 = nn.BatchNorm1d(80)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(50)
         self.bn4 = nn.BatchNorm1d(100)
         self.sigmoid = nn.Sigmoid()
 
@@ -1504,114 +3286,353 @@ class CNN1P2H1h10(nn.Module):
         wave = self.l2(wave)
         return self.sigmoid(wave)
 
-# CNN TIPO 2 1 CAPA DE SALIDA
 
-
-class CNN2P1H20k(nn.Module):
+class Cnn1_10_6k(nn.Module):
     def __init__(self):
-        super(CNN2P1H20k, self).__init__()
+        super(Cnn1_10_6k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
         wave = wave.view(-1, 1, 6000)
         wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
         wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
         wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
         wave = wave.squeeze()
-        wave = self.l1(wave)
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
         return self.sigmoid(wave)
 
 
-class CNN2P1H15k(nn.Module):
+class Cnn1_10_5k(nn.Module):
     def __init__(self):
-        super(CNN2P1H15k, self).__init__()
+        super(Cnn1_10_5k, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
         wave = wave.view(-1, 1, 6000)
         wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
         wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
         wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
         wave = wave.squeeze()
-        wave = self.l1(wave)
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k(nn.Module):
+class Cnn1_10_4k(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k, self).__init__()
+        super(Cnn1_10_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_3k(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_2k(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_1k(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_5h(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_2h(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_1h(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 100)
+        self.l2 = nn.Linear(100, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn1_10_10(nn.Module):
+    def __init__(self):
+        super(Cnn1_10_10, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 2, stride=2)
+        self.conv2 = nn.Conv1d(2, 5, 2, stride=2)
+        self.conv3 = nn.Conv1d(5, 10, 2, stride=2)
+        self.conv4 = nn.Conv1d(10, 10, 10)
+        self.l1 = nn.Linear(10, 10)
+        self.l2 = nn.Linear(10, 1)
+        self.p1 = nn.AvgPool1d(3)
+        self.p2 = nn.AvgPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(5)
+        self.bn3 = nn.BatchNorm1d(10)
+        self.bn4 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.p1(wave)
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p2(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.p2(wave)
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+# CNN tipo 2 con una capa lineal
+
+
+class Cnn2_6k(nn.Module):
+    def __init__(self):
+        super(Cnn2_6k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
@@ -1621,9 +3642,9 @@ class CNN2P1H10k(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -1645,9 +3666,9 @@ class CNN2P1H10k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H5k(nn.Module):
+class Cnn2_5k(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k, self).__init__()
+        super(Cnn2_5k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -1691,9 +3712,55 @@ class CNN2P1H5k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H3k(nn.Module):
+class Cnn2_4k(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k, self).__init__()
+        super(Cnn2_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = self.l1(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_3k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -1737,9 +3804,9 @@ class CNN2P1H3k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H2k(nn.Module):
+class Cnn2_2k(nn.Module):
     def __init__(self):
-        super(CNN2P1H2k, self).__init__()
+        super(Cnn2_2k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -1783,9 +3850,9 @@ class CNN2P1H2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H1k(nn.Module):
+class Cnn2_1k(nn.Module):
     def __init__(self):
-        super(CNN2P1H1k, self).__init__()
+        super(Cnn2_1k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -1829,35 +3896,31 @@ class CNN2P1H1k(nn.Module):
         return self.sigmoid(wave)
 
 
-# CNN TIPO 2 2 CAPA DE SALIDA, 20k
-
-
-class CNN2P1H20k20k(nn.Module):
+class Cnn2_5h(nn.Module):
     def __init__(self):
-        super(CNN2P1H20k20k, self).__init__()
+        super(Cnn2_5h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 20000)
-        self.l2 = nn.Linear(20000, 1)
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
         self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -1875,37 +3938,35 @@ class CNN2P1H20k20k(nn.Module):
         wave = self.bn8(F.relu(self.conv8(wave)))
         wave = self.p4(wave)
         wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
+        wave = self.l1(wave)
         return self.sigmoid(wave)
 
 
-class CNN2P1H20k10k(nn.Module):
+class Cnn2_2h(nn.Module):
     def __init__(self):
-        super(CNN2P1H20k10k, self).__init__()
+        super(Cnn2_2h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 10000)
-        self.l2 = nn.Linear(10000, 1)
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
         self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -1923,37 +3984,35 @@ class CNN2P1H20k10k(nn.Module):
         wave = self.bn8(F.relu(self.conv8(wave)))
         wave = self.p4(wave)
         wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
+        wave = self.l1(wave)
         return self.sigmoid(wave)
 
 
-class CNN2P1H20k5k(nn.Module):
+class Cnn2_1h(nn.Module):
     def __init__(self):
-        super(CNN2P1H20k5k, self).__init__()
+        super(Cnn2_1h, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 5000)
-        self.l2 = nn.Linear(5000, 1)
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
         self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -1971,37 +4030,35 @@ class CNN2P1H20k5k(nn.Module):
         wave = self.bn8(F.relu(self.conv8(wave)))
         wave = self.p4(wave)
         wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
+        wave = self.l1(wave)
         return self.sigmoid(wave)
 
 
-class CNN2P1H20k2k(nn.Module):
+class Cnn2_10(nn.Module):
     def __init__(self):
-        super(CNN2P1H20k2k, self).__init__()
+        super(Cnn2_10, self).__init__()
 
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 2000)
-        self.l2 = nn.Linear(2000, 1)
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
         self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2019,607 +4076,27 @@ class CNN2P1H20k2k(nn.Module):
         wave = self.bn8(F.relu(self.conv8(wave)))
         wave = self.p4(wave)
         wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
+        wave = self.l1(wave)
         return self.sigmoid(wave)
 
 
-class CNN2P1H20k1k(nn.Module):
+# CNN tipo 2 con dos capas lineales
+
+
+class Cnn2_6k_6k(nn.Module):
     def __init__(self):
-        super(CNN2P1H20k1k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 1000)
-        self.l2 = nn.Linear(1000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H20k5h(nn.Module):
-    def __init__(self):
-        super(CNN2P1H20k5h, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 500)
-        self.l2 = nn.Linear(500, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H20k1h(nn.Module):
-    def __init__(self):
-        super(CNN2P1H20k1h, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 100)
-        self.l2 = nn.Linear(100, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H20k10(nn.Module):
-    def __init__(self):
-        super(CNN2P1H20k10, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 2000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(2000, 5000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(5000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 20000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(20000, 10)
-        self.l2 = nn.Linear(10, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(2000)
-        self.bn6 = nn.BatchNorm1d(5000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(20000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-# CNN TIPO 2 2 CAPA DE SALIDA, 15k
-
-
-class CNN2P1H15k15k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k15k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 15000)
-        self.l2 = nn.Linear(15000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k10k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k10k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 10000)
-        self.l2 = nn.Linear(10000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k5k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k5k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 5000)
-        self.l2 = nn.Linear(5000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k2k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k2k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 2000)
-        self.l2 = nn.Linear(2000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k1k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k1k, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 1000)
-        self.l2 = nn.Linear(1000, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k5h(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k5h, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 500)
-        self.l2 = nn.Linear(500, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k1h(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k1h, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 100)
-        self.l2 = nn.Linear(100, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H15k10(nn.Module):
-    def __init__(self):
-        super(CNN2P1H15k10, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 500, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(3000, 10000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(10000, 15000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(15000, 10)
-        self.l2 = nn.Linear(10, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.bn5 = nn.BatchNorm1d(1500)
-        self.bn6 = nn.BatchNorm1d(3000)
-        self.bn7 = nn.BatchNorm1d(10000)
-        self.bn8 = nn.BatchNorm1d(15000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-# CNN TIPO 2 2 CAPA DE SALIDA, 10k
-
-
-class CNN2P1H10k10k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H10k10k, self).__init__()
+        super(Cnn2_6k_6k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 10000)
-        self.l2 = nn.Linear(10000, 1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 6000)
+        self.l2 = nn.Linear(6000, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
@@ -2629,9 +4106,9 @@ class CNN2P1H10k10k(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2654,19 +4131,19 @@ class CNN2P1H10k10k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k5k(nn.Module):
+class Cnn2_6k_5k(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k5k, self).__init__()
+        super(Cnn2_6k_5k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 5000)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 5000)
         self.l2 = nn.Linear(5000, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
@@ -2677,9 +4154,9 @@ class CNN2P1H10k5k(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2702,19 +4179,115 @@ class CNN2P1H10k5k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k2k(nn.Module):
+class Cnn2_6k_4k(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k2k, self).__init__()
+        super(Cnn2_6k_4k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 2000)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_6k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_6k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_6k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_6k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 2000)
         self.l2 = nn.Linear(2000, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
@@ -2725,9 +4298,9 @@ class CNN2P1H10k2k(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2750,19 +4323,19 @@ class CNN2P1H10k2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k1k(nn.Module):
+class Cnn2_6k_1k(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k1k, self).__init__()
+        super(Cnn2_6k_1k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 1000)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 1000)
         self.l2 = nn.Linear(1000, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
@@ -2773,9 +4346,9 @@ class CNN2P1H10k1k(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2798,19 +4371,19 @@ class CNN2P1H10k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k5h(nn.Module):
+class Cnn2_6k_5h(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k5h, self).__init__()
+        super(Cnn2_6k_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 500)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 500)
         self.l2 = nn.Linear(500, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
@@ -2821,9 +4394,9 @@ class CNN2P1H10k5h(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2846,19 +4419,67 @@ class CNN2P1H10k5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k1h(nn.Module):
+class Cnn2_6k_2h(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k1h, self).__init__()
+        super(Cnn2_6k_2h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 100)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_6k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_6k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 100)
         self.l2 = nn.Linear(100, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
@@ -2869,9 +4490,9 @@ class CNN2P1H10k1h(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2894,19 +4515,19 @@ class CNN2P1H10k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H10k10(nn.Module):
+class Cnn2_6k_10(nn.Module):
     def __init__(self):
-        super(CNN2P1H10k10, self).__init__()
+        super(Cnn2_6k_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
         self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
         self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 2000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(2000, 5000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(5000, 10000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(10000, 10)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 6000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(6000, 10)
         self.l2 = nn.Linear(10, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
@@ -2917,9 +4538,9 @@ class CNN2P1H10k10(nn.Module):
         self.bn3 = nn.BatchNorm1d(300)
         self.bn4 = nn.BatchNorm1d(500)
         self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(2000)
-        self.bn7 = nn.BatchNorm1d(5000)
-        self.bn8 = nn.BatchNorm1d(10000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(6000)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -2941,12 +4562,58 @@ class CNN2P1H10k10(nn.Module):
         wave = self.l2(wave)
         return self.sigmoid(wave)
 
-# CNN TIPO 2 2 CAPA DE SALIDA, 5k
 
-
-class CNN2P1H5k5k(nn.Module):
+class Cnn2_5k_6k(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k5k, self).__init__()
+        super(Cnn2_5k_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 5000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(5000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5k_5k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -2992,9 +4659,105 @@ class CNN2P1H5k5k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H5k2k(nn.Module):
+class Cnn2_5k_4k(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k2k, self).__init__()
+        super(Cnn2_5k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 5000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(5000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 5000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(5000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5k_2k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -3040,57 +4803,9 @@ class CNN2P1H5k2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H5k2k5(nn.Module):
+class Cnn2_5k_1k(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k2k5, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(3000, 5000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(5000, 2500)
-        self.l2 = nn.Linear(2500, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(100)
-        self.bn2 = nn.BatchNorm1d(200)
-        self.bn3 = nn.BatchNorm1d(300)
-        self.bn4 = nn.BatchNorm1d(500)
-        self.bn5 = nn.BatchNorm1d(1000)
-        self.bn6 = nn.BatchNorm1d(1500)
-        self.bn7 = nn.BatchNorm1d(3000)
-        self.bn8 = nn.BatchNorm1d(5000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H5k1k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H5k1k, self).__init__()
+        super(Cnn2_5k_1k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -3136,9 +4851,9 @@ class CNN2P1H5k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H5k5h(nn.Module):
+class Cnn2_5k_5h(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k5h, self).__init__()
+        super(Cnn2_5k_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -3184,9 +4899,57 @@ class CNN2P1H5k5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H5k1h(nn.Module):
+class Cnn2_5k_2h(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k1h, self).__init__()
+        super(Cnn2_5k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 5000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(5000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(5000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_5k_1h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -3232,9 +4995,9 @@ class CNN2P1H5k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H5k10(nn.Module):
+class Cnn2_5k_10(nn.Module):
     def __init__(self):
-        super(CNN2P1H5k10, self).__init__()
+        super(Cnn2_5k_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
@@ -3279,12 +5042,634 @@ class CNN2P1H5k10(nn.Module):
         wave = self.l2(wave)
         return self.sigmoid(wave)
 
-# CNN TIPO 2 2 CAPA DE SALIDA, 3k
 
-
-class CNN2P1H3k3k(nn.Module):
+class Cnn2_4k_6k(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k3k, self).__init__()
+        super(Cnn2_4k_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_5h(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_2h(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 100)
+        self.l2 = nn.Linear(100, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_4k_10(nn.Module):
+    def __init__(self):
+        super(Cnn2_4k_10, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 100, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(500, 1000, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(1000, 1500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1500, 3000, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(3000, 4000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(4000, 10)
+        self.l2 = nn.Linear(10, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(100)
+        self.bn2 = nn.BatchNorm1d(200)
+        self.bn3 = nn.BatchNorm1d(300)
+        self.bn4 = nn.BatchNorm1d(500)
+        self.bn5 = nn.BatchNorm1d(1000)
+        self.bn6 = nn.BatchNorm1d(1500)
+        self.bn7 = nn.BatchNorm1d(3000)
+        self.bn8 = nn.BatchNorm1d(4000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_3k_6k(nn.Module):
+    def __init__(self):
+        super(Cnn2_3k_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(200, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(3000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_3k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_3k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(200, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(3000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_3k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_3k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(200, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(3000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_3k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_3k_3k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -3330,9 +5715,9 @@ class CNN2P1H3k3k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H3k2k(nn.Module):
+class Cnn2_3k_2k(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k2k, self).__init__()
+        super(Cnn2_3k_2k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -3378,57 +5763,9 @@ class CNN2P1H3k2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H3k1k5(nn.Module):
+class Cnn2_3k_1k(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k1k5, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
-        self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
-        self.conv3 = nn.Conv1d(100, 200, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(200, 300, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(3000, 1500)
-        self.l2 = nn.Linear(1500, 1)
-        self.p1 = nn.MaxPool1d(3)
-        self.p2 = nn.MaxPool1d(5)
-        self.p3 = nn.MaxPool1d(5)
-        self.p4 = nn.MaxPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(200)
-        self.bn4 = nn.BatchNorm1d(300)
-        self.bn5 = nn.BatchNorm1d(500)
-        self.bn6 = nn.BatchNorm1d(1000)
-        self.bn7 = nn.BatchNorm1d(1500)
-        self.bn8 = nn.BatchNorm1d(3000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p1(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = self.p2(wave)
-        wave = self.bn5(F.relu(self.conv5(wave)))
-        wave = self.bn6(F.relu(self.conv6(wave)))
-        wave = self.p3(wave)
-        wave = self.bn7(F.relu(self.conv7(wave)))
-        wave = self.bn8(F.relu(self.conv8(wave)))
-        wave = self.p4(wave)
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = self.l2(wave)
-        return self.sigmoid(wave)
-
-
-class CNN2P1H3k1k(nn.Module):
-    def __init__(self):
-        super(CNN2P1H3k1k, self).__init__()
+        super(Cnn2_3k_1k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -3474,9 +5811,9 @@ class CNN2P1H3k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H3k5h(nn.Module):
+class Cnn2_3k_5h(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k5h, self).__init__()
+        super(Cnn2_3k_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -3522,9 +5859,57 @@ class CNN2P1H3k5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H3k1h(nn.Module):
+class Cnn2_3k_2h(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k1h, self).__init__()
+        super(Cnn2_3k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(100, 200, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(200, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 3000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(3000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(100)
+        self.bn3 = nn.BatchNorm1d(200)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(3000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_3k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_3k_1h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -3570,9 +5955,9 @@ class CNN2P1H3k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H3k10(nn.Module):
+class Cnn2_3k_10(nn.Module):
     def __init__(self):
-        super(CNN2P1H3k10, self).__init__()
+        super(Cnn2_3k_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 100, 3, padding=1, stride=2)
@@ -3617,12 +6002,202 @@ class CNN2P1H3k10(nn.Module):
         wave = self.l2(wave)
         return self.sigmoid(wave)
 
-# CNN TIPO 2 2 CAPA DE SALIDA, 2k
 
-
-class CNN2P1H2k2k(nn.Module):
+class Cnn2_2k_6k(nn.Module):
     def __init__(self):
-        super(CNN2P1H2k2k, self).__init__()
+        super(Cnn2_2k_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 2000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(2000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 2000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(2000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 2000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(2000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 2000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(2000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2k_2k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3668,9 +6243,9 @@ class CNN2P1H2k2k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H2k1k(nn.Module):
+class Cnn2_2k_1k(nn.Module):
     def __init__(self):
-        super(CNN2P1H2k1k, self).__init__()
+        super(Cnn2_2k_1k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3716,9 +6291,9 @@ class CNN2P1H2k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H2k5h(nn.Module):
+class Cnn2_2k_5h(nn.Module):
     def __init__(self):
-        super(CNN2P1H2k5h, self).__init__()
+        super(Cnn2_2k_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3764,9 +6339,57 @@ class CNN2P1H2k5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H2k1h(nn.Module):
+class Cnn2_2k_2h(nn.Module):
     def __init__(self):
-        super(CNN2P1H2k1h, self).__init__()
+        super(Cnn2_2k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 300, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(1500, 2000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(2000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(300)
+        self.bn5 = nn.BatchNorm1d(500)
+        self.bn6 = nn.BatchNorm1d(1000)
+        self.bn7 = nn.BatchNorm1d(1500)
+        self.bn8 = nn.BatchNorm1d(2000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_2k_1h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3812,9 +6435,9 @@ class CNN2P1H2k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H2k10(nn.Module):
+class Cnn2_2k_10(nn.Module):
     def __init__(self):
-        super(CNN2P1H2k10, self).__init__()
+        super(Cnn2_2k_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3859,12 +6482,250 @@ class CNN2P1H2k10(nn.Module):
         wave = self.l2(wave)
         return self.sigmoid(wave)
 
-# CNN TIPO 2 2 CAPA DE SALIDA, 1k
 
-
-class CNN2P1H1k1k(nn.Module):
+class Cnn2_1k_6k(nn.Module):
     def __init__(self):
-        super(CNN2P1H1k1k, self).__init__()
+        super(Cnn2_1k_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(500, 800, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(800, 1000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(1000, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(500)
+        self.bn7 = nn.BatchNorm1d(800)
+        self.bn8 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1k_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1k_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(500, 800, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(800, 1000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(1000, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(500)
+        self.bn7 = nn.BatchNorm1d(800)
+        self.bn8 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1k_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1k_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(500, 800, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(800, 1000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(1000, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(500)
+        self.bn7 = nn.BatchNorm1d(800)
+        self.bn8 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1k_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1k_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(500, 800, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(800, 1000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(1000, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(500)
+        self.bn7 = nn.BatchNorm1d(800)
+        self.bn8 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1k_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1k_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(500, 800, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(800, 1000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(1000, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(500)
+        self.bn7 = nn.BatchNorm1d(800)
+        self.bn8 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1k_1k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1k_1k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3910,9 +6771,9 @@ class CNN2P1H1k1k(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H1k5h(nn.Module):
+class Cnn2_1k_5h(nn.Module):
     def __init__(self):
-        super(CNN2P1H1k5h, self).__init__()
+        super(Cnn2_1k_5h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -3958,9 +6819,57 @@ class CNN2P1H1k5h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H1k1h(nn.Module):
+class Cnn2_1k_2h(nn.Module):
     def __init__(self):
-        super(CNN2P1H1k1h, self).__init__()
+        super(Cnn2_1k_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 500, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(500, 800, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(800, 1000, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(1000, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(500)
+        self.bn7 = nn.BatchNorm1d(800)
+        self.bn8 = nn.BatchNorm1d(1000)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1k_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_1k_1h, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -4006,9 +6915,9 @@ class CNN2P1H1k1h(nn.Module):
         return self.sigmoid(wave)
 
 
-class CNN2P1H1k10(nn.Module):
+class Cnn2_1k_10(nn.Module):
     def __init__(self):
-        super(CNN2P1H1k10, self).__init__()
+        super(Cnn2_1k_10, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
@@ -4053,92 +6962,21 @@ class CNN2P1H1k10(nn.Module):
         wave = self.l2(wave)
         return self.sigmoid(wave)
 
-# OTROS
 
-
-class ClassConv(nn.Module):
+class Cnn2_5h_6k(nn.Module):
     def __init__(self):
-        super(ClassConv, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 1000, 10)
-        self.l1 = nn.Linear(1000, 100)
-        self.l2 = nn.Linear(100, 10)
-        self.l3 = nn.Linear(10, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = F.relu(self.conv1(wave))
-        wave = self.p1(wave)
-        wave = F.relu(self.conv2(wave))
-        wave = self.p2(wave)
-        wave = F.relu(self.conv3(wave))
-        wave = self.p2(wave)
-        wave = F.relu(self.conv4(wave))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = F.relu(self.l2(wave))
-        wave = self.l3(wave)
-        return self.sigmoid(wave)
-
-
-class ClassConvBN(nn.Module):
-    def __init__(self):
-        super(ClassConvBN, self).__init__()
-
-        self.conv1 = nn.Conv1d(1, 10, 2, stride=2)
-        self.conv2 = nn.Conv1d(10, 100, 2, stride=2)
-        self.conv3 = nn.Conv1d(100, 500, 2, stride=2)
-        self.conv4 = nn.Conv1d(500, 1000, 10)
-        self.l1 = nn.Linear(1000, 100)
-        self.l2 = nn.Linear(100, 10)
-        self.l3 = nn.Linear(10, 1)
-        self.p1 = nn.AvgPool1d(3)
-        self.p2 = nn.AvgPool1d(5)
-        self.bn1 = nn.BatchNorm1d(10)
-        self.bn2 = nn.BatchNorm1d(100)
-        self.bn3 = nn.BatchNorm1d(500)
-        self.bn4 = nn.BatchNorm1d(1000)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, wave):
-        wave = wave.view(-1, 1, 6000)
-        wave = self.bn1(F.relu(self.conv1(wave)))
-        wave = self.p1(wave)
-        wave = self.bn2(F.relu(self.conv2(wave)))
-        wave = self.p2(wave)
-        wave = self.bn3(F.relu(self.conv3(wave)))
-        wave = self.p2(wave)
-        wave = self.bn4(F.relu(self.conv4(wave)))
-        wave = wave.squeeze()
-        wave = F.relu(self.l1(wave))
-        wave = F.relu(self.l2(wave))
-        wave = self.l3(wave)
-        return self.sigmoid(wave)
-
-
-class CBN_v2(nn.Module):
-    def __init__(self):
-        super(CBN_v2, self).__init__()
+        super(Cnn2_5h_6k, self).__init__()
 
         self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
         self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
         self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
-        self.conv4 = nn.Conv1d(100, 300, 3, padding=1, stride=2)
-        self.conv5 = nn.Conv1d(300, 500, 3, padding=1, stride=1)
-        self.conv6 = nn.Conv1d(500, 1000, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv1d(1000, 1500, 3, padding=1, stride=1)
-        self.conv8 = nn.Conv1d(1500, 2000, 3, padding=1, stride=2)
-        self.l1 = nn.Linear(2000, 2000)
-        self.l2 = nn.Linear(2000, 1000)
-        self.l3 = nn.Linear(1000, 100)
-        self.l4 = nn.Linear(100, 10)
-        self.l5 = nn.Linear(10, 1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 6000)
+        self.l2 = nn.Linear(6000, 1)
         self.p1 = nn.MaxPool1d(3)
         self.p2 = nn.MaxPool1d(5)
         self.p3 = nn.MaxPool1d(5)
@@ -4146,11 +6984,11 @@ class CBN_v2(nn.Module):
         self.bn1 = nn.BatchNorm1d(10)
         self.bn2 = nn.BatchNorm1d(50)
         self.bn3 = nn.BatchNorm1d(100)
-        self.bn4 = nn.BatchNorm1d(300)
-        self.bn5 = nn.BatchNorm1d(500)
-        self.bn6 = nn.BatchNorm1d(1000)
-        self.bn7 = nn.BatchNorm1d(1500)
-        self.bn8 = nn.BatchNorm1d(2000)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, wave):
@@ -4169,8 +7007,1877 @@ class CBN_v2(nn.Module):
         wave = self.p4(wave)
         wave = wave.squeeze()
         wave = F.relu(self.l1(wave))
-        wave = F.relu(self.l2(wave))
-        wave = F.relu(self.l3(wave))
-        wave = F.relu(self.l4(wave))
-        wave = self.l5(wave)
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_1k(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_5h(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_2h(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 100)
+        self.l2 = nn.Linear(100, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_5h_10(nn.Module):
+    def __init__(self):
+        super(Cnn2_5h_10, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 10, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(10, 50, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(50, 100, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(100, 200, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(200, 300, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(300, 400, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(400, 500, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(500, 500, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(500, 10)
+        self.l2 = nn.Linear(10, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(10)
+        self.bn2 = nn.BatchNorm1d(50)
+        self.bn3 = nn.BatchNorm1d(100)
+        self.bn4 = nn.BatchNorm1d(200)
+        self.bn5 = nn.BatchNorm1d(300)
+        self.bn6 = nn.BatchNorm1d(400)
+        self.bn7 = nn.BatchNorm1d(500)
+        self.bn8 = nn.BatchNorm1d(500)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_6k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_1k(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_5h(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_2h(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 100)
+        self.l2 = nn.Linear(100, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_2h_10(nn.Module):
+    def __init__(self):
+        super(Cnn2_2h_10, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 50, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(100, 150, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(150, 200, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(200, 10)
+        self.l2 = nn.Linear(10, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(50)
+        self.bn5 = nn.BatchNorm1d(80)
+        self.bn6 = nn.BatchNorm1d(100)
+        self.bn7 = nn.BatchNorm1d(150)
+        self.bn8 = nn.BatchNorm1d(200)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_6k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_1k(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_5h(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_2h(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 100)
+        self.l2 = nn.Linear(100, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_1h_10(nn.Module):
+    def __init__(self):
+        super(Cnn2_1h_10, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 5, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(5, 10, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(10, 20, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(20, 30, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(30, 40, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(40, 50, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(50, 80, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(80, 100, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(100, 10)
+        self.l2 = nn.Linear(10, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(5)
+        self.bn2 = nn.BatchNorm1d(10)
+        self.bn3 = nn.BatchNorm1d(20)
+        self.bn4 = nn.BatchNorm1d(30)
+        self.bn5 = nn.BatchNorm1d(40)
+        self.bn6 = nn.BatchNorm1d(50)
+        self.bn7 = nn.BatchNorm1d(80)
+        self.bn8 = nn.BatchNorm1d(100)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_6k(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_6k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 6000)
+        self.l2 = nn.Linear(6000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_5k(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_5k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 5000)
+        self.l2 = nn.Linear(5000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_4k(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_4k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 4000)
+        self.l2 = nn.Linear(4000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_3k(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_3k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 3000)
+        self.l2 = nn.Linear(3000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_2k(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_2k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 2000)
+        self.l2 = nn.Linear(2000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_1k(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_1k, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 1000)
+        self.l2 = nn.Linear(1000, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_5h(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_5h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 500)
+        self.l2 = nn.Linear(500, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_2h(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_2h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 200)
+        self.l2 = nn.Linear(200, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_1h(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_1h, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 100)
+        self.l2 = nn.Linear(100, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
+        return self.sigmoid(wave)
+
+
+class Cnn2_10_10(nn.Module):
+    def __init__(self):
+        super(Cnn2_10_10, self).__init__()
+
+        self.conv1 = nn.Conv1d(1, 2, 3, padding=1, stride=1)
+        self.conv2 = nn.Conv1d(2, 3, 3, padding=1, stride=2)
+        self.conv3 = nn.Conv1d(3, 4, 3, padding=1, stride=1)
+        self.conv4 = nn.Conv1d(4, 5, 3, padding=1, stride=2)
+        self.conv5 = nn.Conv1d(5, 6, 3, padding=1, stride=1)
+        self.conv6 = nn.Conv1d(6, 7, 3, padding=1, stride=2)
+        self.conv7 = nn.Conv1d(7, 8, 3, padding=1, stride=1)
+        self.conv8 = nn.Conv1d(8, 10, 3, padding=1, stride=2)
+        self.l1 = nn.Linear(10, 10)
+        self.l2 = nn.Linear(10, 1)
+        self.p1 = nn.MaxPool1d(3)
+        self.p2 = nn.MaxPool1d(5)
+        self.p3 = nn.MaxPool1d(5)
+        self.p4 = nn.MaxPool1d(5)
+        self.bn1 = nn.BatchNorm1d(2)
+        self.bn2 = nn.BatchNorm1d(3)
+        self.bn3 = nn.BatchNorm1d(4)
+        self.bn4 = nn.BatchNorm1d(5)
+        self.bn5 = nn.BatchNorm1d(6)
+        self.bn6 = nn.BatchNorm1d(7)
+        self.bn7 = nn.BatchNorm1d(8)
+        self.bn8 = nn.BatchNorm1d(10)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, wave):
+        wave = wave.view(-1, 1, 6000)
+        wave = self.bn1(F.relu(self.conv1(wave)))
+        wave = self.bn2(F.relu(self.conv2(wave)))
+        wave = self.p1(wave)
+        wave = self.bn3(F.relu(self.conv3(wave)))
+        wave = self.bn4(F.relu(self.conv4(wave)))
+        wave = self.p2(wave)
+        wave = self.bn5(F.relu(self.conv5(wave)))
+        wave = self.bn6(F.relu(self.conv6(wave)))
+        wave = self.p3(wave)
+        wave = self.bn7(F.relu(self.conv7(wave)))
+        wave = self.bn8(F.relu(self.conv8(wave)))
+        wave = self.p4(wave)
+        wave = wave.squeeze()
+        wave = F.relu(self.l1(wave))
+        wave = self.l2(wave)
         return self.sigmoid(wave)
