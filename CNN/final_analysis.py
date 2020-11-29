@@ -147,6 +147,7 @@ def main():
     # avg_roc_aucs = list(map(float, avg_roc_aucs))
 
     for f_name in best_models:
+        print(f_name)
         with open(os.path.join(step4_eval_wkdir, f_name), 'r') as f:
 
             f.readline()
