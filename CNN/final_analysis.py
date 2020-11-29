@@ -18,7 +18,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--step4_folder', default='default', help='Best step4 models log folder')
     parser.add_argument('--step5_folder', default='default', help='Step5 log folder')
-    parser.add_argument('--avg_folder', default='default', help='Average models log folder')
+    # parser.add_argument('--avg_folder', default='default', help='Average models log folder')
     parser.add_argument('--best_models', default='', help='Best model names space separated')
     # parser.add_argument('--avg_models', default='', help='Average model names space separated')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
@@ -31,7 +31,7 @@ def main():
     # avg_eval_wkdir = '../Analysis/logs/eval/' + args.avg_folder
 
     best_models = args.best_models.strip().split(' ')
-    avg_models = args.avg_models.strip().split(' ')
+    # avg_models = args.avg_models.strip().split(' ')
 
     # Metrics
     thresholds = []
