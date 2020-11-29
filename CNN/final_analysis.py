@@ -147,7 +147,6 @@ def main():
     # avg_roc_aucs = list(map(float, avg_roc_aucs))
 
     for f_name in best_models:
-        print(f_name)
         with open(os.path.join(step4_eval_wkdir, f_name), 'r') as f:
 
             f.readline()
@@ -216,7 +215,6 @@ def main():
     step4_roc_aucs = list(map(float, step4_roc_aucs))
 
     for f_name in best_models:
-        print(f_name)
         with open(os.path.join(step5_eval_wkdir, f_name), 'r') as f:
 
             for _ in range(args.n_thresh):
@@ -353,6 +351,10 @@ def main():
     # plt.ylim(-0.02, 1.02)
     # plt.grid(True)
     # plt.savefig(f'../Analysis/Final/Averages/best_Fscore_cnn.png')
+
+    print(f'len step4_pr: {len(step4_pr_curves)}\n'
+          f'len step5_pr: {len(step5_pr_curves)}\n'
+          f'len best_models: {len(best_models)}')
 
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
