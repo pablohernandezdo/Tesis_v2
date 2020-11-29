@@ -352,10 +352,6 @@ def main():
     # plt.grid(True)
     # plt.savefig(f'../Analysis/Final/Averages/best_Fscore_cnn.png')
 
-    print(f'len step4_pr: {len(step4_pr_curves)}\n'
-          f'len step5_pr: {len(step5_pr_curves)}\n'
-          f'len best_models: {len(best_models)}')
-
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
