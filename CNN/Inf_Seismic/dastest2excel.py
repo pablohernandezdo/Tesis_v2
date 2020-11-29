@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='eval_xls', help='Name of excel file to export')
     parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
-    parser.add_argument('--n_thresh', type=int, default=18, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     parser.add_argument('--best', type=int, default=10, help='Number of best models to save report')
     args = parser.parse_args()
 
@@ -35,6 +35,17 @@ def main():
     utah_tn = []
     shaker_tn = []
     signals_tn = []
+
+    francia_fn = []
+    nevada_fn = []
+    belgica_fn = []
+    reykjanes_fn = []
+
+    california_fp = []
+    tides_fp = []
+    utah_fp = []
+    shaker_fp = []
+    signals_fp = []
 
     tp = []
     tn = []
@@ -73,6 +84,11 @@ def main():
                 belgica_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
                 reykjanes_tp.append(f.readline().split(":")[-1].strip().split("/")[0])
 
+                francia_fn.append(66-int(francia_tp[-1]))
+                nevada_fn.append(8400-int(nevada_tp[-1]))
+                belgica_fn.append(4-int(belgica_tp[-1]))
+                reykjanes_fn.append(2552-int(reykjanes_tp[-1]))
+
                 f.readline()
 
                 california_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
@@ -80,6 +96,12 @@ def main():
                 utah_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
                 shaker_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
                 signals_tn.append(f.readline().split(":")[-1].strip().split("/")[0])
+
+                california_fp.append(834-int(california_tn[-1]))
+                tides_fp.append(4318-int(tides_tn[-1]))
+                utah_fp.append(1088-int(utah_tn[-1]))
+                shaker_fp.append(1984-int(shaker_tn[-1]))
+                signals_fp.append(699-int(signals_tn[-1]))
 
                 f.readline()
                 f.readline()
@@ -121,6 +143,17 @@ def main():
     shaker_tn = list(map(float, shaker_tn))
     signals_tn = list(map(float, signals_tn))
 
+    francia_fn = list(map(float, francia_fn))
+    nevada_fn = list(map(float, nevada_fn))
+    belgica_fn = list(map(float, belgica_fn))
+    reykjanes_fn = list(map(float, reykjanes_fn))
+
+    california_fp = list(map(float, california_fp))
+    tides_fp = list(map(float, tides_fp))
+    utah_fp = list(map(float, utah_fp))
+    shaker_fp = list(map(float, shaker_fp))
+    signals_fp = list(map(float, signals_fp))
+
     tp = list(map(float, tp))
     tn = list(map(float, tn))
     fp = list(map(float, fp))
@@ -151,6 +184,15 @@ def main():
     best_utah_tn = [utah_tn[i] for i in best_idx[::-1][:args.best]]
     best_shaker_tn = [shaker_tn[i] for i in best_idx[::-1][:args.best]]
     best_signals_tn = [signals_tn[i] for i in best_idx[::-1][:args.best]]
+    best_francia_fn = [francia_fn[i] for i in best_idx[::-1][:args.best]]
+    best_nevada_fn = [nevada_fn[i] for i in best_idx[::-1][:args.best]]
+    best_belgica_fn = [belgica_fn[i] for i in best_idx[::-1][:args.best]]
+    best_reykjanes_fn = [reykjanes_fn[i] for i in best_idx[::-1][:args.best]]
+    best_california_fp = [california_fp[i] for i in best_idx[::-1][:args.best]]
+    best_tides_fp = [tides_fp[i] for i in best_idx[::-1][:args.best]]
+    best_utah_fp = [utah_fp[i] for i in best_idx[::-1][:args.best]]
+    best_shaker_fp = [shaker_fp[i] for i in best_idx[::-1][:args.best]]
+    best_signals_fp = [signals_fp[i] for i in best_idx[::-1][:args.best]]
     best_tp = [fp[i] for i in best_idx[::-1][:args.best]]
     best_tn = [fn[i] for i in best_idx[::-1][:args.best]]
     best_fp = [fn[i] for i in best_idx[::-1][:args.best]]
@@ -166,15 +208,24 @@ def main():
     df1 = pd.DataFrame({
         'Model_name': models,
         'Threshold': thresholds,
-        'Francia tp:': francia_tp,
-        'Nevada tp:': nevada_tp,
-        'Belgica tp:': belgica_tp,
-        'Reykjanes tp:': reykjanes_tp,
-        'California tn:': california_tn,
-        'Tides tn:': tides_tn,
-        'Utah tn:': utah_tn,
-        'Shaker tn:': shaker_tn,
-        'Signals tn:': signals_tn,
+        'Francia TP': francia_tp,
+        'Francia FN': francia_fn,
+        'Nevada TP': nevada_tp,
+        'Nevada FN': nevada_fn,
+        'Belgica TP': belgica_tp,
+        'Belgica FN': belgica_fn,
+        'Reykjanes TP': reykjanes_tp,
+        'Reykjanes FN': reykjanes_fn,
+        'California TN': california_tn,
+        'California FP': california_fp,
+        'Tides TN': tides_tn,
+        'Tides FP': tides_fp,
+        'Utah TN': utah_tn,
+        'Utah FP': utah_fp,
+        'Shaker TN': shaker_tn,
+        'Shaker FP': shaker_fp,
+        'Signals TN': signals_tn,
+        'Signals FP': signals_fp,
         'True positives': tp,
         'True negatives': tn,
         'False positives': fp,
@@ -191,15 +242,24 @@ def main():
     df2 = pd.DataFrame({
         'Model_name': best_models,
         'Threshold': best_thresholds,
-        'Francia tp:': best_francia_tp,
-        'Nevada tp:': best_nevada_tp,
-        'Belgica tp:': best_belgica_tp,
-        'Reykjanes tp:': best_reykjanes_tp,
-        'California tn:': best_california_tn,
-        'Tides tn:': best_tides_tn,
-        'Utah tn:': best_utah_tn,
-        'Shaker tn:': best_shaker_tn,
-        'Signals tn:': best_signals_tn,
+        'Francia TP': best_francia_tp,
+        'Francia FN': best_francia_fn,
+        'Nevada TP': best_nevada_tp,
+        'Nevada FN': best_nevada_fn,
+        'Belgica TP': best_belgica_tp,
+        'Belgica FN': best_belgica_fn,
+        'Reykjanes TP': best_reykjanes_tp,
+        'Reykjanes FN': best_reykjanes_fn,
+        'California TN': best_california_tn,
+        'California FP': best_california_fp,
+        'Tides TN': best_tides_tn,
+        'Tides FP': best_tides_fp,
+        'Utah TN': best_utah_tn,
+        'Utah FP': best_utah_fp,
+        'Shaker TN': best_shaker_tn,
+        'Shaker FP': best_shaker_fp,
+        'Signals TN': best_signals_tn,
+        'Signals FP': best_signals_fp,
         'True positives': best_tp,
         'True negatives': best_tn,
         'False positives': best_fp,
