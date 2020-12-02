@@ -1518,10 +1518,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-3 --batch_size 256 \
 #              --classifier Cnn1_5k_2k --model_name Cnn1_5k_2k_1e3_256_20 > ../Analysis/logs/train/step4/Cnn1_5k_2k_1e3_256_20.txt
 #
-#echo "Evaluating model Cnn1_5k_2k_1e3_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_5k_2k --model_name Cnn1_5k_2k_1e3_256_20 > ../Analysis/logs/eval/step4/Cnn1_5k_2k_1e3_256_20.txt
+echo "Evaluating model Cnn1_5k_2k_1e3_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_5k_2k --model_name Cnn1_5k_2k_1e3_256_20 > ../Analysis/logs/eval/step4/Cnn1_5k_2k_1e3_256_20.txt
 #
 #echo "Training model Cnn1_5k_2k, lr = 1e-3, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
