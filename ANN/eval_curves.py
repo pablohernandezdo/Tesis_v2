@@ -163,8 +163,6 @@ def main():
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
 
-    print(cm)
-    
     # Confusion matrix
     plot_confusion_matrix(cm, target_names,
                           title=f'Confusion matrix {args.model_name}, threshold = {best_thresh}',
