@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
-    Path("../Analysis/Final/Averages").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Final/Best").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Final/Averages").mkdir(exist_ok=True)
     Path("../Analysis/Final/PR_curves").mkdir(exist_ok=True)
     Path("../Analysis/Final/ROC_curves").mkdir(exist_ok=True)
     Path("../Analysis/Final/Fscore_curves").mkdir(exist_ok=True)
