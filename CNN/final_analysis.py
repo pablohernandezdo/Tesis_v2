@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create folder for report
-    Path("../Analysis/Final/Averages").mkdir(exist_ok=True, parents=True)
+    Path("../Analysis/Final/Best").mkdir(exist_ok=True, parents=True)
     Path("../Analysis/Final/PR_curves").mkdir(exist_ok=True)
     Path("../Analysis/Final/ROC_curves").mkdir(exist_ok=True)
     Path("../Analysis/Final/Fscore_curves").mkdir(exist_ok=True)
@@ -295,62 +295,62 @@ def main():
     step5_pr_aucs = list(map(float, step5_pr_aucs))
     step5_roc_aucs = list(map(float, step5_roc_aucs))
 
-    # # Comparacion mejores curvas step4 y modelos promedio
-    #
-    # # Curvas PR
-    # plt.figure()
-    #
+    # Mejores curvas step4
+
+    # Curvas PR
+    plt.figure()
+
     # for crv in avg_pr_curves:
     #     plt.plot(crv[0], crv[1])
-    #
-    # for crv in step4_pr_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.hlines(0.5, 0, 1, 'b', '--')
-    # plt.title(f'PR curves best models CNN')
-    # plt.xlabel('Recall')
-    # plt.ylabel('Precision')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(0.48, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Final/Averages/best_PR_cnn.png')
-    #
-    # # Curva ROC
-    # plt.clf()
-    #
+
+    for crv in step4_pr_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models CNN')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Best/best_PR_cnn.png')
+
+    # Curva ROC
+    plt.clf()
+
     # for crv in avg_roc_curves:
     #     plt.plot(crv[0], crv[1])
-    #
-    # for crv in step4_roc_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # # Dumb model line
-    # plt.plot([0, 1], [0, 1], 'b--')
-    # plt.title(f'ROC curves best models CNN')
-    # plt.xlabel('False Positive Rate')
-    # plt.ylabel('Recall')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(-0.02, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Final/Averages/best_ROC_cnn.png')
-    #
-    # # Curva Fscore
-    # plt.clf()
-    #
+
+    for crv in step4_roc_curves:
+        plt.plot(crv[0], crv[1])
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curves best models CNN')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Best/best_ROC_cnn.png')
+
+    # Curva Fscore
+    plt.clf()
+
     # for crv in avg_fscore_curves:
     #     plt.plot(crv[0], crv[1])
-    #
-    # for crv in step4_fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-    #
-    # plt.title(f'Fscore vs thresholds curves best models CNN')
-    # plt.xlabel('Threshold')
-    # plt.ylabel('F-score')
-    # plt.xlim(-0.02, 1.02)
-    # plt.ylim(-0.02, 1.02)
-    # plt.grid(True)
-    # plt.savefig(f'../Analysis/Final/Averages/best_Fscore_cnn.png')
+
+    for crv in step4_fscore_curves:
+        plt.plot(crv[0], crv[1])
+
+    plt.title(f'Fscore vs thresholds curves best models CNN')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Best/best_Fscore_cnn.png')
 
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
