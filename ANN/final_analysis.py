@@ -321,11 +321,11 @@ def main():
     # Curva ROC
     plt.clf()
 
-    for crv in step5_roc_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step5_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     for crv in step4_roc_curves:
-        plt.plot(crv[0], crv[1])
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')
@@ -335,16 +335,17 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Best/Comp_ROC_ANN.png')
 
     # Curva Fscore
     plt.clf()
 
-    for crv in step5_fscore_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step5_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
-    for crv in step4_fscore_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     plt.title(f'Fscore vs thresholds curves best models ANN STEAD y DAS')
     plt.xlabel('Threshold')
@@ -352,6 +353,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_ANN.png')
 
     # Mejores curvas step4
@@ -359,11 +361,8 @@ def main():
     # Curvas PR
     plt.figure()
 
-    # for crv in avg_pr_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_pr_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -373,16 +372,14 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Best/best_PR_ann.png')
 
     # Curva ROC
     plt.clf()
 
-    # for crv in avg_roc_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_roc_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')
@@ -392,16 +389,14 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Best/best_ROC_ann.png')
 
     # Curva Fscore
     plt.clf()
 
-    # for crv in avg_fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_fscore_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     plt.title(f'Fscore vs thresholds curves best models ANN')
     plt.xlabel('Threshold')
@@ -409,6 +404,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_ann.png')
 
     # Comparacion mejores curvas step4 y modelos promedio
@@ -416,11 +412,11 @@ def main():
     # Curvas PR
     plt.figure()
 
-    for crv in avg_pr_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(avg_pr_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
-    for crv in step4_pr_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -430,16 +426,17 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
 
     # Curva ROC
     plt.clf()
 
-    for crv in avg_roc_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(avg_roc_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
-    for crv in step4_roc_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')
@@ -449,16 +446,17 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Averages/best_ROC_ann.png')
 
     # Curva Fscore
     plt.clf()
 
-    for crv in avg_fscore_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(avg_fscore_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
-    for crv in step4_fscore_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     plt.title(f'Fscore vs thresholds curves best models ANN')
     plt.xlabel('Threshold')
@@ -466,6 +464,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Averages/best_Fscore_ann.png')
 
     # Comparar las curvas PR de STEAD Y DAS
