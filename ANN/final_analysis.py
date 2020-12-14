@@ -301,11 +301,11 @@ def main():
     # Curvas PR
     plt.figure()
 
-    for crv in step5_pr_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step5_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl)
 
-    for crv in step4_pr_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl)
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -315,6 +315,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
+    plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN.png')
 
     # Curva ROC
