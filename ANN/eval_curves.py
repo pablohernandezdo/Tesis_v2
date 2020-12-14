@@ -112,7 +112,7 @@ def main():
                     total += labels.size(0)
 
                     # Add output values to list
-                    for i, lab in labels:
+                    for i, lab in enumerate(labels):
                         if lab:
                             s_outputs.append(outputs[i])
 
