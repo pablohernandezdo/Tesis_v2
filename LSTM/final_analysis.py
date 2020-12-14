@@ -434,6 +434,7 @@ def main():
         line_st4, = plt.plot(roc_step4[0], roc_step4[1], label="STEAD ROC curve")
         line_st5, = plt.plot(roc_step5[0], roc_step5[1], label="DAS ROC curve")
 
+        plt.hlines(0.5, 0, 1, 'b', '--')
         plt.title(f'Comparacion curva ROC STEAD y DAS modelo {mdl}')
         plt.xlabel('False Positive Rate')
         plt.ylabel('Recall')
@@ -451,6 +452,7 @@ def main():
         line_st4, = plt.plot(fscore_step4[0], fscore_step4[1], label="STEAD Fscore curve")
         line_st5, = plt.plot(fscore_step5[0], fscore_step5[1], label="DAS Fscore curve")
 
+        plt.plot([0, 1], [0, 1], 'b--')
         plt.title(f'Comparacion curva Fscore STEAD y DAS modelo {mdl}')
         plt.xlabel('Umbral')
         plt.ylabel('Fscore')
