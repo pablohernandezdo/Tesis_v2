@@ -60,7 +60,8 @@ def main():
 
     # Output values
     hist = 1
-    output_values = []
+    s_outputs = []
+    ns_outputs = []
 
     # Preallocate precision and recall values
     precision = []
@@ -94,11 +95,6 @@ def main():
         correct = 0
         total = 0
         tp, fp, tn, fn = 0, 0, 0, 0
-
-        # Intermediate output values lists
-
-        s_outputs = []
-        ns_outputs = []
 
         # Print threshold value
         print(f'Threshold value: {thresh}\n')
