@@ -182,9 +182,6 @@ def main():
           f'Test PR AUC: {pr_auc:5.3f}\n'
           f'Test ROC AUC: {roc_auc:5.3f}')
 
-    print(s_outputs)
-    print(ns_outputs)
-
     # Plot histograms
     plot_histograms(output_values, args.model_folder, args.model_name)
 
@@ -262,8 +259,8 @@ def plot_histograms(output_values, model_folder, model_name):
 
         plt.clf()
 
-        n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins='auto', facecolor='blue')
-        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins='auto', facecolor='red')
+        n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins='auto', facecolor='blue', alpha=0.75)
+        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins='auto', facecolor='red', alpha=0.75)
 
         plt.xlabel('rango ?')
         plt.ylabel('Probabilitiiii')
