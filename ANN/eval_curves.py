@@ -260,11 +260,10 @@ def plot_histograms(output_values, model_folder, model_name):
         plt.clf()
 
         n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins='auto', facecolor='blue')
-        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins='auto', facecolor='red')
+        # n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins='auto', facecolor='red')
 
         plt.xlabel('rango ?')
         plt.ylabel('Probabilitiiii')
-        # plt.xlim([0, 1])
         plt.grid(True)
 
         plt.savefig(f'../Analysis/Histograms/{model_folder}/Histogram_{model_name}_{thresh}.png')
