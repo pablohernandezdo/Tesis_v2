@@ -33,7 +33,7 @@ def main():
     Path(f"../Analysis/Fscore_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
     Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
     Path(f"../Analysis/Histograms/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    
+
     # Select training device
     device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
