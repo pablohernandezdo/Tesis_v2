@@ -182,6 +182,9 @@ def main():
           f'Test PR AUC: {pr_auc:5.3f}\n'
           f'Test ROC AUC: {roc_auc:5.3f}')
 
+    print(s_outputs)
+    print(ns_outputs)
+
     # Plot histograms
     plot_histograms(output_values, args.model_folder, args.model_name)
 
