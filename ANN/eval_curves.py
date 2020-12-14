@@ -114,7 +114,6 @@ def main():
 
                     # Add output values to list (just once)
                     if hist:
-                        hist = 0
                         for i, lab in enumerate(labels):
                             if lab:
                                 s_outputs.append(outputs[i].item())
@@ -137,6 +136,9 @@ def main():
 
                     correct += (predicted == labels).sum().item()
                     test_bar.update()
+
+        # Reset hist
+        hist = 0
 
         # Metrics
         pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn, args.beta)
