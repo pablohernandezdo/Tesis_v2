@@ -114,10 +114,10 @@ def main():
                     # Add output values to list
                     for i, lab in enumerate(labels):
                         if lab:
-                            s_outputs.append(outputs[i].cpu().numpy())
+                            s_outputs.append(outputs[i].item())
 
                         else:
-                            ns_outputs.append(outputs[i].cpu().numpy())
+                            ns_outputs.append(outputs[i].item())
 
                     # Count true positives, true negatives, etc.
                     for i, pred in enumerate(predicted):
