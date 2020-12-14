@@ -259,8 +259,8 @@ def plot_histograms(output_values, model_folder, model_name):
 
         plt.clf()
 
-        n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins=100, color='blue', alpha=0.75)
-        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins=100, color='red', alpha=0.75)
+        n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins=100, color='blue', alpha=0.5)
+        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins=100, color='red', alpha=0.5)
 
         plt.xlabel('rango ?')
         plt.ylabel('Probabilitiiii')
