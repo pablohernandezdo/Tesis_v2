@@ -262,8 +262,9 @@ def plot_histograms(output_values, model_folder, model_name):
         n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins=100, color='blue', alpha=0.6, label='Seismic')
         n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins=100, color='red', alpha=0.6, label='Non seismic')
 
-        plt.xlabel('rango ?')
-        plt.ylabel('Probabilitiiii')
+        plt.title(f'Output values histogram model {model_name} threshold {thresh}')
+        plt.xlabel('Net output value')
+        plt.ylabel('Frequency')
         plt.grid(True)
         plt.legend(loc='best')
         plt.savefig(f'../Analysis/Histograms/{model_folder}/Histogram_{model_name}_{thresh}.png')
