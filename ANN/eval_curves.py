@@ -58,7 +58,7 @@ def main():
     # Print number of network parameters
     print(f'Number of network parameters: {nparams}\n')
 
-    # Output values
+    # Seismic and non seismic output values
     hist = 1
     s_outputs = []
     ns_outputs = []
@@ -133,7 +133,7 @@ def main():
                     correct += (predicted == labels).sum().item()
                     test_bar.update()
 
-        # Reset hist
+        # Run just one time
         hist = 0
 
         # Metrics

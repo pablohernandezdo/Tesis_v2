@@ -21,9 +21,9 @@ from model import *
 def main():
     # Args
     parser = argparse.ArgumentParser()
+    parser.add_argument("--model_folder", default='default', help="Folder to save model")
     parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
     parser.add_argument("--classifier", default='C', help="Choose classifier architecture")
-    parser.add_argument("--model_folder", default='default', help="Folder to save model")
     args = parser.parse_args()
 
     # Create curves folders
@@ -43,6 +43,11 @@ def main():
     # Load parameters from trained model
     net.load_state_dict(torch.load('../../models/' + args.model_folder + '/' + args.model_name + '.pth'))
     net.eval()
+
+    # Seismic and non seismic output values
+    hist = 1
+    s_outputs = []
+    ns_outputs = []
 
     # Preallocate precision and recall values
     precision = []
@@ -80,36 +85,49 @@ def main():
         print(f'Threshold value: {thresh}\n')
 
         # Sismic classification
-        total, tp, fn = inf_francia(net, device, thresh)
+        total, tp, fn, outs = inf_francia(net, device, thresh, hist)
+        s_outputs.extend(outs)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_nevada(net, device, thresh)
+        total, tp, fn, outs = inf_nevada(net, device, thresh, hist)
+        s_outputs.extend(outs)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_belgica(net, device, thresh)
+        total, tp, fn, outs = inf_belgica(net, device, thresh, hist)
+        s_outputs.extend(outs)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
-        total, tp, fn = inf_reykjanes(net, device, thresh)
+        total, tp, fn, outs = inf_reykjanes(net, device, thresh, hist)
+        s_outputs.extend(outs)
         total_seismic, total_tp, total_fn = sum_triple(total_seismic, total_tp, total_fn, total, tp, fn)
 
         # # Non seismic classification
-        total, tn, fp = inf_california(net, device, thresh)
+        total, tn, fp, outs = inf_california(net, device, thresh, hist)
+        ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        # total, tn, fp = inf_hydraulic(net, device, thresh)
+        # total, tn, fp, outs = inf_hydraulic(net, device, thresh, hist)
+        # ns_outputs.extend(outs)
         # total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_tides(net, device, thresh)
+        total, tn, fp, outs = inf_tides(net, device, thresh, hist)
+        ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_utah(net, device, thresh)
+        total, tn, fp, outs = inf_utah(net, device, thresh, hist)
+        ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_shaker(net, device, thresh)
+        total, tn, fp, outs = inf_shaker(net, device, thresh, hist)
+        ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
-        total, tn, fp = inf_signals(net, device, thresh)
+        total, tn, fp, outs = inf_signals(net, device, thresh, hist)
+        ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
+
+        # Run hist just once
+        hist = 0
 
         # Metrics
         pre, rec, fpr, fscore = print_metrics(total_seismic, total_nseismic, total_tp, total_fp, total_tn, total_fn)
@@ -149,6 +167,9 @@ def main():
     print(f'Best threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n'
           f'PR AUC: {pr_auc:5.3f}\n'
           f'ROC AUC: {roc_auc:5.3f}\n')
+
+    # Plot histograms
+    plot_histograms(s_outputs, ns_outputs, args.model_folder, args.model_name)
 
     # PLOT BEST CONFUSION MATRIX
     target_names = ['Seismic', 'Non Seismic']
@@ -222,9 +243,27 @@ def normalize_trace(trace):
     return trace
 
 
-def inf_francia(net, device, thresh):
+def plot_histograms(s_outputs, ns_outputs, model_folder, model_name):
+
+    plt.figure()
+
+    n_seis, bins_seis, patches_seis = plt.hist(s_outputs, bins=100, color='blue', alpha=0.6, label='Seismic')
+    n_nseis, bins_nseis, patches_nseis = plt.hist(ns_outputs, bins=100, color='red', alpha=0.6, label='Non seismic')
+
+    plt.title(f'Output values histogram model {model_name}')
+    plt.xlabel('Net output value')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Histograms/{model_folder}/Histogram_{model_name}.png')
+
+
+def inf_francia(net, device, thresh, hist):
     # Counters
     total, tp, fn = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # Load Francia dataset
     f = scipy.io.loadmat("../../../Data/Francia/Earthquake_1p9_Var_BP_2p5_15Hz.mat")
@@ -262,6 +301,9 @@ def inf_francia(net, device, thresh):
                 # Count traces
                 total += 1
 
+                if hist:
+                    outputs.append(out_trace.item())
+
                 if pred_trace:
                     tp += 1
                 else:
@@ -272,12 +314,15 @@ def inf_francia(net, device, thresh):
     # Results
     print(f'Francia true positives: {tp}/{total}')
 
-    return total, tp, fn
+    return total, tp, fn, outputs
 
 
-def inf_nevada(net, device, thresh):
+def inf_nevada(net, device, thresh, hist):
     # Counters
     total, tp, fn = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # # Load Nevada data file 721
     # f = '../../../Data/Nevada/PoroTomo_iDAS16043_160321073721.sgy'
@@ -314,6 +359,9 @@ def inf_nevada(net, device, thresh):
     #
     #     # Count traces
     #     total += 1
+    #
+    #     if hist:
+    #       outputs.append(out_trace.item())
     #
     #     if pred_trace:
     #         tp += 1
@@ -360,6 +408,9 @@ def inf_nevada(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 tp += 1
             else:
@@ -395,6 +446,9 @@ def inf_nevada(net, device, thresh):
     #     # Count traces
     #     total += 1
     #
+    #     if hist:
+    #       outputs.append(out_trace.item())
+    #
     #     if pred_trace:
     #         tp += 1
     #     else:
@@ -428,6 +482,9 @@ def inf_nevada(net, device, thresh):
     #     # Count traces
     #     total += 1
     #
+    #     if hist:
+    #         outputs.append(out_trace.item())
+    #
     #     if pred_trace:
     #         tp += 1
     #     else:
@@ -436,12 +493,15 @@ def inf_nevada(net, device, thresh):
     # Results
     print(f'Nevada true positives: {tp}/{total}')
 
-    return total, tp, fn
+    return total, tp, fn, outputs
 
 
-def inf_belgica(net, device, thresh):
+def inf_belgica(net, device, thresh, hist):
     # Counters
     total, tp, fn = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # # Load Belgica data
     f = scipy.io.loadmat("../../../Data/Belgica/mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
@@ -468,6 +528,9 @@ def inf_belgica(net, device, thresh):
     #
     #     # Count traces
     #     total_seismic += 1
+    #
+    #     if hist:
+    #         outputs.append(out_trace.item())
     #
     #     if pred_trace:
     #         tp += 1
@@ -501,6 +564,9 @@ def inf_belgica(net, device, thresh):
 
             total += 1
 
+            if hist:
+                outputs.append(output.item())
+
             if predicted:
                 tp += 1
             else:
@@ -511,15 +577,18 @@ def inf_belgica(net, device, thresh):
     # Results
     print(f'Belgica true positives: {tp}/{total}')
 
-    return total, tp, fn
+    return total, tp, fn, outputs
 
 
-def inf_reykjanes(net, device, thresh):
+def inf_reykjanes(net, device, thresh, hist):
     # Rng
     rng = default_rng()
 
     # Counters
     total, tp, fn = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # Reykjanes telesismo fibra optica
     file_fo = '../../../Data/Reykjanes/Jousset_et_al_2018_003_Figure3_fo.ascii'
@@ -554,6 +623,9 @@ def inf_reykjanes(net, device, thresh):
 
     # Count traces
     total += 1
+
+    if hist:
+        outputs.append(out.item())
 
     if predicted:
         tp += 1
@@ -612,6 +684,9 @@ def inf_reykjanes(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 tp += 1
             else:
@@ -622,12 +697,15 @@ def inf_reykjanes(net, device, thresh):
     # Results
     print(f'Reykjanes true positives: {tp}/{total}\n')
 
-    return total, tp, fn
+    return total, tp, fn, outputs
 
 
-def inf_california(net, device, thresh):
+def inf_california(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # # Load California dataset file
     f = scipy.io.loadmat('../../../Data/California/FSE-06_480SecP_SingDec_StepTest (1).mat')
@@ -659,6 +737,9 @@ def inf_california(net, device, thresh):
                 # Count traces
                 total += 1
 
+                if hist:
+                    outputs.append(out_trace.item())
+
                 if pred_trace:
                     fp += 1
                 else:
@@ -669,12 +750,15 @@ def inf_california(net, device, thresh):
     # Results
     print(f'California true negatives: {tn}/{total}')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
-def inf_hydraulic(net, device, thresh):
+def inf_hydraulic(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # File name
     file = '../../../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
@@ -705,6 +789,9 @@ def inf_hydraulic(net, device, thresh):
 
                 # Count traces
                 total += 1
+
+                if hist:
+                    outputs.append(out_trace.item())
 
                 if pred_trace:
                     fp += 1
@@ -745,6 +832,9 @@ def inf_hydraulic(net, device, thresh):
                 # Count traces
                 total += 1
 
+                if hist:
+                    outputs.append(out_trace.item())
+
                 if pred_trace:
                     fp += 1
                 else:
@@ -784,6 +874,9 @@ def inf_hydraulic(net, device, thresh):
                 # Count traces
                 total += 1
 
+                if hist:
+                    outputs.append(out_trace.item())
+
                 if pred_trace:
                     fp += 1
                 else:
@@ -794,12 +887,15 @@ def inf_hydraulic(net, device, thresh):
     # Results
     print(f'Hydraulic true negatives: {tn}/{total}')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
-def inf_tides(net, device, thresh):
+def inf_tides(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # File name
     file = '../../../Data/Tides/CSULB_T13_EarthTide_earthtide_mean_360_519.mat'
@@ -833,6 +929,9 @@ def inf_tides(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -843,12 +942,15 @@ def inf_tides(net, device, thresh):
     # Results
     print(f'Tides true negatives: {tn}/{total}')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
-def inf_utah(net, device, thresh):
+def inf_utah(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # Load Utah data file 1
     f = '../../../Data/Utah/FORGE_78-32_iDASv3-P11_UTC190419001218.sgy'
@@ -879,6 +981,9 @@ def inf_utah(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -889,12 +994,15 @@ def inf_utah(net, device, thresh):
     # Results
     print(f'Utah true negatives: {tn}/{total}')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
-def inf_vibroseis(net, device, thresh):
+def inf_vibroseis(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # Load Vibroseis dataset file 047
     f = '../../../Data/Vibroseis/PoroTomo_iDAS025_160325140047.sgy'
@@ -924,6 +1032,9 @@ def inf_vibroseis(net, device, thresh):
 
             # Count traces
             total += 1
+
+            if hist:
+                outputs.append(out_trace.item())
 
             if pred_trace:
                 fp += 1
@@ -961,6 +1072,9 @@ def inf_vibroseis(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -996,6 +1110,9 @@ def inf_vibroseis(net, device, thresh):
 
             # Count traces
             total += 1
+
+            if hist:
+                outputs.append(out_trace.item())
 
             if pred_trace:
                 fp += 1
@@ -1033,6 +1150,9 @@ def inf_vibroseis(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -1043,12 +1163,15 @@ def inf_vibroseis(net, device, thresh):
     # Results
     print(f'Vibroseis true negatives: {tn}/{total}')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
-def inf_shaker(net, device, thresh):
+def inf_shaker(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # Load Shaker dataset file
     f = '../../../Data/Shaker/large shaker NEES_130910161319 (1).sgy'
@@ -1082,6 +1205,9 @@ def inf_shaker(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -1092,12 +1218,15 @@ def inf_shaker(net, device, thresh):
     # Results
     print(f'Shaker true negatives: {tn}/{total}')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
-def inf_signals(net, device, thresh):
+def inf_signals(net, device, thresh, hist):
     # Counters
     total, tn, fp = 0, 0, 0
+
+    # Outputs list
+    outputs = []
 
     # Señales de prueba
     # Init rng
@@ -1224,6 +1353,9 @@ def inf_signals(net, device, thresh):
 
     total += 1
 
+    if hist:
+        outputs.append(out.item())
+
     if out:
         fp += 1
     else:
@@ -1244,6 +1376,9 @@ def inf_signals(net, device, thresh):
 
             # Count traces
             total += 1
+
+            if hist:
+                outputs.append(out_trace.item())
 
             if pred_trace:
                 fp += 1
@@ -1268,6 +1403,9 @@ def inf_signals(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -1290,6 +1428,9 @@ def inf_signals(net, device, thresh):
 
             # Count traces
             total += 1
+
+            if hist:
+                outputs.append(out_trace.item())
 
             if pred_trace:
                 fp += 1
@@ -1314,6 +1455,9 @@ def inf_signals(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -1335,6 +1479,9 @@ def inf_signals(net, device, thresh):
 
             # Count traces
             total += 1
+
+            if hist:
+                outputs.append(out_trace.item())
 
             if pred_trace:
                 fp += 1
@@ -1358,6 +1505,9 @@ def inf_signals(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -1379,6 +1529,9 @@ def inf_signals(net, device, thresh):
 
             # Count traces
             total += 1
+
+            if hist:
+                outputs.append(out_trace.item())
 
             if pred_trace:
                 fp += 1
@@ -1402,6 +1555,9 @@ def inf_signals(net, device, thresh):
             # Count traces
             total += 1
 
+            if hist:
+                outputs.append(out_trace.item())
+
             if pred_trace:
                 fp += 1
             else:
@@ -1412,7 +1568,7 @@ def inf_signals(net, device, thresh):
     # Results
     print(f'Test signals true negatives: {tn}/{total}\n')
 
-    return total, tn, fp
+    return total, tn, fp, outputs
 
 
 def sum_triple(i1, i2, i3, s1, s2, s3):
