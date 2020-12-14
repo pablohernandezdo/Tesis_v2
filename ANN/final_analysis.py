@@ -302,10 +302,10 @@ def main():
     plt.figure()
 
     for crv, mdl in zip(step5_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], label=mdl)
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(step4_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], label=mdl)
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
