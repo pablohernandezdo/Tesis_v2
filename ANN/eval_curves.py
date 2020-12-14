@@ -31,11 +31,11 @@ def main():
 
     # Create curves folders
     Path(f"../Analysis/Confusion_matrices/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/PR_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../Analysis/ROC_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../Analysis/Fscore_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(exist_ok=True)
-    Path(f"../Analysis/Histograms/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Analysis/PR_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/ROC_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/Fscore_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/Histograms/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
