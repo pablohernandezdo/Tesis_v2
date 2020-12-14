@@ -31,10 +31,11 @@ def main():
 
     # Create curves folders
     Path(f"../Analysis/Confusion_matrices/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/PR_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/ROC_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/Fscore_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/PR_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Analysis/ROC_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Analysis/Fscore_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(exist_ok=True)
+    Path(f"../Analysis/Histograms/{args.model_folder}").mkdir(exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -57,6 +58,9 @@ def main():
     # Print number of network parameters
     print(f'Number of network parameters: {nparams}\n')
 
+    # Output values
+    output_values = []
+
     # Preallocate precision and recall values
     precision = []
     fp_rate = []
@@ -75,7 +79,8 @@ def main():
     best_thresh = 0
 
     # Thresholds to evaluate performance on
-    thresholds = np.arange(0.05, 1, 0.05)
+    # thresholds = np.arange(0.05, 1, 0.05)
+    thresholds = [0.5]
 
     # Round threshold values
     thresholds = np.around(thresholds, decimals=2)
@@ -89,6 +94,11 @@ def main():
         total = 0
         tp, fp, tn, fn = 0, 0, 0, 0
 
+        # Intermediate output values lists
+
+        s_outputs = []
+        ns_outputs = []
+
         # Print threshold value
         print(f'Threshold value: {thresh}\n')
 
@@ -101,6 +111,15 @@ def main():
                     predicted = (outputs > thresh)
                     total += labels.size(0)
 
+                    # Add output values to list
+                    for i, lab in labels:
+                        if lab:
+                            s_outputs.append(outputs[i])
+
+                        else:
+                            ns_outputs.append(outputs[i])
+
+                    # Count true positives, true negatives, etc.
                     for i, pred in enumerate(predicted):
                         if pred:
                             if pred == labels[i]:
@@ -115,6 +134,9 @@ def main():
 
                     correct += (predicted == labels).sum().item()
                     test_bar.update()
+
+        # Append outputs to general list
+        output_values.append([s_outputs, ns_outputs, thresh])
 
         # Metrics
         pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn, args.beta)
@@ -159,6 +181,9 @@ def main():
     print(f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
           f'Test PR AUC: {pr_auc:5.3f}\n'
           f'Test ROC AUC: {roc_auc:5.3f}')
+
+    # Plot histograms
+    plot_histograms(output_values, args.model_folder, args.model_name)
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
@@ -224,6 +249,25 @@ def main():
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.savefig(f'../Analysis/ROC_curves/{args.model_folder}/ROC_test_{args.model_name}.png')
+
+
+def plot_histograms(output_values, model_folder, model_name):
+
+    plt.figure()
+
+    for seismic_outputs, nseismic_outputs, thresh in output_values:
+
+        plt.clf()
+
+        n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, facecolor='blue')
+        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, facecolor='red')
+
+        plt.xlabel('rango ?')
+        plt.ylabel('Probabilitiiii')
+        plt.xlim([0, 1])
+        plt.grid(True)
+
+        plt.savefig(f'../Analysis/Histograms/{model_folder}/Histogram_{model_name}_{thresh}.png')
 
 
 def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
