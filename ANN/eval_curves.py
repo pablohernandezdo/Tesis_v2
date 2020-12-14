@@ -59,6 +59,7 @@ def main():
     print(f'Number of network parameters: {nparams}\n')
 
     # Output values
+    hist = 1
     output_values = []
 
     # Preallocate precision and recall values
@@ -111,13 +112,15 @@ def main():
                     predicted = (outputs > thresh)
                     total += labels.size(0)
 
-                    # Add output values to list
-                    for i, lab in enumerate(labels):
-                        if lab:
-                            s_outputs.append(outputs[i].item())
+                    # Add output values to list (just once)
+                    if hist:
+                        hist = 0
+                        for i, lab in enumerate(labels):
+                            if lab:
+                                s_outputs.append(outputs[i].item())
 
-                        else:
-                            ns_outputs.append(outputs[i].item())
+                            else:
+                                ns_outputs.append(outputs[i].item())
 
                     # Count true positives, true negatives, etc.
                     for i, pred in enumerate(predicted):
@@ -134,9 +137,6 @@ def main():
 
                     correct += (predicted == labels).sum().item()
                     test_bar.update()
-
-        # Append outputs to general list
-        output_values.append([s_outputs, ns_outputs, thresh])
 
         # Metrics
         pre, rec, fpr, fscore = print_metrics(tp, fp, tn, fn, args.beta)
@@ -183,7 +183,7 @@ def main():
           f'Test ROC AUC: {roc_auc:5.3f}')
 
     # Plot histograms
-    plot_histograms(output_values, args.model_folder, args.model_name)
+    plot_histograms(s_outputs, ns_outputs, args.model_folder, args.model_name)
 
     # Plot best confusion matrices
     target_names = ['Seismic', 'Non Seismic']
@@ -251,23 +251,19 @@ def main():
     plt.savefig(f'../Analysis/ROC_curves/{args.model_folder}/ROC_test_{args.model_name}.png')
 
 
-def plot_histograms(output_values, model_folder, model_name):
+def plot_histograms(s_outputs, ns_outputs, model_folder, model_name):
 
     plt.figure()
 
-    for seismic_outputs, nseismic_outputs, thresh in output_values:
+    n_seis, bins_seis, patches_seis = plt.hist(s_outputs, bins=100, color='blue', alpha=0.6, label='Seismic')
+    n_nseis, bins_nseis, patches_nseis = plt.hist(ns_outputs, bins=100, color='red', alpha=0.6, label='Non seismic')
 
-        plt.clf()
-
-        n_seis, bins_seis, patches_seis = plt.hist(seismic_outputs, bins=100, color='blue', alpha=0.6, label='Seismic')
-        n_nseis, bins_nseis, patches_nseis = plt.hist(nseismic_outputs, bins=100, color='red', alpha=0.6, label='Non seismic')
-
-        plt.title(f'Output values histogram model {model_name} threshold {thresh}')
-        plt.xlabel('Net output value')
-        plt.ylabel('Frequency')
-        plt.grid(True)
-        plt.legend(loc='best')
-        plt.savefig(f'../Analysis/Histograms/{model_folder}/Histogram_{model_name}_{thresh}.png')
+    plt.title(f'Output values histogram model {model_name}')
+    plt.xlabel('Net output value')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Histograms/{model_folder}/Histogram_{model_name}.png')
 
 
 def plot_confusion_matrix(cm, target_names, title='Confusion matrix',
