@@ -568,10 +568,10 @@ def main():
     plt.clf()
 
     for crv, mdl in zip(step5_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=2, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=10, label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(avg_das_pr_curves, avg_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=2, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=10, label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
