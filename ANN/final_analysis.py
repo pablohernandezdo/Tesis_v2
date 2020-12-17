@@ -568,7 +568,7 @@ def main():
     plt.clf()
 
     for crv, mdl in zip(step5_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], 'bo', label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(avg_das_pr_curves, avg_models):
         plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
