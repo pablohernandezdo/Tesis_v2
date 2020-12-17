@@ -568,10 +568,10 @@ def main():
     plt.clf()
 
     for crv, mdl in zip(step5_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=8, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(avg_das_pr_curves, avg_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=8, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -608,10 +608,10 @@ def main():
     plt.clf()
 
     for crv, mdl in zip(step5_fscore_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=8, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(avg_das_fscore_curves, avg_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=8, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     plt.title(f'Fscore vs thresholds curves best models and average models ANN')
     plt.xlabel('Threshold')
