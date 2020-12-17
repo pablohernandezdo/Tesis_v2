@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--step4_folder', default='default', help='Best step4 models log folder')
     parser.add_argument('--step5_folder', default='default', help='Step5 log folder')
     parser.add_argument('--avg_folder', default='default', help='Average models log folder')
+    parser.add_argument('--avg_das_folder', default='default', help='Average models das log folder')
     parser.add_argument('--best_models', default='', help='Best model names space separated')
     parser.add_argument('--avg_models', default='', help='Average model names space separated')
     parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
@@ -30,6 +31,7 @@ def main():
     step4_eval_wkdir = '../Analysis/logs/eval/' + args.step4_folder
     step5_eval_wkdir = '../Analysis/logs/eval/' + args.step5_folder
     avg_eval_wkdir = '../Analysis/logs/eval/' + args.avg_folder
+    avg_eval_das_wkdir = '../Analysis/logs/eval/' + args.avg_das_folder
 
     best_models = args.best_models.strip().split(' ')
     avg_models = args.avg_models.strip().split(' ')
@@ -52,6 +54,11 @@ def main():
     avg_fpr = []
     avg_fsc = []
 
+    avg_das_pre = []
+    avg_das_rec = []
+    avg_das_fpr = []
+    avg_das_fsc = []
+
     # Lists of PR, ROC and Fscore curves
     step4_pr_curves = []
     step4_roc_curves = []
@@ -65,6 +72,10 @@ def main():
     avg_roc_curves = []
     avg_fscore_curves = []
 
+    avg_das_pr_curves = []
+    avg_das_roc_curves = []
+    avg_das_fscore_curves = []
+
     # PR and ROC AUCs
     step4_pr_aucs = []
     step4_roc_aucs = []
@@ -75,8 +86,12 @@ def main():
     avg_pr_aucs = []
     avg_roc_aucs = []
 
+    avg_das_pr_aucs = []
+    avg_das_roc_aucs = []
+
     # Best Fscores
     avg_best_fscores = []
+    avg_das_best_fscores = []
     step4_best_fscores = []
     step5_best_fscores = []
 
@@ -146,6 +161,72 @@ def main():
     avg_best_fscores = list(map(float, avg_best_fscores))
     avg_pr_aucs = list(map(float, avg_pr_aucs))
     avg_roc_aucs = list(map(float, avg_roc_aucs))
+
+    # Read average model variables
+    for f_name in avg_models:
+        with open(os.path.join(avg_eval_das_wkdir, f_name), 'r') as f:
+
+            f.readline()
+            f.readline()
+
+            for _ in range(args.n_thresh):
+                thresh = f.readline().split(':')[-1].strip()
+                thresholds.append(thresh)
+
+                # Skip non-useful lines
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                # acc
+                f.readline()
+
+                # Read metrics
+                avg_das_pre.append(f.readline().split(":")[-1].strip())
+                avg_das_rec.append(f.readline().split(":")[-1].strip())
+                avg_das_fpr.append(f.readline().split(":")[-1].strip())
+                avg_das_fsc.append(f.readline().split(":")[-1].strip())
+
+                f.readline()
+                f.readline()
+                f.readline()
+
+            # Terminar de leer el archivo
+            avg_das_best_fscores.append(f.readline().split(",")[-1].strip().split(":")[-1].strip())
+
+            f.readline()
+
+            avg_das_pr_aucs.append(f.readline().split(":")[-1].strip())
+            avg_das_roc_aucs.append(f.readline().split(":")[-1].strip())
+
+            avg_das_pre = list(map(float, avg_das_pre))
+            avg_das_rec = list(map(float, avg_das_rec))
+            avg_das_fpr = list(map(float, avg_das_fpr))
+            avg_das_fsc = list(map(float, avg_das_fsc))
+            thresholds = list(map(float, thresholds))
+
+            # Aqui armar la curva y agregarlas a la lista mayor
+            avg_das_pr_curves.append([avg_das_rec, avg_das_pre])
+            avg_das_roc_curves.append([avg_das_fpr, avg_das_rec])
+            avg_das_fscore_curves.append([thresholds, avg_das_fsc])
+
+            avg_das_pre = []
+            avg_das_rec = []
+            avg_das_fpr = []
+            avg_das_fsc = []
+            thresholds = []
+
+    avg_das_best_fscores = list(map(float, avg_das_best_fscores))
+    avg_das_pr_aucs = list(map(float, avg_das_pr_aucs))
+    avg_das_roc_aucs = list(map(float, avg_das_roc_aucs))
 
     for f_name in best_models:
         with open(os.path.join(step4_eval_wkdir, f_name), 'r') as f:
