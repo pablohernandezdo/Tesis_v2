@@ -3,8 +3,6 @@ import argparse
 
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -166,27 +164,47 @@ def main():
     for f_name in avg_models:
         with open(os.path.join(avg_eval_das_wkdir, f_name), 'r') as f:
 
-            f.readline()
-            f.readline()
-
             for _ in range(args.n_thresh):
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
 
-                # Skip non-useful lines
+                # Space after threshold
+                f.readline()
+
+                # True positives
+                f.readline()
+                f.readline()
+                f.readline()
+                f.readline()
+
+                # Space
+                f.readline()
+
+                # True negatives
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
 
+                # Space
                 f.readline()
+
+                # Total seismic, non-seismic
+                f.readline()
+                f.readline()
+
+                # Space
+                f.readline()
+
+                # Total TP, TN, FP, FN
                 f.readline()
                 f.readline()
                 f.readline()
                 f.readline()
 
-                # acc
+                # Space and Accuracy
+                f.readline()
                 f.readline()
 
                 # Read metrics
@@ -196,14 +214,9 @@ def main():
                 avg_das_fsc.append(f.readline().split(":")[-1].strip())
 
                 f.readline()
-                f.readline()
-                f.readline()
 
             # Terminar de leer el archivo
             avg_das_best_fscores.append(f.readline().split(",")[-1].strip().split(":")[-1].strip())
-
-            f.readline()
-
             avg_das_pr_aucs.append(f.readline().split(":")[-1].strip())
             avg_das_roc_aucs.append(f.readline().split(":")[-1].strip())
 
@@ -405,7 +418,7 @@ def main():
     for crv, mdl in zip(step5_roc_curves, best_models):
         plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
-    for crv in step4_roc_curves:
+    for crv, mdl in zip(step4_roc_curves, best_models):
         plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
 
     # Dumb model line
