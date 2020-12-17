@@ -10,6 +10,7 @@ def main():
     # Create folder for report
     Path("../Analysis/Final/Best").mkdir(exist_ok=True, parents=True)
     Path("../Analysis/Final/Averages").mkdir(exist_ok=True)
+    Path("../Analysis/Final/Averages_comp").mkdir(exist_ok=True)
     Path("../Analysis/Final/PR_curves").mkdir(exist_ok=True)
     Path("../Analysis/Final/ROC_curves").mkdir(exist_ok=True)
     Path("../Analysis/Final/Fscore_curves").mkdir(exist_ok=True)
@@ -453,7 +454,7 @@ def main():
     # Mejores curvas step4
 
     # Curvas PR
-    plt.figure()
+    plt.clf()
 
     for crv, mdl in zip(step4_pr_curves, best_models):
         plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
@@ -504,7 +505,7 @@ def main():
     # Comparacion mejores curvas step4 y modelos promedio
 
     # Curvas PR
-    plt.figure()
+    plt.clf()
 
     for crv, mdl in zip(avg_pr_curves, avg_models):
         plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
@@ -561,6 +562,66 @@ def main():
     plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Averages/best_Fscore_ann.png')
 
+    # Comparación curvas step5 mejores modelos y promedio
+
+    # Curva PR
+    plt.clf()
+
+    for crv, mdl in zip(step5_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+
+    for crv, mdl in zip(avg_das_pr_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models and average models ANN')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_PR_ann.png')
+
+    # Curva ROC
+    plt.clf()
+
+    for crv, mdl in zip(step5_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+
+    for crv, mdl in zip(avg_das_roc_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curves best models and average models ANN')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_ROC_ann.png')
+
+    # Curva Fscore
+    plt.clf()
+
+    for crv, mdl in zip(step5_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+
+    for crv, mdl in zip(avg_das_fscore_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+
+    plt.title(f'Fscore vs thresholds curves best models and average models ANN')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_Fscore_ann.png')
+    
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
