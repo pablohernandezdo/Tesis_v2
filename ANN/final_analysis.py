@@ -622,6 +622,72 @@ def main():
     plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_Fscore_ann.png')
 
+    # Lo mismo de arriba pero solo dos modelos
+
+    # Curva PR
+    plt.clf()
+
+    for crv, mdl in zip(step5_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+        break
+
+    for crv, mdl in zip(avg_das_pr_curves, avg_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+        break
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curve best model and average model ANN')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    # plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_PR_ann.png')
+
+    # Curva ROC
+    plt.clf()
+
+    for crv, mdl in zip(step5_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+        break
+
+    for crv, mdl in zip(avg_das_roc_curves, avg_models):
+        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+        break
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curve best model and average model ANN')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_ROC_ann.png')
+
+    # Curva Fscore
+    plt.clf()
+
+    for crv, mdl in zip(step5_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+        break
+
+    for crv, mdl in zip(avg_das_fscore_curves, avg_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+        break
+
+    plt.title(f'Fscore vs thresholds curve best model and average model ANN')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best')
+    plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_Fscore_ann.png')
+
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
