@@ -568,7 +568,7 @@ def main():
     plt.clf()
 
     for crv, mdl in zip(step5_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], 'bo', label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(avg_das_pr_curves, avg_models):
         plt.plot(crv[0], crv[1], label=mdl.strip().split('.')[0])
@@ -621,7 +621,7 @@ def main():
     plt.grid(True)
     plt.legend(loc='best')
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_Fscore_ann.png')
-    
+
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
