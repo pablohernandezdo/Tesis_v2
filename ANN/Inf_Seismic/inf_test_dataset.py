@@ -73,7 +73,7 @@ def main():
     thresholds = np.array([0.025, 0.075, 0.125, 0.175, 0.225, 0.275, 0.325, 0.375, 0.425, 0.475])
 
     # Round threshold values
-    thresholds = np.around(thresholds, decimals=2)
+    thresholds = np.around(thresholds, decimals=3)
 
     # Evaluate model on DAS test dataset
 
