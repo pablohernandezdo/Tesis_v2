@@ -36,6 +36,7 @@ def main():
     Path(f"../Analysis/Fscore_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
     Path(f"../Analysis/FPFN_curves/{args.model_folder}").mkdir(parents=True, exist_ok=True)
     Path(f"../Analysis/Histograms/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/Output_values/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -81,11 +82,11 @@ def main():
     best_thresh = 0
 
     # Thresholds to evaluate performance on
-    # thresholds = np.arange(0.05, 1, 0.05)
-    thresholds = [0, 0.5, 0.9]
+    thresholds = np.arange(0.025, 1, 0.025)
+    # thresholds = [0, 0.5, 0.9]
 
     # Round threshold values
-    thresholds = np.around(thresholds, decimals=2)
+    thresholds = np.around(thresholds, decimals=3)
 
     # Evaluate model on training dataset
 
@@ -179,6 +180,13 @@ def main():
     print(f'Best test threshold: {best_thresh}, f-score: {max_fscore:5.3f}\n\n'
           f'Test PR AUC: {pr_auc:5.3f}\n'
           f'Test ROC AUC: {roc_auc:5.3f}')
+
+    # Save output values to file
+    with open(f'../Analysis/Output_values/{args.model_folder}/outputs_{args.model_name}.txt', 'w') as f:
+        f.write('Seismic outputs\n')
+        f.write('\n'.join(s_outputs))
+        f.write('Non-Seismic outputs\n')
+        f.write('\n'.join(ns_outputs))
 
     # Plot histograms
     plot_histograms(s_outputs, ns_outputs, args.model_folder, args.model_name)

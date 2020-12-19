@@ -129,10 +129,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 5e-4 --batch_size 256 \
 #              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_5e4_256_40 > ../Analysis/logs/train/step4/Cnn1_2k_1h_5e4_256_40.txt
 #
-#echo "Evaluating model Cnn1_2k_1h_5e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_5e4_256_40 > ../Analysis/logs/eval/step4/Cnn1_2k_1h_5e4_256_40.txt
+echo "Evaluating model Cnn1_2k_1h_5e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_5e4_256_40 > ../Analysis/logs/eval/step4/Cnn1_2k_1h_5e4_256_40.txt
 #
 ## Learning rate 1e-4
 #
@@ -167,10 +167,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_1e4_256_30 > ../Analysis/logs/train/step4/Cnn1_2k_1h_1e4_256_30.txt
 #
-#echo "Evaluating model Cnn1_2k_1h_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_1e4_256_30 > ../Analysis/logs/eval/step4/Cnn1_2k_1h_1e4_256_30.txt
+echo "Evaluating model Cnn1_2k_1h_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_1e4_256_30 > ../Analysis/logs/eval/step4/Cnn1_2k_1h_1e4_256_30.txt
 #
 #echo "Training model Cnn1_2k_1h, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
@@ -253,10 +253,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 5e-5 --batch_size 256 \
 #              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_5e5_256_40 > ../Analysis/logs/train/step4/Cnn1_2k_1h_5e5_256_40.txt
 #
-#echo "Evaluating model Cnn1_2k_1h_5e5_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_5e5_256_40 > ../Analysis/logs/eval/step4/Cnn1_2k_1h_5e5_256_40.txt
+echo "Evaluating model Cnn1_2k_1h_5e5_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_2k_1h --model_name Cnn1_2k_1h_5e5_256_40 > ../Analysis/logs/eval/step4/Cnn1_2k_1h_5e5_256_40.txt
 #
 ## Cnn1_3k
 #
@@ -292,10 +292,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-3 --batch_size 256 \
 #              --classifier Cnn1_3k --model_name Cnn1_3k_1e3_256_30 > ../Analysis/logs/train/step4/Cnn1_3k_1e3_256_30.txt
 #
-#echo "Evaluating model Cnn1_3k_1e3_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_3k --model_name Cnn1_3k_1e3_256_30 > ../Analysis/logs/eval/step4/Cnn1_3k_1e3_256_30.txt
+echo "Evaluating model Cnn1_3k_1e3_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_3k --model_name Cnn1_3k_1e3_256_30 > ../Analysis/logs/eval/step4/Cnn1_3k_1e3_256_30.txt
 #
 #
 #echo "Training model Cnn1_3k, lr = 1e-3, epochs = 5, batch_size = 256"
@@ -643,10 +643,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_1k_2k --model_name Cnn1_1k_2k_1e4_256_20 > ../Analysis/logs/train/step4/Cnn1_1k_2k_1e4_256_20.txt
 #
-#echo "Evaluating model Cnn1_1k_2k_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_1k_2k --model_name Cnn1_1k_2k_1e4_256_20 > ../Analysis/logs/eval/step4/Cnn1_1k_2k_1e4_256_20.txt
+echo "Evaluating model Cnn1_1k_2k_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_1k_2k --model_name Cnn1_1k_2k_1e4_256_20 > ../Analysis/logs/eval/step4/Cnn1_1k_2k_1e4_256_20.txt
 #
 #echo "Training model Cnn1_1k_2k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
@@ -1405,10 +1405,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_6k_5k --model_name Cnn1_6k_5k_1e4_256_25 > ../Analysis/logs/train/step4/Cnn1_6k_5k_1e4_256_25.txt
 #
-#echo "Evaluating model Cnn1_6k_5k_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_6k_5k --model_name Cnn1_6k_5k_1e4_256_25 > ../Analysis/logs/eval/step4/Cnn1_6k_5k_1e4_256_25.txt
+echo "Evaluating model Cnn1_6k_5k_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_6k_5k --model_name Cnn1_6k_5k_1e4_256_25 > ../Analysis/logs/eval/step4/Cnn1_6k_5k_1e4_256_25.txt
 #
 #echo "Training model Cnn1_6k_5k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
@@ -1417,10 +1417,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_6k_5k --model_name Cnn1_6k_5k_1e4_256_30 > ../Analysis/logs/train/step4/Cnn1_6k_5k_1e4_256_30.txt
 #
-#echo "Evaluating model Cnn1_6k_5k_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_6k_5k --model_name Cnn1_6k_5k_1e4_256_30 > ../Analysis/logs/eval/step4/Cnn1_6k_5k_1e4_256_30.txt
+echo "Evaluating model Cnn1_6k_5k_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_6k_5k --model_name Cnn1_6k_5k_1e4_256_30 > ../Analysis/logs/eval/step4/Cnn1_6k_5k_1e4_256_30.txt
 #
 #echo "Training model Cnn1_6k_5k, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
@@ -1905,10 +1905,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_25 > ../Analysis/logs/train/step4/Cnn1_3k_10_1e4_256_25.txt
 #
-#echo "Evaluating model Cnn1_3k_10_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_25 > ../Analysis/logs/eval/step4/Cnn1_3k_10_1e4_256_25.txt
+echo "Evaluating model Cnn1_3k_10_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_25 > ../Analysis/logs/eval/step4/Cnn1_3k_10_1e4_256_25.txt
 #
 #echo "Training model Cnn1_3k_10, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
@@ -1941,10 +1941,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_40 > ../Analysis/logs/train/step4/Cnn1_3k_10_1e4_256_40.txt
 #
-#echo "Evaluating model Cnn1_3k_10_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_40 > ../Analysis/logs/eval/step4/Cnn1_3k_10_1e4_256_40.txt
+echo "Evaluating model Cnn1_3k_10_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_40 > ../Analysis/logs/eval/step4/Cnn1_3k_10_1e4_256_40.txt
 #
 ## Learning rate 5e-5
 #
@@ -2167,10 +2167,10 @@ val="Validation_data.hdf5"
 #              --n_epochs 5 --lr 1e-4 --batch_size 256 \
 #              --classifier Cnn1_6k_2h --model_name Cnn1_6k_2h_1e4_256_30 > ../Analysis/logs/train/step4/Cnn1_6k_2h_1e4_256_30.txt
 #
-#echo "Evaluating model Cnn1_6k_2h_1e4_256"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Cnn1_6k_2h --model_name Cnn1_6k_2h_1e4_256_30 > ../Analysis/logs/eval/step4/Cnn1_6k_2h_1e4_256_30.txt
+echo "Evaluating model Cnn1_6k_2h_1e4_256"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Cnn1_6k_2h --model_name Cnn1_6k_2h_1e4_256_30 > ../Analysis/logs/eval/step4/Cnn1_6k_2h_1e4_256_30.txt
 #
 #echo "Training model Cnn1_6k_2h, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
@@ -2510,5 +2510,5 @@ val="Validation_data.hdf5"
 
 # reports 2 excel
 
-echo "Creating summary of reports excel file"
-python ../trainevalcurves2excel.py --xls_name 'CNN_step4' --archives_folder 'step4' --best 30
+#echo "Creating summary of reports excel file"
+#python ../trainevalcurves2excel.py --xls_name 'CNN_step4' --archives_folder 'step4' --best 30
