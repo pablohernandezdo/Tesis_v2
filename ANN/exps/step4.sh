@@ -2503,5 +2503,5 @@ python ../eval_curves.py --test_path $tst \
 
 # reports 2 excel
 
-echo "Creating summary of reports excel file"
-python ../trainevalcurves2excel.py --xls_name 'ANN_step4' --archives_folder 'step4'
+#echo "Creating summary of reports excel file"
+#python ../trainevalcurves2excel.py --xls_name 'ANN_step4' --archives_folder 'step4'
