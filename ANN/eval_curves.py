@@ -81,11 +81,11 @@ def main():
     best_thresh = 0
 
     # Thresholds to evaluate performance on
-    # thresholds = np.arange(0.05, 1, 0.05)
-    thresholds = [0, 0.5, 0.9]
+    thresholds = np.arange(0.025, 1, 0.025)
+    # thresholds = [0, 0.5, 0.9]
 
     # Round threshold values
-    thresholds = np.around(thresholds, decimals=2)
+    thresholds = np.around(thresholds, decimals=3)
 
     # Evaluate model on training dataset
 
