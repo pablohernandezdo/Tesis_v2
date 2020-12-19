@@ -185,7 +185,7 @@ def main():
     with open(f'../Analysis/Output_values/{args.model_folder}/outputs_{args.model_name}.txt', 'w') as f:
         f.write('Seismic outputs\n')
         f.write('\n'.join(list(map(str, s_outputs))))
-        f.write('Non-Seismic outputs\n')
+        f.write('\nNon-Seismic outputs\n')
         f.write('\n'.join(list(map(str, ns_outputs))))
 
     # Plot histograms
