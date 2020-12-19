@@ -22,7 +22,8 @@ def main():
     parser.add_argument('--avg_das_folder', default='default', help='Average models das log folder')
     parser.add_argument('--best_models', default='', help='Best model names space separated')
     parser.add_argument('--avg_models', default='', help='Average model names space separated')
-    parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh_step4', type=int, default=19, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh_step5', type=int, default=29, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # Comparar mejores modelos con modelos promedio
@@ -101,7 +102,7 @@ def main():
             f.readline()
             f.readline()
 
-            for _ in range(args.n_thresh):
+            for _ in range(args.n_thresh_step4):
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
@@ -165,7 +166,7 @@ def main():
     for f_name in avg_models:
         with open(os.path.join(avg_eval_das_wkdir, f_name), 'r') as f:
 
-            for _ in range(args.n_thresh):
+            for _ in range(args.n_thresh_step4):
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
 
@@ -248,7 +249,7 @@ def main():
             f.readline()
             f.readline()
 
-            for _ in range(args.n_thresh):
+            for _ in range(args.n_thresh_step4):
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
@@ -313,7 +314,7 @@ def main():
     for f_name in best_models:
         with open(os.path.join(step5_eval_wkdir, f_name), 'r') as f:
 
-            for _ in range(args.n_thresh):
+            for _ in range(args.n_thresh_step5):
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
