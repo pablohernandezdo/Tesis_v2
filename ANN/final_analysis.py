@@ -22,7 +22,7 @@ def main():
     parser.add_argument('--avg_das_folder', default='default', help='Average models das log folder')
     parser.add_argument('--best_models', default='', help='Best model names space separated')
     parser.add_argument('--avg_models', default='', help='Average model names space separated')
-    parser.add_argument('--n_thresh_step4', type=int, default=19, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh_step4', type=int, default=29, help='Number of thresholds evaluated')
     parser.add_argument('--n_thresh_step5', type=int, default=29, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
