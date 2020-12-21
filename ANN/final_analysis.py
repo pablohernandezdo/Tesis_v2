@@ -411,7 +411,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     # plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon='False', ncol=2)
     plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN.png')
 
     # Curva ROC
