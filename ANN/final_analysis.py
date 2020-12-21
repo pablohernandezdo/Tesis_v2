@@ -512,7 +512,7 @@ def main():
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_ann.png')
     plt.xlim(-0.01, 0.5)
-    plt.ylim(0.88, 1)
+    plt.ylim(-0.02, 1)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_ann_zoom.png')
 
