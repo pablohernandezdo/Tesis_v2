@@ -511,6 +511,10 @@ def main():
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_ann.png')
+    plt.xlim(-0.01, 0.5)
+    plt.ylim(0.88, 1)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_Fscore_ann_zoom.png')
 
     # Comparacion mejores curvas step4 y modelos promedio
 
