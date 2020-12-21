@@ -520,6 +520,11 @@ def main():
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_ANN.png')
 
+    plt.xlim(0, 0.5)
+    plt.ylim(-0.02, 1.02)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_ANN_zoom.png')
+
     # Comparacion mejores curvas step4 y modelos promedio
 
     # Curvas PR
