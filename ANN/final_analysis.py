@@ -509,7 +509,7 @@ def main():
     for crv4, crv5, mdl in zip(step4_fscore_curves, step5_fscore_curves, best_models):
         axcolor = next(ax._get_lines.prop_cycler)['color']
         plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
-        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, color=axcolor)
 
     plt.title(f'Fscore vs thresholds curves best models ANN STEAD y DAS')
     plt.xlabel('Threshold')
