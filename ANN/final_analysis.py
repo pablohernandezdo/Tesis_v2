@@ -462,7 +462,7 @@ def main():
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR curves best models ANN')
+    plt.title(f'PR curves best models ANN STEAD')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.xlim(-0.02, 1.02)
@@ -470,6 +470,10 @@ def main():
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_PR_ann.png')
+    plt.xlim(0.88, 1.02)
+    plt.ylim(0.88, 1.02)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_PR_ann_zoom.png')
 
     # Curva ROC
     plt.clf()
@@ -479,7 +483,7 @@ def main():
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC curves best models ANN')
+    plt.title(f'ROC curves best models ANN STEAD')
     plt.xlabel('False Positive Rate')
     plt.ylabel('Recall')
     plt.xlim(-0.02, 1.02)
@@ -494,7 +498,7 @@ def main():
     for crv, mdl in zip(step4_fscore_curves, best_models):
         plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
-    plt.title(f'Fscore vs thresholds curves best models ANN')
+    plt.title(f'Fscore vs thresholds curves best models ANN STEAD')
     plt.xlabel('Threshold')
     plt.ylabel('F-score')
     plt.xlim(-0.02, 1.02)
