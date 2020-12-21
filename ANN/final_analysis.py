@@ -464,9 +464,9 @@ def main():
     ax = plt.gca()
 
     for crv4, crv5, mdl in zip(step4_pr_curves, step5_pr_curves, best_models):
-        color = next(ax._get_lines.prop_cycler)['color']
-        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=color)
-        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=color)
+        axcolor = next(ax._get_lines.prop_cycler)['color']
+        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -506,11 +506,10 @@ def main():
     # Curva Fscore
     plt.clf()
 
-    for crv, mdl in zip(step5_fscore_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
-
-    for crv, mdl in zip(step4_fscore_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+    for crv4, crv5, mdl in zip(step4_fscore_curves, step5_fscore_curves, best_models):
+        axcolor = next(ax._get_lines.prop_cycler)['color']
+        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
 
     plt.title(f'Fscore vs thresholds curves best models ANN STEAD y DAS')
     plt.xlabel('Threshold')
