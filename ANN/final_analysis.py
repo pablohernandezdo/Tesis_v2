@@ -461,11 +461,12 @@ def main():
     # Curvas PR
     plt.figure()
 
-    for crv, mdl in zip(step5_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+    ax = plt.gca()
 
-    for crv, mdl in zip(step4_pr_curves, best_models):
-        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+    for crv4, crv5, mdl in zip(step4_pr_curves, step5_pr_curves, best_models):
+        color = next(ax._get_lines.prop_cycler)['color']
+        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=color)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=color)
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -473,10 +474,14 @@ def main():
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.xlim(-0.02, 1.02)
-    plt.ylim(0, 1.02)
-    # plt.grid(True)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
     plt.legend(loc='best', frameon=False, ncol=2)
     plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN.png')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0, 1.02)
+    plt.legend(loc='best', frameon=False, ncol=2)
+    plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN_full.png')
 
     # Curva ROC
     plt.clf()
