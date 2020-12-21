@@ -395,13 +395,13 @@ def main():
     # Curvas STEAD Y DAS step4 vs step5
 
     # Curvas PR
-    fig, ax = plt.figure()
+    plt.figure()
 
     for crv, mdl in zip(step5_pr_curves, best_models):
-        ax.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(step4_pr_curves, best_models):
-        ax.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
@@ -411,7 +411,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     # plt.grid(True)
-    ax.legend(loc='best', frameon='False', ncol=2)
+    plt.legend(loc='best', frameon=False, ncol=2)
     plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN.png')
 
     # Curva ROC
@@ -431,7 +431,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False', ncol=2)
+    plt.legend(loc='best', frameon=False, ncol=2)
     plt.savefig(f'../Analysis/Final/Best/Comp_ROC_ANN.png')
 
     # Curva Fscore
@@ -449,7 +449,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_ANN.png')
 
     # Mejores curvas step4
@@ -468,7 +468,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_PR_ann.png')
 
     # Curva ROC
@@ -485,7 +485,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_ROC_ann.png')
 
     # Curva Fscore
@@ -500,7 +500,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_ann.png')
 
     # Comparacion mejores curvas step4 y modelos promedio
@@ -522,7 +522,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages/best_PR_ann.png')
 
     # Curva ROC
@@ -542,7 +542,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages/best_ROC_ann.png')
 
     # Curva Fscore
@@ -560,7 +560,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages/best_Fscore_ann.png')
 
     # Comparación curvas step5 mejores modelos y promedio
@@ -582,7 +582,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    # plt.legend(loc='best', frameon='False')
+    # plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_PR_ann.png')
 
     # Curva ROC
@@ -602,7 +602,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_ROC_ann.png')
 
     # Curva Fscore
@@ -620,7 +620,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_Fscore_ann.png')
 
     # Lo mismo de arriba pero solo dos modelos
@@ -644,7 +644,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_PR_ann.png')
 
     # Curva ROC
@@ -666,7 +666,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_ROC_ann.png')
 
     # Curva Fscore
@@ -686,7 +686,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon='False')
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_Fscore_ann.png')
 
     # Comparar las curvas PR de STEAD Y DAS
@@ -704,7 +704,7 @@ def main():
         plt.xlim(-0.02, 1.02)
         plt.ylim(0.48, 1.02)
         plt.grid(True)
-        plt.legend(handles=[line_st4, line_st5], loc='best', frameon='False')
+        plt.legend(handles=[line_st4, line_st5], loc='best', frameon=False)
         plt.savefig(f'../Analysis/Final/PR_curves/Comparacion_PR_{mdl}.png')
 
     # Comparar las curvas ROC de STEAD Y DAS
@@ -722,7 +722,7 @@ def main():
         plt.xlim(-0.02, 1.02)
         plt.ylim(-0.02, 1.02)
         plt.grid(True)
-        plt.legend(handles=[line_st4, line_st5], loc='best', frameon='False')
+        plt.legend(handles=[line_st4, line_st5], loc='best', frameon=False)
         plt.savefig(f'../Analysis/Final/ROC_curves/Comparacion_ROC_{mdl}.png')
 
     # Comparar las curvas Fscore de STEAD Y DAS
@@ -739,7 +739,7 @@ def main():
         plt.xlim(-0.02, 1.02)
         plt.ylim(-0.02, 1.02)
         plt.grid(True)
-        plt.legend(handles=[line_st4, line_st5], loc='best', frameon='False')
+        plt.legend(handles=[line_st4, line_st5], loc='best', frameon=False)
         plt.savefig(f'../Analysis/Final/Fscore_curves/Comparacion_Fscore_{mdl}.png')
 
 
