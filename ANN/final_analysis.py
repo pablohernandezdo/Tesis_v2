@@ -461,8 +461,8 @@ def main():
     # Curvas PR
     plt.figure()
 
-    # for crv, mdl in zip(step5_pr_curves, best_models):
-    #     plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+    for crv, mdl in zip(step5_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     for crv, mdl in zip(step4_pr_curves, best_models):
         plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
