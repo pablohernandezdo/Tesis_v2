@@ -295,6 +295,68 @@ def main():
     step5_pr_aucs = list(map(float, step5_pr_aucs))
     step5_roc_aucs = list(map(float, step5_roc_aucs))
 
+    # Mejores curvas step4
+
+    # Curvas PR
+    plt.figure()
+
+    for crv, mdl in zip(step4_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models CNN STEAD')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_PR_cnn.png')
+    plt.xlim(0.9, 1.01)
+    plt.ylim(0.9, 1.01)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_PR_cnn_zoom.png')
+
+    # Curva ROC
+    plt.clf()
+
+    for crv, mdl in zip(step4_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curves best models CNN STEAD')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_ROC_cnn.png')
+    plt.xlim(-0.02, 0.6)
+    plt.ylim(0.95, 1.02)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_ROC_cnn_zoom.png')
+
+    # Curva Fscore
+    plt.clf()
+
+    for crv, mdl in zip(step4_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+
+    plt.title(f'Fscore vs thresholds curves best models CNN STEAD')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.savefig(f'../Analysis/Final/Best/best_Fscore_cnn.png')
+    plt.xlim(-0.02, 0.5)
+    plt.ylim(0.95, 1.02)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_Fscore_cnn_zoom.png')
+
     # Curvas STEAD Y DAS step4 vs step5
 
     # Curvas PR
@@ -351,63 +413,6 @@ def main():
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_cnn.png')
-
-    # Mejores curvas step4
-
-    # Curvas PR
-    plt.figure()
-
-    # for crv in avg_pr_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_pr_curves:
-        plt.plot(crv[0], crv[1])
-
-    # Dumb model line
-    plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR curves best models CNN')
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(0.48, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/best_PR_cnn.png')
-
-    # Curva ROC
-    plt.clf()
-
-    # for crv in avg_roc_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_roc_curves:
-        plt.plot(crv[0], crv[1])
-
-    # Dumb model line
-    plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC curves best models CNN')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('Recall')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(-0.02, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/best_ROC_cnn.png')
-
-    # Curva Fscore
-    plt.clf()
-
-    # for crv in avg_fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_fscore_curves:
-        plt.plot(crv[0], crv[1])
-
-    plt.title(f'Fscore vs thresholds curves best models CNN')
-    plt.xlabel('Threshold')
-    plt.ylabel('F-score')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(-0.02, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/best_Fscore_cnn.png')
 
     # Comparar las curvas PR de STEAD Y DAS
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
