@@ -313,7 +313,7 @@ def main():
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_PR_cnn.png')
-    plt.xlim(0.98, 1.01)
+    plt.xlim(0.99, 1.005)
     plt.ylim(0.9, 1.01)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_PR_cnn_zoom.png')
