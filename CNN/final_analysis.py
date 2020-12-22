@@ -336,7 +336,7 @@ def main():
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_ROC_cnn.png')
     plt.xlim(-0.02, 0.12)
-    plt.ylim(0.97, 1)
+    plt.ylim(0.975, 1)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_ROC_cnn_zoom.png')
 
