@@ -314,8 +314,8 @@ def main():
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_PR_lstm.png')
-    plt.xlim(0.97, 1.005)
-    plt.ylim(0.9, 1.01)
+    plt.xlim(0.85, 1.005)
+    plt.ylim(0.5, 1.01)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_PR_lstm_zoom.png')
 
@@ -335,8 +335,8 @@ def main():
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_ROC_lstm.png')
-    plt.xlim(-0.02, 0.12)
-    plt.ylim(0.975, 1.005)
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.85, 1.005)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_ROC_lstm_zoom.png')
 
@@ -355,7 +355,7 @@ def main():
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_lstm.png')
     plt.xlim(-0.02, 1.02)
-    plt.ylim(0.97, 1.02)
+    plt.ylim(0.8, 1.02)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/best_Fscore_lstm_zoom.png')
 
