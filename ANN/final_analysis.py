@@ -538,7 +538,7 @@ def main():
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR curves best models ANN')
+    plt.title(f'ANN best and average models PR curve comparison')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.xlim(-0.02, 1.02)
@@ -558,14 +558,14 @@ def main():
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC curves best models ANN')
+    plt.title(f'ANN best and average models ROC curve comparison')
     plt.xlabel('False Positive Rate')
     plt.ylabel('Recall')
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
-    plt.savefig(f'../Analysis/Final/Averages/best_ROC_ann.png')
+    plt.savefig(f'../Analysis/Final/Averages/comp_best_avg_ROC_ann.png')
 
     # Curva Fscore
     plt.clf()
@@ -576,14 +576,14 @@ def main():
     for crv, mdl in zip(step4_fscore_curves, best_models):
         plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
-    plt.title(f'Fscore vs thresholds curves best models ANN')
+    plt.title(f'ANN best and average models Fscore curve comparison')
     plt.xlabel('Threshold')
     plt.ylabel('F-score')
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
     plt.legend(loc='best', frameon=False)
-    plt.savefig(f'../Analysis/Final/Averages/best_Fscore_ann.png')
+    plt.savefig(f'../Analysis/Final/Averages/comp_best_avg_Fscore_ann.png')
 
     # Comparación curvas step5 mejores modelos y promedio
 
