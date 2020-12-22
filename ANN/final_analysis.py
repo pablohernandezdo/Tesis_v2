@@ -476,11 +476,11 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon=False, ncol=2)
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN.png')
     plt.xlim(-0.02, 1.02)
     plt.ylim(0, 1.02)
-    plt.legend(loc='best', frameon=False, ncol=2)
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_PR_ANN_full.png')
 
     # Curva ROC
@@ -499,7 +499,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon=False, ncol=2)
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_ROC_ANN.png')
 
     # Curva Fscore
