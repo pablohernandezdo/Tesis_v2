@@ -426,7 +426,7 @@ def main():
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_lstm.png')
     plt.xlim(-0.02, 1.02)
-    plt.ylim(0.7, 1.02)
+    plt.ylim(0.6, 1.02)
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_lstm_zoom.png')
 
