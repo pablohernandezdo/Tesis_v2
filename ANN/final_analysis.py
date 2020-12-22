@@ -544,7 +544,7 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.legend(loc='best', frameon=False, col=2)
+    plt.legend(loc='best', frameon=False, ncol=2)
     plt.savefig(f'../Analysis/Final/Averages/comp_best_avg_PR_ann.png')
 
     # Curva ROC
