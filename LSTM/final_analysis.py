@@ -295,35 +295,103 @@ def main():
     step5_pr_aucs = list(map(float, step5_pr_aucs))
     step5_roc_aucs = list(map(float, step5_roc_aucs))
 
-    # Curvas STEAD Y DAS step4 vs step5
+    # Mejores curvas step4
 
     # Curvas PR
     plt.figure()
 
-    for crv in step5_pr_curves:
-        plt.plot(crv[0], crv[1])
-
-    for crv in step4_pr_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_pr_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
     # Dumb model line
     plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR curves best models LSTM STEAD y DAS')
+    plt.title(f'PR curves best models LSTM STEAD')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.xlim(-0.02, 1.02)
     plt.ylim(0.48, 1.02)
     plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/Comp_PR_lstm.png')
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_PR_lstm.png')
+    plt.xlim(0.97, 1.005)
+    plt.ylim(0.9, 1.01)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_PR_lstm_zoom.png')
 
     # Curva ROC
     plt.clf()
 
-    for crv in step5_roc_curves:
-        plt.plot(crv[0], crv[1])
+    for crv, mdl in zip(step4_roc_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
 
-    for crv in step4_roc_curves:
-        plt.plot(crv[0], crv[1])
+    # Dumb model line
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.title(f'ROC curves best models LSTM STEAD')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_ROC_lstm.png')
+    plt.xlim(-0.02, 0.12)
+    plt.ylim(0.975, 1.005)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_ROC_lstm_zoom.png')
+
+    # Curva Fscore
+    plt.clf()
+
+    for crv, mdl in zip(step4_fscore_curves, best_models):
+        plt.plot(crv[0], crv[1], marker='.', markersize=6, label=mdl.strip().split('.')[0])
+
+    plt.title(f'Fscore vs thresholds curves best models LSTM STEAD')
+    plt.xlabel('Threshold')
+    plt.ylabel('F-score')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(-0.02, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_Fscore_lstm.png')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.97, 1.02)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/best_Fscore_lstm_zoom.png')
+
+    # Curvas STEAD Y DAS step4 vs step5 mejores modelos
+
+    # Curvas PR
+    plt.figure()
+
+    ax = plt.gca()
+
+    for crv4, crv5, mdl in zip(step4_pr_curves, step5_pr_curves, best_models):
+        axcolor = next(ax._get_lines.prop_cycler)['color']
+        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, color=axcolor)
+
+    # Dumb model line
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.title(f'PR curves best models LSTM STEAD y DAS ')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.xlim(-0.02, 1.02)
+    plt.ylim(0.48, 1.02)
+    plt.grid(True)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/Comp_PR_lstm.png')
+    plt.xlim(0.975, 1.005)
+    plt.ylim(0.6, 1.05)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/Comp_PR_lstm_zoom.png')
+
+    # Curva ROC
+    plt.clf()
+
+    for crv4, crv5, mdl in zip(step4_roc_curves, step5_roc_curves, best_models):
+        axcolor = next(ax._get_lines.prop_cycler)['color']
+        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, color=axcolor)
 
     # Dumb model line
     plt.plot([0, 1], [0, 1], 'b--')
@@ -333,16 +401,20 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_ROC_lstm.png')
+    plt.xlim(-0.02, 0.8)
+    plt.ylim(0.97, 1.005)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/Comp_ROC_lstm_zoom.png')
 
     # Curva Fscore
     plt.clf()
 
-    for crv in step5_fscore_curves:
-        plt.plot(crv[0], crv[1])
-
-    for crv in step4_fscore_curves:
-        plt.plot(crv[0], crv[1])
+    for crv4, crv5, mdl in zip(step4_fscore_curves, step5_fscore_curves, best_models):
+        axcolor = next(ax._get_lines.prop_cycler)['color']
+        plt.plot(crv4[0], crv4[1], marker='.', markersize=6, label=mdl.strip().split('.')[0], color=axcolor)
+        plt.plot(crv5[0], crv5[1], marker='.', markersize=6, color=axcolor)
 
     plt.title(f'Fscore vs thresholds curves best models LSTM STEAD y DAS')
     plt.xlabel('Threshold')
@@ -350,66 +422,15 @@ def main():
     plt.xlim(-0.02, 1.02)
     plt.ylim(-0.02, 1.02)
     plt.grid(True)
+    plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_lstm.png')
-
-    # Mejores curvas step4
-
-    # Curvas PR
-    plt.figure()
-
-    # for crv in avg_pr_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_pr_curves:
-        plt.plot(crv[0], crv[1])
-
-    # Dumb model line
-    plt.hlines(0.5, 0, 1, 'b', '--')
-    plt.title(f'PR curves best models LSTM')
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
     plt.xlim(-0.02, 1.02)
-    plt.ylim(0.48, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/best_PR_lstm.png')
-
-    # Curva ROC
-    plt.clf()
-
-    # for crv in avg_roc_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_roc_curves:
-        plt.plot(crv[0], crv[1])
-
-    # Dumb model line
-    plt.plot([0, 1], [0, 1], 'b--')
-    plt.title(f'ROC curves best models LSTM')
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('Recall')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(-0.02, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/best_ROC_lstm.png')
-
-    # Curva Fscore
-    plt.clf()
-
-    # for crv in avg_fscore_curves:
-    #     plt.plot(crv[0], crv[1])
-
-    for crv in step4_fscore_curves:
-        plt.plot(crv[0], crv[1])
-
-    plt.title(f'Fscore vs thresholds curves best models LSTM')
-    plt.xlabel('Threshold')
-    plt.ylabel('F-score')
-    plt.xlim(-0.02, 1.02)
-    plt.ylim(-0.02, 1.02)
-    plt.grid(True)
-    plt.savefig(f'../Analysis/Final/Best/best_Fscore_lstm.png')
+    plt.ylim(0.7, 1.02)
+    plt.legend(loc='best', frameon=False)
+    plt.savefig(f'../Analysis/Final/Best/Comp_Fscore_lstm_zoom.png')
 
     # Comparar las curvas PR de STEAD Y DAS
+
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         plt.clf()
@@ -417,6 +438,7 @@ def main():
         line_st4, = plt.plot(pr_step4[0], pr_step4[1], label="STEAD PR curve")
         line_st5, = plt.plot(pr_step5[0], pr_step5[1], label="DAS PR curve")
 
+        plt.hlines(0.5, 0, 1, 'b', '--')
         plt.title(f'Comparacion curva PR STEAD y DAS modelo {mdl}')
         plt.xlabel('Recall')
         plt.ylabel('Precision')
@@ -427,6 +449,7 @@ def main():
         plt.savefig(f'../Analysis/Final/PR_curves/Comparacion_PR_{mdl}.png')
 
     # Comparar las curvas ROC de STEAD Y DAS
+
     for (roc_step4, roc_step5, mdl) in zip(step4_roc_curves, step5_roc_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         plt.clf()
@@ -434,7 +457,7 @@ def main():
         line_st4, = plt.plot(roc_step4[0], roc_step4[1], label="STEAD ROC curve")
         line_st5, = plt.plot(roc_step5[0], roc_step5[1], label="DAS ROC curve")
 
-        plt.hlines(0.5, 0, 1, 'b', '--')
+        plt.plot([0, 1], [0, 1], 'b--')
         plt.title(f'Comparacion curva ROC STEAD y DAS modelo {mdl}')
         plt.xlabel('False Positive Rate')
         plt.ylabel('Recall')
@@ -445,6 +468,7 @@ def main():
         plt.savefig(f'../Analysis/Final/ROC_curves/Comparacion_ROC_{mdl}.png')
 
     # Comparar las curvas Fscore de STEAD Y DAS
+
     for (fscore_step4, fscore_step5, mdl) in zip(step4_fscore_curves, step5_fscore_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         plt.clf()
@@ -452,7 +476,6 @@ def main():
         line_st4, = plt.plot(fscore_step4[0], fscore_step4[1], label="STEAD Fscore curve")
         line_st5, = plt.plot(fscore_step5[0], fscore_step5[1], label="DAS Fscore curve")
 
-        plt.plot([0, 1], [0, 1], 'b--')
         plt.title(f'Comparacion curva Fscore STEAD y DAS modelo {mdl}')
         plt.xlabel('Umbral')
         plt.ylabel('Fscore')
