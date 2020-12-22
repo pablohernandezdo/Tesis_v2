@@ -21,7 +21,7 @@ def main():
     # parser.add_argument('--avg_folder', default='default', help='Average models log folder')
     parser.add_argument('--best_models', default='', help='Best model names space separated')
     # parser.add_argument('--avg_models', default='', help='Average model names space separated')
-    parser.add_argument('--n_thresh', type=int, default=29, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
     args = parser.parse_args()
 
     # Comparar mejores modelos con modelos promedios
@@ -152,7 +152,8 @@ def main():
             f.readline()
             f.readline()
 
-            for _ in range(args.n_thresh):
+            # for _ in range(args.n_thresh):
+            for _ in range(29):
 
                 thresh = f.readline().split(':')[-1].strip()
                 thresholds.append(thresh)
