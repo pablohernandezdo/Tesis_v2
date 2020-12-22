@@ -711,7 +711,8 @@ def main():
     plt.legend(loc='best', frameon=False)
     plt.savefig(f'../Analysis/Final/Averages_comp/avgcomp_one_Fscore_ann.png')
 
-    # Comparar las curvas PR de STEAD Y DAS
+    # Comparar las curvas PR de STEAD Y DAS mejores modelos individualemente
+
     for (pr_step4, pr_step5, mdl) in zip(step4_pr_curves, step5_pr_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         plt.clf()
@@ -729,7 +730,7 @@ def main():
         plt.legend(handles=[line_st4, line_st5], loc='best', frameon=False)
         plt.savefig(f'../Analysis/Final/PR_curves/Comparacion_PR_{mdl}.png')
 
-    # Comparar las curvas ROC de STEAD Y DAS
+    # Comparar las curvas ROC de STEAD Y DAS mejores modelos individualemente
     for (roc_step4, roc_step5, mdl) in zip(step4_roc_curves, step5_roc_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         plt.clf()
@@ -747,7 +748,7 @@ def main():
         plt.legend(handles=[line_st4, line_st5], loc='best', frameon=False)
         plt.savefig(f'../Analysis/Final/ROC_curves/Comparacion_ROC_{mdl}.png')
 
-    # Comparar las curvas Fscore de STEAD Y DAS
+    # Comparar las curvas Fscore de STEAD Y DAS mejores modelos individualemente
     for (fscore_step4, fscore_step5, mdl) in zip(step4_fscore_curves, step5_fscore_curves, best_models):
         mdl = mdl.split('.')[0].strip()
         plt.clf()
