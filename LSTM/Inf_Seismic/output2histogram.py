@@ -23,24 +23,18 @@ def main():
     seismic_outputs = []
     nseismic_outputs = []
 
-    k = 1
-
     with open(output_file, 'r') as f:
         # Seismic initial line
         f.readline()
 
         for i in range(args.n_seis):
             seismic_outputs.append(float(f.readline().strip()))
-            print(k)
-            k += 1
 
         # Non Seismic initial line
         f.readline()
 
         for i in range(args.n_nseis):
             nseismic_outputs.append(float(f.readline().strip()))
-            print(k)
-            k += 1
 
     # Plot histogram
     plot_histogram(seismic_outputs, nseismic_outputs, args.model_folder, args.model_name, args.n_bins)
