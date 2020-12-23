@@ -17,7 +17,7 @@ def main():
 
     Path(f"../Analysis/Output_values/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
-    output_file = os.path.join('../Analysis/Output_values/', args.model_folder, args.model_name + '.txt')
+    output_file = os.path.join('../Analysis/Output_values/', args.model_folder, 'outputs_' + args.model_name + '.txt')
 
     seismic_outputs = []
     nseismic_outputs = []
