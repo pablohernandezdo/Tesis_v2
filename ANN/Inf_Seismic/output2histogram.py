@@ -11,13 +11,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_folder", default='default', help="Folder to save model")
     parser.add_argument('--model_name', default='default', help='Model name')
-    parser.add_argument('--n_dataset', type=int, default=2048, help='Number of examples in each dataset category')
+    parser.add_argument('--n_seis', type=int, default=8923, help='Number of examples in each dataset category')
+    parser.add_argument('--n_nseis', type=int, default=11022, help='Number of examples in each dataset category')
     parser.add_argument('--n_bins', type=int, default=100, help='Number of histogram bins')
     args = parser.parse_args()
 
     Path(f"../Analysis/Output_values/{args.model_folder}").mkdir(parents=True, exist_ok=True)
 
-    output_file = os.path.join('../Analysis/Output_values/', args.model_folder, args.model_name)
+    output_file = os.path.join('../Analysis/Output_values/', args.model_folder, 'outputs_' + args.model_name + '.txt')
 
     seismic_outputs = []
     nseismic_outputs = []
@@ -26,13 +27,13 @@ def main():
         # Seismic initial line
         f.readline()
 
-        for i in range(args.n_dataset):
+        for i in range(args.n_seis):
             seismic_outputs.append(float(f.readline().strip()[:5]))
 
         # Non Seismic initial line
         f.readline()
 
-        for i in range(args.n_dataset):
+        for i in range(args.n_nseis):
             nseismic_outputs.append(float(f.readline().strip()[:5]))
 
     # Plot histogram
