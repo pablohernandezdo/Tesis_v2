@@ -28,13 +28,13 @@ def main():
         f.readline()
 
         for i in range(args.n_seis):
-            seismic_outputs.append(float(f.readline().strip()[:5]))
+            seismic_outputs.append(float(f.readline().strip()))
 
         # Non Seismic initial line
         f.readline()
 
         for i in range(args.n_nseis):
-            nseismic_outputs.append(float(f.readline().strip()[:5]))
+            nseismic_outputs.append(float(f.readline().strip()))
 
     # Plot histogram
     plot_histogram(seismic_outputs, nseismic_outputs, args.model_folder, args.model_name, args.n_bins)
