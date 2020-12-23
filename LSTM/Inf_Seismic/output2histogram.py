@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_folder", default='default', help="Folder to save model")
