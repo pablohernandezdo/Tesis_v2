@@ -11,8 +11,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_folder", default='default', help="Folder to save model")
     parser.add_argument('--model_name', default='default', help='Model name')
-    parser.add_argument('--n_seis', type=int, default=8923, help='Number of examples in each dataset category')
-    parser.add_argument('--n_nseis', type=int, default=11022, help='Number of examples in each dataset category')
+    parser.add_argument('--n_seis', type=int, default=11022, help='Number of examples in each dataset category')
+    parser.add_argument('--n_nseis', type=int, default=8923, help='Number of examples in each dataset category')
     parser.add_argument('--n_bins', type=int, default=100, help='Number of histogram bins')
     args = parser.parse_args()
 
