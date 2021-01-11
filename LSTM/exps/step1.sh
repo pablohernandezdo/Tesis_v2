@@ -23,7 +23,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_64_64_5_1 --model_name Lstm_64_64_5_1_1e3_256 > ../Analysis/logs/eval/step1/Lstm_64_64_5_1_1e3_256.txt
 #
-#echo "Training model Lstm_64_64_5_1_1e4_256, lr = 1e-3, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_64_64_5_1_1e4_256, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
@@ -35,7 +35,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_64_64_5_1 --model_name Lstm_64_64_5_1_1e4_256 > ../Analysis/logs/eval/step1/Lstm_64_64_5_1_1e4_256.txt
 #
-#echo "Training model Lstm_64_64_5_1_1e5_256, lr = 1e-3, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_64_64_5_1_1e5_256, lr = 1e-5, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
@@ -47,7 +47,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_64_64_5_1 --model_name Lstm_64_64_5_1_1e5_256 > ../Analysis/logs/eval/step1/Lstm_64_64_5_1_1e5_256.txt
 #
-#echo "Training model Lstm_64_64_5_1_1e6_256, lr = 1e-3, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_64_64_5_1_1e6_256, lr = 1e-6, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
@@ -73,7 +73,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_64_64_5_2 --model_name Lstm_64_64_5_2_1e3_256 > ../Analysis/logs/eval/step1/Lstm_64_64_5_2_1e3_256.txt
 #
-#echo "Training model Lstm_64_64_5_2_1e4_256, lr = 1e-3, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_64_64_5_2_1e4_256, lr = 1e-4, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
@@ -85,7 +85,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_64_64_5_2 --model_name Lstm_64_64_5_2_1e4_256 > ../Analysis/logs/eval/step1/Lstm_64_64_5_2_1e4_256.txt
 #
-#echo "Training model Lstm_64_64_5_2_1e5_256, lr = 1e-3, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_64_64_5_2_1e5_256, lr = 1e-5, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
@@ -97,7 +97,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_64_64_5_2 --model_name Lstm_64_64_5_2_1e5_256 > ../Analysis/logs/eval/step1/Lstm_64_64_5_2_1e5_256.txt
 #
-#echo "Training model Lstm_64_64_5_2_1e6_256, lr = 1e-3, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_64_64_5_2_1e6_256, lr = 1e-6, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
@@ -298,7 +298,7 @@ val="Validation_data.hdf5"
 #              --model_folder step1 \
 #              --classifier Lstm_16_16_1_2 --model_name Lstm_16_16_1_2_1e2_256 > ../Analysis/logs/eval/step1/Lstm_16_16_1_2_1e2_256.txt
 #
-#echo "Training model Lstm_16_16_1_2_1e1_256, lr = 1e-6, epochs = 5, batch_size = 256"
+#echo "Training model Lstm_16_16_1_2_1e1_256, lr = 1e-1, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
 #              --train_path $trn --val_path $val      \
 #              --earlystop 0 --model_folder step1  \
