@@ -2506,7 +2506,7 @@ python ../train_validation.py \
 echo "Evaluating model Lstm_16_128_10_1_5e4_256_40"
 python ../eval_curves.py --test_path $tst \
               --model_folder step4 \
-#              --classifier Lstm_16_128_10_1 --model_name Lstm_16_128_10_1_5e4_256_40 > ../Analysis/logs/eval/step4/Lstm_16_128_10_1_5e4_256_40.txt
+              --classifier Lstm_16_128_10_1 --model_name Lstm_16_128_10_1_5e4_256_40 > ../Analysis/logs/eval/step4/Lstm_16_128_10_1_5e4_256_40.txt
 
 # reports 2 excel
 
