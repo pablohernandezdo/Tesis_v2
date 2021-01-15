@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--xls_name', default='train_xls', help='Name of excel file to export')
     parser.add_argument('--archives_folder', default='default', help='Name of excel file to export')
-    parser.add_argument('--n_thresh', type=int, default=19, help='Number of thresholds evaluated')
+    parser.add_argument('--n_thresh', type=int, default=39, help='Number of thresholds evaluated')
     parser.add_argument('--best', type=int, default=10,  help='Number of best models to save report')
     args = parser.parse_args()
 
