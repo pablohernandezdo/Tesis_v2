@@ -2216,17 +2216,17 @@ val="Validation_data.hdf5"
 ##              --model_folder step4 \
 ##              --classifier Lstm_256_128_10_1 --model_name Lstm_256_128_10_1_5e5_256_25 > ../Analysis/logs/eval/step4/Lstm_256_128_10_1_5e5_256_25.txt
 #
-#echo "Training model Lstm_256_128_10_1_5e5_256_30, lr = 5e-5, epochs = 5, batch_size = 256"
-#python ../train_validation.py \
-#              --model_folder step4 --patience 30 \
-#              --train_path $trn --val_path $val      \
-#              --n_epochs 5 --lr 5e-5 --batch_size 256 \
-#              --classifier Lstm_256_128_10_1 --model_name Lstm_256_128_10_1_5e5_256_30 > ../Analysis/logs/train/step4/Lstm_256_128_10_1_5e5_256_30.txt
-#
-#echo "Evaluating model Lstm_256_128_10_1_5e5_256_30"
-#python ../eval_curves.py --test_path $tst \
-#              --model_folder step4 \
-#              --classifier Lstm_256_128_10_1 --model_name Lstm_256_128_10_1_5e5_256_30 > ../Analysis/logs/eval/step4/Lstm_256_128_10_1_5e5_256_30.txt
+echo "Training model Lstm_256_128_10_1_5e5_256_30, lr = 5e-5, epochs = 5, batch_size = 256"
+python ../train_validation.py \
+              --model_folder step4 --patience 30 \
+              --train_path $trn --val_path $val      \
+              --n_epochs 5 --lr 5e-5 --batch_size 256 \
+              --classifier Lstm_256_128_10_1 --model_name Lstm_256_128_10_1_5e5_256_30 > ../Analysis/logs/train/step4/Lstm_256_128_10_1_5e5_256_30.txt
+
+echo "Evaluating model Lstm_256_128_10_1_5e5_256_30"
+python ../eval_curves.py --test_path $tst \
+              --model_folder step4 \
+              --classifier Lstm_256_128_10_1 --model_name Lstm_256_128_10_1_5e5_256_30 > ../Analysis/logs/eval/step4/Lstm_256_128_10_1_5e5_256_30.txt
 #
 #echo "Training model Lstm_256_128_10_1_5e5_256_35, lr = 5e-5, epochs = 5, batch_size = 256"
 #python ../train_validation.py \
