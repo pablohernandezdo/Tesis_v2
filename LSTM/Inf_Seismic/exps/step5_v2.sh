@@ -32,9 +32,9 @@ python ../inf_test_dataset.py --model_folder $mf --model_name Lstm_16_16_1_1_5e3
 echo "Running DAS test dataset inference on Lstm_32_32_2_1_5e3_256_30 model"
 python ../inf_test_dataset.py --model_folder $mf --model_name Lstm_32_32_2_1_5e3_256_30 --classifier Lstm_32_32_2_1  > ../Analysis/logs/itd_v2/Lstm_32_32_2_1_5e3_256_30.txt
 
-## Test dataset inference on Lstm_128_32_2_1_5e4_256_40 model
-#echo "Running DAS test dataset inference on Lstm_128_32_2_1_5e4_256_40 model"
-#python ../inf_test_dataset.py --model_folder $mf --model_name Lstm_128_32_2_1_5e4_256_40 --classifier Lstm_128_32_2_1  > ../Analysis/logs/itd_v2/Lstm_128_32_2_1_5e4_256_40.txt
+# Test dataset inference on Lstm_128_32_2_1_5e4_256_40 model
+echo "Running DAS test dataset inference on Lstm_128_32_2_1_5e4_256_40 model"
+python ../inf_test_dataset.py --model_folder $mf --model_name Lstm_128_32_2_1_5e4_256_40 --classifier Lstm_128_32_2_1  > ../Analysis/logs/itd_v2/Lstm_128_32_2_1_5e4_256_40.txt
 
 # Test dataset inference on Lstm_32_64_1_1_1e2_256_20 model
 echo "Running DAS test dataset inference on Lstm_32_64_1_1_1e2_256_20 model"
