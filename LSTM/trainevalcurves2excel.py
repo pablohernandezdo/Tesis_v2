@@ -127,6 +127,9 @@ def main():
     fpr = list(map(float, fpr))
     fsc = list(map(float, fsc))
 
+    print(f'len tp: {len(tp)}')
+    print(f'len params: {len(params)}')
+
     params = list(map(float, params))
 
     pr_auc = list(map(float, pr_auc))
