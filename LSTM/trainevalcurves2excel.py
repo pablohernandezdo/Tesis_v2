@@ -127,8 +127,9 @@ def main():
     fpr = list(map(float, fpr))
     fsc = list(map(float, fsc))
 
-    print(f'len tp: {len(tp)}')
-    print(f'len params: {len(params)}')
+    with open('params.txt', 'w') as f:
+        for i in params:
+            f.write(f'{i}\n')
 
     params = list(map(float, params))
 
