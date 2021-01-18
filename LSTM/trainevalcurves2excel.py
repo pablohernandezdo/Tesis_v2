@@ -58,6 +58,9 @@ def main():
             params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             tr_time.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
+            if params[-1] == '':
+                print(os.path.join(train_wkdir, fname))
+
     # Leer los archivos en la carpeta
     for fname in eval_files:
         with open(os.path.join(eval_wkdir, fname), 'r') as f:
