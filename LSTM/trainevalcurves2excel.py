@@ -54,6 +54,7 @@ def main():
         with open(os.path.join(train_wkdir, fname), 'r') as f:
             f.readline()
             f.readline()
+            f.readline()
 
             params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             tr_time.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
@@ -127,7 +128,7 @@ def main():
     fpr = list(map(float, fpr))
     fsc = list(map(float, fsc))
 
-    params = list(map(float, params))
+    # params = list(map(float, params))
 
     pr_auc = list(map(float, pr_auc))
     roc_auc = list(map(float, roc_auc))
