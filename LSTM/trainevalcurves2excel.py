@@ -58,8 +58,6 @@ def main():
             params.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
             tr_time.extend([f.readline().split(":")[-1].strip()] * args.n_thresh)
 
-            if params[-1] == '':
-                print(os.path.join(train_wkdir, fname))
 
     # Leer los archivos en la carpeta
     for fname in eval_files:
@@ -129,10 +127,6 @@ def main():
     rec = list(map(float, rec))
     fpr = list(map(float, fpr))
     fsc = list(map(float, fsc))
-
-    with open('params.txt', 'w') as f:
-        for i in params:
-            f.write(f'{i}\n')
 
     params = list(map(float, params))
 
