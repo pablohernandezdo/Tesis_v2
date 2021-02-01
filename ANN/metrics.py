@@ -65,7 +65,7 @@ def main():
         plt.ylabel('Counts')
         plt.legend(['positive', 'negative'], loc='upper left')
         plt.grid(True)
-        plt.savefig(f'{} + model_name + '_Histogram.png')
+        plt.savefig(f'{folder2save}/{model_name}_Histogram.png')
 
         # F-score vs thresholds curve
         save_fig(thresholds,
