@@ -14,6 +14,7 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument('--csv_folder', help='Path to CSV files folder')
+    parser.add_argument('--model_folder', help='Path to CSV files folder')
     parser.add_argument("--beta",
                         type=float,
                         default=2,
@@ -110,7 +111,7 @@ def save_fig(x, y, xlabel, ylabel, title, fname):
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(True)
-    plt.savefig('../Analysis/Figsfromcsv/' + fname)
+    plt.savefig(f'../Analysis/OutputsCSV/{args.model_folder}/' + fname)
 
 
 if __name__ == "__main__":
