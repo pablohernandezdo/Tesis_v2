@@ -2512,5 +2512,4 @@ val="Validation_data.hdf5"
 #              --classifier 2h5h4k --model_name 2h5h4k_5e5_256_35
 
 #echo Graficando desde CSV
-python ../metrics.py --csv_folder ../Analysis/OutputsCSV/step4/eval \
-              --model_folder step4
+python ../metrics.py --csv_folder ../Analysis/OutputsCSV/step4/eval 
