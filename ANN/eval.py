@@ -29,7 +29,7 @@ def main():
 
     # Create csv files folder
     Path(f"../Analysis/OutputsCSV/{args.model_folder}/train").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/OutputsCSV/{args.model_folder}/train").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/OutputsCSV/{args.model_folder}/eval").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
