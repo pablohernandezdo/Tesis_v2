@@ -62,7 +62,7 @@ def main():
                 outputs = net(traces)
 
                 for out, lab in zip(outputs, labels):
-                    new_row = {'output': out, 'label': lab}
+                    new_row = {'output': out.item(), 'label': lab.item()}
                     train_rows_list.append(new_row)
 
                 train_bar.update(1)
@@ -83,7 +83,7 @@ def main():
                 outputs = net(traces)
 
                 for out, lab in zip(outputs, labels):
-                    new_row = {'output': out, 'label': lab}
+                    new_row = {'output': out.item(), 'label': lab.item()}
                     test_rows_list.append(new_row)
 
                 test_bar.update(1)
