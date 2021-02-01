@@ -5,6 +5,8 @@
 
 import os
 import argparse
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,12 +16,18 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument('--csv_folder', help='Path to CSV files folder')
-    parser.add_argument('--model_folder', help='Path to CSV files folder')
     parser.add_argument("--beta",
                         type=float,
                         default=2,
                         help="Fscore beta parameter")
     args = parser.parse_args()
+
+    # Folder to save files
+    folder2save = args.csv_folder.split("/")[-2] + '/' + args.csv_folder.split("/")[-1]
+
+    # Create csv files folder
+    Path(f"../Analysis/FigsCSV/{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/FigsCSV/{folder2save}").mkdir(parents=True, exist_ok=True)
 
     thresholds = np.arange(0, 1, 0.01)
 
@@ -57,7 +65,7 @@ def main():
         plt.ylabel('Counts')
         plt.legend(['positive', 'negative'], loc='upper left')
         plt.grid(True)
-        plt.savefig('../Analysis/Figsfromcsv/' + model_name + '_Histogram.png')
+        plt.savefig(f'{} + model_name + '_Histogram.png')
 
         # F-score vs thresholds curve
         save_fig(thresholds,
@@ -65,7 +73,7 @@ def main():
                  'Threshold',
                  'F-score',
                  'Fscores vs Thresholds',
-                 f'{model_name}_Fscore_vs_Threshold.png')
+                 f'{folder2save}/{model_name}_Fscore_vs_Threshold.png')
 
         # Precision vs recall (PR curve)
         save_fig(recall,
@@ -73,7 +81,7 @@ def main():
                  'Recall',
                  'Precision',
                  'Precision vs Recall (PR curve)',
-                 f'{model_name}_PR_curve.png')
+                 f'folder2save}/{model_name}_PR_curve.png')
 
         # Recall vs False Positive Rate (ROC curve)
         save_fig(fpr,
@@ -81,7 +89,7 @@ def main():
                  'False Positive Rate',
                  'Recall',
                  'Recall vs FPR (ROC curve)',
-                 f'{model_name}_ROC_curve.png')
+                 f'folder2save}/{model_name}_ROC_curve.png')
 
 
 def get_metrics(tp, fp, tn, fn, beta):
@@ -111,7 +119,7 @@ def save_fig(x, y, xlabel, ylabel, title, fname):
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(True)
-    plt.savefig(f'../Analysis/OutputsCSV/{args.model_folder}/' + fname)
+    plt.savefig(f'../Analysis/FigsCSV/' + fname)
 
 
 if __name__ == "__main__":
