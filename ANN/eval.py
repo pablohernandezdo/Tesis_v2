@@ -68,7 +68,7 @@ def main():
                 train_bar.update(1)
 
     train_outputs = pd.DataFrame(train_rows_list)
-    train_outputs.to_csv(f'../Analysis/OutputsSCV/{args.model_folder}/Fscore_{args.model_name}.csv', index=False)
+    train_outputs.to_csv(f'../Analysis/OutputsCSV/{args.model_folder}/Fscore_{args.model_name}.csv', index=False)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
