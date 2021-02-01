@@ -26,8 +26,10 @@ def main():
     folder2save = args.csv_folder.split("/")[-2] + '/' + args.csv_folder.split("/")[-1]
 
     # Create csv files folder
-    Path(f"../Analysis/FigsCSV/{folder2save}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/FigsCSV/{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/FigsCSV/Fscore/{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/FigsCSV/Histogram/{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/FigsCSV/PR/{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/FigsCSV/ROC/{folder2save}").mkdir(parents=True, exist_ok=True)
 
     thresholds = np.arange(0, 1, 0.01)
 
@@ -65,7 +67,7 @@ def main():
         plt.ylabel('Counts')
         plt.legend(['positive', 'negative'], loc='upper left')
         plt.grid(True)
-        plt.savefig(f'../Analysis/FigsCSV/{folder2save}/{model_name}_Histogram.png')
+        plt.savefig(f'../Analysis/FigsCSV/Histogram/{folder2save}/{model_name}_Histogram.png')
 
         # F-score vs thresholds curve
         save_fig(thresholds,
@@ -73,7 +75,7 @@ def main():
                  'Threshold',
                  'F-score',
                  'Fscores vs Thresholds',
-                 f'{folder2save}/{model_name}_Fscore_vs_Threshold.png')
+                 f'Fscore/{folder2save}/{model_name}_Fscore_vs_Threshold.png')
 
         # Precision vs recall (PR curve)
         save_fig(recall,
@@ -81,7 +83,7 @@ def main():
                  'Recall',
                  'Precision',
                  'Precision vs Recall (PR curve)',
-                 f'{folder2save}/{model_name}_PR_curve.png')
+                 f'PR/{folder2save}/{model_name}_PR_curve.png')
 
         # Recall vs False Positive Rate (ROC curve)
         save_fig(fpr,
@@ -89,7 +91,7 @@ def main():
                  'False Positive Rate',
                  'Recall',
                  'Recall vs FPR (ROC curve)',
-                 f'{folder2save}/{model_name}_ROC_curve.png')
+                 f'ROC/{folder2save}/{model_name}_ROC_curve.png')
 
 
 def get_metrics(tp, fp, tn, fn, beta):
