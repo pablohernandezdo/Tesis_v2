@@ -2506,7 +2506,10 @@ val="Validation_data.hdf5"
 #echo "Creating summary of reports excel file"
 #python ../trainevalcurves2excel.py --xls_name 'ANN_step4' --archives_folder 'step4'
 
-echo "Evaluating model 2h5h4k_5e5_256_35"
-python ../eval.py --test_path $tst \
-              --model_folder step4 \
-              --classifier 2h5h4k --model_name 2h5h4k_5e5_256_35
+#echo "Evaluating model 2h5h4k_5e5_256_35"
+#python ../eval.py --test_path $tst \
+#              --model_folder step4 \
+#              --classifier 2h5h4k --model_name 2h5h4k_5e5_256_35
+
+#echo Graficando desde CSV
+python ../metrics.py --csv_folder ../Analysis/OutputsCSV/step4
