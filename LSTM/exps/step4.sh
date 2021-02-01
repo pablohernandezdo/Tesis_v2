@@ -3752,8 +3752,3 @@ val="Validation_data.hdf5"
 #
 #echo "Creating summary of reports excel file"
 #python ../trainevalcurves2excel.py --xls_name 'LSTM_step4' --archives_folder 'step4' --best 100
-
-echo "Evaluating model Lstm_16_16_1_1_1e2_256_20"
-python ../eval.py --test_path $tst \
-              --model_folder step4 \
-              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_20 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_1e2_256_20.txt
