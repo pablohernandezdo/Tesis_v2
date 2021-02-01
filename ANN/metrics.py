@@ -81,7 +81,7 @@ def main():
                  'Recall',
                  'Precision',
                  'Precision vs Recall (PR curve)',
-                 f'folder2save}/{model_name}_PR_curve.png')
+                 f'{folder2save}/{model_name}_PR_curve.png')
 
         # Recall vs False Positive Rate (ROC curve)
         save_fig(fpr,
@@ -89,7 +89,7 @@ def main():
                  'False Positive Rate',
                  'Recall',
                  'Recall vs FPR (ROC curve)',
-                 f'folder2save}/{model_name}_ROC_curve.png')
+                 f'{folder2save}/{model_name}_ROC_curve.png')
 
 
 def get_metrics(tp, fp, tn, fn, beta):
