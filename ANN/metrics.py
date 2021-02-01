@@ -22,6 +22,9 @@ def main():
 
     thresholds = np.arange(0, 1, 0.01)
 
+    print(args.csv_folder)
+    print(os.getcwd())
+
     # Files from folder
     for csv in os.listdir(args.csv_folder):
 
