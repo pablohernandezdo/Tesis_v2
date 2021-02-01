@@ -28,8 +28,8 @@ def main():
     args = parser.parse_args()
 
     # Create csv files folder
-    Path(f"../Analysis/OutputsCSV/train/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/OutputsCSV/eval/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/OutputsCSV/{args.model_folder}/train").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/OutputsCSV/{args.model_folder}/train").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -69,7 +69,7 @@ def main():
                 train_bar.update(1)
 
     train_outputs = pd.DataFrame(train_rows_list)
-    train_outputs.to_csv(f'../Analysis/OutputsCSV/train/{args.model_folder}/{args.model_name}.csv', index=False)
+    train_outputs.to_csv(f'../Analysis/OutputsCSV/{args.model_folder}/train/{args.model_name}.csv', index=False)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
@@ -90,7 +90,7 @@ def main():
                 test_bar.update(1)
 
     test_outputs = pd.DataFrame(test_rows_list)
-    test_outputs.to_csv(f'../Analysis/OutputsCSV/eval/{args.model_folder}/{args.model_name}.csv', index=False)
+    test_outputs.to_csv(f'../Analysis/OutputsCSV/{args.model_folder}/eval/{args.model_name}.csv', index=False)
 
     eval_2 = time.time()
     ev_2 = eval_2 - eval_1
