@@ -22,14 +22,11 @@ def main():
 
     thresholds = np.arange(0, 1, 0.01)
 
-    print(args.csv_folder)
-    print(os.getcwd())
-
     # Files from folder
     for csv in os.listdir(args.csv_folder):
 
         model_name = csv.strip().split('.')[0]
-        df = pd.read_csv(csv)
+        df = pd.read_csv(f'{args.csv_folder}/{csv}')
 
         precision = np.zeros(len(thresholds))
         recall = np.zeros(len(thresholds))
