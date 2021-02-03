@@ -1,8 +1,10 @@
 import time
 import argparse
+from pathlib import Path
 
 import tqdm
 import torch
+import pandas as pd
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
 
@@ -21,10 +23,13 @@ def main():
     parser.add_argument("--classifier", default='XXL', help="Choose classifier architecture, C, S, XS, XL, XXL, XXXL")
     parser.add_argument("--train_path", default='Train_data.hdf5', help="HDF5 train Dataset path")
     parser.add_argument("--test_path", default='Test_data.hdf5', help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=32, help="Size of the batches")
-    parser.add_argument("--thresh", type=float, default=0.5, help="Decision threshold")
+    parser.add_argument("--batch_size", type=int, default=256, help="Size of the batches")
     parser.add_argument("--beta", type=float, default=2, help="Fscore beta parameter")
     args = parser.parse_args()
+
+    # Create csv files folder
+    Path(f"../Analysis/OutputsCSV/{args.model_folder}/train").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/OutputsCSV/{args.model_folder}/eval").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -50,72 +55,42 @@ def main():
 
     # Evaluate model on training dataset
 
-    # True/False Positives/Negatives
-    correct = 0
-    total = 0
-    tp, fp, tn, fn = 0, 0, 0, 0
-
+    train_rows_list = []
     with tqdm.tqdm(total=len(train_loader), desc='Train dataset evaluation', position=0) as train_bar:
         with torch.no_grad():
             for data in train_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = (outputs > args.thresh)
-                total += labels.size(0)
 
-                for i, pred in enumerate(predicted):
-                    if pred:
-                        if pred == labels[i]:
-                            tp += 1
-                        else:
-                            fp += 1
-                    else:
-                        if pred == labels[i]:
-                            tn += 1
-                        else:
-                            fn += 1
+                for out, lab in zip(outputs, labels):
+                    new_row = {'out': out.item(), 'label': lab.item()}
+                    train_rows_list.append(new_row)
 
-                correct += (predicted == labels).sum().item()
                 train_bar.update(1)
 
-    # Evaluation metrics
-    _, _, _, _ = print_metrics(tp, fp, tn, fn, args.beta)
+    train_outputs = pd.DataFrame(train_rows_list)
+    train_outputs.to_csv(f'../Analysis/OutputsCSV/{args.model_folder}/train/{args.model_name}.csv', index=False)
 
     eval_1 = time.time()
     ev_1 = eval_1 - start_time
 
     # Evaluate model on test set
 
-    # True/False Positives/Negatives
-    correct = 0
-    total = 0
-    tp, fp, tn, fn = 0, 0, 0, 0
-
+    test_rows_list = []
     with tqdm.tqdm(total=len(test_loader), desc='Test dataset evaluation', position=0) as test_bar:
         with torch.no_grad():
             for data in test_loader:
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-                predicted = (outputs > args.thresh)
-                total += labels.size(0)
 
-                for i, pred in enumerate(predicted):
-                    if pred:
-                        if pred == labels[i]:
-                            tp += 1
-                        else:
-                            fp += 1
-                    else:
-                        if pred == labels[i]:
-                            tn += 1
-                        else:
-                            fn += 1
+                for out, lab in zip(outputs, labels):
+                    new_row = {'out': out.item(), 'label': lab.item()}
+                    test_rows_list.append(new_row)
 
-                correct += (predicted == labels).sum().item()
                 test_bar.update(1)
 
-    # Evaluation metrics
-    _, _, _, _ = print_metrics(tp, fp, tn, fn, args.beta)
+    test_outputs = pd.DataFrame(test_rows_list)
+    test_outputs.to_csv(f'../Analysis/OutputsCSV/{args.model_folder}/eval/{args.model_name}.csv', index=False)
 
     eval_2 = time.time()
     ev_2 = eval_2 - eval_1
