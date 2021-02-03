@@ -93,6 +93,8 @@ def main():
                  'Recall vs FPR (ROC curve)',
                  f'ROC/{folder2save}/{model_name}_ROC_curve.png')
 
+        plt.close('all')
+
 
 def get_metrics(tp, fp, tn, fn, beta):
     acc = (tp + tn) / (tp + fp + tn + fn)
