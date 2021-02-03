@@ -20,7 +20,7 @@ val="Validation_data.hdf5"
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_20 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e2_256_20.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_1e2_256_20"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_20 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_1e2_256_20.txt
 #
@@ -32,7 +32,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_25 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e2_256_25.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_1e2_256_25"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_25 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_1e2_256_25.txt
 #
@@ -44,7 +44,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_30 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e2_256_30.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_1e2_256_30"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_30 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_1e2_256_30.txt
 #
@@ -56,7 +56,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_35 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e2_256_35.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_1e2_256_35"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_35 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_1e2_256_35.txt
 #
@@ -68,7 +68,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_40 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_1e2_256_40.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_1e2_256_40"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_1e2_256_40 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_1e2_256_40.txt
 
@@ -82,7 +82,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_5e3_256_20 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_5e3_256_20.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_5e3_256_20"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_5e3_256_20 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_5e3_256_20.txt
 #
@@ -94,7 +94,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_5e3_256_25 > ../Analysis/logs/train/step4/Lstm_16_16_1_1_5e3_256_25.txt
 #
 echo "Evaluating model Lstm_16_16_1_1_5e3_256_25"
-python ../eval_curves.py --test_path $tst \
+python ../eval.py --test_path $tst \
               --model_folder step4 \
               --classifier Lstm_16_16_1_1 --model_name Lstm_16_16_1_1_5e3_256_25 > ../Analysis/logs/eval/step4/Lstm_16_16_1_1_5e3_256_25.txt
 #
