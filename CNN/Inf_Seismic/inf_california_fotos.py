@@ -67,6 +67,9 @@ def main():
                 # Normalize
                 trace = trace / np.max(np.abs(trace))
 
+                # trace 2 plot
+                trtp = trace
+
                 # Numpy to Torch
                 trace = torch.from_numpy(trace).to(device).unsqueeze(0)
 
@@ -79,7 +82,7 @@ def main():
 
                 plt.clf()
                 if pred_trace:
-                    plt.plot(trace.cpu().numpy()[:])
+                    plt.plot(trtp)
                     plt.title(f'')
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
@@ -87,7 +90,7 @@ def main():
                     plt.savefig(f'../Analysis/California_test/{args.model_name}/seismic/{idx}')
 
                 else:
-                    plt.plot(trace.cpu().numpy()[:])
+                    plt.plot(trtp)
                     plt.title(f'')
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
