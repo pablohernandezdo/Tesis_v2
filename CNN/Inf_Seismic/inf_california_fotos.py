@@ -28,7 +28,7 @@ def main():
 
     # Create curves folders
     Path(f"../Analysis/California_test/{args.model_name}/seismic").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/California_test/{args.model_name}/seismic").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/California_test/{args.model_name}/non_seismic").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
