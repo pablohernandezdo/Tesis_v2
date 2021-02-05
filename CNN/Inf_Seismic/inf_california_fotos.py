@@ -27,8 +27,8 @@ def main():
     args = parser.parse_args()
 
     # Create curves folders
-    Path(f"../Analysis/California_seismic/{args.model_name}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/California_non_seismic/{args.model_name}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/California_test/{args.model_name}/seismic").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/California_test/{args.model_name}/seismic").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
@@ -81,7 +81,7 @@ def main():
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
-                    plt.savefig(f'../Analysis/California_seismic/{args.model_name}/{idx}')
+                    plt.savefig(f'../Analysis/California_test/{args.model_name}/seismic/{idx}')
 
                 else:
                     plt.plot(trace.cpu().numpy())
@@ -89,7 +89,7 @@ def main():
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
-                    plt.savefig(f'../Analysis/California_non_seismic/{args.model_name}/{idx}')
+                    plt.savefig(f'../Analysis/California_test/{args.model_name}/non_seismic/{idx}')
 
                 idx += 1
                 california_bar.update()
