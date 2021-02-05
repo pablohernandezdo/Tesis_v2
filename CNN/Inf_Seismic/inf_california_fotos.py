@@ -56,7 +56,8 @@ def main():
 
     # For every trace in the file
     with tqdm.tqdm(total=len(traces), desc='California dataset evaluation') as california_bar:
-        for idx, tr in enumerate(traces):
+        idx = 0
+        for tr in traces:
             # Resample
             tr = signal.resample(tr, 41228)
             tr = tr[:36000]
@@ -90,6 +91,7 @@ def main():
                     plt.grid(True)
                     plt.savefig(f'../Analysis/California_non_seismic/{idx}')
 
+                idx += 1
                 california_bar.update()
 
 
