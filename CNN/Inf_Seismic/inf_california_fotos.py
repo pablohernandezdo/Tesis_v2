@@ -92,7 +92,8 @@ def main():
                     plt.savefig(f'../Analysis/California_test/{args.model_name}/non_seismic/{idx}')
 
                 idx += 1
-                california_bar.update()
+
+        california_bar.update()
 
 
 def normalize_trace(trace):
