@@ -27,8 +27,8 @@ def main():
     args = parser.parse_args()
 
     # Create curves folders
-    Path(f"../Analysis/California_seismic/{args.model_folder}").mkdir(parents=True, exist_ok=True)
-    Path(f"../Analysis/California_non_seismic/{args.model_folder}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/California_seismic/{args.model_name}").mkdir(parents=True, exist_ok=True)
+    Path(f"../Analysis/California_non_seismic/{args.model_name}").mkdir(parents=True, exist_ok=True)
 
     # Select training device
     device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
