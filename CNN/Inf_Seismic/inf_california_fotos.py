@@ -75,7 +75,7 @@ def main():
 
                 plt.clf()
                 if pred_trace:
-                    plt.plot(trace.numpy())
+                    plt.plot(trace.cpu().numpy())
                     plt.title(f'')
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
@@ -83,7 +83,7 @@ def main():
                     plt.savefig(f'../Analysis/California_seismic/{idx}')
 
                 else:
-                    plt.plot(trace.numpy())
+                    plt.plot(trace.cpu().numpy())
                     plt.title(f'')
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
