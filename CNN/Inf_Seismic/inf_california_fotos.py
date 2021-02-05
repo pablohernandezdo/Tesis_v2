@@ -81,7 +81,7 @@ def main():
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
-                    plt.savefig(f'../Analysis/California_seismic/{idx}')
+                    plt.savefig(f'../Analysis/California_seismic/{args.model_name}/{idx}')
 
                 else:
                     plt.plot(trace.cpu().numpy())
@@ -89,7 +89,7 @@ def main():
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
-                    plt.savefig(f'../Analysis/California_non_seismic/{idx}')
+                    plt.savefig(f'../Analysis/California_non_seismic/{args.model_name}/{idx}')
 
                 idx += 1
                 california_bar.update()
