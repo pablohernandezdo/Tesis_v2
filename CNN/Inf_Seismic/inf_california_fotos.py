@@ -99,8 +99,6 @@ def main():
 
                 idx += 1
 
-                break
-            break
             california_bar.update()
 
 
