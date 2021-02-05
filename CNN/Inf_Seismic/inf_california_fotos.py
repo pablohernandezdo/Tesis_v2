@@ -75,7 +75,7 @@ def main():
                 pred_trace = (out_trace > threshold)
 
                 print(f'type trace: {type(trace.cpu().numpy())}')
-                print(f'len trace: {len(trace.cpu().numpy())}')
+                print(f'shape trace: {trace.cpu().numpy().shape}')
 
                 plt.clf()
                 if pred_trace:
