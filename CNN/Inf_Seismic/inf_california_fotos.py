@@ -93,7 +93,7 @@ def main():
 
                 idx += 1
 
-        california_bar.update()
+            california_bar.update()
 
 
 def normalize_trace(trace):
