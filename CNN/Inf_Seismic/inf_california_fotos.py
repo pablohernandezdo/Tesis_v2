@@ -56,7 +56,7 @@ def main():
 
     # For every trace in the file
     with tqdm.tqdm(total=len(traces), desc='California dataset evaluation') as california_bar:
-        for idx, tr in traces:
+        for idx, tr in enumerate(traces):
             # Resample
             tr = signal.resample(tr, 41228)
             tr = tr[:36000]
