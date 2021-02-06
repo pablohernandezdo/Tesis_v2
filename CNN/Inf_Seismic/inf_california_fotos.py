@@ -80,7 +80,7 @@ def main():
                 plt.clf()
                 if pred_trace:
                     plt.plot(trtp)
-                    plt.title(f'')
+                    plt.title(f'Valor de salida: {out_trace.item()}')
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
@@ -88,7 +88,7 @@ def main():
 
                 else:
                     plt.plot(trtp)
-                    plt.title(f'')
+                    plt.title(f'Valor de salida: {out_trace.item()}')
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
