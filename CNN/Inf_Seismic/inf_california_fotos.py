@@ -86,7 +86,7 @@ def main():
                     plt.grid(True)
                     plt.ylim(-1, 1)
                     plt.savefig(f'../Analysis/California_test/{args.model_name}'
-                                f'/seismic/{str(out_trace.item())[:5].replace(".","")}_{idx}.png')
+                                f'/seismic/{str(out_trace.item())[:7].replace(".","")}_{idx}.png')
 
                 else:
                     plt.plot(trtp)
@@ -96,7 +96,7 @@ def main():
                     plt.grid(True)
                     plt.ylim(-1, 1)
                     plt.savefig(f'../Analysis/California_test/{args.model_name}'
-                                f'/non_seismic/{str(out_trace.item())[:5].replace(".","")}_{idx}.png')
+                                f'/non_seismic/{str(out_trace.item())[:7].replace(".","")}_{idx}.png')
 
                 idx += 1
 
