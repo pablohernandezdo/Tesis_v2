@@ -85,7 +85,8 @@ def main():
                     plt.ylabel('Amplitud')
                     plt.grid(True)
                     plt.ylim(-1, 1)
-                    plt.savefig(f'../Analysis/California_test/{args.model_name}/seismic/{out_trace.item()}.png')
+                    plt.savefig(f'../Analysis/California_test/{args.model_name}'
+                                f'/seismic/{str(out_trace.item()).replace(".","")}_{idx}.png')
 
                 else:
                     plt.plot(trtp)
@@ -94,7 +95,8 @@ def main():
                     plt.ylabel('Amplitud')
                     plt.grid(True)
                     plt.ylim(-1, 1)
-                    plt.savefig(f'../Analysis/California_test/{args.model_name}/non_seismic/{out_trace.item()}.png')
+                    plt.savefig(f'../Analysis/California_test/{args.model_name}'
+                                f'/non_seismic/{str(out_trace.item()).replace(".","")}_{idx}.png')
 
                 idx += 1
 
