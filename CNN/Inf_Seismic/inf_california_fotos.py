@@ -84,6 +84,7 @@ def main():
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
+                    plt.ylim(-1, 1)
                     plt.savefig(f'../Analysis/California_test/{args.model_name}/seismic/{out_trace.item()}.png')
 
                 else:
@@ -92,6 +93,7 @@ def main():
                     plt.xlabel('Muestras')
                     plt.ylabel('Amplitud')
                     plt.grid(True)
+                    plt.ylim(-1, 1)
                     plt.savefig(f'../Analysis/California_test/{args.model_name}/non_seismic/{out_trace.item()}.png')
 
                 idx += 1
