@@ -27,7 +27,7 @@ def main():
     parser.add_argument("--train_path", default='Train_data.hdf5',
                         help="HDF5 train Dataset path")
     parser.add_argument("--epochs", type=int, default=50,
-                        help="Number of epochs of training")
+                        help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=256,
                         help="Size of the batches")
     parser.add_argument("--lr", type=float, default=1e-3,
