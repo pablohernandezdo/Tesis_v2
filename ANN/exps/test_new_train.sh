@@ -14,7 +14,7 @@ python ../train_validation.py \
               --train_path $trn     \
               --val_path $val       \
               --model_folder step4  \
-              --n_epochs 5          \
+              --epochs 5          \
               --lr 1e-3             \
               --batch_size 256      \
               --patience 20         \
