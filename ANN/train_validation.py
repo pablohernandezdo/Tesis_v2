@@ -322,7 +322,7 @@ def train_model(train_loader, val_loader, net, device, epochs,
                     batch_bar.update()
 
                     # Early stopping
-                    if all(val_acc <= i for i in early) and args.earlystop:
+                    if all(val_acc <= i for i in early) and earlystop:
                         break
 
                 epoch_bar.update()
