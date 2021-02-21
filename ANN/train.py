@@ -83,7 +83,7 @@ def count_parameters(model):
 def train_model(data_loader, epochs, optimizer, criterion, net,
                 device, model_folder, model_name):
 
-    with tqdm.tqdm(total=epochs, desc='Epochs') as epoch_bar:
+    with tqdm.tqdm(total=epochs, desc='Epochs', position=0) as epoch_bar:
         for epoch in range(epochs):
 
             with tqdm.tqdm(total=len(data_loader),
