@@ -91,109 +91,6 @@ def main():
                 args.earlystop, args.patience, args.eval_iter,
                 f'../models/{args.model_folder}', args.model_name)
 
-    # # Start training
-    # with tqdm.tqdm(total=args.epochs, desc='Epochs') as epoch_bar:
-    #     for epoch in range(args.epochs):
-    #
-    #         n_correct, n_total = 0, 0
-    #
-    #         # Early stopping
-    #         if all(val_acc <= i for i in early) and args.earlystop:
-    #             break
-    #
-    #         with tqdm.tqdm(total=len(train_loader), desc='Batches', leave=False) as batch_bar:
-    #             for i, data in enumerate(train_loader):
-    #
-    #                 # Network to train mode
-    #                 net.train()
-    #
-    #                 # Clear gradient accumulators
-    #                 optimizer.zero_grad()
-    #
-    #                 # Get batch data and labels
-    #                 inputs, labels = data[0].to(device), data[1].to(device)
-    #
-    #                 # Forward pass
-    #                 outputs = net(inputs)
-    #
-    #                 # pred labels
-    #                 pred = torch.round(outputs)
-    #
-    #                 # Calculate accuracy on current batch
-    #                 n_total += labels.size(0)
-    #                 n_correct += (pred == labels).sum().item()
-    #                 train_acc = 100 * n_correct / n_total
-    #
-    #                 # Calculate loss
-    #                 loss = criterion(outputs, labels.float())
-    #
-    #                 # Backpropagation
-    #                 loss.backward()
-    #
-    #                 # Optimize
-    #                 optimizer.step()
-    #
-    #                 # Check validation accuracy periodically
-    #                 if i % args.eval_iter == 0:
-    #                     # Switch model to eval mode
-    #                     net.eval()
-    #
-    #                     # Calculate accuracy on validation
-    #                     total_val_loss = 0
-    #                     total_val, correct_val = 0, 0
-    #
-    #                     with torch.no_grad():
-    #                         for val_data in val_loader:
-    #
-    #                             # Retrieve data and labels
-    #                             traces, labels = val_data[0].to(device), val_data[1].to(device)
-    #
-    #                             # Forward pass
-    #                             outputs = net(traces)
-    #
-    #                             # Calculate loss
-    #                             val_loss = criterion(outputs, labels.float())
-    #
-    #                             # Total loss for epoch
-    #                             total_val_loss += val_loss.item()
-    #
-    #                             # pred labels
-    #                             pred = torch.round(outputs)
-    #
-    #                             # Sum up correct and total validation examples
-    #                             total_val += labels.size(0)
-    #                             correct_val += (pred == labels).sum().item()
-    #
-    #                         val_avg_loss = total_val_loss / len(val_loader)
-    #
-    #                     # Calculate validation accuracy
-    #                     val_acc = 100 * correct_val / total_val
-    #
-    #                     # Save acc for early stopping
-    #                     early.pop(0)
-    #                     early.append(val_acc)
-    #
-    #                 # Save loss to list
-    #                 val_losses.append(val_avg_loss)
-    #                 tr_losses.append(loss)
-    #
-    #                 # Append training and validation accuracies
-    #                 tr_accuracies.append(train_acc)
-    #                 val_accuracies.append(val_acc)
-    #
-    #                 # Update batch bar
-    #                 batch_bar.update()
-    #
-    #                 # Early stopping
-    #                 if all(val_acc <= i for i in early) and args.earlystop:
-    #                     break
-    #
-    #             # Update epochs bar
-    #             epoch_bar.update()
-    #
-    # # Save model
-    # torch.save(net.state_dict(), '../models/' + args.model_folder + '/' + args.model_name + '.pth')
-
     # Measure training, and execution times
     train_end = time.time()
 
@@ -342,7 +239,7 @@ def learning_curve_acc(tr_acc, val_acc, model_folder, model_name):
     plt.ylabel('Accuracy')
     plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Accuracy/{model_name}_accuracies.png')
+    plt.savefig(f'{model_folder}/Accuracy/{model_name}_accuracies.png')
 
 
 def learning_curve_loss(tr_loss, val_loss, model_folder, model_name):
@@ -357,7 +254,7 @@ def learning_curve_loss(tr_loss, val_loss, model_folder, model_name):
     plt.ylabel('Loss')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Analysis/Learning_curves/{model_folder}/Loss/{model_name}_Losses.png')
+    plt.savefig(f'{model_folder}/Loss/{model_name}_Losses.png')
 
 
 def count_parameters(model):
