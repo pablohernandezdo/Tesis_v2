@@ -54,6 +54,9 @@ def main():
     # Read Csv files
     for csv in os.listdir(args.csv_folder):
 
+        if os.path.splitext(csv)[-1] != '.csv':
+            continue
+
         # Read csv file
         df = pd.read_csv(f'{args.csv_folder}/{csv}')
 
