@@ -88,9 +88,7 @@ def main():
         pr_auc, roc_auc = get_pr_roc_auc(prec, rec, fpr)
 
         print(prec + '\n')
-        print(rec + '\n')
-        print(fpr + '\n')
-
+        
         # Get best threshold
         best_idx = np.argmax(fscore)
 
