@@ -75,7 +75,7 @@ def main():
             tn = sum(~predicted & ~df['label'])
 
             # Evaluation metrics
-            acc, prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
+            acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
                                                                   fp,
                                                                   tn,
                                                                   fn,
