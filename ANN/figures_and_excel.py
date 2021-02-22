@@ -91,7 +91,7 @@ def main():
         print(rec)
 
         break
-        
+
         # Get best threshold
         best_idx = np.argmax(fscore)
 
@@ -137,7 +137,7 @@ def main():
 
         # Recall vs False Positive Rate (ROC curve)
         save_fig(fpr,
-                 rec,
+                 rec[::-1],
                  'False Positive Rate',
                  'Recall',
                  'Recall vs FPR (ROC curve)',
