@@ -87,6 +87,10 @@ def main():
         # Obtain PR and ROC auc
         pr_auc, roc_auc = get_pr_roc_auc(prec, rec, fpr)
 
+        print(prec + '\n')
+        print(rec + '\n')
+        print(fpr + '\n')
+
         # Get best threshold
         best_idx = np.argmax(fscore)
 
@@ -141,9 +145,6 @@ def main():
         plt.close('all')
 
     # Save csv with best models
-
-    print(len(models))
-
     # Get indexes to sort by fscore
     sorted_idxs = np.argsort(best_fscore)
 
