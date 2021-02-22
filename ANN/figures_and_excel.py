@@ -76,10 +76,10 @@ def main():
 
             # Evaluation metrics
             acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
-                                                                  fp,
-                                                                  tn,
-                                                                  fn,
-                                                                  args.beta)
+                                                                     fp,
+                                                                     tn,
+                                                                     fn,
+                                                                     args.beta)
 
         # Obtain PR and ROC auc
         pr_auc, roc_auc = get_pr_roc_auc(prec, rec, fpr)
@@ -139,6 +139,8 @@ def main():
 
     # Save csv with best models
 
+    print(len(models))
+    
     # Get indexes to sort by fscore
     sorted_idxs = np.argsort(best_fscore)
 
