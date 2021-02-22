@@ -56,7 +56,8 @@ def main():
 
     # Train dataset
     train_set = HDF5Dataset(args.train_path)
-    train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
+    train_loader = DataLoader(train_set,
+                              batch_size=args.batch_size, shuffle=True)
 
     # Validation dataset
     val_set = HDF5Dataset(args.val_path)

@@ -16,9 +16,7 @@ def main():
     # Args
     parser = argparse.ArgumentParser()
     parser.add_argument('--csv_folder', help='Path to CSV files folder')
-    parser.add_argument("--beta",
-                        type=float,
-                        default=2,
+    parser.add_argument("--beta", type=float, default=2,
                         help="Fscore beta parameter")
     args = parser.parse_args()
 
@@ -124,6 +122,44 @@ def save_fig(x, y, xlabel, ylabel, title, fname):
     plt.ylabel(ylabel)
     plt.grid(True)
     plt.savefig(f'../Analysis/FigsCSV/' + fname)
+
+
+def get_metrics(tp, fp, tn, fn, beta):
+    acc = (tp + tn) / (tp + fp + tn + fn)
+
+    # Evaluation metrics
+    if (not tp) and (not fp):
+        precision = 1
+    else:
+        precision = tp / (tp + fp)
+
+    recall = tp / (tp + fn)
+    fpr = fp / (fp + tn)
+
+    if (not precision) and (not recall):
+        fscore = 0
+    else:
+        fscore = (1 + beta ** 2) * (precision * recall) / \
+                 ((beta ** 2) * precision + recall)
+
+    return acc, recall, precision, fpr, fscore
+
+
+def print_metrics(acc, recall, precision, fpr, fscore):
+
+    print(f'Accuracy: {acc:5.3f}\n'
+          f'Precision: {precision:5.3f}\n'
+          f'Recall: {recall:5.3f}\n'
+          f'False positive rate: {fpr:5.3f}\n'
+          f'F-score: {fscore:5.3f}\n')
+
+    # f'Total seismic traces: {tp + fn}\n'
+    # f'Total non seismic traces: {tn + fp}\n'
+    # f'correct: {tp + tn} / {tp + fp + tn + fn} \n\n'
+    # f'True positives: {tp}\n'
+    # f'True negatives: {tn}\n'
+    # f'False positives: {fp}\n'
+    # f'False negatives: {fn}\n\n'
 
 
 if __name__ == "__main__":

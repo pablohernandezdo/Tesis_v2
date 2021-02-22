@@ -30,8 +30,6 @@ def main():
                         help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=256,
                         help="Size of the training batches")
-    parser.add_argument("--beta", type=float, default=2,
-                        help="Fscore beta parameter")
     args = parser.parse_args()
 
     # Select training device
@@ -116,44 +114,6 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
     # Save outputs and labels to csv file
     test_outputs.to_csv(f'{save_folder}/{model_name}.csv', index=False)
-
-
-def get_metrics(tp, fp, tn, fn, beta):
-    acc = (tp + tn) / (tp + fp + tn + fn)
-
-    # Evaluation metrics
-    if (not tp) and (not fp):
-        precision = 1
-    else:
-        precision = tp / (tp + fp)
-
-    recall = tp / (tp + fn)
-    fpr = fp / (fp + tn)
-
-    if (not precision) and (not recall):
-        fscore = 0
-    else:
-        fscore = (1 + beta ** 2) * (precision * recall) / \
-                 ((beta ** 2) * precision + recall)
-
-    return acc, recall, precision, fpr, fscore
-
-
-def print_metrics(acc, recall, precision, fpr, fscore):
-
-    print(f'Accuracy: {acc:5.3f}\n'
-          f'Precision: {precision:5.3f}\n'
-          f'Recall: {recall:5.3f}\n'
-          f'False positive rate: {fpr:5.3f}\n'
-          f'F-score: {fscore:5.3f}\n')
-
-    # f'Total seismic traces: {tp + fn}\n'
-    # f'Total non seismic traces: {tn + fp}\n'
-    # f'correct: {tp + tn} / {tp + fp + tn + fn} \n\n'
-    # f'True positives: {tp}\n'
-    # f'True negatives: {tn}\n'
-    # f'False positives: {fp}\n'
-    # f'False negatives: {fn}\n\n'
 
 
 def get_classifier(x):
