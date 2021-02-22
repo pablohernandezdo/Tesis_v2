@@ -74,5 +74,5 @@ val="Validation_data.hdf5"
 
 # Figures and full excel file
 python ../figures_and_excel.py \
-              --csv_folder ../Analysis/OutputsCSV/step4/eval \
+              --csv_folder ../Analysis/CSVOutputs/Test/step4 \
               --xls_name test \

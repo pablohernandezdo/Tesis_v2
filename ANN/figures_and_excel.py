@@ -140,7 +140,7 @@ def main():
     # Save csv with best models
 
     print(len(models))
-    
+
     # Get indexes to sort by fscore
     sorted_idxs = np.argsort(best_fscore)
 
