@@ -8,6 +8,7 @@ import tqdm
 
 def main():
     # Create new train, validation and test sets from STEAD
+    # and non seismic geophone dataset files
 
     # Args
     parser = argparse.ArgumentParser(description='Dataset creation parameters')
