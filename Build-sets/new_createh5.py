@@ -278,7 +278,7 @@ def read_coompana():
     # Rng
     rng = default_rng()
 
-    dataset_folder = "../../Data/Coompana"
+    dataset_folder = "../Data/Coompana"
 
     seg2reader = seg2.SEG2()
 
@@ -336,7 +336,7 @@ def read_coompana():
 
 
 def read_lesser_antilles_airgun():
-    dataset_folder = "../../Data/Lesser_Antilles"
+    dataset_folder = "../Data/Lesser_Antilles"
 
     # Sampling frequency pre-read from file
     fs = 250
@@ -380,7 +380,7 @@ def read_lesser_antilles_airgun():
 
 
 def read_north_carolina_airgun():
-    dataset = "../../Data/NC_Airgun"
+    dataset = "../Data/NC_Airgun"
 
     data = _read_segy(dataset)
 
