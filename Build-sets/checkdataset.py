@@ -33,7 +33,8 @@ def main():
 
             data = seismic[dset]
 
-            if not np.max(np.abs(data[:, 0])):
+            # if not np.max(np.abs(data[:, 0])):
+            if not np.max(np.abs(data)):
                 seismic_bad += 1
                 seismic_bad_ids.append(idx)
 
@@ -43,7 +44,8 @@ def main():
 
             data = noise[dset]
 
-            if not np.max(np.abs(data[:, 0])):
+            # if not np.max(np.abs(data[:, 0])):
+            if not np.max(np.abs(data)):
                 noise_bad += 1
                 noise_bad_ids.append(idx)
 
