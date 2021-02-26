@@ -348,6 +348,7 @@ def read_lesser_antilles_airgun():
     for dataset in os.listdir(dataset_folder):
 
         # Read dataset
+        print(f'{dataset_folder}/{dataset}')
         data = _read_segy(f'{dataset_folder}/{dataset}')
 
         # For every trace in the dataset
