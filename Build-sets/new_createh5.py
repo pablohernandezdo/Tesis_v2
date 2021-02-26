@@ -348,7 +348,6 @@ def read_lesser_antilles_airgun():
     for dataset in os.listdir(dataset_folder):
 
         # Read dataset
-        print(f'{dataset_folder}/{dataset}')
         data = _read_segy(f'{dataset_folder}/{dataset}')
 
         # For every trace in the dataset
@@ -381,7 +380,7 @@ def read_lesser_antilles_airgun():
 
 
 def read_north_carolina_airgun():
-    dataset = "../Data/NC_Airgun"
+    dataset = "../Data/NC_Airgun/ar56.7984.mgl1408.mcs002.bbobs-a01_geo.segy"
 
     data = _read_segy(dataset)
 
