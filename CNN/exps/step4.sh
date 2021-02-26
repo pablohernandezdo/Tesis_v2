@@ -1935,7 +1935,7 @@ python ../eval_curves.py --test_path $tst \
 #              --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_35 > ../Analysis/logs/eval/step4/Cnn1_3k_10_1e4_256_35.txt
 #
 echo "Training model Cnn1_3k_10, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train.py \
+python ../train_validation.py \
               --model_folder step4 --patience 40 \
               --train_path $trn --val_path $val      \
               --epochs 5 --lr 1e-4 --batch_size 256 \
