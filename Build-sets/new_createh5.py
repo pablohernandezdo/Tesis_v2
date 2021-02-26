@@ -238,6 +238,9 @@ def add_lesser_antilles_traces(train_group, test_group, val_group):
     n_test = 2245
     n_val = 2245
 
+    n_needed = n_train + n_test + n_val
+    traces = traces[:n_needed, :]
+
     # Split traces between train, test and validation
     traces_train = traces[:n_train, :]
     traces_test = traces[n_train:n_train + n_test, :]
@@ -257,6 +260,9 @@ def add_north_carolina_traces(train_group, test_group, val_group):
     n_train = 17958
     n_test = 2245
     n_val = 2245
+
+    n_needed = n_train + n_test + n_val
+    traces = traces[:n_needed, :]
 
     # Split traces between train, test and validation
     traces_train = traces[:n_train, :]

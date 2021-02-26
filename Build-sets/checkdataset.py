@@ -9,7 +9,8 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_path", default='../Data/STEAD/STEAD.hdf5', help="HDF5 Dataset path")
+    parser.add_argument("--dataset_path", default='../Data/STEAD/STEAD.hdf5',
+                        help="HDF5 Dataset path")
     args = parser.parse_args()
 
     # Open dataset
