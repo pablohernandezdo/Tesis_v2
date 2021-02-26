@@ -214,9 +214,16 @@ def add_coompana_traces(train_group, test_group, val_group):
     traces = read_coompana()
 
     # Number of traces per dataset
-    n_train = 15284
-    n_test = 1910
-    n_val = 1910
+    # n_train = 15284
+    # n_test = 1910
+    # n_val = 1910
+
+    n_train = 853
+    n_test = 341
+    n_val = 341
+
+    n_needed = n_train + n_test + n_val
+    traces = traces[:n_needed, :]
 
     # Split traces between train, test and validation
     traces_train = traces[:n_train, :]
@@ -234,9 +241,13 @@ def add_lesser_antilles_traces(train_group, test_group, val_group):
     traces = read_lesser_antilles_airgun()
 
     # Number of traces per dataset
-    n_train = 17958
-    n_test = 2245
-    n_val = 2245
+    # n_train = 17958
+    # n_test = 2245
+    # n_val = 2245
+
+    n_train = 853
+    n_test = 341
+    n_val = 341
 
     n_needed = n_train + n_test + n_val
     traces = traces[:n_needed, :]
@@ -257,9 +268,13 @@ def add_north_carolina_traces(train_group, test_group, val_group):
     traces = read_north_carolina_airgun()
 
     # Number of traces per dataset
-    n_train = 17958
-    n_test = 2245
-    n_val = 2245
+    # n_train = 17958
+    # n_test = 2245
+    # n_val = 2245
+
+    n_train = 854
+    n_test = 342
+    n_val = 342
 
     n_needed = n_train + n_test + n_val
     traces = traces[:n_needed, :]
