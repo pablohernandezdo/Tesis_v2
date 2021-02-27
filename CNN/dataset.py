@@ -33,6 +33,8 @@ class HDF5Dataset(data.Dataset):
                 for idx, dts in enumerate(grp):
                     if idx == item:
                         # Return normalized trace and label
+                        print(type(grp[dts]))
+                        print(grp[dts].shape)
                         if grp[dts].shape[1] == 3:
                             out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
                         else:
