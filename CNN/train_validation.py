@@ -216,12 +216,12 @@ def train_model(train_loader, val_loader, net, device, epochs,
                 epoch_bar.update()
 
     # Plot train and validation accuracies
-    learning_curve_acc(tr_accuracies, val_accuracies, model_name,
-                       model_folder.split('/')[-1])
+    learning_curve_acc(tr_accuracies, val_accuracies,
+                       model_folder.split('/')[-1], model_name)
 
     # Plot train and validation losses
-    learning_curve_loss(tr_losses, val_losses, model_name,
-                        model_folder.split('/')[-1])
+    learning_curve_loss(tr_losses, val_losses,
+                        model_folder.split('/')[-1], model_name)
 
     torch.save(net.state_dict(), f'{model_folder}/{model_name}.pth')
 
