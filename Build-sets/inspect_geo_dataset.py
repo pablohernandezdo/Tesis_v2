@@ -13,7 +13,7 @@ def main():
         noise = f['non_earthquake']['noise']
 
         for dset in noise:
-            print(dset) 
+            print(noise[dset].dtype)
 
 
 if __name__ == "__main__":
