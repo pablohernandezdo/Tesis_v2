@@ -1938,7 +1938,7 @@ echo "Training model Cnn1_3k_10, lr = 1e-4, epochs = 5, batch_size = 256"
 python ../train_validation.py \
               --model_folder step4 --patience 40 \
               --train_path $trn --val_path $val      \
-              --epochs 1 --lr 1e-4 --batch_size 256 \
+              --epochs 5 --lr 1e-4 --batch_size 256 \
               --classifier Cnn1_3k_10 --model_name Cnn1_3k_10_1e4_256_40 > ../Analysis/logs/train/step4/Cnn1_3k_10_1e4_256_40.txt
 
 #echo "Evaluating model Cnn1_3k_10_1e4_256"
