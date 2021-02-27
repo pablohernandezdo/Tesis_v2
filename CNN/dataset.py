@@ -41,6 +41,7 @@ class HDF5Dataset(data.Dataset):
                 grp = h5_file['earthquake']['local']
                 for idx, dts in enumerate(grp):
                     if idx == item:
+                        print(grp[dts].shape)
                         # out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
                         out = grp[dts] / np.max(np.abs(grp[dts]))
                         return torch.from_numpy(out), torch.tensor([1])
