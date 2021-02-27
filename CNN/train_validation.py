@@ -216,17 +216,20 @@ def train_model(train_loader, val_loader, net, device, epochs,
                 epoch_bar.update()
 
     # Plot train and validation accuracies
-    learning_curve_acc(tr_accuracies, val_accuracies, model_name, model_folder)
+    learning_curve_acc(tr_accuracies, val_accuracies, model_name,
+                       model_folder.split('/')[-1])
 
     # Plot train and validation losses
-    learning_curve_loss(tr_losses, val_losses, model_name, model_folder)
+    learning_curve_loss(tr_losses, val_losses, model_name,
+                        model_folder.split('/')[-1])
 
     torch.save(net.state_dict(), f'{model_folder}/{model_name}.pth')
 
 
 def learning_curve_acc(tr_acc, val_acc, model_folder, model_name):
 
-    Path(f"{model_folder}/Accuracy").mkdir(exist_ok=True, parents=True)
+    Path(f"../Analysis/Learning_curves/Accuracy/"
+         f"{model_folder}").mkdir(exist_ok=True, parents=True)
 
     plt.figure()
     line_tr, = plt.plot(tr_acc, label='Training accuracy')
@@ -236,12 +239,14 @@ def learning_curve_acc(tr_acc, val_acc, model_folder, model_name):
     plt.ylabel('Accuracy')
     plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'{model_folder}/Accuracy/{model_name}_accuracies.png')
+    plt.savefig(f'../Analysis/Learning_curves/Accuracy/'
+                f'{model_folder}/{model_name}_accuracies.png')
 
 
 def learning_curve_loss(tr_loss, val_loss, model_folder, model_name):
 
-    Path(f"{model_folder}/Loss").mkdir(exist_ok=True, parents=True)
+    Path(f"../Analysis/Learning_curves/Loss/"
+         f"{model_folder}").mkdir(exist_ok=True, parents=True)
 
     plt.figure()
     line_tr, = plt.plot(tr_loss, label='Training Loss')
@@ -251,7 +256,8 @@ def learning_curve_loss(tr_loss, val_loss, model_folder, model_name):
     plt.ylabel('Loss')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'{model_folder}/Loss/{model_name}_Losses.png')
+    plt.savefig(f'../Analysis/Learning_curves/Loss/'
+                f'{model_folder}/{model_name}_Losses.png')
 
 
 def count_parameters(model):
