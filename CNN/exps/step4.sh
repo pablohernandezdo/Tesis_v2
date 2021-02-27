@@ -2512,3 +2512,8 @@ python ../eval.py --test_path $tst \
 
 #echo "Creating summary of reports excel file"
 #python ../trainevalcurves2excel.py --xls_name 'CNN_step4' --archives_folder 'step4' --best 30
+
+# Figures and full excel file
+python ../figures_and_excel.py \
+              --csv_folder ../Analysis/CSVOutputs/Test/step4 \
+              --xls_name test \
