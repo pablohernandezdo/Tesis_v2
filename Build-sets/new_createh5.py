@@ -292,6 +292,8 @@ def add_north_carolina_traces(train_group, test_group, val_group):
 
 def add_traces2group(data_name, traces, group):
     for i, tr in enumerate(traces):
+        tr = np.expand_dims(tr, 1)
+        tr = np.hstack([tr, tr, tr])
         group.create_dataset(data_name + str(i), data=tr)
 
 
