@@ -33,15 +33,12 @@ class HDF5Dataset(data.Dataset):
                 for idx, dts in enumerate(grp):
                     if idx == item:
                         # Return normalized trace and label
-                        # out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
-                        out = grp[dts] / np.max(np.abs(grp[dts]))
+                        out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
                         return torch.from_numpy(out), torch.tensor([0])
 
             else:
                 grp = h5_file['earthquake']['local']
                 for idx, dts in enumerate(grp):
                     if idx == item:
-                        print(grp[dts].shape)
-                        # out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
-                        out = grp[dts] / np.max(np.abs(grp[dts]))
+                        out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
                         return torch.from_numpy(out), torch.tensor([1])
