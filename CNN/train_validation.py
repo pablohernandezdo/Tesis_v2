@@ -98,16 +98,6 @@ def main():
     # Training time
     train_time = train_end - start_time
 
-    # Plot train and validation accuracies
-    learning_curve_acc(tr_accuracies, val_accuracies,
-                       f'../Analysis/Learning_curves/{args.model_folder}',
-                       args.model_name)
-
-    # Plot train and validation losses
-    learning_curve_loss(tr_losses, val_losses,
-                        f'../Analysis/Learning_curves/{args.model_folder}',
-                        args.model_name)
-
     print(f'Execution details: \n{args}\n'
           f'Number of parameters: {params}\n'
           f'Training time: {format_timespan(train_time)}')
@@ -224,6 +214,12 @@ def train_model(train_loader, val_loader, net, device, epochs,
                         break
 
                 epoch_bar.update()
+
+    # Plot train and validation accuracies
+    learning_curve_acc(tr_accuracies, val_accuracies, model_name, model_folder)
+
+    # Plot train and validation losses
+    learning_curve_loss(tr_losses, val_losses, model_name, model_folder)
 
     torch.save(net.state_dict(), f'{model_folder}/{model_name}.pth')
 
