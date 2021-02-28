@@ -53,7 +53,7 @@ def main():
 
     # Evaluate model on DAS test dataset
     evaluate_dataset(test_loader, device, net, args.model_name,
-                     args.model_folder, 'Analysis/CSVOutputs')
+                     'Analysis/CSVOutputs')
 
     eval_end = time.time()
     total_time = eval_end - start_time
@@ -67,7 +67,7 @@ def count_parameters(model):
 
 
 def evaluate_dataset(data_loader, device, net,
-                     model_name, model_folder, csv_folder):
+                     model_name, csv_folder):
 
     # List of outputs and labels used to create pd dataframe
     dataframe_rows_list = []
@@ -90,11 +90,10 @@ def evaluate_dataset(data_loader, device, net,
     test_outputs = pd.DataFrame(dataframe_rows_list)
 
     # Create csv folder if necessary
-    save_folder = f'{csv_folder}/{model_folder}'
-    Path(save_folder).mkdir(parents=True, exist_ok=True)
+    Path(csv_folder).mkdir(parents=True, exist_ok=True)
 
     # Save outputs and labels to csv file
-    test_outputs.to_csv(f'{save_folder}/{model_name}.csv', index=False)
+    test_outputs.to_csv(f'{csv_folder}/{model_name}.csv', index=False)
 
 
 def get_classifier(x):
