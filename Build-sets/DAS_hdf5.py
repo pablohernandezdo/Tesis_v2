@@ -50,7 +50,7 @@ class DASdataset:
                 # tr = np.expand_dims(tr, 1)
                 # tr = np.hstack([tr, tr, tr]).astype('float32')
                 tr = np.hstack([tr] * 3).astype('float32')
-                group.create_dataset(data_name + str(i), data=tr)
+                subgroup.create_dataset(data_name + str(i), data=tr)
 
     def load_data(self, data_name):
         # Add data to each sub-group
