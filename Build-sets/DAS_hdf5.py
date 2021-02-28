@@ -310,8 +310,7 @@ class DASdataset:
 
         # Read fo file and save content to data_fo
         with open(file_fo, 'r') as f:
-            # The first line is a description
-            for idx, line in enumerate(f[1:]):
+            for idx, line in enumerate(f):
                 if idx == 0:
                     data_fo['head'] = line.strip()
                 else:
@@ -319,6 +318,7 @@ class DASdataset:
                     data_fo['strain'].append(float(val))
 
         # Resample
+        data_fo['strain'] = np.array(data_fo['strain'])
         data_fo['strain'] = signal.resample(data_fo['strain'], 6000)
 
         return data_fo['strain']
