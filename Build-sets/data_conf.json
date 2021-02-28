@@ -116,24 +116,19 @@
                 "file": "FSE-06_480SecP_SingDec_StepTest (1).mat",
                 "type": "non_earthquake"
             },
-            "vibroseis1": {
-                "path": "../Data/Vibroseis/",
-                "file": "PoroTomo_iDAS025_160325140047.sgy",
+            "tides": {
+                "path": "../Data/Tides/",
+                "file": "CSULB_T13_EarthTide_earthtide_mean_360_519.mat",
                 "type": "non_earthquake"
             },
-            "vibroseis2": {
-                "path": "../Data/Vibroseis/",
-                "file": "PoroTomo_iDAS025_160325140117.sgy",
+            "utah": {
+                "path": "../Data/Utah/",
+                "file": "FORGE_78-32_iDASv3-P11_UTC190419001218.sgy",
                 "type": "non_earthquake"
             },
-            "vibroseis3": {
-                "path": "../Data/Vibroseis/",
-                "file": "PoroTomo_iDAS16043_160325140048.sgy",
-                "type": "non_earthquake"
-            },
-            "vibroseis4": {
-                "path": "../Data/Vibroseis/",
-                "file": "PoroTomo_iDAS16043_160325140118.sgy",
+            "shaker": {
+                "path": "../Data/Shaker/",
+                "file": "large shaker NEES_130910161319 (1).sgy",
                 "type": "non_earthquake"
             }
         },

@@ -124,6 +124,8 @@ def main():
         ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
 
+        # DONDE CHUCHA ESTA VIBROSEIS ?????????
+
         total, tn, fp, outs = inf_shaker(net, device, thresh, hist)
         ns_outputs.extend(outs)
         total_nseismic, total_tn, total_fp = sum_triple(total_nseismic, total_tn, total_fp, total, tn, fp)
