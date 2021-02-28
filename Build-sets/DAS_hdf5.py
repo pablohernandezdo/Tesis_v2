@@ -48,7 +48,6 @@ class DASdataset:
             # Load traces from dataset
             traces = self.load_data(data_name)
             for i, tr in enumerate(traces):
-                print(tr.ndim)
                 tr = np.expand_dims(tr, 1)
                 tr = np.hstack([tr] * 3).astype('float32')
                 subgroup.create_dataset(data_name + str(i), data=tr)
@@ -311,7 +310,8 @@ class DASdataset:
 
         # Read fo file and save content to data_fo
         with open(file_fo, 'r') as f:
-            for idx, line in enumerate(f):
+            # The first line is a description
+            for idx, line in enumerate(f[1:]):
                 if idx == 0:
                     data_fo['head'] = line.strip()
                 else:
