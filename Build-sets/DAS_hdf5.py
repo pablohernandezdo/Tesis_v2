@@ -49,7 +49,6 @@ class DASdataset:
             traces = self.load_data(data_name)
 
             for i, tr in enumerate(traces):
-                print(type(tr))
                 tr = np.expand_dims(tr, 1)
                 tr = np.hstack([tr] * 3).astype('float32')
                 subgroup.create_dataset(data_name + str(i), data=tr)
