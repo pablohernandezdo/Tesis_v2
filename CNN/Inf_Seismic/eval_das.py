@@ -3,13 +3,12 @@ import argparse
 from pathlib import Path
 
 import tqdm
-import h5py
 import torch
-import numpy as np
 import pandas as pd
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
 
+from model import *
 from dataset import HDF5Dataset
 
 
