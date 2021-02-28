@@ -22,17 +22,13 @@ def main():
     # Create figures and excel files folder
     Path("Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Analysis/Fscore/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Analysis/Fscore").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Analysis/Histogram/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Analysis/Histogram").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Analysis/PR/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Analysis/PR/").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Analysis/ROC/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Analysis/ROC/").mkdir(parents=True, exist_ok=True)
 
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
