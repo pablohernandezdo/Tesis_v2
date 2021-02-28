@@ -35,34 +35,53 @@ class DASdataset:
         g_non_earthquake = self.__hdf.create_group('non_earthquake')
 
         # Create sub-groups for each dataset & load data
+        # LA CLASE QUE TENGO AHORA NO FUNCIONA SI HAGO SUBGRUPOS,
+        # ASI QUE POR AHORA NO VOY A HACER SUBGRUPOS
+        # for data_name in self.__cfg["datasets"]:
+        #
+        #     print('Loading %s dataset' % data_name)
+        #     # Creates the groups & subgroups
+        #     dataset = self.__cfg["datasets"][data_name]
+        #     if dataset["type"] == 'earthquake':
+        #         subgroup = g_earthquake.create_group(data_name)
+        #     else:
+        #         subgroup = g_non_earthquake.create_group(data_name)
+        #
+        #     # Load traces from dataset
+        #     traces = self.load_data(data_name)
+        #
+        #     for i, tr in enumerate(traces):
+        #         tr = np.expand_dims(tr, 1)
+        #         tr = np.hstack([tr] * 3).astype('float32')
+        #         subgroup.create_dataset(data_name + str(i), data=tr)
+
         for data_name in self.__cfg["datasets"]:
 
             print('Loading %s dataset' % data_name)
             # Creates the groups & subgroups
             dataset = self.__cfg["datasets"][data_name]
-            if dataset["type"] == 'earthquake':
-                subgroup = g_earthquake.create_group(data_name)
-            else:
-                subgroup = g_non_earthquake.create_group(data_name)
 
             # Load traces from dataset
             traces = self.load_data(data_name)
 
-            for i, tr in enumerate(traces):
-                tr = np.expand_dims(tr, 1)
-                tr = np.hstack([tr] * 3).astype('float32')
-                subgroup.create_dataset(data_name + str(i), data=tr)
+            if dataset["type"] == 'earthquake':
+                for i, tr in enumerate(traces):
+                    tr = np.expand_dims(tr, 1)
+                    tr = np.hstack([tr] * 3).astype('float32')
+                    g_earthquake.create_dataset(data_name + str(i), data=tr)
+            else:
+                for i, tr in enumerate(traces):
+                    tr = np.expand_dims(tr, 1)
+                    tr = np.hstack([tr] * 3).astype('float32')
+                    g_non_earthquake.create_dataset(data_name + str(i), data=tr)
 
         # Add test signals group, get signals first
         traces = self.get_signals()
 
-        # Create subgroup
-        subgroup = g_non_earthquake.create_group("signals")
-
         for i, tr in enumerate(traces):
             tr = np.expand_dims(tr, 1)
             tr = np.hstack([tr] * 3).astype('float32')
-            subgroup.create_dataset('signals' + str(i), data=tr)
+            g_non_earthquake.create_dataset('signals' + str(i), data=tr)
 
     @staticmethod
     def get_signals():
