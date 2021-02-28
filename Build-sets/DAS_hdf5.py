@@ -318,11 +318,12 @@ class DASdataset:
                     data_fo['strain'].append(float(val))
 
         # Resample
-        # data_fo['strain'] = np.array(data_fo['strain'])
-        print(data_fo)
-        data_fo['strain'] = signal.resample(data_fo['strain'], 6000)
+        trace = np.array(data_fo['strain'])
+        print(trace.shape)
+        trace = signal.resample(trace, 6000)
+        print(trace.shape)
 
-        return data_fo['strain']
+        return trace
 
     def get_reykjanes2(self):
 
