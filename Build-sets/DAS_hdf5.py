@@ -322,6 +322,7 @@ class DASdataset:
         print(trace.shape)
         trace = signal.resample(trace, 6000)
         print(trace.shape)
+        print(trace.ndim)
 
         return trace
 
