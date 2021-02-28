@@ -121,7 +121,7 @@ def main():
         plt.xlabel('Umbrales')
         plt.ylabel('Counts')
         plt.grid(True)
-        plt.legend(['False positives', 'False negatives'], loc='upper left')
+        plt.legend(['False positives', 'False negatives'], loc='upper right')
         plt.savefig(f'Analysis/FPFN/{model_name}_fpfn_curve.png')
 
         # F-score vs thresholds curve
