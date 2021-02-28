@@ -53,13 +53,16 @@ class DASdataset:
                 tr = np.hstack([tr] * 3).astype('float32')
                 subgroup.create_dataset(data_name + str(i), data=tr)
 
-        # Add signals
+        # Add test signals group, get signals first
         traces = self.get_signals()
+
+        # Create subgroup
+        subgroup = g_non_earthquake.create_group("signals")
 
         for i, tr in enumerate(traces):
             tr = np.expand_dims(tr, 1)
             tr = np.hstack([tr] * 3).astype('float32')
-            g_non_earthquake.create_dataset('signals' + str(i), data=tr)
+            subgroup.create_dataset('signals' + str(i), data=tr)
 
     @staticmethod
     def get_signals():
