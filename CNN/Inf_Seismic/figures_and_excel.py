@@ -25,6 +25,8 @@ def main():
 
     Path(f"Analysis/Histogram").mkdir(parents=True, exist_ok=True)
 
+    Path(f"Analysis/FPFN/").mkdir(parents=True, exist_ok=True)
+
     Path(f"Analysis/PR/").mkdir(parents=True, exist_ok=True)
 
     Path(f"Analysis/ROC/").mkdir(parents=True, exist_ok=True)
@@ -62,12 +64,18 @@ def main():
         fpr = np.zeros(len(thresholds))
         fscore = np.zeros(len(thresholds))
 
+        fp_arr = np.zeros(len(thresholds))
+        fn_arr = np.zeros(len(thresholds))
+
         for i, thr in enumerate(thresholds):
             predicted = (df['out'] > thr)
             tp = sum(predicted & df['label'])
             fp = sum(predicted & ~df['label'])
             fn = sum(~predicted & df['label'])
             tn = sum(~predicted & ~df['label'])
+
+            fp_arr[i] = fp
+            fn_arr[i] = fn
 
             # Evaluation metrics
             acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
@@ -104,6 +112,17 @@ def main():
         plt.legend(['positive', 'negative'], loc='upper left')
         plt.grid(True)
         plt.savefig(f'Analysis/Histogram/{model_name}_Histogram.png')
+
+        # Output FPFN
+        plt.figure(figsize=(12, 9))
+        plt.plot(thresholds, fp_arr, label='False positives')
+        plt.plot(thresholds, fn_arr, label='False negatives')
+        plt.title(f'{model_name} false positives and false negatives')
+        plt.xlabel('Umbrales')
+        plt.ylabel('Counts')
+        plt.grid(True)
+        plt.legend(['False positives', 'False negatives'], loc='upper left')
+        plt.savefig(f'../Analysis/FPFN/{model_name}_fpfn_curve.png')
 
         # F-score vs thresholds curve
         save_fig(thresholds,
