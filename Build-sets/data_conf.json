@@ -116,11 +116,6 @@
                 "file": "FSE-06_480SecP_SingDec_StepTest (1).mat",
                 "type": "non_earthquake"
             },
-            "utah": {
-                "path": "../Data/Utah/",
-                "file": "FORGE_78-32_iDASv3-P11_UTC190419001218.sgy",
-                "type": "non_earthquake"
-            },
             "vibroseis1": {
                 "path": "../Data/Vibroseis/",
                 "file": "PoroTomo_iDAS025_160325140047.sgy",
@@ -139,6 +134,11 @@
             "vibroseis4": {
                 "path": "../Data/Vibroseis/",
                 "file": "PoroTomo_iDAS16043_160325140118.sgy",
+                "type": "non_earthquake"
+            },
+            "utah": {
+                "path": "../Data/Utah/",
+                "file": "FORGE_78-32_iDASv3-P11_UTC190419001218.sgy",
                 "type": "non_earthquake"
             },
             "shaker": {
