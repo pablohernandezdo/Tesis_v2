@@ -56,9 +56,9 @@ class DASdataset:
         # Add signals
         traces = self.get_signals()
 
-        print(traces.shape)
-        
         for i, tr in enumerate(traces):
+            print(tr.shape)
+            exit()
             tr = np.hstack([tr] * 3).astype('float32')
             g_non_earthquake.create_dataset('signals' + str(i), data=tr)
 
