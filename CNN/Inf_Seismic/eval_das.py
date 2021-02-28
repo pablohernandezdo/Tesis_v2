@@ -53,7 +53,7 @@ def main():
 
     # Evaluate model on DAS test dataset
     evaluate_dataset(test_loader, device, net, args.model_name,
-                     args.model_folder, '../Analysis/CSVOutputs')
+                     args.model_folder, 'Analysis/CSVOutputs')
 
     eval_end = time.time()
     total_time = eval_end - start_time
