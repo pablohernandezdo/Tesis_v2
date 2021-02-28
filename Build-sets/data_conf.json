@@ -82,7 +82,7 @@
                 "type": "non_earthquake"
             }
         },
-        "output": "../Data/DAS_dataset"
+        "output": "../Data/DAS_dataset/"
     },
     "partial": {
         "datasets": {
@@ -137,6 +137,6 @@
                 "type": "non_earthquake"
             }
         },
-        "output": "../Data/DAS_dataset"
+        "output": "../Data/DAS_dataset/"
     }
 }
