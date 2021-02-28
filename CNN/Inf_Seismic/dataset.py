@@ -17,8 +17,8 @@ class HDF5Dataset(data.Dataset):
         with h5py.File(self.file_path, 'r') as h5_file:
             grp1 = h5_file['earthquake']
             grp2 = h5_file['non_earthquake']
-            self.traces_len = len(h5_file[grp1])
-            self.noise_len = len(h5_file[grp2])
+            self.traces_len = len(grp1)
+            self.noise_len = len(grp2)
 
     def __len__(self):
         return self.traces_len + self.noise_len
