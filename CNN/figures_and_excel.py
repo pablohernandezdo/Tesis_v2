@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 def main():
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument('--csv_folder',
+    parser.add_argument('--csv_folder', default='../Analysis/CSVOutputs',
                         help='Path to CSV files folder')
     parser.add_argument('--xls_name',
                         help='Best models excel file name')

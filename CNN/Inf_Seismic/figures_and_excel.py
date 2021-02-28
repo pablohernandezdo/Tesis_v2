@@ -18,7 +18,6 @@ def main():
                         help="Fscore beta parameter")
     args = parser.parse_args()
 
-
     # Create figures and excel files folder
     Path("Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
 
