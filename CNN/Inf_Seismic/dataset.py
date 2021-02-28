@@ -33,8 +33,6 @@ class HDF5Dataset(data.Dataset):
                 for idx, dts in enumerate(grp):
                     if idx == item:
                         # Return normalized trace and label
-                        print(type(grp[dts]))
-                        print(grp[dts].shape)
                         out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
                         return torch.from_numpy(out), torch.tensor([0])
 
