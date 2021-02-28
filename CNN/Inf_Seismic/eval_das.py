@@ -34,7 +34,7 @@ def main():
     device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 
     # Test dataset
-    test_set = HDF5Dataset(args.test_path)
+    test_set = HDF5Dataset(args.das_path)
     test_loader = DataLoader(test_set,
                              batch_size=args.batch_size, shuffle=True)
 
