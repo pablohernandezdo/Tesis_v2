@@ -122,7 +122,7 @@ def main():
         plt.ylabel('Counts')
         plt.grid(True)
         plt.legend(['False positives', 'False negatives'], loc='upper left')
-        plt.savefig(f'../Analysis/FPFN/{model_name}_fpfn_curve.png')
+        plt.savefig(f'Analysis/FPFN/{model_name}_fpfn_curve.png')
 
         # F-score vs thresholds curve
         save_fig(thresholds,
