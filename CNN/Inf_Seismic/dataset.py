@@ -26,6 +26,9 @@ class HDF5Dataset(data.Dataset):
     def __getitem__(self, item):
         with h5py.File(self.file_path, 'r') as h5_file:
 
+            print(self.traces_len)
+            print(self.noise_len)
+
             # If item is a noise trace
             if item >= self.traces_len:
                 item -= self.traces_len
