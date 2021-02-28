@@ -47,6 +47,11 @@ class DASdataset:
 
             # Load traces from dataset
             traces = self.load_data(data_name)
+
+            # Para el caso de reykjanes, la salida es solo una traza
+            # por lo que al hacer el enumerate se mueve por todas las muestras
+            # de la señal y tira un error, se arregla agregandole una dimension
+            # extra a la salida de la funcion get_reykjanes
             for i, tr in enumerate(traces):
                 tr = np.expand_dims(tr, 1)
                 tr = np.hstack([tr] * 3).astype('float32')
@@ -319,12 +324,8 @@ class DASdataset:
 
         # Resample
         trace = np.array(data_fo['strain'])
-        print(trace.shape)
         trace = signal.resample(trace, 6000)
-        print(trace.shape)
-        print(trace.ndim)
-        trace = np.expand_dims(trace, 1)
-        print(trace.ndim)
+        trace = np.expand_dims(trace, 0)
 
         return trace
 
