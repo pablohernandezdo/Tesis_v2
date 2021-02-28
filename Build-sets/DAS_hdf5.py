@@ -34,28 +34,30 @@ class DASdataset:
         g_earthquake = self.__hdf.create_group('earthquake')
         g_non_earthquake = self.__hdf.create_group('non_earthquake')
 
-        # Create sub-groups for each dataset & load data
-        for data_name in self.__cfg["datasets"]:
-
-            print('Loading %s dataset' % data_name)
-            # Creates the groups & subgroups
-            dataset = self.__cfg["datasets"][data_name]
-            if dataset["type"] == 'earthquake':
-                subgroup = g_earthquake.create_group(data_name)
-            else:
-                subgroup = g_non_earthquake.create_group(data_name)
-
-            # Load traces from dataset
-            traces = self.load_data(data_name)
-            for i, tr in enumerate(traces):
-                # tr = np.expand_dims(tr, 1)
-                # tr = np.hstack([tr, tr, tr]).astype('float32')
-                tr = np.hstack([tr] * 3).astype('float32')
-                subgroup.create_dataset(data_name + str(i), data=tr)
+        # # Create sub-groups for each dataset & load data
+        # for data_name in self.__cfg["datasets"]:
+        #
+        #     print('Loading %s dataset' % data_name)
+        #     # Creates the groups & subgroups
+        #     dataset = self.__cfg["datasets"][data_name]
+        #     if dataset["type"] == 'earthquake':
+        #         subgroup = g_earthquake.create_group(data_name)
+        #     else:
+        #         subgroup = g_non_earthquake.create_group(data_name)
+        #
+        #     # Load traces from dataset
+        #     traces = self.load_data(data_name)
+        #     for i, tr in enumerate(traces):
+        #         # tr = np.expand_dims(tr, 1)
+        #         # tr = np.hstack([tr, tr, tr]).astype('float32')
+        #         tr = np.hstack([tr] * 3).astype('float32')
+        #         subgroup.create_dataset(data_name + str(i), data=tr)
 
         # Add signals
         traces = self.get_signals()
 
+        print(traces.shape)
+        
         for i, tr in enumerate(traces):
             tr = np.hstack([tr] * 3).astype('float32')
             g_non_earthquake.create_dataset('signals' + str(i), data=tr)
