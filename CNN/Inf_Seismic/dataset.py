@@ -26,9 +26,6 @@ class HDF5Dataset(data.Dataset):
     def __getitem__(self, item):
         with h5py.File(self.file_path, 'r') as h5_file:
 
-            print(self.traces_len)
-            print(self.noise_len)
-
             # If item is a noise trace
             if item >= self.traces_len:
                 item -= self.traces_len
@@ -36,7 +33,6 @@ class HDF5Dataset(data.Dataset):
                 for idx, dts in enumerate(grp):
                     if idx == item:
                         # Return normalized trace and label
-                        print(f'grp: {grp}, dts: {dts}')
                         out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
                         return torch.from_numpy(out), torch.tensor([0])
 
