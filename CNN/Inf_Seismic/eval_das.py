@@ -28,6 +28,8 @@ def main():
     parser.add_argument("--das_path",
                         default='../../Data/DAS_dataset/DAS_dataset.hdf5',
                         help="Choose classifier architecture")
+    parser.add_argument("--batch_size", type=int, default=256,
+                        help="Size of the training batches")
     args = parser.parse_args()
 
     # Select training device
