@@ -115,8 +115,8 @@ def main():
 
         # Output FPFN
         plt.figure(figsize=(12, 9))
-        plt.plot(thresholds, fp_arr, label='False positives')
-        plt.plot(thresholds, fn_arr, label='False negatives')
+        plt.plot(thresholds, fp_arr, '--o', label='False positives')
+        plt.plot(thresholds, fn_arr, '--o', label='False negatives')
         plt.title(f'{model_name} false positives and false negatives')
         plt.xlabel('Umbrales')
         plt.ylabel('Counts')
