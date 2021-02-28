@@ -1,4 +1,5 @@
 import re
+import pywt
 import h5py
 import json
 import segyio
@@ -51,6 +52,137 @@ class DASdataset:
                 # tr = np.hstack([tr, tr, tr]).astype('float32')
                 tr = np.hstack([tr] * 3).astype('float32')
                 subgroup.create_dataset(data_name + str(i), data=tr)
+
+        # Add signals
+        traces = self.get_signals()
+
+        for i, tr in enumerate(traces):
+            tr = np.hstack([tr] * 3).astype('float32')
+            g_non_earthquake.create_dataset('signals' + str(i), data=tr)
+
+    @staticmethod
+    def get_signals():
+        # Init RNG
+        rng = default_rng()
+
+        # Noise
+        ns = rng.normal(0, 1, 6000)
+
+        # Sine waves
+
+        # Number of sample points
+        N = 6000
+
+        # sampling frequency
+        fs = 100
+
+        # Time axis
+        t = np.linspace(0.0, N / fs, N)
+
+        # Number of frequency interval steps
+        n = 100
+
+        # Frequency spans
+        fr1 = np.linspace(1, 50, n)
+        fr2 = np.linspace(0.01, 1, n)
+
+        # Prealocate
+        wvs1 = []
+        wvs2 = []
+        wvs3 = []
+
+        for f1, f2 in zip(fr1, fr2):
+            sig1 = np.sin(f1 * 2.0 * np.pi * t)
+            sig2 = np.sin(f2 * 2.0 * np.pi * t)
+            wvs1.append(sig1)
+            wvs2.append(sig2)
+            wvs3.append(sig1 + sig2)
+
+        wvs1 = np.array(wvs1)
+        wvs2 = np.array(wvs2)
+        wvs3 = np.array(wvs3)
+
+        wvs1_ns = wvs1 + 0.5 * rng.normal(0, 1, wvs1.shape)
+        wvs2_ns = wvs2 + 0.5 * rng.normal(0, 1, wvs2.shape)
+        wvs3_ns = wvs3 + 0.5 * rng.normal(0, 1, wvs3.shape)
+
+        # PADDED SINES
+
+        # Number of intermediate sample points
+        ni = [1000, 2000, 4000, 5000]
+
+        # Number of points to zero-pad
+        pad = [(N - n) // 2 for n in ni]
+
+        # Time axis for smaller waves
+        lts = [np.linspace(0.0, nis / fs, nis) for nis in ni]
+
+        # All frequencies list
+        all_fr = []
+
+        # Calculate max period for smaller waves
+        max_periods = [n_points / fs for n_points in ni]
+
+        # Calculate frequencies for smaller waves
+        for per in max_periods:
+            freqs = []
+            for i in range(1, int(per) + 1):
+                if per % i == 0:
+                    freqs.append(1 / i)
+            all_fr.append(freqs)
+
+        # Preallocate waves
+        wvs_pad = []
+
+        # Generate waves and zero pad
+        for idx, fr_ls in enumerate(all_fr):
+            for fr in fr_ls:
+                wv = np.sin(fr * 2.0 * np.pi * lts[idx])
+                wv = np.pad(wv, (pad[idx], pad[idx]), 'constant')
+                wvs_pad.append(wv)
+
+        wvs_pad = np.array(wvs_pad)
+
+        # Wavelets
+
+        # Preallocate wavelets
+        lets = []
+
+        # Discrete wavelet families
+        discrete_families = ['db', 'sym', 'coif', 'bior', 'rbio']
+
+        # Obtain wavelet waveforms, resample and append
+        for fam in discrete_families:
+            for wavelet in pywt.wavelist(fam):
+                wv = pywt.Wavelet(wavelet)
+                if wv.orthogonal:
+                    [_, psi, _] = pywt.Wavelet(wavelet).wavefun(level=5)
+                    psi = signal.resample(psi, 6000)
+                    lets.append(psi)
+
+        lets = np.array(lets)
+
+        # print(f'ns: {ns.shape}\n'
+        #       f'wvs1: {wvs1.shape}\n'
+        #       f'wvs2: {wvs2.shape}\n'
+        #       f'wvs3: {wvs3.shape}\n'
+        #       f'wvs1_ns: {wvs1_ns.shape}\n'
+        #       f'wvs2_ns: {wvs2_ns.shape}\n'
+        #       f'wvs3_ns: {wvs3_ns.shape}\n'
+        #       f'wvs_pad: {wvs_pad.shape}\n'
+        #       f'lets: {lets.shape}')
+
+        traces = np.vstack((ns,
+                            wvs1,
+                            wvs2,
+                            wvs3,
+                            wvs1_ns,
+                            wvs2_ns,
+                            wvs3_ns,
+                            wvs_pad,
+                            lets))
+
+        return traces
 
     def load_data(self, data_name):
         # Add data to each sub-group

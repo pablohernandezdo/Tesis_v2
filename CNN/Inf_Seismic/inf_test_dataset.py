@@ -21,9 +21,12 @@ from model import *
 def main():
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_folder", default='default', help="Folder to save model")
-    parser.add_argument("--model_name", default='CBN_1epch', help="Classifier model path")
-    parser.add_argument("--classifier", default='C', help="Choose classifier architecture")
+    parser.add_argument("--model_folder", default='default',
+                        help="Folder to save model")
+    parser.add_argument("--model_name", default='CBN_1epch',
+                        help="Classifier model path")
+    parser.add_argument("--classifier", default='C',
+                        help="Choose classifier architecture")
     args = parser.parse_args()
 
     # Create curves folders
