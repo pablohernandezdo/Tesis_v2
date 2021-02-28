@@ -29,7 +29,7 @@ class HDF5Dataset(data.Dataset):
             # If item is a noise trace
             if item >= self.traces_len:
                 item -= self.traces_len
-                grp = h5_file['non_earthquake']['noise']
+                grp = h5_file['non_earthquake']
                 for idx, dts in enumerate(grp):
                     if idx == item:
                         # Return normalized trace and label
@@ -37,7 +37,7 @@ class HDF5Dataset(data.Dataset):
                         return torch.from_numpy(out), torch.tensor([0])
 
             else:
-                grp = h5_file['earthquake']['local']
+                grp = h5_file['earthquake']
                 for idx, dts in enumerate(grp):
                     if idx == item:
                         out = grp[dts][:, 0] / np.max(np.abs(grp[dts][:, 0]))
