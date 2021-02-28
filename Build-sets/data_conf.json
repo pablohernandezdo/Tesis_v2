@@ -113,7 +113,7 @@
             },
             "california": {
                 "path": "../Data/California/",
-                "file": "FSE-06_480SecP_SingDec_StepTest.mat",
+                "file": "FSE-06_480SecP_SingDec_StepTest (1).mat",
                 "type": "non_earthquake"
             },
             "vibroseis1": {
