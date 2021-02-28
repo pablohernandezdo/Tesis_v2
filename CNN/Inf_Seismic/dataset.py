@@ -15,8 +15,8 @@ class HDF5Dataset(data.Dataset):
 
         # Read file and groups
         with h5py.File(self.file_path, 'r') as h5_file:
-            grp1 = h5_file['earthquake']['local']
-            grp2 = h5_file['non_earthquake']['noise']
+            grp1 = h5_file['earthquake']
+            grp2 = h5_file['non_earthquake']
             self.traces_len = len(grp1)
             self.noise_len = len(grp2)
 
