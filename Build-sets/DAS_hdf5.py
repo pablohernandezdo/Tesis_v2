@@ -598,7 +598,7 @@ class DASdataset:
 
         return np.array(new_traces)
 
-    def get_shaker(net, device, thresh, hist):
+    def get_shaker(self):
         cfg = self.__cfg["datasets"]['shaker']
         # Load hydraulic local dataset
         file_fo = cfg['path'] + cfg['file']
