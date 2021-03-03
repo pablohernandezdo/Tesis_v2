@@ -33,6 +33,8 @@ def main():
         # Resample
         tr = signal.resample(tr, 12000)
 
+        print(tr.shape)
+        break
         # Reshape
         new_traces.append(np.reshape(tr, (-1, 6000)))
 
