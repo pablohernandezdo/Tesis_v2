@@ -421,6 +421,8 @@ class DASdataset:
             for k in range(0, 10):
                 new_traces.append(tr[k, :])
 
+        print(len(new_traces))
+        
         return np.array(new_traces)
 
     def get_california2(self):
