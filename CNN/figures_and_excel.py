@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 def main():
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument('--csv_folder', default='../Analysis/CSVOutputs',
+    parser.add_argument('--csv_folder', default='Analysis/CSVOutputs',
                         help='Path to CSV files folder')
     parser.add_argument('--xls_name',
                         help='Best models excel file name')
@@ -23,18 +23,18 @@ def main():
                   f'{args.csv_folder.split("/")[-1]}'
 
     # Create figures and excel files folder
-    Path("../Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
+    Path("Analysis/Excel_reports").mkdir(parents=True, exist_ok=True)
 
-    Path(f"../Analysis/FigsCSV/Fscore/"
+    Path(f"Analysis/FigsCSV/Fscore/"
          f"{folder2save}").mkdir(parents=True, exist_ok=True)
 
-    Path(f"../Analysis/FigsCSV/Histogram/"
+    Path(f"Analysis/FigsCSV/Histogram/"
          f"{folder2save}").mkdir(parents=True, exist_ok=True)
 
-    Path(f"../Analysis/FigsCSV/PR/"
+    Path(f"Analysis/FigsCSV/PR/"
          f"{folder2save}").mkdir(parents=True, exist_ok=True)
 
-    Path(f"../Analysis/FigsCSV/ROC/"
+    Path(f"Analysis/FigsCSV/ROC/"
          f"{folder2save}").mkdir(parents=True, exist_ok=True)
 
     # Define threshold to evaluate on
@@ -111,7 +111,7 @@ def main():
         plt.ylabel('Counts')
         plt.legend(['positive', 'negative'], loc='upper left')
         plt.grid(True)
-        plt.savefig(f'../Analysis/FigsCSV/Histogram/'
+        plt.savefig(f'Analysis/FigsCSV/Histogram/'
                     f'{folder2save}/{model_name}_Histogram.png')
 
         # F-score vs thresholds curve
@@ -167,7 +167,7 @@ def main():
     })
 
     # Save excel file
-    with pd.ExcelWriter(f'../Analysis/Excel_reports/{args.xls_name}.xlsx',
+    with pd.ExcelWriter(f'Analysis/Excel_reports/{args.xls_name}.xlsx',
                         engine='openpyxl') as writer:
 
         df.to_excel(writer, index=False)
