@@ -61,9 +61,6 @@ class DASdataset:
             # Creates the groups & subgroups
             dataset = self.__cfg["datasets"][data_name]
 
-            print(type(dataset))
-            print(dataset)
-
             # Load traces from dataset
             traces = self.load_data(data_name)
 
@@ -222,8 +219,14 @@ class DASdataset:
             traces = self.get_reykjanes1()
         if data_name == 'reykjanes2':
             traces = self.get_reykjanes2()
-        if data_name == 'california':
-            traces = self.get_california()
+        if data_name == 'california1':
+            traces = self.get_california1()
+        if data_name == 'california2':
+            traces = self.get_california2()
+        if data_name == 'california3':
+            traces = self.get_california3()
+        if data_name == 'california4':
+            traces = self.get_california4()
         if data_name == 'hydraulic1':
             traces = self.get_hydraulic1()
         if data_name == 'hydraulic2':
@@ -423,8 +426,6 @@ class DASdataset:
             tr = np.reshape(tr, (10, 6000))
             for k in range(0, 10):
                 new_traces.append(tr[k, :])
-
-        print(len(new_traces))
 
         return np.array(new_traces)
 
