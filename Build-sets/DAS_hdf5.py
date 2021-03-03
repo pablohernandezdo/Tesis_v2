@@ -61,6 +61,9 @@ class DASdataset:
             # Creates the groups & subgroups
             dataset = self.__cfg["datasets"][data_name]
 
+            print(type(dataset))
+            print(dataset)
+
             # Load traces from dataset
             traces = self.load_data(data_name)
 
