@@ -422,7 +422,7 @@ class DASdataset:
                 new_traces.append(tr[k, :])
 
         print(len(new_traces))
-        
+
         return np.array(new_traces)
 
     def get_california2(self):
