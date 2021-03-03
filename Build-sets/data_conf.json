@@ -26,9 +26,24 @@
                 "file": "Jousset_et_al_2018_003_Figure5b.ascii",
                 "type": "earthquake"
             },
-            "california": {
+            "california1": {
                 "path": "../Data/California/",
-                "file": "FSE-06_480SecP_SingDec_StepTest (1).mat",
+                "file": "FSE_06_120SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "california2": {
+                "path": "../Data/California/",
+                "file": "FSE-06_240SecP_SingDecStep.mat",
+                "type": "non_earthquake"
+            },
+            "california3": {
+                "path": "../Data/California/",
+                "file": "FSE-06_480SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "california4": {
+                "path": "../Data/California/",
+                "file": "FSE-06_1080SecP_SingDec_StepTest.mat",
                 "type": "non_earthquake"
             },
             "hydraulic1": {

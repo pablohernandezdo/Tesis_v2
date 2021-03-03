@@ -401,10 +401,54 @@ class DASdataset:
 
         return np.array(new_traces)
 
-    def get_california(self):
+    def get_california1(self):
 
         # Load california local dataset
-        cfg = self.__cfg["datasets"]['california']
+        cfg = self.__cfg["datasets"]['california1']
+        f = scipy.io.loadmat(cfg['path'] + cfg['file'])
+
+        # Read data
+        traces = f['singdecmatrix']
+        traces = traces.transpose()
+
+        # For every trace in the file
+        new_traces = []
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 62125)
+            tr = tr[:60000]
+            tr = np.reshape(tr, (10, 6000))
+            for k in range(0, 10):
+                new_traces.append(tr[k, :])
+
+        return np.array(new_traces)
+
+    def get_california2(self):
+
+        # Load california local dataset
+        cfg = self.__cfg["datasets"]['california2']
+        f = scipy.io.loadmat(cfg['path'] + cfg['file'])
+
+        # Read data
+        traces = f['singdecmatrix']
+        traces = traces.transpose()
+
+        # For every trace in the file
+        new_traces = []
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 21736)
+            tr = tr[:18000]
+            tr = np.reshape(tr, (3, 6000))
+            for k in range(0, 3):
+                new_traces.append(tr[k, :])
+
+        return np.array(new_traces)
+
+    def get_california3(self):
+
+        # Load california local dataset
+        cfg = self.__cfg["datasets"]['california3']
         f = scipy.io.loadmat(cfg['path'] + cfg['file'])
 
         # Read data
@@ -419,6 +463,28 @@ class DASdataset:
             tr = tr[:36000]
             tr = np.reshape(tr, (6, 6000))
             for k in range(0, 6):
+                new_traces.append(tr[k, :])
+
+        return np.array(new_traces)
+
+    def get_california4(self):
+
+        # Load california local dataset
+        cfg = self.__cfg["datasets"]['california4']
+        f = scipy.io.loadmat(cfg['path'] + cfg['file'])
+
+        # Read data
+        traces = f['singdecmatrix']
+        traces = traces.transpose()
+
+        # For every trace in the file
+        new_traces = []
+        for tr in traces:
+            # Resample
+            tr = signal.resample(tr, 95343)
+            tr = tr[:90000]
+            tr = np.reshape(tr, (15, 6000))
+            for k in range(0, 15):
                 new_traces.append(tr[k, :])
 
         return np.array(new_traces)

@@ -24,40 +24,43 @@ def main():
     # Sampling frequency and data
     fs, traces = read_file(f309)
 
-    # Number of traces to plot
-    n = 4
+    print(fs)
+    print(traces.shape)
+
+    # # Number of traces to plot
+    # n = 4
 
     # Traces to plot
     # trtp = [0, 1, 2, 3]
 
-    # Plot predefined traces
-    plot_traces(traces, fs, n, 'Hydraulic/500Pa10sec')
+    # # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Hydraulic/500Pa10sec')
 
-    # 959 canales, largo 2_056_235 muestras
-    # 500Pa100sec
-    f257 = '../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
-
-    # Sampling frequency and data
-    fs, traces = read_file(f257)
-
-    # Traces to plot
-    # trtp = [0, 1, 2, 3]
-
-    # Plot predefined traces
-    plot_traces(traces, fs, n, 'Hydraulic/500Pa100sec')
-
-    # 959 canales, largo 6_002_723 muestras
-    # 500Pa600sec
-    f813 = '../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
-
-    # Sampling frequency and data
-    fs, traces = read_file(f813)
-
-    # Traces to plot
-    # trtp = [0, 1, 2, 3]
-
-    # Plot predefined traces
-    plot_traces(traces, fs, n, 'Hydraulic/500Pa600sec')
+    # # 959 canales, largo 2_056_235 muestras
+    # # 500Pa100sec
+    # f257 = '../Data/Hydraulic/CSULB500Pa100secP_141210175257.mat'
+    #
+    # # Sampling frequency and data
+    # fs, traces = read_file(f257)
+    #
+    # # Traces to plot
+    # # trtp = [0, 1, 2, 3]
+    #
+    # # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Hydraulic/500Pa100sec')
+    #
+    # # 959 canales, largo 6_002_723 muestras
+    # # 500Pa600sec
+    # f813 = '../Data/Hydraulic/CSULB500Pa600secP_141210183813.mat'
+    #
+    # # Sampling frequency and data
+    # fs, traces = read_file(f813)
+    #
+    # # Traces to plot
+    # # trtp = [0, 1, 2, 3]
+    #
+    # # Plot predefined traces
+    # plot_traces(traces, fs, n, 'Hydraulic/500Pa600sec')
 
 
 def read_file(filename):
