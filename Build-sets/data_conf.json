@@ -48,12 +48,12 @@
             },
             "hydraulic1": {
                 "path": "../Data/Hydraulic/",
-                "file": "CSULB500Pa600secP_141210183813.mat",
+                "file": "CSULB500Pa10secP_141210174309.mat",
                 "type": "non_earthquake"
             },
             "hydraulic2": {
                 "path": "../Data/Hydraulic/",
-                "file": "CSULB500Pa10secP_141210174309.mat",
+                "file": "CSULB500Pa600secP_141210183813.mat",
                 "type": "non_earthquake"
             },
             "hydraulic3": {

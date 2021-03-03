@@ -32,38 +32,46 @@ def main():
     # Time axis for signal plot
     t_ax = np.arange(N) / fs
 
-    # Frequency axis for FFT plot
-    xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
+    plt.figure()
+    plt.plot(t_ax, trace)
+    plt.title('Traza dataset DAS no sísmico Tides')
+    plt.xlabel('Tiempo [s]')
+    plt.ylabel('Amplitud normalizada[-]')
+    plt.grid(True)
+    plt.savefig('Imgs/Tides/Tides_trace.png')
 
-    # FFT
-    yf = sfft.fftshift(sfft.fft(trace))
-
-    # Plot
-
-    gs = gridspec.GridSpec(2, 2)
-
-    pl.figure()
-    pl.subplot(gs[0, :])
-    pl.plot(t_ax, trace)
-    pl.title('Traza dataset DAS no sísmico Tides')
-    pl.xlabel('Tiempo [s]')
-    pl.ylabel('Amplitud normalizada[-]')
-    pl.grid(True)
-
-    pl.subplot(gs[1, 0])
-    pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    pl.xlabel('Frecuencia [Hz]')
-    pl.ylabel('Amplitud [-]')
-    pl.grid(True)
-
-    pl.subplot(gs[1, 1])
-    pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
-    pl.xlim(-25, 25)
-    pl.xlabel('Frecuencia [Hz]')
-    pl.ylabel('Amplitud [-]')
-    pl.grid(True)
-    pl.tight_layout()
-    pl.savefig('Imgs/Tides/Tides_trace.png')
+    # # Frequency axis for FFT plot
+    # xf = np.linspace(-fs / 2.0, fs / 2.0 - 1 / fs, N)
+    #
+    # # FFT
+    # yf = sfft.fftshift(sfft.fft(trace))
+    #
+    # # Plot
+    #
+    # gs = gridspec.GridSpec(2, 2)
+    #
+    # pl.figure()
+    # pl.subplot(gs[0, :])
+    # pl.plot(t_ax, trace)
+    # pl.title('Traza dataset DAS no sísmico Tides')
+    # pl.xlabel('Tiempo [s]')
+    # pl.ylabel('Amplitud normalizada[-]')
+    # pl.grid(True)
+    #
+    # pl.subplot(gs[1, 0])
+    # pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+    # pl.xlabel('Frecuencia [Hz]')
+    # pl.ylabel('Amplitud [-]')
+    # pl.grid(True)
+    #
+    # pl.subplot(gs[1, 1])
+    # pl.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
+    # pl.xlim(-25, 25)
+    # pl.xlabel('Frecuencia [Hz]')
+    # pl.ylabel('Amplitud [-]')
+    # pl.grid(True)
+    # pl.tight_layout()
+    # pl.savefig('Imgs/Tides/Tides_trace.png')
 
 
 if __name__ == '__main__':
