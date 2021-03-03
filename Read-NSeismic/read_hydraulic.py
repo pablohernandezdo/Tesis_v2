@@ -1,5 +1,6 @@
 import h5py
 import numpy as np
+from scipy import signal
 from numpy.random import default_rng
 
 import scipy.fftpack as sfft
@@ -24,10 +25,22 @@ def main():
     # Sampling frequency and data
     fs, traces = read_file(f309)
 
-    print(fs)
     print(traces.shape)
 
-    # # Number of traces to plot
+    # For every trace in the file
+    new_traces = []
+    for tr in traces:
+        # Resample
+        tr = signal.resample(tr, 12000)
+
+        # Reshape
+        new_traces.append(np.reshape(tr, (-1, 6000)))
+
+    print(len(new_traces))
+    print(np.array(new_traces).shape)
+
+
+# # Number of traces to plot
     # n = 4
 
     # Traces to plot
