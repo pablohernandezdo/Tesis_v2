@@ -512,7 +512,8 @@ class DASdataset:
             tr = signal.resample(tr, 12000)
 
             # Reshape
-            new_traces.append(np.reshape(tr, (-1, 6000)))
+            for trace in np.reshape(tr, (-1, 6000)):
+                new_traces.append(trace)
 
         return np.array(new_traces)
 
