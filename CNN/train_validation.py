@@ -27,9 +27,9 @@ def main():
                         help="Folder to save model")
     parser.add_argument("--classifier", default='1h6k',
                         help="Choose classifier architecture")
-    parser.add_argument("--train_path", default='Train_data_v2.hdf5',
+    parser.add_argument("--train_path", default='Train_data.hdf5',
                         help="HDF5 train Dataset path")
-    parser.add_argument("--val_path", default='Validation_data_v2.hdf5',
+    parser.add_argument("--val_path", default='Validation_data.hdf5',
                         help="HDF5 validation Dataset path")
     parser.add_argument("--epochs", type=int, default=1,
                         help="Number of training epochs")
