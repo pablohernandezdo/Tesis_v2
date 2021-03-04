@@ -34,16 +34,16 @@ def main():
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
 
-    # Models best values
+    # Model metrics list
 
-    models = []
-    best_acc = []
-    best_prec = []
-    best_rec = []
-    best_fpr = []
-    best_fscore = []
-    best_pr_auc = []
-    best_roc_auc = []
+    model_names = []
+    prec_list = []
+    rec_list = []
+    fpr_list = []
+    fscore_list = []
+
+    fp_list = []
+    fn_list = []
 
     # Read Csv files
     for csv in os.listdir(args.csv_folder):
@@ -58,7 +58,6 @@ def main():
         model_name = os.path.splitext(csv)[0]
 
         # Preallocate variables
-        acc = np.zeros(len(thresholds))
         prec = np.zeros(len(thresholds))
         rec = np.zeros(len(thresholds))
         fpr = np.zeros(len(thresholds))
@@ -78,109 +77,75 @@ def main():
             fn_arr[i] = fn
 
             # Evaluation metrics
-            acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
-                                                                     fp,
-                                                                     tn,
-                                                                     fn,
-                                                                     args.beta)
+            _, prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
+                                                                fp,
+                                                                tn,
+                                                                fn,
+                                                                args.beta)
 
-        # Obtain PR and ROC auc
-        pr_auc, roc_auc = get_pr_roc_auc(prec, rec, fpr)
+        model_names.append(model_name)
+        prec_list.append(prec)
+        rec_list.append(rec)
+        fpr_list.append(fpr)
+        fscore_list.append(fscore)
 
-        # Get best threshold
-        best_idx = np.argmax(fscore)
+        fp_list.append(fp_arr)
+        fn_list.append(fn_arr)
 
-        # Add best threshold values to best models list
-        models.append(model_name)
-        best_acc.append(acc[best_idx])
-        best_prec.append(prec[best_idx])
-        best_rec.append(rec[best_idx])
-        best_fpr.append(fpr[best_idx])
-        best_fscore.append(fscore[best_idx])
-        best_pr_auc.append(pr_auc)
-        best_roc_auc.append(roc_auc)
+    # Graficar
 
-        # Guardar graficas
+    # PR
+    plt.figure(figsize=(12, 9))
 
-        # Output histogram
-        plt.figure(figsize=(12, 9))
-        plt.hist(df[df['label'] == 1]['out'], 100)
-        plt.hist(df[df['label'] == 0]['out'], 100)
-        plt.title(f'{model_name} output histogram')
-        plt.xlabel('Output values')
-        plt.ylabel('Counts')
-        plt.legend(['positive', 'negative'], loc='upper left')
-        plt.grid(True)
-        plt.savefig(f'Analysis/Histogram/{model_name}_Histogram.png')
+    for i in range(2):
+        plt.plot(rec_list[i], prec_list[i], '--o', label=model_names[i])
 
-        # Output FPFN
-        plt.figure(figsize=(12, 9))
-        plt.plot(thresholds, fp_arr, '--o', label='False positives')
-        plt.plot(thresholds, fn_arr, '--o', label='False negatives')
-        plt.title(f'{model_name} false positives and false negatives')
-        plt.xlabel('Umbrales')
-        plt.ylabel('Counts')
-        plt.grid(True)
-        plt.legend(['False positives', 'False negatives'], loc='upper right')
-        plt.savefig(f'Analysis/FPFN/{model_name}_fpfn_curve.png')
+    plt.title("Comparación curva PR")
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.grid(True)
+    plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.savefig(f'Analysis/COMPARACION/PR.png')
 
-        # F-score vs thresholds curve
-        save_fig(thresholds,
-                 fscore,
-                 'Threshold',
-                 'F-score',
-                 'Fscores vs Thresholds',
-                 f'Fscore/{model_name}_Fscore_vs_Threshold.png')
+    # ROC
+    plt.figure(figsize=(12, 9))
 
-        # Precision vs recall (PR curve)
-        save_fig(rec,
-                 prec,
-                 'Recall',
-                 'Precision',
-                 'Precision vs Recall (PR curve)',
-                 f'PR/{model_name}_PR_curve.png')
+    for i in range(2):
+        plt.plot(fpr_list[i], rec_list[i][::-1], '--o', label=model_names[i])
 
-        # Recall vs False Positive Rate (ROC curve)
-        save_fig(fpr,
-                 rec[::-1],
-                 'False Positive Rate',
-                 'Recall',
-                 'Recall vs FPR (ROC curve)',
-                 f'ROC/{model_name}_ROC_curve.png')
+    plt.title("Comparación curva ROC")
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("Recall")
+    plt.grid(True)
+    plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.savefig(f'Analysis/COMPARACION/ROC.png')
 
-        plt.close('all')
+    # FSCORE
+    plt.figure(figsize=(12, 9))
 
-    # Save csv with best models
-    # Get indexes to sort by fscore
-    sorted_idxs = np.argsort(best_fscore)
+    for i in range(2):
+        plt.plot(thresholds, fscore_list[i], '--o', label=model_names[i])
 
-    # Sorted lists
-    sorted_models = [models[i] for i in sorted_idxs[::-1]]
-    sorted_acc = [best_acc[i] for i in sorted_idxs[::-1]]
-    sorted_prec = [best_prec[i] for i in sorted_idxs[::-1]]
-    sorted_rec = [best_rec[i] for i in sorted_idxs[::-1]]
-    sorted_fpr = [best_fpr[i] for i in sorted_idxs[::-1]]
-    sorted_fscore = [best_fscore[i] for i in sorted_idxs[::-1]]
-    sorted_pr_auc = [best_pr_auc[i] for i in sorted_idxs[::-1]]
-    sorted_roc_auc = [best_roc_auc[i] for i in sorted_idxs[::-1]]
+    plt.title("Comparación curva Fscore")
+    plt.xlabel("Threshold")
+    plt.ylabel("Fscore")
+    plt.grid(True)
+    plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.savefig(f'Analysis/COMPARACION/Fscore.png')
 
-    # Create dataframe
-    df = pd.DataFrame({
-        'Model_name': sorted_models,
-        'Accuracy': sorted_acc,
-        'Precision': sorted_prec,
-        'Recall': sorted_rec,
-        'False positive rate': sorted_fpr,
-        'Fscore': sorted_fscore,
-        'PR AUC': sorted_pr_auc,
-        'ROC_AUC': sorted_roc_auc,
-    })
+    # FPFN
+    plt.figure(figsize=(12, 9))
 
-    # Save excel file
-    with pd.ExcelWriter(f'Analysis/Excel_reports/{args.xls_name}.xlsx',
-                        engine='openpyxl') as writer:
+    for i in range(2):
+        plt.plot(thresholds, fp_list[i], '--o', label=model_names[i] + 'fp')
+        plt.plot(thresholds, fn_list[i], '--o', label=model_names[i] + 'fn')
 
-        df.to_excel(writer, index=False)
+    plt.title("Comparación curva FPFN")
+    plt.xlabel("Threshold")
+    plt.ylabel("Counts")
+    plt.grid(True)
+    # plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.savefig(f'Analysis/COMPARACION/FPFN.png')
 
 
 def get_pr_roc_auc(precision, recall, fpr):
