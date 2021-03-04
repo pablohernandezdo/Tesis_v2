@@ -104,7 +104,7 @@ def main():
     plt.xlabel("Recall")
     plt.ylabel("Precision")
     plt.grid(True)
-    plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.legend([model_names[0], model_names[1]], loc='best')
     plt.savefig(f'Analysis/COMPARACION/PR.png')
 
     # ROC
@@ -117,7 +117,7 @@ def main():
     plt.xlabel("False Positive Rate")
     plt.ylabel("Recall")
     plt.grid(True)
-    plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.legend([model_names[0], model_names[1]], loc='best')
     plt.savefig(f'Analysis/COMPARACION/ROC.png')
 
     # FSCORE
@@ -130,7 +130,7 @@ def main():
     plt.xlabel("Threshold")
     plt.ylabel("Fscore")
     plt.grid(True)
-    plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.legend([model_names[0], model_names[1]], loc='best')
     plt.savefig(f'Analysis/COMPARACION/Fscore.png')
 
     # FPFN
@@ -146,7 +146,7 @@ def main():
     plt.grid(True)
     plt.legend([model_names[0] + '_fp', model_names[0] + '_fn',
                 model_names[1] + '_fp', model_names[1] + '_fn'],
-               loc='upper right')
+               loc='best')
 
     plt.savefig(f'Analysis/COMPARACION/FPFN.png')
 
