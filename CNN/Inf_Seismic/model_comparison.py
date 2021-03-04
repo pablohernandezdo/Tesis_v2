@@ -144,7 +144,8 @@ def main():
     plt.xlabel("Threshold")
     plt.ylabel("Counts")
     plt.grid(True)
-    # plt.legend([model_names[0], model_names[1]], loc='upper right')
+    plt.legend([model_names[0] + 'fp', model_names[0] + 'fn',
+                model_names[1] + 'fp', model_names[1] + 'fn'], loc='upper right')
     plt.savefig(f'Analysis/COMPARACION/FPFN.png')
 
 
