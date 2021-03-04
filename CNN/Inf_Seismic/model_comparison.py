@@ -137,15 +137,17 @@ def main():
     plt.figure(figsize=(12, 9))
 
     for i in range(2):
-        plt.plot(thresholds, fp_list[i], '--o', label=model_names[i] + 'fp')
-        plt.plot(thresholds, fn_list[i], '--o', label=model_names[i] + 'fn')
+        plt.plot(thresholds, fp_list[i], '--o', label=model_names[i] + '_fp')
+        plt.plot(thresholds, fn_list[i], '--o', label=model_names[i] + '_fn')
 
     plt.title("Comparación curva FPFN")
     plt.xlabel("Threshold")
     plt.ylabel("Counts")
     plt.grid(True)
-    plt.legend([model_names[0] + 'fp', model_names[0] + 'fn',
-                model_names[1] + 'fp', model_names[1] + 'fn'], loc='upper right')
+    plt.legend([model_names[0] + '_fp', model_names[0] + '_fn',
+                model_names[1] + '_fp', model_names[1] + '_fn'],
+               loc='upper right')
+    
     plt.savefig(f'Analysis/COMPARACION/FPFN.png')
 
 
