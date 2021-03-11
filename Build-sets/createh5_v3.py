@@ -18,9 +18,9 @@ def main():
     parser = argparse.ArgumentParser(description='Dataset creation parameters')
     parser.add_argument('--source_file', default='../Data/STEAD/STEAD.hdf5',
                         help='Source HDF5 file path')
-    parser.add_argument('--train_file', default='Train_data_v2.hdf5',
+    parser.add_argument('--train_file', default='Train_data_v3.hdf5',
                         help='Output train HDF5 file path')
-    parser.add_argument('--val_file', default='Validation_data_v2.hdf5',
+    parser.add_argument('--val_file', default='Validation_data_v3.hdf5',
                         help='Output validation HDF5 file path')
     parser.add_argument('--test_file', default='Test_data_v2.hdf5',
                         help='Output test HDF5 file path')
