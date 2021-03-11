@@ -45,65 +45,189 @@ def main():
         ln = f.readline()
         faulty = np.asarray(list(map(int, ln.strip().split(','))))
 
-    coompana_tracs = read_coompana()
+    # Load geophone data
+    coompana_traces = read_coompana()
     lesser_traces = read_lesser_antilles_airgun()
     nc_traces = read_north_carolina_airgun()
 
-    # # Read the hdf5 source file
-    # with h5py.File(args.source_file, 'r') as source:
-    #
-    #     # Retrieve file groups
-    #     src_seis = source['earthquake']['local']
-    #     src_ns = source['non_earthquake']['noise']
-    #
-    #     # Total number of traces to copy
-    #     seis2copy = args.train_traces + args.val_traces + args.test_traces
-    #     ns2copy = args.train_noise + args.val_noise + args.test_noise
-    #
-    #     # Indexes of traces to copy
-    #     seismic_ids = rng.choice(len(src_seis), size=seis2copy, replace=False)
-    #     noise_ids = rng.choice(len(src_ns), size=ns2copy, replace=False)
-    #
-    #     # Check faulty datasets selected
-    #     for val in faulty:
-    #
-    #         # If faulty selected
-    #         if val in seismic_ids:
-    #
-    #             # Delete from array
-    #             idx = np.argwhere(seismic_ids == val)
-    #             seismic_ids = np.delete(seismic_ids, idx)
-    #
-    #             # Select new one
-    #             new_val = rng.choice(len(src_seis), size=1)
-    #
-    #             # Check if is already in array
-    #             while new_val in seismic_ids:
-    #                 new_val = rng.choice(len(src_seis), size=1)
-    #
-    #             # Append to array
-    #             seismic_ids = np.append(seismic_ids, new_val)
-    #
-    #     # Indexes of traces to copy to train dataset
-    #     train_seis_ids = seismic_ids[:args.train_traces]
-    #     train_noise_ids = noise_ids[:args.train_noise]
-    #
-    #     # Indexes of traces to copy to validation dataset
-    #     val_seis_ids = seismic_ids[args.train_traces:args.train_traces + args.val_traces]
-    #     val_noise_ids = noise_ids[args.train_noise:args.train_noise + args.val_noise]
-    #
-    #     # Indexes of traces to copy to test dataset
-    #     test_seis_ids = seismic_ids[args.train_traces + args.val_traces:args.train_traces + args.val_traces+args.test_traces]
-    #     test_noise_ids = noise_ids[args.train_noise + args.val_noise:args.train_noise + args.val_noise+args.test_noise]
-    #
-    #     # ARMAR DATASET DE ENTRENAMIENTO
-    #     with h5py.File('../Data/STEAD/' + args.train_file, 'w') as train_dst:
-    #
-    # ARMAR DATASET DE PRUEBA STEAD SISMICO
+    # NUMERO DE TRAZAS DE ENTRENAMIENTO, VALIDACION Y PRUEBA GEO
+    n_geo_train = 8750
+    n_geo_val = 1250
+    n_geo_test = 10000
 
-    # ARMAR DATASET DE PRUEBA STEAD NO SISMICO
+    # Split geophone data
+    coompana_traces_train = coompana_traces[:n_geo_train]
+    coompana_traces_val = coompana_traces[n_geo_train:n_geo_train + n_geo_val]
+    coompana_traces_test = coompana_traces[n_geo_train + n_geo_val:]
 
-    # ARMAR DATASET DE PRUEBA GEOFONOS
+    lesser_traces_train = lesser_traces[:n_geo_train]
+    lesser_traces_val = lesser_traces[n_geo_train:n_geo_train + n_geo_val]
+    lesser_traces_test = lesser_traces[n_geo_train + n_geo_val:
+                                       n_geo_train + n_geo_val + n_geo_test]
+
+    nc_traces_train = nc_traces[:n_geo_train]
+    nc_traces_val = nc_traces[n_geo_train:n_geo_train + n_geo_val]
+    nc_traces_test = nc_traces[n_geo_train + n_geo_val:
+                               n_geo_train + n_geo_val + n_geo_test]
+
+    # Read the hdf5 source file
+    with h5py.File(args.source_file, 'r') as source:
+
+        # Retrieve file groups
+        src_seis = source['earthquake']['local']
+        src_ns = source['non_earthquake']['noise']
+
+        # Total number of traces to copy
+        seis2copy = args.train_traces + args.val_traces + args.test_traces
+        ns2copy = args.train_noise + args.val_noise + args.test_noise
+
+        # Indexes of traces to copy
+        seismic_ids = rng.choice(len(src_seis), size=seis2copy, replace=False)
+        noise_ids = rng.choice(len(src_ns), size=ns2copy, replace=False)
+
+        # Check faulty datasets selected
+        for val in faulty:
+
+            # If faulty selected
+            if val in seismic_ids:
+
+                # Delete from array
+                idx = np.argwhere(seismic_ids == val)
+                seismic_ids = np.delete(seismic_ids, idx)
+
+                # Select new one
+                new_val = rng.choice(len(src_seis), size=1)
+
+                # Check if is already in array
+                while new_val in seismic_ids:
+                    new_val = rng.choice(len(src_seis), size=1)
+
+                # Append to array
+                seismic_ids = np.append(seismic_ids, new_val)
+
+        # Indexes of traces to copy to train dataset
+        train_seis_ids = seismic_ids[:args.train_traces]
+        train_noise_ids = noise_ids[:args.train_noise]
+
+        # Indexes of traces to copy to validation dataset
+        val_seis_ids = seismic_ids[args.train_traces:args.train_traces + args.val_traces]
+        val_noise_ids = noise_ids[args.train_noise:args.train_noise + args.val_noise]
+
+        # Indexes of traces to copy to test dataset
+        test_seis_ids = seismic_ids[args.train_traces + args.val_traces:args.train_traces + args.val_traces+args.test_traces]
+        test_noise_ids = noise_ids[args.train_noise + args.val_noise:args.train_noise + args.val_noise+args.test_noise]
+
+        # ARMAR DATASET DE ENTRENAMIENTO Y VALIDACION
+        with h5py.File('../Data/STEAD/' + args.train_file, 'w') as train_dst, \
+                h5py.File('../Data/STEAD/' + args.val_file, 'w') as val_dst:
+
+            # Create new train file groups
+            train_dst_wv = train_dst.create_group('earthquake/local')
+            train_dst_ns = train_dst.create_group('non_earthquake/noise')
+
+            # Create new val file groups
+            val_dst_wv = val_dst.create_group('earthquake/local')
+            val_dst_ns = val_dst.create_group('non_earthquake/noise')
+
+            # For every dataset in source seismic group
+            for idx, dset in enumerate(src_seis):
+
+                if idx in train_seis_ids:
+                    # Retrieve dataset object
+                    data = src_seis[dset]
+
+                    # Copy seismic trace to new train file
+                    train_dst_wv.copy(data, dset)
+
+                if idx in val_seis_ids:
+                    # Retrieve dataset object
+                    data = src_seis[dset]
+
+                    # Copy seismic trace to new train file
+                    val_dst_wv.copy(data, dset)
+
+            # For every dataset in source noise group
+            for idx, dset in enumerate(src_ns):
+
+                if idx in train_noise_ids:
+                    # Retrieve dataset object
+                    data = src_ns[dset]
+
+                    # Copy noise trace to new noise file
+                    train_dst_ns.copy(data, dset)
+
+                if idx in val_noise_ids:
+                    # Retrieve dataset object
+                    data = src_ns[dset]
+
+                    # Copy seismic trace to new train file
+                    val_dst_ns.copy(data, dset)
+
+            # AGREGAR SEÑALES DE GEOFONOS
+            # Coompana
+            add_traces2group('Coompana', coompana_traces_train, train_dst_ns)
+            add_traces2group('Coompana', coompana_traces_val, val_dst_ns)
+
+            # Lesser
+            add_traces2group('Lesser', lesser_traces_train, train_dst_ns)
+            add_traces2group('Lesser', lesser_traces_val, val_dst_ns)
+
+            # NC
+            add_traces2group('NC', nc_traces_train, train_dst_ns)
+            add_traces2group('NC', nc_traces_val, val_dst_ns)
+
+        # ARMAR DATASETS DE PRUEBA
+        with h5py.File('../Data/STEAD/STEAD_Seis_TEST.hdf5', 'w') as test_dst:
+
+            # Create new test file groups
+            test_dst_wv = test_dst.create_group('earthquake/local')
+
+            # For every dataset in source seismic group
+            for idx, dset in enumerate(src_seis):
+
+                if idx in test_seis_ids:
+                    # Retrieve dataset object
+                    data = src_seis[dset]
+
+                    # Copy seismic trace to new train file
+                    test_dst_wv.copy(data, dset)
+
+        with h5py.File('../Data/STEAD/STEAD_NSeis_TEST.hdf5', 'w') as test_dst:
+
+            # Create new test file groups
+            test_dst_ns = test_dst.create_group('non_earthquake/noise')
+
+            # For every dataset in source noise group
+            for idx, dset in enumerate(src_ns):
+
+                if idx in test_noise_ids:
+                    # Retrieve dataset object
+                    data = src_ns[dset]
+
+                    # Copy seismic trace to new train file
+                    test_dst_ns.copy(data, dset)
+
+        with h5py.File('../Data/STEAD/GEO_TEST.hdf5', 'w') as test_dst:
+
+            # Create new test file groups
+            test_dst_ns = test_dst.create_group('non_earthquake/noise')
+
+            # Coompana
+            add_traces2group('Coompana', coompana_traces_test, test_dst_ns)
+
+            # Lesser
+            add_traces2group('Lesser', lesser_traces_test, test_dst_ns)
+
+            # NC
+            add_traces2group('NC', nc_traces_test, test_dst_ns)
+
+
+def add_traces2group(data_name, traces, group):
+    for i, tr in enumerate(traces):
+        # tr = np.expand_dims(tr, 1)
+        # tr = np.hstack([tr, tr, tr]).astype('float32')
+        tr = np.hstack([tr] * 3).astype('float32')
+        group.create_dataset(data_name + str(i), data=tr)
 
 
 def read_coompana():
