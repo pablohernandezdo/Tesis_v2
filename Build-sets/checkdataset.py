@@ -17,7 +17,11 @@ def main():
     with h5py.File(args.dataset_path, 'r') as dset:
 
         # Read groups
-        seismic = dset['earthquake']['local']
+        try:
+            seismic = dset['earthquake']['local']
+        except:
+            print('No earthquake traces')
+
         noise = dset['non_earthquake']['noise']
 
         seismic_bad = 0
