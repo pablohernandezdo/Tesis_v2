@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p ../Analysis/logs/train/separated
-mkdir -p ../Analysis/logs/eval/separted
+mkdir -p ../Analysis/logs/eval/separated
 mkdir -p ../models/separated
 
 
@@ -12,17 +12,17 @@ stead_seis_tst="STEAD_Seis_TEST.hdf5"
 stead_nseis_tst="STEAD_NSeis_TEST.hdf5"
 geo_test="GEO_TEST.hdf5"
 
-echo "Training model Cnn1_3k_10, lr = 1e-4, epochs = 5, batch_size = 256"
-python ../train_validation.py \
-              --lr 1e-4  \
-              --epochs 5 \
-              --patience 40 \
-              --batch_size 256 \
-              --model_folder separated \
-              --train_path $trn \
-              --val_path $val \
-              --classifier Cnn1_3k_10 \
-              --model_name Cnn1_3k_10_1e4_256_40 > ../Analysis/logs/train/separated/Cnn1_3k_10_1e4_256_40.txt
+#echo "Training model Cnn1_3k_10, lr = 1e-4, epochs = 5, batch_size = 256"
+#python ../train_validation.py \
+#              --lr 1e-4  \
+#              --epochs 5 \
+#              --patience 40 \
+#              --batch_size 256 \
+#              --model_folder separated \
+#              --train_path $trn \
+#              --val_path $val \
+#              --classifier Cnn1_3k_10 \
+#              --model_name Cnn1_3k_10_1e4_256_40 > ../Analysis/logs/train/separated/Cnn1_3k_10_1e4_256_40.txt
 
 echo "Evaluating model Cnn1_3k_10_1e4_256"
 python ../eval_separated.py \
