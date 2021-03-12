@@ -142,7 +142,7 @@ def main():
         #         if idx in val_seis_ids:
         #             # Retrieve dataset object
         #             data = src_seis[dset]
-        # 
+        #
         #             # Copy seismic trace to new train file
         #             val_dst_wv.copy(data, dset)
         #
@@ -361,7 +361,6 @@ def read_north_carolina_airgun():
     #                   'Amplitude [-]',
     #                   save=True,
     #                   figname='North Carolina airgun sample')
-
 
 
 if __name__ == '__main__':
