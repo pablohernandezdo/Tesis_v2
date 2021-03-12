@@ -5,8 +5,8 @@ mkdir -p ../Analysis/logs/eval/separted
 mkdir -p ../models/separated
 
 
-trn="Train_data_v3.hdf5"
-val="Validation_data_v3.hdf5"
+trn="Train_data_v2.hdf5"
+val="Validation_data_v2.hdf5"
 
 stead_seis_tst="STEAD_Seis_TEST.hdf5"
 stead_nseis_tst="STEAD_NSeis_TEST.hdf5"
