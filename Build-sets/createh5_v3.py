@@ -117,64 +117,64 @@ def main():
         test_seis_ids = seismic_ids[args.train_traces + args.val_traces:args.train_traces + args.val_traces+args.test_traces]
         test_noise_ids = noise_ids[args.train_noise + args.val_noise:args.train_noise + args.val_noise+args.test_noise]
 
-        # # ARMAR DATASET DE ENTRENAMIENTO Y VALIDACION
-        # with h5py.File('../Data/STEAD/' + args.train_file, 'w') as train_dst, \
-        #         h5py.File('../Data/STEAD/' + args.val_file, 'w') as val_dst:
-        #
-        #     # Create new train file groups
-        #     train_dst_wv = train_dst.create_group('earthquake/local')
-        #     train_dst_ns = train_dst.create_group('non_earthquake/noise')
-        #
-        #     # Create new val file groups
-        #     val_dst_wv = val_dst.create_group('earthquake/local')
-        #     val_dst_ns = val_dst.create_group('non_earthquake/noise')
-        #
-        #     # For every dataset in source seismic group
-        #     for idx, dset in enumerate(src_seis):
-        #
-        #         if idx in train_seis_ids:
-        #             # Retrieve dataset object
-        #             data = src_seis[dset]
-        #
-        #             # Copy seismic trace to new train file
-        #             train_dst_wv.copy(data, dset)
-        #
-        #         if idx in val_seis_ids:
-        #             # Retrieve dataset object
-        #             data = src_seis[dset]
-        #
-        #             # Copy seismic trace to new train file
-        #             val_dst_wv.copy(data, dset)
-        #
-        #     # For every dataset in source noise group
-        #     for idx, dset in enumerate(src_ns):
-        #
-        #         if idx in train_noise_ids:
-        #             # Retrieve dataset object
-        #             data = src_ns[dset]
-        #
-        #             # Copy noise trace to new noise file
-        #             train_dst_ns.copy(data, dset)
-        #
-        #         if idx in val_noise_ids:
-        #             # Retrieve dataset object
-        #             data = src_ns[dset]
-        #
-        #             # Copy seismic trace to new train file
-        #             val_dst_ns.copy(data, dset)
-        #
-        #     # AGREGAR SEÑALES DE GEOFONOS
-        #     # Coompana
-        #     add_traces2group('Coompana', coompana_traces_train, train_dst_ns)
-        #     add_traces2group('Coompana', coompana_traces_val, val_dst_ns)
-        #
-        #     # Lesser
-        #     add_traces2group('Lesser', lesser_traces_train, train_dst_ns)
-        #     add_traces2group('Lesser', lesser_traces_val, val_dst_ns)
-        #
-        #     # NC
-        #     add_traces2group('NC', nc_traces_train, train_dst_ns)
-        #     add_traces2group('NC', nc_traces_val, val_dst_ns)
+        # ARMAR DATASET DE ENTRENAMIENTO Y VALIDACION
+        with h5py.File('../Data/STEAD/' + args.train_file, 'w') as train_dst, \
+                h5py.File('../Data/STEAD/' + args.val_file, 'w') as val_dst:
+
+            # Create new train file groups
+            train_dst_wv = train_dst.create_group('earthquake/local')
+            train_dst_ns = train_dst.create_group('non_earthquake/noise')
+
+            # Create new val file groups
+            val_dst_wv = val_dst.create_group('earthquake/local')
+            val_dst_ns = val_dst.create_group('non_earthquake/noise')
+
+            # For every dataset in source seismic group
+            for idx, dset in enumerate(src_seis):
+
+                if idx in train_seis_ids:
+                    # Retrieve dataset object
+                    data = src_seis[dset]
+
+                    # Copy seismic trace to new train file
+                    train_dst_wv.copy(data, dset)
+
+                if idx in val_seis_ids:
+                    # Retrieve dataset object
+                    data = src_seis[dset]
+
+                    # Copy seismic trace to new train file
+                    val_dst_wv.copy(data, dset)
+
+            # For every dataset in source noise group
+            for idx, dset in enumerate(src_ns):
+
+                if idx in train_noise_ids:
+                    # Retrieve dataset object
+                    data = src_ns[dset]
+
+                    # Copy noise trace to new noise file
+                    train_dst_ns.copy(data, dset)
+
+                if idx in val_noise_ids:
+                    # Retrieve dataset object
+                    data = src_ns[dset]
+
+                    # Copy seismic trace to new train file
+                    val_dst_ns.copy(data, dset)
+
+            # AGREGAR SEÑALES DE GEOFONOS
+            # Coompana
+            add_traces2group('Coompana', coompana_traces_train, train_dst_ns)
+            add_traces2group('Coompana', coompana_traces_val, val_dst_ns)
+
+            # Lesser
+            add_traces2group('Lesser', lesser_traces_train, train_dst_ns)
+            add_traces2group('Lesser', lesser_traces_val, val_dst_ns)
+
+            # NC
+            add_traces2group('NC', nc_traces_train, train_dst_ns)
+            add_traces2group('NC', nc_traces_val, val_dst_ns)
 
         # ARMAR DATASETS DE PRUEBA
         with h5py.File('../Data/STEAD/STEAD_Seis_TEST.hdf5', 'w') as test_dst:
