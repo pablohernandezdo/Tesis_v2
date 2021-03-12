@@ -227,8 +227,7 @@ def main():
 
 def add_traces2group(data_name, traces, group):
     for i, tr in enumerate(traces):
-        # tr = np.expand_dims(tr, 1)
-        # tr = np.hstack([tr, tr, tr]).astype('float32')
+        tr = np.expand_dims(tr, 1)
         tr = np.hstack([tr] * 3).astype('float32')
         group.create_dataset(data_name + str(i), data=tr)
 
