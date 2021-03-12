@@ -24,7 +24,7 @@ def main():
                         help="Model to eval folder")
     parser.add_argument("--classifier", default='1h6k',
                         help="Choose classifier architecture")
-    parser.add_argument("--train_path", default='Train_data.hdf5',
+    parser.add_argument("--train_path", default='Train_data_v3.hdf5',
                         help="HDF5 train Dataset path")
     parser.add_argument("--stead_seis_test_path",
                         default='STEAD_Seis_TEST.hdf5',
@@ -74,7 +74,6 @@ def main():
     net.eval()
 
     # Evaluate model on training dataset
-
     evaluate_dataset(train_loader, 'Train', device,
                      net, args.model_name, args.model_folder,
                      '../Analysis/CSVOutputs')

@@ -26,6 +26,7 @@ geo_test="GEO_TEST.hdf5"
 
 echo "Evaluating model Cnn1_3k_10_1e4_256"
 python ../eval_separated.py \
+              --train_path $trn \
               --stead_seis_test_path $stead_seis_tst \
               --stead_nseis_test_path $stead_nseis_tst \
               --geo_test_path $geo_test \
