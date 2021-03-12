@@ -35,7 +35,7 @@ def main():
                         help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=256,
                         help="Size of the batches")
-    parser.add_argument("--eval_iter", type=int, default=1,
+    parser.add_argument("--eval_iter", type=int, default=10,
                         help="Number of batches between validations")
     parser.add_argument("--earlystop", type=int, default=1,
                         help="Early stopping flag, 0 no early stopping")
