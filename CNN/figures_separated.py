@@ -67,7 +67,7 @@ def main():
                                                                  fn,
                                                                  args.beta)
 
-    print(f'thr_test: {thresholds[thr_test]}'
+    print(f'thr_test: {thresholds[thr_test]}\n'
           f'fscore: {fscore[thr_test]}')
 
     # best_idx = np.argmax(fscore)
