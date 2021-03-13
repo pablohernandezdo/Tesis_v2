@@ -33,6 +33,8 @@ def main():
     fpr = np.zeros(len(thresholds))
     fscore = np.zeros(len(thresholds))
 
+    thr_test = 60
+
     for i, thr in enumerate(thresholds):
 
         tp = 0
@@ -51,7 +53,7 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
-            if i == 60:
+            if i == thr_test:
                 print(f'dataset: {dset}\n'
                       f"tp: {sum(predicted & df['label'])},"
                       f" fp: {sum(predicted & ~df['label'])},"
@@ -65,13 +67,16 @@ def main():
                                                                  fn,
                                                                  args.beta)
 
-    best_idx = np.argmax(fscore)
-    best_fsc = np.amax(fscore)
-    best_thresh = thresholds[best_idx]
+    print(f'thr_test: {thresholds[thr_test]}'
+          f'fscore: {fscore[thr_test]}')
 
-    print(f'best_idx: {best_idx}\n'
-          f'best_fscore: {best_fsc}\n'
-          f'best_thresh: {best_thresh}')
+    # best_idx = np.argmax(fscore)
+    # best_fsc = np.amax(fscore)
+    # best_thresh = thresholds[best_idx]
+    #
+    # print(f'best_idx: {best_idx}\n'
+    #       f'best_fscore: {best_fsc}\n'
+    #       f'best_thresh: {best_thresh}')
 
 
     Path(f"Results/Testing/Histogram/"
