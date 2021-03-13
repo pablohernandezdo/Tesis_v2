@@ -5,6 +5,7 @@ from pathlib import Path
 import tqdm
 import torch
 import pandas as pd
+import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
 
@@ -113,6 +114,16 @@ def count_parameters(model):
 def evaluate_dataset(data_loader, dataset_name, device, net,
                      model_name, model_folder, csv_folder):
 
+    plt.figure()
+
+    Path(f"../Results/Classified/{model_folder}/"
+         f"{model_name}/Seis/").mkdir(parents=True, exist_ok=True)
+
+    Path(f"../Results/Classified/{model_folder}/"
+         f"{model_name}/NSeis/").mkdir(parents=True, exist_ok=True)
+
+    thr = 0.06
+
     # List of outputs and labels used to create pd dataframe
     dataframe_rows_list = []
 
@@ -124,6 +135,31 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
+
+                i = 0
+
+                for out, tr in zip(outputs, traces):
+                    if out.item() >= thr:
+                        plt.clf()
+                        plt.plot(tr)
+                        plt.xlabel('Samples')
+                        plt.ylabel('Amplitude')
+                        plt.title(f'{dataset_name}_{i}.png')
+                        plt.grid(True)
+                        plt.savefig(f'../Results/Classified/'
+                                    f'{model_folder}/'
+                                    f'{model_name}/Seis/{i}.png')
+
+                    else:
+                        plt.clf()
+                        plt.plot(tr)
+                        plt.xlabel('Samples')
+                        plt.ylabel('Amplitude')
+                        plt.title(f'{dataset_name}_{i}.png')
+                        plt.grid(True)
+                        plt.savefig(f'../Results/Classified/'
+                                    f'{model_folder}/'
+                                    f'{model_name}/NSeis/{i}.png')
 
                 for out, lab in zip(outputs, labels):
                     new_row = {'out': out.item(), 'label': lab.item()}
