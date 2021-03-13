@@ -59,9 +59,9 @@ def main():
 
     # Evaluate model on training dataset
 
-    evaluate_dataset(train_loader, 'Train', device,
-                     net, args.model_name, args.model_folder,
-                     '../Analysis/CSVOutputs')
+    # evaluate_dataset(train_loader, 'Train', device,
+    #                  net, args.model_name, args.model_folder,
+    #                  '../Analysis/CSVOutputs')
 
     train_end = time.time()
     train_time = train_end - start_time
