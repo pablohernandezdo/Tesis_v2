@@ -51,6 +51,11 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
+        print(f'tp: {tp}\n'
+              f'fp: {fp}\n'
+              f'tn: {tn}\n'
+              f'fn: {fn}')
+
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
                                                                  fp,
@@ -98,35 +103,6 @@ def main():
              f'{args.model_name}_ROC_curve.png')
 
     plt.close('all')
-
-    # # Obtener las curvas para cada dataset
-        #
-        # Path(f"Results/Testing/Histogram/"
-        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-        #
-        # Path(f"Results/Testing/Fscore/"
-        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-        #
-        # Path(f"Results/Testing/PR/"
-        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-        #
-        # Path(f"Results/Testing/ROC/"
-        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        # # Output histogram
-        # plt.figure(figsize=(12, 9))
-        # plt.hist(df[df['label'] == 1]['out'], 100)
-        # plt.hist(df[df['label'] == 0]['out'], 100)
-        # plt.title(f'{args.model_name} output histogram, {dset} dataset')
-        # plt.xlabel('Output values')
-        # plt.ylabel('Counts')
-        # plt.legend(['positive', 'negative'], loc='upper left')
-        # plt.grid(True)
-        # plt.savefig(f'Results/Testing/Histogram/{dset}/'
-        #             f'separated/{args.model_name}_Histogram.png')
-        #
-        # get_model_figures(thresholds, fscore, rec, prec, fpr,
-        #                   'Results/Testing/', dset, args.model_name)
 
 
 def get_model_figures(thresholds, fscore, recall, precision, fpr,
