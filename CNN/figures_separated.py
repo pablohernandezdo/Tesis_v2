@@ -26,19 +26,19 @@ def main():
                      "Stead_noise_test",
                      "Geo_test"]
 
+    # Preallocate variables
+    acc = np.zeros(len(thresholds))
+    prec = np.zeros(len(thresholds))
+    rec = np.zeros(len(thresholds))
+    fpr = np.zeros(len(thresholds))
+    fscore = np.zeros(len(thresholds))
+
     for i, thr in enumerate(thresholds):
 
         tp = 0
         fp = 0
         fn = 0
         tn = 0
-
-        # Preallocate variables
-        acc = np.zeros(len(thresholds))
-        prec = np.zeros(len(thresholds))
-        rec = np.zeros(len(thresholds))
-        fpr = np.zeros(len(thresholds))
-        fscore = np.zeros(len(thresholds))
 
         for dset in dataset_names:
             # leer los csv de cada dataset, obtener los tp, fp, fn, tn
