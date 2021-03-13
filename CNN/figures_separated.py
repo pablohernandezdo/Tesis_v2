@@ -53,7 +53,10 @@ def main():
 
             if i == 6:
                 print(f'dataset: {dset}\n'
-                      f'tp: {tp}, fp: {fp}, fn: {fn}, tn: {tn}')
+                      f"tp: {sum(predicted & df['label'])},"
+                      f" fp: {sum(predicted & ~df['label'])},"
+                      f" fn: {sum(~predicted & df['label'])},"
+                      f" tn: {sum(~predicted & ~df['label'])}")
 
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
