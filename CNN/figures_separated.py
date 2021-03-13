@@ -133,7 +133,7 @@ def get_metrics(tp, fp, tn, fn, beta):
 
     if (not fp) and (not tn):
         fpr = fp / (fp + tn)
-    else
+    else:
         fpr = 0
 
     if (not precision) and (not recall):
