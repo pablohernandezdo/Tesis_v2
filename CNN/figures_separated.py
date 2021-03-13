@@ -51,6 +51,10 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
+            if i == 6:
+                print(f'dataset: {dset}\n'
+                      f'tp: {tp}, fp: {fp}, fn: {fn}, tn: {tn}')
+
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
                                                                  fp,
@@ -61,7 +65,7 @@ def main():
     best_idx = np.argmax(fscore)
     best_fsc = np.amax(fscore)
     best_thresh = thresholds[best_idx]
-    
+
     print(f'best_idx: {best_idx}\n'
           f'best_fscore: {best_fsc}\n'
           f'best_thresh: {best_thresh}')
