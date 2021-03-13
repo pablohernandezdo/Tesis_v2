@@ -141,7 +141,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                 for out, tr in zip(outputs, traces):
                     if out.item() >= thr:
                         plt.clf()
-                        plt.plot(tr)
+                        plt.plot(tr.cpu())
                         plt.xlabel('Samples')
                         plt.ylabel('Amplitude')
                         plt.title(f'{dataset_name}_{i}.png')
@@ -152,7 +152,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
                     else:
                         plt.clf()
-                        plt.plot(tr)
+                        plt.plot(tr.cpu())
                         plt.xlabel('Samples')
                         plt.ylabel('Amplitude')
                         plt.title(f'{dataset_name}_{i}.png')
