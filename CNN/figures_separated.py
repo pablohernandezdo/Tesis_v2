@@ -51,7 +51,7 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
-            if i == 6:
+            if i == 60:
                 print(f'dataset: {dset}\n'
                       f"tp: {sum(predicted & df['label'])},"
                       f" fp: {sum(predicted & ~df['label'])},"
