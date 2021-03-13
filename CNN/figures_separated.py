@@ -61,6 +61,7 @@ def main():
     # Get best threshold
     best_idx = np.argmax(fscore)
     print(best_idx)
+    print(fscore[best_idx])
 
         # # Obtener las curvas para cada dataset
         #
