@@ -51,9 +51,6 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
-        # print(f'thresh: {np.round(thr, 2)},'
-        #       f' tp: {tp}, fp: {fp}, tn: {tn}, fn: {fn}')
-
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
                                                                  fp,
@@ -61,12 +58,14 @@ def main():
                                                                  fn,
                                                                  args.beta)
 
-        # print(f'thresh: {np.round(thr, 2)},'
-        #       f' acc: {acc[i]}, prec: {prec[i]},'
-        #       f' rec: {rec[i]}, fpr: {fpr[i]}, fscore: {fscore[i]}')
+    best_idx = np.argmax(fscore)
+    best_fsc = np.amax(fscore)
+    best_thresh = thresholds[best_idx]
+    
+    print(f'best_idx: {best_idx}\n'
+          f'best_fscore: {best_fsc}\n'
+          f'best_thresh: {best_thresh}')
 
-    for i in fscore:
-        print(i)
 
     Path(f"Results/Testing/Histogram/"
          f"separated/").mkdir(parents=True, exist_ok=True)
