@@ -117,7 +117,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
     plt.figure()
 
     thr = 0.06
-    
+
     Path(f"../Results/Classified/{model_folder}/"
          f"{model_name}_({thr})/Seis/").mkdir(parents=True, exist_ok=True)
 
@@ -160,7 +160,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/'
-                                    f'{model_name}({thr})/NSeis/{i}.png')
+                                    f'{model_name}_({thr})/NSeis/{i}.png')
 
                         i += 1
 
