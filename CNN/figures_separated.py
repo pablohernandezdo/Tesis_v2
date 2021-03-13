@@ -51,10 +51,7 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
-        print(f'tp: {tp}\n'
-              f'fp: {fp}\n'
-              f'tn: {tn}\n'
-              f'fn: {fn}')
+        print(f'tp: {tp}, fp: {fp}, tn: {tn}, fn: {fn}')
 
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
