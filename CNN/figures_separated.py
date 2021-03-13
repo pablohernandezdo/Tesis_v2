@@ -101,17 +101,17 @@ def main():
 
     # # Obtener las curvas para cada dataset
         #
-        Path(f"Results/Testing/Histogram/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        Path(f"Results/Testing/Fscore/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        Path(f"Results/Testing/PR/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        Path(f"Results/Testing/ROC/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        # Path(f"Results/Testing/Histogram/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # Path(f"Results/Testing/Fscore/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # Path(f"Results/Testing/PR/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # Path(f"Results/Testing/ROC/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
 
         # # Output histogram
         # plt.figure(figsize=(12, 9))
