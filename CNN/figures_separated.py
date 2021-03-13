@@ -130,7 +130,11 @@ def get_metrics(tp, fp, tn, fn, beta):
         precision = tp / (tp + fp)
 
     recall = tp / (tp + fn)
-    fpr = fp / (fp + tn)
+
+    if (not fp) and (not tn):
+        fpr = fp / (fp + tn)
+    else
+        fpr = 0
 
     if (not precision) and (not recall):
         fscore = 0
