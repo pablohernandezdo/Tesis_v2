@@ -61,9 +61,11 @@ def main():
                                                                  fn,
                                                                  args.beta)
 
-        print(f'thresh: {np.round(thr, 2)},'
-              f' acc: {acc[i]}, prec: {prec[i]},'
-              f' rec: {rec[i]}, fpr: {fpr[i]}, fscore: {fscore[i]}')
+        # print(f'thresh: {np.round(thr, 2)},'
+        #       f' acc: {acc[i]}, prec: {prec[i]},'
+        #       f' rec: {rec[i]}, fpr: {fpr[i]}, fscore: {fscore[i]}')
+
+    print(np.max(fscore))
 
     Path(f"Results/Testing/Histogram/"
          f"separated/").mkdir(parents=True, exist_ok=True)
