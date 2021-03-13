@@ -65,7 +65,8 @@ def main():
         #       f' acc: {acc[i]}, prec: {prec[i]},'
         #       f' rec: {rec[i]}, fpr: {fpr[i]}, fscore: {fscore[i]}')
 
-    print(np.max(fscore))
+    for i in fscore:
+        print(i)
 
     Path(f"Results/Testing/Histogram/"
          f"separated/").mkdir(parents=True, exist_ok=True)
