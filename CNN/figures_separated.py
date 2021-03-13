@@ -51,7 +51,8 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
-        print(f'thresh: {thr}, tp: {tp}, fp: {fp}, tn: {tn}, fn: {fn}')
+        print(f'thresh: {np.round(thr, 2)},'
+              f' tp: {tp}, fp: {fp}, tn: {tn}, fn: {fn}')
 
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
