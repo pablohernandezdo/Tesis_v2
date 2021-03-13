@@ -59,9 +59,9 @@ def main():
 
     # Evaluate model on training dataset
 
-    # evaluate_dataset(train_loader, 'Train', device,
-    #                  net, args.model_name, args.model_folder,
-    #                  '../Analysis/CSVOutputs')
+    evaluate_dataset(train_loader, 'Train', device,
+                     net, args.model_name, args.model_folder,
+                     '../Results/Testing/Outputs')
 
     train_end = time.time()
     train_time = train_end - start_time
@@ -69,7 +69,7 @@ def main():
     # Evaluate model on test set
     evaluate_dataset(test_loader, 'Test', device,
                      net, args.model_name, args.model_folder,
-                     '../Analysis/CSVOutputs')
+                     '../Results/Testing/Outputs')
 
     eval_end = time.time()
     eval_time = eval_end - train_end

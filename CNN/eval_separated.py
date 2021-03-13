@@ -27,12 +27,12 @@ def main():
     parser.add_argument("--train_path", default='Train_data_v3.hdf5',
                         help="HDF5 train Dataset path")
     parser.add_argument("--stead_seis_test_path",
-                        default='STEAD_Seis_TEST.hdf5',
+                        default='Test_stead_seis.hdf5',
                         help="HDF5 test Dataset path")
     parser.add_argument("--stead_nseis_test_path",
-                        default='STEAD_NSeis_TEST.hdf5',
+                        default='Test_stead_noise.hdf5',
                         help="HDF5 test Dataset path")
-    parser.add_argument("--geo_test_path", default='GEO_TEST.hdf5',
+    parser.add_argument("--geo_test_path", default='Test_geo.hdf5',
                         help="HDF5 test Dataset path")
     parser.add_argument("--batch_size", type=int, default=256,
                         help="Size of the training batches")
@@ -74,9 +74,9 @@ def main():
     net.eval()
 
     # Evaluate model on training dataset
-    evaluate_dataset(train_loader, 'Train', device,
-                     net, args.model_name, args.model_folder,
-                     '../Analysis/CSVOutputs')
+    # evaluate_dataset(train_loader, 'Train', device,
+    #                  net, args.model_name, args.model_folder,
+    #                  '../Analysis/CSVOutputs')
 
     train_end = time.time()
     train_time = train_end - start_time
@@ -84,17 +84,17 @@ def main():
     # Evaluate model on STEAD seismic test set
     evaluate_dataset(stead_seis_test_loader, 'Stead_seismic_test', device,
                      net, args.model_name, args.model_folder,
-                     '../Analysis/CSVOutputs')
+                     '../Results/Testing/Outputs')
 
     # Evaluate model on STEAD seismic test set
     evaluate_dataset(stead_nseis_test_loader, 'Stead_nseismic_test', device,
                      net, args.model_name, args.model_folder,
-                     '../Analysis/CSVOutputs')
+                     '../Results/Testing/Outputs')
 
     # Evaluate model on STEAD seismic test set
     evaluate_dataset(geo_test_loader, 'geo_test', device,
                      net, args.model_name, args.model_folder,
-                     '../Analysis/CSVOutputs')
+                     '../Results/Testing/Outputs')
 
     eval_end = time.time()
     eval_time = eval_end - train_end
