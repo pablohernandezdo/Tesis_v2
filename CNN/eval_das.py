@@ -18,32 +18,26 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", default='1h6k_test_model',
-                        help="Name of model to eval")
-    parser.add_argument("--model_folder", default='test',
+    parser.add_argument("--model_name", default='Cnn1_3k_10_1e4_256_40',
+                        help="Classifier model path")
+    parser.add_argument("--model_folder", default='step4',
                         help="Model to eval folder")
-    parser.add_argument("--classifier", default='1h6k',
+    parser.add_argument("--classifier", default='Cnn1_3k_10',
                         help="Choose classifier architecture")
-    parser.add_argument("--train_path", default='Train_data.hdf5',
-                        help="HDF5 train Dataset path")
-    parser.add_argument("--test_path", default='Test_data_v2.hdf5',
-                        help="HDF5 test Dataset path")
-    parser.add_argument("--batch_size", type=int, default=256,
+    parser.add_argument("--das_dataset_path",
+                        default='DAS_dataset.hdf5',
+                        help="HDF5 DAS dataset path")
+    parser.add_argument("--batch_size", type=int, default=1,
                         help="Size of the training batches")
     args = parser.parse_args()
 
     # Select training device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    # Train dataset
-    train_set = HDF5Dataset(args.train_path)
-    train_loader = DataLoader(train_set,
-                              batch_size=args.batch_size, shuffle=True)
-
     # Test dataset
-    test_set = HDF5Dataset(args.test_path)
-    test_loader = DataLoader(test_set,
-                             batch_size=args.batch_size, shuffle=True)
+    das_set = HDF5Dataset(args.das_path)
+    das_loader = DataLoader(das_set,
+                            batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
     net = get_classifier(args.classifier)
@@ -52,32 +46,21 @@ def main():
     # Count number of parameters
     params = count_parameters(net)
 
-    # Load from trained model
-    net.load_state_dict(torch.load(f'../models/{args.model_folder}/'
+    # Load parameters from trained model
+    net.load_state_dict(torch.load(f'models/{args.model_folder}/'
                                    f'{args.model_name}.pth'))
     net.eval()
 
-    # Evaluate model on training dataset
-    evaluate_dataset(train_loader, 'Train', device,
+    # Evaluate model on DAS test dataset
+    evaluate_dataset(das_loader, 'DAS', device,
                      net, args.model_name, args.model_folder,
-                     '../Results/Testing/Outputs')
-
-    train_end = time.time()
-    train_time = train_end - start_time
-
-    # Evaluate model on test set
-    evaluate_dataset(test_loader, 'Test', device,
-                     net, args.model_name, args.model_folder,
-                     '../Results/Testing/Outputs')
+                     'Results/Testing/Outputs')
 
     eval_end = time.time()
-    eval_time = eval_end - train_end
     total_time = eval_end - start_time
 
-    print(f'Training evaluation time: {format_timespan(train_time)}\n'
-          f'Test evaluation time: {format_timespan(eval_time)}\n'
-          f'Total execution time: {format_timespan(total_time)}\n\n'
-          f'Number of network parameters: {params}')
+    print(f'Number of network parameters: {params}\n'
+          f'Total execution time: {format_timespan(total_time)}')
 
 
 def count_parameters(model):
@@ -86,7 +69,6 @@ def count_parameters(model):
 
 def evaluate_dataset(data_loader, dataset_name, device, net,
                      model_name, model_folder, csv_folder):
-
     # List of outputs and labels used to create pd dataframe
     dataframe_rows_list = []
 
