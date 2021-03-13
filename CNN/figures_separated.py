@@ -64,6 +64,9 @@ def main():
 
         # Obtener las curvas para cada dataset
 
+        Path(f"Results/Testing/Histogram/"
+             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+
         # Output histogram
         plt.figure(figsize=(12, 9))
         plt.hist(df[df['label'] == 1]['out'], 100)
