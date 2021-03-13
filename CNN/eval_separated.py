@@ -116,13 +116,13 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
     plt.figure()
 
-    Path(f"../Results/Classified/{model_folder}/"
-         f"{model_name}/Seis/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"../Results/Classified/{model_folder}/"
-         f"{model_name}/NSeis/").mkdir(parents=True, exist_ok=True)
-
     thr = 0.06
+    
+    Path(f"../Results/Classified/{model_folder}/"
+         f"{model_name}_({thr})/Seis/").mkdir(parents=True, exist_ok=True)
+
+    Path(f"../Results/Classified/{model_folder}/"
+         f"{model_name}_({thr})/NSeis/").mkdir(parents=True, exist_ok=True)
 
     # List of outputs and labels used to create pd dataframe
     dataframe_rows_list = []
@@ -148,7 +148,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/'
-                                    f'{model_name}/Seis/{i}.png')
+                                    f'{model_name}_({thr})/Seis/{i}.png')
                         i += 1
 
                     else:
@@ -160,7 +160,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/'
-                                    f'{model_name}/NSeis/{i}.png')
+                                    f'{model_name}({thr})/NSeis/{i}.png')
 
                         i += 1
 
