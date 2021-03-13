@@ -149,6 +149,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/'
                                     f'{model_name}/Seis/{i}.png')
+                        i += 1
 
                     else:
                         plt.clf()
@@ -160,6 +161,8 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/'
                                     f'{model_name}/NSeis/{i}.png')
+
+                        i += 1
 
                 for out, lab in zip(outputs, labels):
                     new_row = {'out': out.item(), 'label': lab.item()}
