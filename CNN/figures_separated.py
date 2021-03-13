@@ -19,15 +19,6 @@ def main():
                         help="Fscore beta parameter")
     args = parser.parse_args()
 
-    # Figure folers
-    Path(f"Results/Testing/Histogram/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/Fscore/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/PR/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/ROC/").mkdir(parents=True, exist_ok=True)
-
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
 
@@ -65,6 +56,15 @@ def main():
         # Obtener las curvas para cada dataset
 
         Path(f"Results/Testing/Histogram/"
+             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+
+        Path(f"Results/Testing/Fscore/"
+             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+
+        Path(f"Results/Testing/PR/"
+             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+
+        Path(f"Results/Testing/ROC/"
              f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
 
         # Output histogram
