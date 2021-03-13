@@ -26,11 +26,12 @@ def main():
                      "Stead_noise_test",
                      "Geo_test"]
 
-    for dset in dataset_names:
-        print(dset)
-        # leer los csv de cada dataset, obtener los tp, fp, fn, tn
-        df = pd.read_csv(f'{args.csv_folder}/{dset}/'
-                         f'separated/{args.model_name}.csv')
+    for i, thr in enumerate(thresholds):
+
+        tp = 0
+        fp = 0
+        fn = 0
+        tn = 0
 
         # Preallocate variables
         acc = np.zeros(len(thresholds))
@@ -39,48 +40,56 @@ def main():
         fpr = np.zeros(len(thresholds))
         fscore = np.zeros(len(thresholds))
 
-        for i, thr in enumerate(thresholds):
+        for dset in dataset_names:
+            # leer los csv de cada dataset, obtener los tp, fp, fn, tn
+            df = pd.read_csv(f'{args.csv_folder}/{dset}/'
+                             f'separated/{args.model_name}.csv')
+
             predicted = (df['out'] > thr)
-            tp = sum(predicted & df['label'])
-            fp = sum(predicted & ~df['label'])
-            fn = sum(~predicted & df['label'])
-            tn = sum(~predicted & ~df['label'])
+            tp += sum(predicted & df['label'])
+            fp += sum(predicted & ~df['label'])
+            fn += sum(~predicted & df['label'])
+            tn += sum(~predicted & ~df['label'])
 
-            # Evaluation metrics
-            acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
-                                                                     fp,
-                                                                     tn,
-                                                                     fn,
-                                                                     args.beta)
+        # Evaluation metrics
+        acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
+                                                                 fp,
+                                                                 tn,
+                                                                 fn,
+                                                                 args.beta)
 
-        # Obtener las curvas para cada dataset
+    # Get best threshold
+    best_idx = np.argmax(fscore)
+    print(best_idx)
 
-        Path(f"Results/Testing/Histogram/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        Path(f"Results/Testing/Fscore/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        Path(f"Results/Testing/PR/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        Path(f"Results/Testing/ROC/"
-             f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
-
-        # Output histogram
-        plt.figure(figsize=(12, 9))
-        plt.hist(df[df['label'] == 1]['out'], 100)
-        plt.hist(df[df['label'] == 0]['out'], 100)
-        plt.title(f'{args.model_name} output histogram, {dset} dataset')
-        plt.xlabel('Output values')
-        plt.ylabel('Counts')
-        plt.legend(['positive', 'negative'], loc='upper left')
-        plt.grid(True)
-        plt.savefig(f'Results/Testing/Histogram/{dset}/'
-                    f'separated/{args.model_name}_Histogram.png')
-
-        get_model_figures(thresholds, fscore, rec, prec, fpr,
-                          'Results/Testing/', dset, args.model_name)
+        # # Obtener las curvas para cada dataset
+        #
+        # Path(f"Results/Testing/Histogram/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # Path(f"Results/Testing/Fscore/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # Path(f"Results/Testing/PR/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # Path(f"Results/Testing/ROC/"
+        #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
+        #
+        # # Output histogram
+        # plt.figure(figsize=(12, 9))
+        # plt.hist(df[df['label'] == 1]['out'], 100)
+        # plt.hist(df[df['label'] == 0]['out'], 100)
+        # plt.title(f'{args.model_name} output histogram, {dset} dataset')
+        # plt.xlabel('Output values')
+        # plt.ylabel('Counts')
+        # plt.legend(['positive', 'negative'], loc='upper left')
+        # plt.grid(True)
+        # plt.savefig(f'Results/Testing/Histogram/{dset}/'
+        #             f'separated/{args.model_name}_Histogram.png')
+        #
+        # get_model_figures(thresholds, fscore, rec, prec, fpr,
+        #                   'Results/Testing/', dset, args.model_name)
 
 
 def get_model_figures(thresholds, fscore, recall, precision, fpr,
