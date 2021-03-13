@@ -116,6 +116,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
     plt.figure()
 
+    i = 0
     thr = 0.06
 
     Path(f"../Results/Classified/{model_folder}/"
@@ -135,8 +136,6 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
-
-                i = 0
 
                 for out, tr in zip(outputs, traces):
                     if out.item() >= thr:
