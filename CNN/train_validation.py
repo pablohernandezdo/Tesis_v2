@@ -75,20 +75,9 @@ def main():
     optimizer = optim.Adam(net.parameters(), lr=args.lr,
                            betas=(args.b1, args.b2), weight_decay=args.wd)
 
-    # Training and validation errors
-    tr_accuracies = []
-    val_accuracies = []
-
-    # Training and validation losses
-    tr_losses = []
-    val_losses = []
-
-    # Early stopping
-    val_acc = 1
-    early = np.zeros(args.patience).tolist()
-
+    # Train model
     train_model(train_loader, val_loader, net,
-                device,args.epochs, optimizer, criterion,
+                device, args.epochs, optimizer, criterion,
                 args.earlystop, args.patience, args.eval_iter,
                 f'../models/{args.model_folder}', args.model_name)
 
@@ -228,7 +217,7 @@ def train_model(train_loader, val_loader, net, device, epochs,
 
 def learning_curve_acc(tr_acc, val_acc, model_folder, model_name):
 
-    Path(f"../Analysis/Learning_curves/Accuracy/"
+    Path(f"../Results/Training/Learning_curves/Accuracy/"
          f"{model_folder}").mkdir(exist_ok=True, parents=True)
 
     plt.figure()
@@ -239,13 +228,13 @@ def learning_curve_acc(tr_acc, val_acc, model_folder, model_name):
     plt.ylabel('Accuracy')
     plt.title(f'Accuracy learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Analysis/Learning_curves/Accuracy/'
+    plt.savefig(f'../Results/Training/Learning_curves/Accuracy/'
                 f'{model_folder}/{model_name}_accuracies.png')
 
 
 def learning_curve_loss(tr_loss, val_loss, model_folder, model_name):
 
-    Path(f"../Analysis/Learning_curves/Loss/"
+    Path(f"../Results/Training/Learning_curves/Loss/"
          f"{model_folder}").mkdir(exist_ok=True, parents=True)
 
     plt.figure()
@@ -256,7 +245,7 @@ def learning_curve_loss(tr_loss, val_loss, model_folder, model_name):
     plt.ylabel('Loss')
     plt.title(f'Loss learning curve model {model_name}')
     plt.legend(handles=[line_tr, line_val], loc='best')
-    plt.savefig(f'../Analysis/Learning_curves/Loss/'
+    plt.savefig(f'../Results/Training/Learning_curves/Loss/'
                 f'{model_folder}/{model_name}_Losses.png')
 
 
