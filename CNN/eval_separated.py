@@ -87,12 +87,12 @@ def main():
                      '../Results/Testing/Outputs')
 
     # Evaluate model on STEAD seismic test set
-    evaluate_dataset(stead_nseis_test_loader, 'Stead_nseismic_test', device,
+    evaluate_dataset(stead_nseis_test_loader, 'Stead_noise_test', device,
                      net, args.model_name, args.model_folder,
                      '../Results/Testing/Outputs')
 
     # Evaluate model on STEAD seismic test set
-    evaluate_dataset(geo_test_loader, 'geo_test', device,
+    evaluate_dataset(geo_test_loader, 'Geo_test', device,
                      net, args.model_name, args.model_folder,
                      '../Results/Testing/Outputs')
 
