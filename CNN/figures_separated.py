@@ -58,12 +58,36 @@ def main():
                                                                  fn,
                                                                  args.beta)
 
-    # Get best threshold
-    best_idx = np.argmax(fscore)
-    print(best_idx)
-    print(fscore[best_idx])
+    # F-score vs thresholds curve
+    save_fig(thresholds,
+             fscore,
+             'Threshold',
+             'F-score',
+             'Fscores vs Thresholds',
+             f'Results/Testing/Fscore/separated/'
+             f'{args.model_name}_Fscore_vs_Threshold.png')
 
-        # # Obtener las curvas para cada dataset
+    # Precision vs recall (PR curve)
+    save_fig(rec,
+             prec,
+             'Recall',
+             'Precision',
+             'Precision vs Recall (PR curve)',
+             f'Results/Testing/PR/separated/'
+             f'{args.model_name}_PR_curve.png')
+
+    # Recall vs False Positive Rate (ROC curve)
+    save_fig(fpr,
+             rec[::-1],
+             'False Positive Rate',
+             'Recall',
+             'Recall vs FPR (ROC curve)',
+             f'Results/Testing/ROC/separated/'
+             f'{args.model_name}_ROC_curve.png')
+
+    plt.close('all')
+
+    # # Obtener las curvas para cada dataset
         #
         # Path(f"Results/Testing/Histogram/"
         #      f"{dset}/separated/").mkdir(parents=True, exist_ok=True)
