@@ -51,8 +51,8 @@ def main():
             fn += sum(~predicted & df['label'])
             tn += sum(~predicted & ~df['label'])
 
-        print(f'thresh: {np.round(thr, 2)},'
-              f' tp: {tp}, fp: {fp}, tn: {tn}, fn: {fn}')
+        # print(f'thresh: {np.round(thr, 2)},'
+        #       f' tp: {tp}, fp: {fp}, tn: {tn}, fn: {fn}')
 
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
@@ -60,6 +60,10 @@ def main():
                                                                  tn,
                                                                  fn,
                                                                  args.beta)
+
+        print(f'thresh: {np.round(thr, 2)},'
+              f' acc: {acc[i]}, prec: {prec[i]},'
+              f' rec: {rec[i]}, fpr: {fpr[i]}, fscore: {fscore[i]}')
 
     Path(f"Results/Testing/Histogram/"
          f"separated/").mkdir(parents=True, exist_ok=True)
