@@ -36,6 +36,7 @@ def main():
                      "Geo_test"]
 
     for dset in dataset_names:
+        print(dset)
         # leer los csv de cada dataset, obtener los tp, fp, fn, tn
         df = pd.read_csv(f'{args.csv_folder}/{dset}/'
                          f'separated/{args.model_name}.csv')
