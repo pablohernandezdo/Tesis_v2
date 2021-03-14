@@ -84,7 +84,7 @@ def main():
 
     # Precision vs recall (PR curve)
     save_pr(rec, prec,
-            f'Results/Testing/Fscore/DAS/{model_name}_Fscore_vs_Threshold.png')
+            f'Results/Testing/PR/DAS/{model_name}_PR_curve.png')
 
     # Recall vs False Positive Rate (ROC curve)
     save_roc(fpr, rec[::-1],
