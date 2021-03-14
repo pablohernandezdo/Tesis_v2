@@ -64,19 +64,9 @@ def main():
     # Get best threshold
     best_idx = np.argmax(fscore)
 
-    # Guardar graficas
-
-    # Output histogram
-    plt.figure(figsize=(12, 9))
-    plt.hist(df[df['label'] == 1]['out'], 100)
-    plt.hist(df[df['label'] == 0]['out'], 100)
-    plt.title(f'{model_name} output histogram')
-    plt.xlabel('Output values')
-    plt.ylabel('Counts')
-    plt.legend(['positive', 'negative'], loc='upper left')
-    plt.grid(True)
-    plt.savefig(f'Results/Testing/Histogram/DAS/'
-                f'{model_name}_Histogram.png')
+    # Histogram
+    save_histogram(df, f'Results/Testing/Histogram/DAS/'
+                       f'{model_name}_Histogram.png')
 
     # F-score vs thresholds curve
     save_fsc(thresholds, fscore,
@@ -89,31 +79,6 @@ def main():
     # Recall vs False Positive Rate (ROC curve)
     save_roc(fpr, rec[::-1],
              f'Results/Testing/ROC/DAS/{model_name}_ROC_curve.png')
-
-    # save_fig(thresholds,
-    #          fscore,
-    #          'Threshold',
-    #          'F-score',
-    #          'Fscores vs Thresholds',
-    #          f'Results/Testing/Fscore/DAS/{model_name}_Fscore_vs_Threshold.png')
-    #
-    # # Precision vs recall (PR curve)
-    # save_fig(rec,
-    #          prec,
-    #          'Recall',
-    #          'Precision',
-    #          'Precision vs Recall (PR curve)',
-    #          f'Results/Testing/PR/DAS/{model_name}_PR_curve.png')
-    #
-    # # Recall vs False Positive Rate (ROC curve)
-    # save_fig(fpr,
-    #          rec[::-1],
-    #          'False Positive Rate',
-    #          'Recall',
-    #          'Recall vs FPR (ROC curve)',
-    #          f'Results/Testing/ROC/DAS/{model_name}_ROC_curve.png')
-    #
-    # plt.close('all')
 
 
 def save_pr(recall, precision, figname):
@@ -151,8 +116,16 @@ def save_fsc(thresholds, fscore, figname):
     plt.close()
 
 
-def save_histogram():
-    pass
+def save_histogram(df, hist_name):
+    plt.figure(figsize=(12, 9))
+    plt.hist(df[df['label'] == 1]['out'], 100)
+    plt.hist(df[df['label'] == 0]['out'], 100)
+    plt.title(f'Output values histogram')
+    plt.xlabel('Output values')
+    plt.ylabel('Counts')
+    plt.legend(['positive', 'negative'], loc='upper left')
+    plt.grid(True)
+    plt.savefig(hist_name)
 
 
 def get_pr_roc_auc(precision, recall, fpr):
@@ -160,16 +133,6 @@ def get_pr_roc_auc(precision, recall, fpr):
     roc_auc = np.trapz(recall[::-1], x=fpr[::-1])
 
     return pr_auc, roc_auc
-
-
-def save_fig(x, y, xlabel, ylabel, title, fname):
-    plt.figure(figsize=(12, 9))
-    plt.plot(x, y, '--o')
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.grid(True)
-    plt.savefig(fname)
 
 
 def get_metrics(tp, fp, tn, fn, beta):
