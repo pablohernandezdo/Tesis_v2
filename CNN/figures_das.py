@@ -26,7 +26,7 @@ def main():
 
     Path(f"Results/Testing/PR/DAS").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Results/Testing/ROC/").mkdir(parents=True, exist_ok=True)
+    Path(f"Results/Testing/ROC/DAS").mkdir(parents=True, exist_ok=True)
 
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
