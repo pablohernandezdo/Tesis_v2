@@ -10,167 +10,99 @@ import matplotlib.pyplot as plt
 def main():
     # Args
     parser = argparse.ArgumentParser()
-    parser.add_argument('--csv_folder', default='Results/Testing/Outputs',
-                        help='Path to CSV files folder')
-    parser.add_argument('--xls_name',
-                        help='Best models excel file name')
+    parser.add_argument('--csv_file',
+                        default='Results/Testing/Outputs/'
+                                'DAS/separated/Cnn1_3k_10_1e4_256_40.csv',
+                        help='Path to CSV file')
     parser.add_argument("--beta", type=float, default=2,
                         help="Fscore beta parameter")
     args = parser.parse_args()
 
-    # Folder to save files
-    folder2save = f'{args.csv_folder.split("/")[-2]}/' \
-                  f'{args.csv_folder.split("/")[-1]}'
+    # Create figures files folder
 
-    # Create figures and excel files folder
-    Path("Results/Testing/Excel_reports").mkdir(parents=True, exist_ok=True)
+    Path(f"Results/Testing/Fscore/DAS").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Results/Testing/Fscore/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Results/Testing/Histogram/DAS").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Results/Testing/Histogram/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Results/Testing/PR/DAS").mkdir(parents=True, exist_ok=True)
 
-    Path(f"Results/Testing/PR/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/ROC/"
-         f"{folder2save}").mkdir(parents=True, exist_ok=True)
+    Path(f"Results/Testing/ROC/").mkdir(parents=True, exist_ok=True)
 
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
 
-    # Models best values
+    # Read csv file
+    df = pd.read_csv(args.csv_file)
 
-    models = []
-    best_acc = []
-    best_prec = []
-    best_rec = []
-    best_fpr = []
-    best_fscore = []
-    best_pr_auc = []
-    best_roc_auc = []
+    # Get model name
+    model_name = args.csv_file.split('/')[-1].split('.')[0]
 
-    # Read Csv files
-    for csv in os.listdir(args.csv_folder):
+    # Preallocate variables
+    acc = np.zeros(len(thresholds))
+    prec = np.zeros(len(thresholds))
+    rec = np.zeros(len(thresholds))
+    fpr = np.zeros(len(thresholds))
+    fscore = np.zeros(len(thresholds))
 
-        if os.path.splitext(csv)[-1] != '.csv':
-            continue
+    for i, thr in enumerate(thresholds):
+        predicted = (df['out'] > thr)
+        tp = sum(predicted & df['label'])
+        fp = sum(predicted & ~df['label'])
+        fn = sum(~predicted & df['label'])
+        tn = sum(~predicted & ~df['label'])
 
-        # Read csv file
-        df = pd.read_csv(f'{args.csv_folder}/{csv}')
+        # Evaluation metrics
+        acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
+                                                                 fp,
+                                                                 tn,
+                                                                 fn,
+                                                                 args.beta)
 
-        # Get model name
-        model_name = os.path.splitext(csv)[0]
+    # Obtain PR and ROC auc
+    pr_auc, roc_auc = get_pr_roc_auc(prec, rec, fpr)
 
-        # Preallocate variables
-        acc = np.zeros(len(thresholds))
-        prec = np.zeros(len(thresholds))
-        rec = np.zeros(len(thresholds))
-        fpr = np.zeros(len(thresholds))
-        fscore = np.zeros(len(thresholds))
+    # Get best threshold
+    best_idx = np.argmax(fscore)
 
-        for i, thr in enumerate(thresholds):
-            predicted = (df['out'] > thr)
-            tp = sum(predicted & df['label'])
-            fp = sum(predicted & ~df['label'])
-            fn = sum(~predicted & df['label'])
-            tn = sum(~predicted & ~df['label'])
+    # Guardar graficas
 
-            # Evaluation metrics
-            acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
-                                                                     fp,
-                                                                     tn,
-                                                                     fn,
-                                                                     args.beta)
+    # Output histogram
+    plt.figure(figsize=(12, 9))
+    plt.hist(df[df['label'] == 1]['out'], 100)
+    plt.hist(df[df['label'] == 0]['out'], 100)
+    plt.title(f'{model_name} output histogram')
+    plt.xlabel('Output values')
+    plt.ylabel('Counts')
+    plt.legend(['positive', 'negative'], loc='upper left')
+    plt.grid(True)
+    plt.savefig(f'Results/Testing/Histogram/DAS/'
+                f'{model_name}_Histogram.png')
 
-        # Obtain PR and ROC auc
-        pr_auc, roc_auc = get_pr_roc_auc(prec, rec, fpr)
+    # F-score vs thresholds curve
+    save_fig(thresholds,
+             fscore,
+             'Threshold',
+             'F-score',
+             'Fscores vs Thresholds',
+             f'Results/Testing/Fscore/DAS/{model_name}_Fscore_vs_Threshold.png')
 
-        # Get best threshold
-        best_idx = np.argmax(fscore)
+    # Precision vs recall (PR curve)
+    save_fig(rec,
+             prec,
+             'Recall',
+             'Precision',
+             'Precision vs Recall (PR curve)',
+             f'Results/Testing/PR/DAS/{model_name}_PR_curve.png')
 
-        # Add best threshold values to best models list
-        models.append(model_name)
-        best_acc.append(acc[best_idx])
-        best_prec.append(prec[best_idx])
-        best_rec.append(rec[best_idx])
-        best_fpr.append(fpr[best_idx])
-        best_fscore.append(fscore[best_idx])
-        best_pr_auc.append(pr_auc)
-        best_roc_auc.append(roc_auc)
+    # Recall vs False Positive Rate (ROC curve)
+    save_fig(fpr,
+             rec[::-1],
+             'False Positive Rate',
+             'Recall',
+             'Recall vs FPR (ROC curve)',
+             f'Results/Testing/ROC/DAS/{model_name}_ROC_curve.png')
 
-        # Guardar graficas
-
-        # Output histogram
-        plt.figure(figsize=(12, 9))
-        plt.hist(df[df['label'] == 1]['out'], 100)
-        plt.hist(df[df['label'] == 0]['out'], 100)
-        plt.title(f'{model_name} output histogram')
-        plt.xlabel('Output values')
-        plt.ylabel('Counts')
-        plt.legend(['positive', 'negative'], loc='upper left')
-        plt.grid(True)
-        plt.savefig(f'Results/Testing/Histogram/'
-                    f'{folder2save}/{model_name}_Histogram.png')
-
-        # F-score vs thresholds curve
-        save_fig(thresholds,
-                 fscore,
-                 'Threshold',
-                 'F-score',
-                 'Fscores vs Thresholds',
-                 f'Fscore/{folder2save}/{model_name}_Fscore_vs_Threshold.png')
-
-        # Precision vs recall (PR curve)
-        save_fig(rec,
-                 prec,
-                 'Recall',
-                 'Precision',
-                 'Precision vs Recall (PR curve)',
-                 f'PR/{folder2save}/{model_name}_PR_curve.png')
-
-        # Recall vs False Positive Rate (ROC curve)
-        save_fig(fpr,
-                 rec[::-1],
-                 'False Positive Rate',
-                 'Recall',
-                 'Recall vs FPR (ROC curve)',
-                 f'ROC/{folder2save}/{model_name}_ROC_curve.png')
-
-        plt.close('all')
-
-    # Save csv with best models
-    # Get indexes to sort by fscore
-    sorted_idxs = np.argsort(best_fscore)
-
-    # Sorted lists
-    sorted_models = [models[i] for i in sorted_idxs[::-1]]
-    sorted_acc = [best_acc[i] for i in sorted_idxs[::-1]]
-    sorted_prec = [best_prec[i] for i in sorted_idxs[::-1]]
-    sorted_rec = [best_rec[i] for i in sorted_idxs[::-1]]
-    sorted_fpr = [best_fpr[i] for i in sorted_idxs[::-1]]
-    sorted_fscore = [best_fscore[i] for i in sorted_idxs[::-1]]
-    sorted_pr_auc = [best_pr_auc[i] for i in sorted_idxs[::-1]]
-    sorted_roc_auc = [best_roc_auc[i] for i in sorted_idxs[::-1]]
-
-    # Create dataframe
-    df = pd.DataFrame({
-        'Model_name': sorted_models,
-        'Accuracy': sorted_acc,
-        'Precision': sorted_prec,
-        'Recall': sorted_rec,
-        'False positive rate': sorted_fpr,
-        'Fscore': sorted_fscore,
-        'PR AUC': sorted_pr_auc,
-        'ROC_AUC': sorted_roc_auc,
-    })
-
-    # Save excel file
-    with pd.ExcelWriter(f'Results/Testing/Excel_reports/{args.xls_name}.xlsx',
-                        engine='openpyxl') as writer:
-
-        df.to_excel(writer, index=False)
+    plt.close('all')
 
 
 def get_pr_roc_auc(precision, recall, fpr):
@@ -187,7 +119,7 @@ def save_fig(x, y, xlabel, ylabel, title, fname):
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(True)
-    plt.savefig(f'Results/Testing/' + fname)
+    plt.savefig(fname)
 
 
 def get_metrics(tp, fp, tn, fn, beta):
