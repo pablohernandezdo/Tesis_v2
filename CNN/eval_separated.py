@@ -147,8 +147,9 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.title(f'{dataset_name}_{i}.png')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
-                                    f'{model_folder}/{model_name}_({thr})/'
-                                    f'Seis/{dataset_name}_{i}.png')
+                                    f'{model_folder}/{model_name}_({thr})/Seis/'
+                                    f'{dataset_name}_{i}_{out.item:5.3f}.png')
+
                         i += 1
 
                     elif j < 500:
@@ -160,7 +161,8 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/{model_name}_({thr})/'
-                                    f'NSeis/{dataset_name}_{j}.png')
+                                    f'NSeis/'
+                                    f'{dataset_name}_{j}_{out.item:5.3f}.png')
 
                         j += 1
 
