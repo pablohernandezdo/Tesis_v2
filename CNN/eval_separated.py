@@ -148,7 +148,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/{model_name}_({thr})/Seis/'
-                                    f'{dataset_name}_{i}_{out.item:5.3f}.png')
+                                    f'{dataset_name}_{i}_{out.item():5.3f}.png')
 
                         i += 1
 
@@ -162,7 +162,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/{model_name}_({thr})/'
                                     f'NSeis/'
-                                    f'{dataset_name}_{j}_{out.item:5.3f}.png')
+                                    f'{dataset_name}_{j}_{out.item():5.3f}.png')
 
                         j += 1
 
