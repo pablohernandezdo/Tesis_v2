@@ -20,7 +20,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name", default='Cnn1_3k_10_1e4_256_40',
                         help="Classifier model path")
-    parser.add_argument("--model_folder", default='step4',
+    parser.add_argument("--model_folder", default='separated',
                         help="Model to eval folder")
     parser.add_argument("--classifier", default='Cnn1_3k_10',
                         help="Choose classifier architecture")
