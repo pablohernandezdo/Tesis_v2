@@ -117,6 +117,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
     plt.figure()
 
     i = 0
+    j = 0
     thr = 0.06
 
     Path(f"../Results/Classified/{model_folder}/"
@@ -138,7 +139,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                 outputs = net(traces)
 
                 for out, tr in zip(outputs, traces):
-                    if out.item() >= thr:
+                    if out.item() >= thr and i < 500:
                         plt.clf()
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
@@ -146,11 +147,11 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.title(f'{dataset_name}_{i}.png')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
-                                    f'{model_folder}/'
-                                    f'{model_name}_({thr})/Seis/{i}.png')
+                                    f'{model_folder}/{model_name}_({thr})/'
+                                    f'Seis/{dataset_name}_{i}.png')
                         i += 1
 
-                    else:
+                    elif j < 500:
                         plt.clf()
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
@@ -158,10 +159,10 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.title(f'{dataset_name}_{i}.png')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
-                                    f'{model_folder}/'
-                                    f'{model_name}_({thr})/NSeis/{i}.png')
+                                    f'{model_folder}/{model_name}_({thr})/'
+                                    f'NSeis/{dataset_name}_{j}.png')
 
-                        i += 1
+                        j += 1
 
                 for out, lab in zip(outputs, labels):
                     new_row = {'out': out.item(), 'label': lab.item()}
