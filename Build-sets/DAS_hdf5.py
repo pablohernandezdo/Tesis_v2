@@ -31,8 +31,8 @@ class DASdataset:
         self.__hdf = h5py.File(self.__cfg['output'] + hdf5_name, 'w')
 
         # Create groups with earthquakes and noisy traces
-        g_earthquake = self.__hdf.create_group('earthquake')
-        g_non_earthquake = self.__hdf.create_group('non_earthquake')
+        g_earthquake = self.__hdf.create_group('earthquake/local')
+        g_non_earthquake = self.__hdf.create_group('non_earthquake/noise')
 
         # Create sub-groups for each dataset & load data
         # LA CLASE QUE TENGO AHORA NO FUNCIONA SI HAGO SUBGRUPOS,
