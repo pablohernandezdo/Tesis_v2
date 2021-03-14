@@ -118,7 +118,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
     i = 0
     j = 0
-    thr = 0.5
+    thr = 0.06
 
     Path(f"../Results/Classified/{model_folder}/"
          f"{model_name}_({thr})/Seis/").mkdir(parents=True, exist_ok=True)
