@@ -47,14 +47,14 @@ def main():
     params = count_parameters(net)
 
     # Load parameters from trained model
-    net.load_state_dict(torch.load(f'models/{args.model_folder}/'
+    net.load_state_dict(torch.load(f'../models/{args.model_folder}/'
                                    f'{args.model_name}.pth'))
     net.eval()
 
     # Evaluate model on DAS test dataset
     evaluate_dataset(das_loader, 'DAS', device,
                      net, args.model_name, args.model_folder,
-                     'Results/Testing/Outputs')
+                     '../Results/Testing/Outputs')
 
     eval_end = time.time()
     total_time = eval_end - start_time
