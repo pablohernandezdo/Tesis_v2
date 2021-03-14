@@ -19,6 +19,15 @@ def main():
                         help="Fscore beta parameter")
     args = parser.parse_args()
 
+    Path(f"Results/Testing/Fscore/"
+         f"separated/").mkdir(parents=True, exist_ok=True)
+
+    Path(f"Results/Testing/PR/"
+         f"separated/").mkdir(parents=True, exist_ok=True)
+
+    Path(f"Results/Testing/ROC/"
+         f"separated/").mkdir(parents=True, exist_ok=True)
+
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
 
@@ -43,6 +52,10 @@ def main():
         tn = 0
 
         for dset in dataset_names:
+
+            Path(f"Results/Testing/Histogram/"
+                 f"separated/{dset}").mkdir(parents=True, exist_ok=True)
+
             # leer los csv de cada dataset, obtener los tp, fp, fn, tn
             df = pd.read_csv(f'{args.csv_folder}/{dset}/'
                              f'separated/{args.model_name}.csv')
@@ -59,6 +72,18 @@ def main():
                       f" fp: {sum(predicted & ~df['label'])},"
                       f" fn: {sum(~predicted & df['label'])},"
                       f" tn: {sum(~predicted & ~df['label'])}")
+
+            # Guardar histograma
+            plt.figure(figsize=(12, 9))
+            plt.hist(df[df['label'] == 1]['out'], 100)
+            plt.hist(df[df['label'] == 0]['out'], 100)
+            plt.title(f'{args.model_name}, {dset} output histogram')
+            plt.xlabel('Output values')
+            plt.ylabel('Counts')
+            plt.legend(['positive', 'negative'], loc='upper left')
+            plt.grid(True)
+            plt.savefig(f'Results/Testing/Histogram/'
+                        f'separated/{dset}/{args.model_name}_Histogram.png')
 
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
@@ -77,19 +102,6 @@ def main():
     # print(f'best_idx: {best_idx}\n'
     #       f'best_fscore: {best_fsc}\n'
     #       f'best_thresh: {best_thresh}')
-
-
-    Path(f"Results/Testing/Histogram/"
-         f"separated/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/Fscore/"
-         f"separated/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/PR/"
-         f"separated/").mkdir(parents=True, exist_ok=True)
-
-    Path(f"Results/Testing/ROC/"
-         f"separated/").mkdir(parents=True, exist_ok=True)
 
     # F-score vs thresholds curve
     save_fig(thresholds,
