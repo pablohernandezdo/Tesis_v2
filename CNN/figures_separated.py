@@ -73,24 +73,30 @@ def main():
                       f" fn: {sum(~predicted & df['label'])},"
                       f" tn: {sum(~predicted & ~df['label'])}")
 
-            # Guardar histograma
-            plt.figure(figsize=(12, 9))
-            plt.hist(df[df['label'] == 1]['out'], 100)
-            plt.hist(df[df['label'] == 0]['out'], 100)
-            plt.title(f'{args.model_name}, {dset} output histogram')
-            plt.xlabel('Output values')
-            plt.ylabel('Counts')
-            plt.legend(['positive', 'negative'], loc='upper left')
-            plt.grid(True)
-            plt.savefig(f'Results/Testing/Histogram/'
-                        f'separated/{dset}/{args.model_name}_Histogram.png')
-
         # Evaluation metrics
         acc[i], prec[i], rec[i], fpr[i], fscore[i] = get_metrics(tp,
                                                                  fp,
                                                                  tn,
                                                                  fn,
                                                                  args.beta)
+
+    for dset in dataset_names:
+
+        # leer los csv de cada dataset
+        df = pd.read_csv(f'{args.csv_folder}/{dset}/'
+                         f'separated/{args.model_name}.csv')
+
+        # Guardar histograma
+        plt.figure(figsize=(12, 9))
+        plt.hist(df[df['label'] == 1]['out'], 100)
+        plt.hist(df[df['label'] == 0]['out'], 100)
+        plt.title(f'{args.model_name}, {dset} output histogram')
+        plt.xlabel('Output values')
+        plt.ylabel('Counts')
+        plt.legend(['positive', 'negative'], loc='upper left')
+        plt.grid(True)
+        plt.savefig(f'Results/Testing/Histogram/'
+                    f'separated/{dset}/{args.model_name}_Histogram.png')
 
     print(f'thr_test: {thresholds[thr_test]}\n'
           f'fscore: {fscore[thr_test]}')
