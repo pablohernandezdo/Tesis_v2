@@ -50,17 +50,17 @@ def main():
     # STEAD Seismic test dataset
     test_set = HDF5Dataset(args.stead_seis_test_path)
     stead_seis_test_loader = DataLoader(test_set,
-                             batch_size=args.batch_size, shuffle=True)
+                                    batch_size=args.batch_size, shuffle=True)
 
     # STEAD NSeismic test dataset
     test_set = HDF5Dataset(args.stead_nseis_test_path)
     stead_nseis_test_loader = DataLoader(test_set,
-                             batch_size=args.batch_size, shuffle=True)
+                                    batch_size=args.batch_size, shuffle=True)
 
     # Geo test dataset
     test_set = HDF5Dataset(args.geo_test_path)
     geo_test_loader = DataLoader(test_set,
-                             batch_size=args.batch_size, shuffle=True)
+                                 batch_size=args.batch_size, shuffle=True)
 
     # Load specified Classifier
     net = get_classifier(args.classifier)
