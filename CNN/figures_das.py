@@ -29,7 +29,7 @@ def main():
     Path(f"Results/Testing/ROC/DAS").mkdir(parents=True, exist_ok=True)
 
     # Define threshold to evaluate on
-    thresholds = np.arange(0, 1, 0.01)
+    thresholds = np.arange(0, 1, 0.01)[1:]
 
     # Read csv file
     df = pd.read_csv(args.csv_file)
@@ -141,7 +141,7 @@ def get_metrics(tp, fp, tn, fn, beta):
 
     # Evaluation metrics
     if (not tp) and (not fp):
-        precision = 0
+        precision = 1
     else:
         precision = tp / (tp + fp)
 
