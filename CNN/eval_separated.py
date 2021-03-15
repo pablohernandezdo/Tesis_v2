@@ -152,7 +152,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
                         i += 1
 
-                    elif out.item() > thr and j < 500:
+                    elif out.item() < thr and j < 500:
                         plt.clf()
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
