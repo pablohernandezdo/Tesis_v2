@@ -117,7 +117,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.title(f'{dataset_name}_{i}.png')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/{dataset_name}/'
-                                    f'{model_name}_({thr})/NSeis'
+                                    f'{model_name}_({thr})/NSeis/'
                                     f'{dataset_name}_{j}_{out.item():5.3f}.png')
 
                         j += 1
