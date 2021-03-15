@@ -141,7 +141,7 @@ def get_metrics(tp, fp, tn, fn, beta):
 
     # Evaluation metrics
     if (not tp) and (not fp):
-        precision = 1
+        precision = 0
     else:
         precision = tp / (tp + fp)
 
