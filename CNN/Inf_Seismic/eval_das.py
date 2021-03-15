@@ -25,7 +25,7 @@ def main():
                         help="Classifier model path")
     parser.add_argument("--classifier", default='Cnn1_3k_10',
                         help="Choose classifier architecture")
-    parser.add_argument("--das_path",
+    parser.add_argument("--das_dataset_path",
                         default='DAS_dataset.hdf5',
                         help="Choose classifier architecture")
     parser.add_argument("--batch_size", type=int, default=1,
