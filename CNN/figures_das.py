@@ -63,6 +63,7 @@ def main():
 
     # Get best threshold
     best_idx = np.argmax(fscore)
+    print(thresholds[best_idx])
 
     # Histogram
     save_histogram(df, f'Results/Testing/Histogram/DAS/'
