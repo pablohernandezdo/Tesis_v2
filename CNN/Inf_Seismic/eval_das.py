@@ -5,6 +5,7 @@ from pathlib import Path
 import tqdm
 import torch
 import pandas as pd
+import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from humanfriendly import format_timespan
 
@@ -69,6 +70,18 @@ def count_parameters(model):
 def evaluate_dataset(data_loader, device, net,
                      model_name, csv_folder):
 
+    plt.figure()
+
+    i = 0
+    j = 0
+    thr = 0.06
+
+    Path(f"../Results/Classified/DAS/"
+         f"{model_name}_({thr})/Seis/").mkdir(parents=True, exist_ok=True)
+
+    Path(f"../Results/Classified/DAS/"
+         f"{model_name}_({thr})/NSeis/").mkdir(parents=True, exist_ok=True)
+
     # List of outputs and labels used to create pd dataframe
     dataframe_rows_list = []
 
@@ -80,6 +93,33 @@ def evaluate_dataset(data_loader, device, net,
 
                 traces, labels = data[0].to(device), data[1].to(device)
                 outputs = net(traces)
+
+                for out, tr in zip(outputs, traces):
+                    if out.item() >= thr and i < 500:
+                        plt.clf()
+                        plt.plot(tr.cpu())
+                        plt.xlabel('Samples')
+                        plt.ylabel('Amplitude')
+                        plt.title(f'DAS_{i}.png')
+                        plt.grid(True)
+                        plt.savefig(f'../Results/Classified/DAS/'
+                                    f'{model_name}_({thr})/Seis/'
+                                    f'DAS_{i}_{out.item():5.3f}.png')
+
+                        i += 1
+
+                    elif j < 500:
+                        plt.clf()
+                        plt.plot(tr.cpu())
+                        plt.xlabel('Samples')
+                        plt.ylabel('Amplitude')
+                        plt.title(f'DAS_{i}.png')
+                        plt.grid(True)
+                        plt.savefig(f'../Results/Classified/DAS/'
+                                    f'{model_name}_({thr})/NSeis'
+                                    f'DAS_{j}_{out.item():5.3f}.png')
+
+                        j += 1
 
                 for out, lab in zip(outputs, labels):
                     new_row = {'out': out.item(), 'label': lab.item()}
