@@ -139,7 +139,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                 outputs = net(traces)
 
                 for out, tr in zip(outputs, traces):
-                    if out.item() >= thr and i < 500:
+                    if out.item() > thr and i < 500:
                         plt.clf()
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
@@ -152,12 +152,12 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
                         i += 1
 
-                    elif j < 500:
+                    elif out.item() > thr and j < 500:
                         plt.clf()
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
                         plt.ylabel('Amplitude')
-                        plt.title(f'{dataset_name}_{i}.png')
+                        plt.title(f'{dataset_name}_{j}.png')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/'
                                     f'{model_folder}/{model_name}_({thr})/'
