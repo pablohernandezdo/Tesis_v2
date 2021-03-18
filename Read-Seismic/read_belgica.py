@@ -32,7 +32,7 @@ def main():
     # trtp = [0, 1, 2, 3]
 
     # Plot random traces
-    plot_traces(traces, fs, n, 'Belgica')
+    # plot_traces(traces, fs, n, 'Belgica')
 
     # Data len
     N = traces.shape[1]
