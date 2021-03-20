@@ -32,8 +32,8 @@ def main():
 
     # sorted_qbps = [qbps[i] for i in sorted_idxs[::-1]]
 
-    print(qbps[0] > qbps[1])
-    print(sorted_idxs[:-144])
+    print(qbps[sorted_idxs[0]] > qbps[sorted_idxs[0]])
+    print(sorted_idxs[-144:])
 
 
 if __name__ == '__main__':
