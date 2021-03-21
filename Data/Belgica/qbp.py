@@ -28,15 +28,18 @@ def main():
         qbps.append(qbp)
 
     sorted_idxs = np.argsort(qbps)
+    worst = sorted_idxs[-1429:]
+    best = sorted_idxs[:10]
 
     # sorted_qbps = [qbps[i] for i in sorted_idxs[::-1]]
 
     print(qbps[sorted_idxs[0]] > qbps[sorted_idxs[0]])
     print('Mas ruidosas')
-    print(sorted_idxs[-1429:])
+    for i in worst:
+        print(i)
 
     print('Menos ruidosas')
-    print(sorted_idxs[:10])
+    print(best)
 
 
 if __name__ == '__main__':
