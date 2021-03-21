@@ -9,17 +9,28 @@ def main():
 
     # Args
     parser = argparse.ArgumentParser(description='Dataset creation parameters')
-    parser.add_argument('--source_file', default='STEAD.hdf5', help='Source HDF5 file path')
-    parser.add_argument('--train_file', default='Train_data.hdf5', help='Output train HDF5 file path')
-    parser.add_argument('--test_file', default='Test_data.hdf5', help='Output test HDF5 file path')
-    parser.add_argument('--train_traces', type=int, default=25000, help='Number of training seismic traces to copy')
-    parser.add_argument('--train_noise', type=int, default=25000, help='Number of training noise traces to copy')
-    parser.add_argument('--test_traces', type=int, default=2500, help='Number of test seismic traces to copy')
-    parser.add_argument('--test_noise', type=int, default=2500, help='Number of test noise traces to copy')
-    parser.add_argument('--snr_db', type=float, default=0.0, help='Minimum signal to noise ratio')
-    parser.add_argument('--azimuth', type=float, default=0.0, help='Back_azimuth_deg parameter')
-    parser.add_argument('--source_magnitude', type=float, default=0.0, help='Minimum source magnitude')
-    parser.add_argument('--source_distance_km', type=float, default=1000.0, help='Maximum source distance in km')
+    parser.add_argument('--source_file', default='STEAD.hdf5',
+                        help='Source HDF5 file path')
+    parser.add_argument('--train_file', default='Train_data.hdf5',
+                        help='Output train HDF5 file path')
+    parser.add_argument('--test_file', default='Test_data.hdf5',
+                        help='Output test HDF5 file path')
+    parser.add_argument('--train_traces', type=int, default=25000,
+                        help='Number of training seismic traces to copy')
+    parser.add_argument('--train_noise', type=int, default=25000,
+                        help='Number of training noise traces to copy')
+    parser.add_argument('--test_traces', type=int, default=2500,
+                        help='Number of test seismic traces to copy')
+    parser.add_argument('--test_noise', type=int, default=2500,
+                        help='Number of test noise traces to copy')
+    parser.add_argument('--snr_db', type=float, default=0.0,
+                        help='Minimum signal to noise ratio')
+    parser.add_argument('--azimuth', type=float, default=0.0,
+                        help='Back_azimuth_deg parameter')
+    parser.add_argument('--source_magnitude', type=float, default=0.0,
+                        help='Minimum source magnitude')
+    parser.add_argument('--source_distance_km', type=float, default=1000.0,
+                        help='Maximum source distance in km')
     args = parser.parse_args()
 
     # Read the hdf5 source file
