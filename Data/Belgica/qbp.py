@@ -10,9 +10,9 @@ def main():
         "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat")
     traces = f['Data_2D']
 
-    # fs = 10
-    # n = traces.shape[1]
-    # t_ax = np.arange(n) / fs
+    fs = 10
+    n = traces.shape[1]
+    t_ax = np.arange(n) / fs
 
     # avg_trace = np.mean(traces[3500:4001, :], 0)
     # avg_trace = signal.resample(avg_trace, n * 10)
@@ -26,7 +26,6 @@ def main():
         autocorr = np.correlate(tr, tr, mode='full')
         qbp = n * np.sum(np.power(autocorr, 2))
         qbps.append(qbp)
-        print(idx)
 
     sorted_idxs = np.argsort(qbps)
 
