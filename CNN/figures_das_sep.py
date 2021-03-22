@@ -105,6 +105,7 @@ def main():
     best_fsc = np.amax(fscore)
     best_thresh = thresholds[best_idx]
     print(f'best_thr: {best_thresh}')
+    print(f'best_fscore: {best_fsc}')
 
     # print(f'best_idx: {best_idx}\n'
     #       f'best_fscore: {best_fsc}\n'
