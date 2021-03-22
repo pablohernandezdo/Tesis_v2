@@ -20,13 +20,13 @@ def main():
     args = parser.parse_args()
 
     Path(f"Results/Testing/Fscore/"
-         f"DAS_sep/").mkdir(parents=True, exist_ok=True)
+         f"separated/").mkdir(parents=True, exist_ok=True)
 
     Path(f"Results/Testing/PR/"
-         f"DAS_sep/").mkdir(parents=True, exist_ok=True)
+         f"separated/").mkdir(parents=True, exist_ok=True)
 
     Path(f"Results/Testing/ROC/"
-         f"DAS_sep/").mkdir(parents=True, exist_ok=True)
+         f"separated/").mkdir(parents=True, exist_ok=True)
 
     # Define threshold to evaluate on
     thresholds = np.arange(0, 1, 0.01)
@@ -54,11 +54,11 @@ def main():
         for dset in dataset_names:
 
             Path(f"Results/Testing/Histogram/"
-                 f"DAS_sep/{dset}").mkdir(parents=True, exist_ok=True)
+                 f"separated/{dset}").mkdir(parents=True, exist_ok=True)
 
             # leer los csv de cada dataset, obtener los tp, fp, fn, tn
             df = pd.read_csv(f'{args.csv_folder}/{dset}/'
-                             f'DAS_sep/{args.model_name}.csv')
+                             f'separated/{args.model_name}.csv')
 
             predicted = (df['out'] > thr)
             tp += sum(predicted & df['label'])
@@ -84,7 +84,7 @@ def main():
 
         # leer los csv de cada dataset
         df = pd.read_csv(f'{args.csv_folder}/{dset}/'
-                         f'DAS_sep/{args.model_name}.csv')
+                         f'separated/{args.model_name}.csv')
 
         # Guardar histograma
         plt.figure(figsize=(12, 9))
@@ -96,7 +96,7 @@ def main():
         plt.legend(['positive', 'negative'], loc='upper left')
         plt.grid(True)
         plt.savefig(f'Results/Testing/Histogram/'
-                    f'DAS_sep/{dset}/{args.model_name}_Histogram.png')
+                    f'separated/{dset}/{args.model_name}_Histogram.png')
 
     print(f'thr_test: {thresholds[thr_test]}\n'
           f'fscore: {fscore[thr_test]}')
@@ -115,7 +115,7 @@ def main():
              'Threshold',
              'F-score',
              'Fscores vs Thresholds',
-             f'Results/Testing/Fscore/DAS_sep/'
+             f'Results/Testing/Fscore/separated/'
              f'{args.model_name}_Fscore_vs_Threshold.png')
 
     # Precision vs recall (PR curve)
@@ -124,7 +124,7 @@ def main():
              'Recall',
              'Precision',
              'Precision vs Recall (PR curve)',
-             f'Results/Testing/PR/DAS_sep/'
+             f'Results/Testing/PR/separated/'
              f'{args.model_name}_PR_curve.png')
 
     # Recall vs False Positive Rate (ROC curve)
@@ -133,7 +133,7 @@ def main():
              'False Positive Rate',
              'Recall',
              'Recall vs FPR (ROC curve)',
-             f'Results/Testing/ROC/DAS_sep/'
+             f'Results/Testing/ROC/separated/'
              f'{args.model_name}_ROC_curve.png')
 
     plt.close('all')
