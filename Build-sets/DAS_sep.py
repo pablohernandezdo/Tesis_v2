@@ -27,7 +27,7 @@ class DASdataset:
         # Loading config file
         print('\nCreating DAS dataset with %s config' % config)
         print('---------------------------------------------------')
-        with open('data_conf.json', 'r') as f:
+        with open('data_conf_sep.json', 'r') as f:
             self.__cfg = json.load(f)[config]
 
         # Creating hdf5 structure
