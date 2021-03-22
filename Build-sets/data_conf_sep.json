@@ -14,7 +14,7 @@
             "belgica_seis": {
               "path": "../Data/Belgica/",
               "file": "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat",
-              "type": "earthquake",
+              "type": "earthquake"
             },
             "belgica_noise": {
                 "path": "../Data/Belgica/",
@@ -119,7 +119,7 @@
             "belgica_seis": {
               "path": "../Data/Belgica/",
               "file": "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat",
-              "type": "earthquake",
+              "type": "earthquake"
             },
             "reykjanes1": {
                 "path": "../Data/Reykjanes/",
