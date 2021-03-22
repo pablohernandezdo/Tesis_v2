@@ -34,7 +34,7 @@ def main():
     parser.add_argument("--das_noise_path",
                         default='DAS_noise.hdf5',
                         help="HDF5 DAS noise dataset path")
-    parser.add_argument("--batch_size", type=int, default=256,
+    parser.add_argument("--batch_size", type=int, default=1,
                         help="Size of the training batches")
     args = parser.parse_args()
 
