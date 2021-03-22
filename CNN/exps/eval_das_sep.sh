@@ -7,7 +7,7 @@ das_nseis="DAS_non_seismic.hdf5"
 das_noise="DAS_noise.hdf5"
 
 echo "Evaluating model Cnn1_3k_10_1e4_256"
-python ../eval_das.py \
+python ../eval_das_sep.py \
               --das_seis_path $das_seis \
               --das_nseis_path $das_nseis \
               --das_noise_path $das_noise \
