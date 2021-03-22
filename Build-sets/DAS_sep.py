@@ -237,8 +237,10 @@ class DASdataset:
             traces = self.get_francia()
         if data_name == 'nevada':
             traces = self.get_nevada()
-        if data_name == 'belgica':
-            traces = self.get_belgica()
+        if data_name == 'belgica_seis':
+            traces = self.get_belgica_seis()
+        if data_name == 'belgica_noise':
+            traces = self.get_belgica_noise()
         if data_name == 'reykjanes1':
             traces = self.get_reykjanes1()
         if data_name == 'reykjanes2':
