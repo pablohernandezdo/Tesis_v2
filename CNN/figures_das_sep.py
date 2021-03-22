@@ -101,10 +101,11 @@ def main():
     print(f'thr_test: {thresholds[thr_test]}\n'
           f'fscore: {fscore[thr_test]}')
 
-    # best_idx = np.argmax(fscore)
-    # best_fsc = np.amax(fscore)
-    # best_thresh = thresholds[best_idx]
-    #
+    best_idx = np.argmax(fscore)
+    best_fsc = np.amax(fscore)
+    best_thresh = thresholds[best_idx]
+    print(f'best_thr: {best_thresh}')
+
     # print(f'best_idx: {best_idx}\n'
     #       f'best_fscore: {best_fsc}\n'
     #       f'best_thresh: {best_thresh}')
@@ -141,9 +142,6 @@ def main():
 
 def get_model_figures(thresholds, fscore, recall, precision, fpr,
                       figure_folders_path, dataset, model_name):
-
-    # Get best threshold
-    best_idx = np.argmax(fscore)
 
     # F-score vs thresholds curve
     save_fig(thresholds,
