@@ -14,12 +14,15 @@ from numpy.random import default_rng
 
 
 def main():
-    DASdataset('partial', 'DAS_dataset.hdf5')
+    DASdataset('partial',
+               'DAS_seismic.hdf5',
+               'DAS_non_seismic.hdf5',
+               'DAS_noise.hdf5')
 
 
 class DASdataset:
 
-    def __init__(self, config, hdf5_name):
+    def __init__(self, config, seis_name, nseis_name, noise_name):
 
         # Loading config file
         print('\nCreating DAS dataset with %s config' % config)
@@ -28,11 +31,21 @@ class DASdataset:
             self.__cfg = json.load(f)[config]
 
         # Creating hdf5 structure
-        self.__hdf = h5py.File(self.__cfg['output'] + hdf5_name, 'w')
+        self.__seis = h5py.File(self.__cfg['output'] + seis_name, 'w')
+        self.__nseis = h5py.File(self.__cfg['output'] + nseis_name, 'w')
+        self.__noise = h5py.File(self.__cfg['output'] + noise_name, 'w')
 
-        # Create groups with earthquakes and noisy traces
-        g_earthquake = self.__hdf.create_group('earthquake/local')
-        g_non_earthquake = self.__hdf.create_group('non_earthquake/noise')
+        # Create groups for seismic dataset
+        g_seis = self.__seis.create_group('earthquake/local')
+        _ = self.__seis.create_group('non_earthquake/noise')
+
+        # Create groups for non seismic dataset
+        _ = self.__nseis.create_group('earthquake/local')
+        g_nseis = self.__nseis.create_group('non_earthquake/noise')
+
+        # Create groups for noise dataset
+        _ = self.__noise.create_group('earthquake/local')
+        g_noise = self.__noise.create_group('non_earthquake/noise')
 
         # Create sub-groups for each dataset & load data
         # LA CLASE QUE TENGO AHORA NO FUNCIONA SI HAGO SUBGRUPOS,
@@ -58,7 +71,8 @@ class DASdataset:
         for data_name in self.__cfg["datasets"]:
 
             print('Loading %s dataset' % data_name)
-            # Creates the groups & subgroups
+
+            # Load dataset info from json
             dataset = self.__cfg["datasets"][data_name]
 
             # Load traces from dataset
@@ -68,12 +82,22 @@ class DASdataset:
                 for i, tr in enumerate(traces):
                     tr = np.expand_dims(tr, 1)
                     tr = np.hstack([tr] * 3).astype('float32')
-                    g_earthquake.create_dataset(data_name + str(i), data=tr)
-            else:
+                    g_seis.create_dataset(data_name + str(i), data=tr)
+
+            elif dataset["type"] == 'non_earthquake':
                 for i, tr in enumerate(traces):
                     tr = np.expand_dims(tr, 1)
                     tr = np.hstack([tr] * 3).astype('float32')
-                    g_non_earthquake.create_dataset(data_name + str(i), data=tr)
+                    g_nseis.create_dataset(data_name + str(i), data=tr)
+
+            elif dataset["type"] == 'noise':
+                for i, tr in enumerate(traces):
+                    tr = np.expand_dims(tr, 1)
+                    tr = np.hstack([tr] * 3).astype('float32')
+                    g_noise.create_dataset(data_name + str(i), data=tr)
+
+            else:
+                print(f'Dataset {data_name} bad type')
 
         # Add test signals group, get signals first
         traces = self.get_signals()
@@ -81,7 +105,7 @@ class DASdataset:
         for i, tr in enumerate(traces):
             tr = np.expand_dims(tr, 1)
             tr = np.hstack([tr] * 3).astype('float32')
-            g_non_earthquake.create_dataset('signals' + str(i), data=tr)
+            g_nseis.create_dataset('signals' + str(i), data=tr)
 
     @staticmethod
     def get_signals():
@@ -299,10 +323,36 @@ class DASdataset:
 
         return np.array(new_traces)
 
-    def get_belgica(self):
+    def get_belgica_noise(self):
+        # Load belgica dataset
+        cfg = self.__cfg["datasets"]['belgica_noise']
+        f = scipy.io.loadmat(cfg['path'] + cfg['file'])
+
+        # Read data
+        traces = f['Data_2D']
+
+        fs = 10
+
+        with open('das_worst.txt', 'r') as f:
+            ln = f.readline()
+            worst = np.asarray(list(map(int, ln.strip().split(','))))
+
+        worst_traces = traces[worst]
+
+        final_array = []
+
+        for tr in worst_traces:
+            tr = tr.reshape(-1, 6000)
+            final_array.append(tr)
+
+        final_array = np.asarray([final_array])
+
+        return final_array.reshape(-1, 6000)
+
+    def get_belgica_seis(self):
 
         # Load belgica dataset
-        cfg = self.__cfg["datasets"]['belgica']
+        cfg = self.__cfg["datasets"]['belgica_seis']
         f = scipy.io.loadmat(cfg['path'] + cfg['file'])
 
         # Read data

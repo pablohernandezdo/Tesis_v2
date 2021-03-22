@@ -1,0 +1,192 @@
+{
+    "complete": {
+        "datasets": {
+            "francia": {
+                "path": "../Data/Francia/",
+                "file": "Earthquake_1p9_Var_BP_2p5_15Hz.mat",
+                "type": "earthquake"
+            },
+            "nevada": {
+                "path": "../Data/Nevada/",
+                "file": "PoroTomo_iDAS16043_160321073751.sgy",
+                "type": "earthquake"
+            },
+            "belgica_seis": {
+              "path": "../Data/Belgica/",
+              "file": "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat",
+              "type": "earthquake",
+            },
+            "belgica_noise": {
+                "path": "../Data/Belgica/",
+                "file": "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat",
+                "type": "noise"
+            },
+            "reykjanes1": {
+                "path": "../Data/Reykjanes/",
+                "file": "Jousset_et_al_2018_003_Figure3_fo.ascii",
+                "type": "earthquake"
+            },
+            "reykjanes2": {
+                "path": "../Data/Reykjanes/",
+                "file": "Jousset_et_al_2018_003_Figure5b.ascii",
+                "type": "earthquake"
+            },
+            "california1": {
+                "path": "../Data/California/",
+                "file": "FSE_06_120SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "california2": {
+                "path": "../Data/California/",
+                "file": "FSE-06_240SecP_SingDecStep.mat",
+                "type": "non_earthquake"
+            },
+            "california3": {
+                "path": "../Data/California/",
+                "file": "FSE-06_480SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "california4": {
+                "path": "../Data/California/",
+                "file": "FSE-06_1080SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "hydraulic1": {
+                "path": "../Data/Hydraulic/",
+                "file": "CSULB500Pa10secP_141210174309.mat",
+                "type": "non_earthquake"
+            },
+            "hydraulic2": {
+                "path": "../Data/Hydraulic/",
+                "file": "CSULB500Pa600secP_141210183813.mat",
+                "type": "non_earthquake"
+            },
+            "hydraulic3": {
+                "path": "../Data/Hydraulic/",
+                "file": "CSULB500Pa100secP_141210175257.mat",
+                "type": "non_earthquake"
+            },
+            "tides": {
+                "path": "../Data/Tides/",
+                "file": "CSULB_T13_EarthTide_earthtide_mean_360_519.mat",
+                "type": "non_earthquake"
+            },
+            "utah": {
+                "path": "../Data/Utah/",
+                "file": "FORGE_78-32_iDASv3-P11_UTC190419001218.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis1": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS025_160325140047.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis2": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS025_160325140117.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis3": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS16043_160325140048.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis4": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS16043_160325140118.sgy",
+                "type": "non_earthquake"
+            },
+            "shaker": {
+                "path": "../Data/Shaker/",
+                "file": "large shaker NEES_130910161319 (1).sgy",
+                "type": "non_earthquake"
+            }
+        },
+        "output": "../Data/DAS_dataset/"
+    },
+    "partial": {
+        "datasets": {
+            "francia": {
+                "path": "../Data/Francia/",
+                "file": "Earthquake_1p9_Var_BP_2p5_15Hz.mat",
+                "type": "earthquake"
+            },
+            "nevada": {
+                "path": "../Data/Nevada/",
+                "file": "PoroTomo_iDAS16043_160321073751.sgy",
+                "type": "earthquake"
+            },
+            "belgica_seis": {
+              "path": "../Data/Belgica/",
+              "file": "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat",
+              "type": "earthquake",
+            },
+            "reykjanes1": {
+                "path": "../Data/Reykjanes/",
+                "file": "Jousset_et_al_2018_003_Figure3_fo.ascii",
+                "type": "earthquake"
+            },
+            "reykjanes2": {
+                "path": "../Data/Reykjanes/",
+                "file": "Jousset_et_al_2018_003_Figure5b.ascii",
+                "type": "earthquake"
+            },
+            "california1": {
+                "path": "../Data/California/",
+                "file": "FSE_06_120SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "california2": {
+                "path": "../Data/California/",
+                "file": "FSE-06_240SecP_SingDecStep.mat",
+                "type": "non_earthquake"
+            },
+            "california3": {
+                "path": "../Data/California/",
+                "file": "FSE-06_480SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "california4": {
+                "path": "../Data/California/",
+                "file": "FSE-06_1080SecP_SingDec_StepTest.mat",
+                "type": "non_earthquake"
+            },
+            "hydraulic1": {
+                "path": "../Data/Hydraulic/",
+                "file": "CSULB500Pa10secP_141210174309.mat",
+                "type": "non_earthquake"
+            },
+            "vibroseis1": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS025_160325140047.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis2": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS025_160325140117.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis3": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS16043_160325140048.sgy",
+                "type": "non_earthquake"
+            },
+            "vibroseis4": {
+                "path": "../Data/Vibroseis/",
+                "file": "PoroTomo_iDAS16043_160325140118.sgy",
+                "type": "non_earthquake"
+            },
+            "shaker": {
+                "path": "../Data/Shaker/",
+                "file": "large shaker NEES_130910161319 (1).sgy",
+                "type": "non_earthquake"
+            },
+            "belgica_noise": {
+                "path": "../Data/Belgica/",
+                "file": "mat_2018_08_19_00h28m05s_Parkwind_HDAS_2Dmap_StrainData_2D.mat",
+                "type": "noise"
+            }
+        },
+        "output": "../Data/DAS_dataset/"
+    }
+}
