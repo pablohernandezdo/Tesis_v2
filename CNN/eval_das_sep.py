@@ -143,7 +143,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.ylabel('Amplitude')
                         plt.title(f'{dataset_name}_{j}.png')
                         plt.grid(True)
-                        plt.savefig(f'../Results/Classified/DAS_sep'
+                        plt.savefig(f'../Results/Classified/DAS_sep/'
                                     f'{dataset_name}/{model_name}_({thr})/'
                                     f'NSeis/'
                                     f'{dataset_name}_{j}_{out.item():5.3f}.png')
