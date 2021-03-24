@@ -102,7 +102,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
 
     i = 0
     j = 0
-    thr = 0.5
+    thr = 0.2
 
     Path(f"../Results/Classified/DAS_sep/{dataset_name}/"
          f"{model_name}_({thr})/Seis/").mkdir(parents=True, exist_ok=True)
