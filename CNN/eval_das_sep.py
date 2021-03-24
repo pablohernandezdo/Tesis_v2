@@ -104,10 +104,10 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
     j = 0
     thr = 0.5
 
-    Path(f"../Results/Classified/{model_folder}/"
+    Path(f"../Results/Classified/DAS_sep/{dataset_name}/"
          f"{model_name}_({thr})/Seis/").mkdir(parents=True, exist_ok=True)
 
-    Path(f"../Results/Classified/{model_folder}/"
+    Path(f"../Results/Classified/DAS_sep/{dataset_name}/"
          f"{model_name}_({thr})/NSeis/").mkdir(parents=True, exist_ok=True)
 
     # List of outputs and labels used to create pd dataframe
@@ -130,8 +130,8 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.ylabel('Amplitude')
                         plt.title(f'{dataset_name}_{i}.png')
                         plt.grid(True)
-                        plt.savefig(f'../Results/Classified/'
-                                    f'{model_folder}/{model_name}_({thr})/Seis/'
+                        plt.savefig(f'../Results/Classified/DAS_sep/'
+                                    f'{dataset_name}/{model_name}_({thr})/Seis/'
                                     f'{dataset_name}_{i}_{out.item():5.3f}.png')
 
                         i += 1
@@ -143,8 +143,8 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.ylabel('Amplitude')
                         plt.title(f'{dataset_name}_{j}.png')
                         plt.grid(True)
-                        plt.savefig(f'../Results/Classified/'
-                                    f'{model_folder}/{model_name}_({thr})/'
+                        plt.savefig(f'../Results/Classified/DAS_sep'
+                                    f'{dataset_name}/{model_name}_({thr})/'
                                     f'NSeis/'
                                     f'{dataset_name}_{j}_{out.item():5.3f}.png')
 
