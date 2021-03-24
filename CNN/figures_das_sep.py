@@ -112,33 +112,51 @@ def main():
     #       f'best_thresh: {best_thresh}')
 
     # F-score vs thresholds curve
-    save_fig(thresholds,
-             fscore,
-             'Threshold',
-             'F-score',
-             'Fscores vs Thresholds',
-             f'Results/Testing/Fscore/DAS_sep/'
-             f'{args.model_name}_Fscore_vs_Threshold.png')
+    save_fsc(thresholds, fscore,
+             f'Results/Testing/Fscore/DAS_sep/{args.model_name}_Fscore_vs_Threshold.png')
 
     # Precision vs recall (PR curve)
-    save_fig(rec,
-             prec,
-             'Recall',
-             'Precision',
-             'Precision vs Recall (PR curve)',
-             f'Results/Testing/PR/DAS_sep/'
-             f'{args.model_name}_PR_curve.png')
+    save_pr(rec, prec,
+            f'Results/Testing/PR/DAS_sep/{args.model_name}_PR_curve.png')
 
     # Recall vs False Positive Rate (ROC curve)
-    save_fig(fpr,
-             rec[::-1],
-             'False Positive Rate',
-             'Recall',
-             'Recall vs FPR (ROC curve)',
-             f'Results/Testing/ROC/DAS_sep/'
-             f'{args.model_name}_ROC_curve.png')
+    save_roc(fpr, rec[::-1],
+             f'Results/Testing/ROC/DAS_sep/{args.model_name}_ROC_curve.png')
 
-    plt.close('all')
+
+def save_pr(recall, precision, figname):
+    plt.figure(figsize=(12, 9))
+    plt.plot(recall, precision, '--o')
+    plt.hlines(0.5, 0, 1, 'b', '--')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.title('Precision vs Recall (PR curve)')
+    plt.grid(True)
+    plt.savefig(figname)
+    plt.close()
+
+
+def save_roc(fpr, recall, figname):
+    plt.figure(figsize=(12, 9))
+    plt.plot(fpr, recall, '--o')
+    plt.plot([0, 1], [0, 1], 'b--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('Recall')
+    plt.title('Recall vs FPR (ROC curve)')
+    plt.grid(True)
+    plt.savefig(figname)
+    plt.close()
+
+
+def save_fsc(thresholds, fscore, figname):
+    plt.figure(figsize=(12, 9))
+    plt.plot(thresholds, fscore, '--o')
+    plt.xlabel('Thresholds')
+    plt.ylabel('F-score')
+    plt.title('Fscores vs Thresholds')
+    plt.grid(True)
+    plt.savefig(figname)
+    plt.close()
 
 
 def get_model_figures(thresholds, fscore, recall, precision, fpr,
