@@ -98,6 +98,20 @@ def main():
         plt.savefig(f'Results/Testing/Histogram/'
                     f'DAS_sep/{dset}/{args.model_name}_Histogram.png')
 
+        # Guardar histograma eje y log
+        plt.figure(figsize=(12, 9))
+        plt.hist(df[df['label'] == 1]['out'], 100)
+        plt.hist(df[df['label'] == 0]['out'], 100)
+        plt.yscale('log')
+        plt.title(f'{args.model_name}, {dset} output histogram')
+        plt.xlabel('Output values')
+        plt.ylabel('Counts')
+        plt.legend(['positive', 'negative'], loc='upper left')
+        plt.grid(True)
+        plt.savefig(f'Results/Testing/Histogram/'
+                    f'DAS_sep/{dset}/{args.model_name}_log_Histogram.png')
+
+
     print(f'thr_test: {thresholds[thr_test]}\n'
           f'fscore: {fscore[thr_test]}')
 
