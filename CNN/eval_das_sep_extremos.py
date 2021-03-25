@@ -128,7 +128,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
                         plt.ylabel('Amplitude')
-                        plt.title(f'{dataset_name}_{i}.png')
+                        plt.title(f'{dataset_name}_{i}_{out.item():5.3f}')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/DAS_sep/'
                                     f'{dataset_name}/{model_name}_({thr})'
@@ -142,7 +142,7 @@ def evaluate_dataset(data_loader, dataset_name, device, net,
                         plt.plot(tr.cpu())
                         plt.xlabel('Samples')
                         plt.ylabel('Amplitude')
-                        plt.title(f'{dataset_name}_{j}.png')
+                        plt.title(f'{dataset_name}_{j}_{out.item():5.3f}')
                         plt.grid(True)
                         plt.savefig(f'../Results/Classified/DAS_sep/'
                                     f'{dataset_name}/{model_name}_({thr})/'
