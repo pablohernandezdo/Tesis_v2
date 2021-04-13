@@ -13,10 +13,11 @@ from pathlib import Path
 
 def main():
     # Create images folder
-    Path("Imgs").mkdir(parents=True, exist_ok=True)
+    Path("Imgs/Seis").mkdir(parents=True, exist_ok=True)
+    Path("Imgs/NSeis").mkdir(parents=True, exist_ok=True)
 
     # STEAD dataset path
-    st = 'STEAD.hdf5'
+    st = 'Validation_data.hdf5'
 
     # Sampling frequency
     fs = 100
@@ -68,39 +69,39 @@ def main():
         yf = sfft.fftshift(sfft.fft(trace))
 
         plt.clf()
-        plt.subplot(2, 1)
+        plt.subplot(2, 1, 1)
         plt.plot(t_ax, trace)
         plt.title(f'Traza STEAD sísmica y espectro #{seis_traces[idx]}')
         plt.xlabel('Tiempo [s]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
 
-        plt.subplot(2, 2)
+        plt.subplot(2, 1, 2)
         plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
         plt.xlabel('Frecuencia [Hz]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(f'Imgs/{nseis_traces[idx]}.png')
+        plt.savefig(f'Imgs/Seis/{nseis_traces[idx]}.png')
 
     for idx, trace in enumerate(nseis_trtp):
         yf = sfft.fftshift(sfft.fft(trace))
 
         plt.clf()
-        plt.subplot(2, 1)
+        plt.subplot(2, 1, 1)
         plt.plot(t_ax, trace)
         plt.title(f'Traza STEAD no sísmica y espectro #{nseis_traces[idx]}')
         plt.xlabel('Tiempo [s]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
 
-        plt.subplot(2, 2)
+        plt.subplot(2, 1, 2)
         plt.plot(xf, np.abs(yf) / np.max(np.abs(yf)))
         plt.xlabel('Frecuencia [Hz]')
         plt.ylabel('Amplitud [-]')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(f'Imgs/{nseis_traces[idx]}.png')
+        plt.savefig(f'Imgs/NSeis/{nseis_traces[idx]}.png')
 
 
 if __name__ == '__main__':
