@@ -72,7 +72,7 @@ def main():
                 data_bar.update(1)
 
     with open(f'../Results/francia_results.txt', 'w') as f:
-        f.write("\n".join(out_vals))
+        f.write("\n".join(map(str, out_vals)))
 
     eval_end = time.time()
     total_time = eval_end - start_time
