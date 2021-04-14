@@ -102,13 +102,16 @@ def preprocess(traces, fs):
 
     for trace in traces:
         # Filter 50 Hz
-        # trace = butter_lowpasspass_filter(trace, 49, fs)
+        trace = butter_lowpasspass_filter(trace, 49, fs)
 
         # Detrending
         trace = detrend(trace)
 
         # Media cero
         trace = trace - np.mean(trace)
+
+        # Normalize
+        trace = trace / np.amax(np.abs(trace))
         new_traces.append(trace)
 
     return np.asarray(new_traces)
