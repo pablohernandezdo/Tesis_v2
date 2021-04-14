@@ -64,6 +64,7 @@ def main():
         with torch.no_grad():
             for data in traces:
 
+                data = torch.from_numpy(data)
                 data = data.to(device)
                 outputs = net(data)
 
