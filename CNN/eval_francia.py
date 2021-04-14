@@ -108,9 +108,9 @@ def preprocess(traces, fs):
 
         # Media cero
         trace = trace - np.mean(trace)
-        trace.append(new_traces)
+        new_traces.append(trace)
 
-    return new_traces
+    return np.asarray(new_traces)
 
 
 def butter_lowpass(highcut, fs, order=5):
