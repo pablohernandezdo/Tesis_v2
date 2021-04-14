@@ -101,7 +101,7 @@ def preprocess(traces, fs):
 
     for trace in traces:
         # Filter 50 Hz
-        trace = butter_lowpasspass_filter(trace, 50, fs)
+        trace = butter_lowpasspass_filter(trace, 49, fs)
 
         # Detrending
         trace = detrend(trace)
