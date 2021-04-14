@@ -111,7 +111,10 @@ def preprocess(traces, fs):
         trace = trace - np.mean(trace)
 
         # Normalize
-        trace = trace / np.amax(np.abs(trace))
+        mx = np.amax(np.abs(trace))
+        if mx:
+            trace = trace / mx
+            
         new_traces.append(trace)
 
     return np.asarray(new_traces)
