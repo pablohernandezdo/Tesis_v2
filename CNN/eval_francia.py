@@ -68,7 +68,7 @@ def main():
                 data = data.to(device)
                 outputs = net(data)
 
-                out_vals.append(outputs)
+                out_vals.append(outputs.item())
                 data_bar.update(1)
 
     with open(f'../Results/francia_results.txt', 'w') as f:
