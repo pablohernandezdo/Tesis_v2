@@ -81,7 +81,7 @@ class DatasetFrancia(Dsets):
 
         self.traces = self.preprocess(self.traces, self.fs)
         self.traces = self.normalize(self.traces)
-        
+
     def prune_traces(self):
         pass
 
@@ -94,7 +94,7 @@ class DatasetNevada(Dsets):
         self.traces, self.fs = self.read_segy(self.dataset_path)
 
         # Se muere mi pc si preproceso el dataset
-        # self.traces = self.preprocess(self.traces, self.fs)
+        self.traces = self.preprocess(self.traces, self.fs)
 
     def padd_traces(self):
         pass
