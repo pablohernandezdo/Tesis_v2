@@ -16,7 +16,7 @@ class Dsets:
     def preprocess(self, traces, fs):
 
         new_traces = []
-        N_new = int(len(traces[0]) * fs / 100)
+        N_new = int(len(traces[0]) * 100 / fs)
 
         for trace in traces:
 
@@ -94,7 +94,7 @@ class DatasetNevada(Dsets):
         self.traces, self.fs = self.read_segy(self.dataset_path)
 
         # Se muere mi pc si preproceso el dataset
-        # self.traces = self.preprocess(self.traces, self.fs)
+        self.traces = self.preprocess(self.traces, self.fs)
 
     def padd_traces(self):
         pass
