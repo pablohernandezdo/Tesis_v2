@@ -39,6 +39,18 @@ class Dsets:
         return np.asarray(new_traces)
 
     @staticmethod
+    def normalize(traces):
+        norm_traces = []
+
+        for trace in traces:
+            if np.amax(np.abs(trace)):
+                trace /=  np.amax(np.abs(trace))
+
+            norm_traces.append(trace)
+
+        return np.asarray(norm_traces)
+
+    @staticmethod
     def butter_lowpass_filter(dat, highcut, fs, order=5):
         nyq = 0.5 * fs
         high = highcut / nyq
@@ -68,7 +80,8 @@ class DatasetFrancia(Dsets):
         self.fs = 100
 
         self.traces = self.preprocess(self.traces, self.fs)
-
+        self.traces = self.normalize(self.traces)
+        
     def prune_traces(self):
         pass
 
