@@ -4,6 +4,7 @@ import h5py
 import segyio
 import numpy as np
 import scipy.io as sio
+from numpy.random import default_rng
 
 from obspy.io.seg2 import seg2
 from obspy.io.segy.core import _read_segy
@@ -95,11 +96,27 @@ class DatasetNevada(Dsets):
 
         # Se muere mi pc si preproceso el dataset
         self.traces = self.preprocess(self.traces, self.fs)
-        # self.traces = self.padd()
+        self.traces = self.padd()
         self.traces = self.normalize(self.traces)
 
     def padd(self):
-        pass
+
+        rng = default_rng()
+        padd_traces = []
+
+        for trace in self.traces:
+            # 30 ventanas de 100 muestras
+            windows = trace.reshape(30, 100)
+
+            # calcular la varianza de ventanas
+            stds = np.std(windows, axis=1)
+
+            # generar ruido y padd
+            ns = rng.normal(0, np.amin(stds) / 4, 3000)
+            trace = np.hstack([trace, ns])
+            padd_traces.append(trace)
+
+        return np.asarray(padd_traces)
 
 
 class DatasetBelgica(Dsets):
