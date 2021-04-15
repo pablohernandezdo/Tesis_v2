@@ -114,7 +114,7 @@ def preprocess(traces, fs):
         mx = np.amax(np.abs(trace))
         if mx:
             trace = trace / mx
-            
+
         new_traces.append(trace)
 
     return np.asarray(new_traces)

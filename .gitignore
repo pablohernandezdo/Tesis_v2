@@ -38,3 +38,7 @@ Data/Reykjanes/README.pdf
 Data/STEAD/Train_data_v2.hdf5
 
 *.hdf5
+
+*.pyc
+
+Data/Francia/francia_results.txt
