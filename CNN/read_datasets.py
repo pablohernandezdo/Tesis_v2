@@ -124,6 +124,8 @@ class DatasetBelgica(Dsets):
         super().__init__()
         self.dataset_path = dataset_path
 
+        # Belgica lo voy a dejar para el final, mucho webeo entremedio
+
 
 class DatasetReykjanes(Dsets):
     def __init__(self, dataset_path):
@@ -132,6 +134,28 @@ class DatasetReykjanes(Dsets):
         self.fs = 200
         self.n_traces = 2551
         self.header, self.traces = self.read_ascii()
+
+        self.traces = self.preprocess(self.traces, self.fs)
+        # self.traces = self.padd()
+        self.traces = self.normalize(self.traces)
+
+    def padd(self):
+        rng = default_rng()
+        padd_traces = []
+
+        for trace in self.traces:
+            # 30 ventanas de 100 muestras
+            windows = trace.reshape(30, 100)
+
+            # calcular la varianza de ventanas
+            stds = np.std(windows, axis=1)
+
+            # generar ruido y padd
+            ns = rng.normal(0, np.amin(stds) / 4, 3000)
+            trace = np.hstack([trace, ns])
+            padd_traces.append(trace)
+
+        return np.asarray(padd_traces)
 
     def read_ascii(self):
         # Preallocate
