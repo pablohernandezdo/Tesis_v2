@@ -102,6 +102,8 @@ class DatasetNevada(Dsets):
     def padd(self):
 
         rng = default_rng()
+        n_padd = 6000 - self.traces.shape[1]
+
         padd_traces = []
 
         for trace in self.traces:
@@ -112,7 +114,7 @@ class DatasetNevada(Dsets):
             stds = np.std(windows, axis=1)
 
             # generar ruido y padd
-            ns = rng.normal(0, np.amin(stds) / 4, 3000)
+            ns = rng.normal(0, np.amin(stds) / 4, n_padd)
             trace = np.hstack([trace, ns])
             padd_traces.append(trace)
 
@@ -136,22 +138,24 @@ class DatasetReykjanes(Dsets):
         self.header, self.traces = self.read_ascii()
 
         self.traces = self.preprocess(self.traces, self.fs)
-        # self.traces = self.padd()
+        self.traces = self.padd()
         self.traces = self.normalize(self.traces)
 
     def padd(self):
         rng = default_rng()
+        n_padd = 6000 - self.traces.shape[1]
+
         padd_traces = []
 
         for trace in self.traces:
-            # 30 ventanas de 100 muestras
-            windows = trace.reshape(30, 100)
+            # 14 ventanas de 50 muestras
+            windows = trace.reshape(14, 50)
 
             # calcular la varianza de ventanas
             stds = np.std(windows, axis=1)
 
             # generar ruido y padd
-            ns = rng.normal(0, np.amin(stds) / 4, 3000)
+            ns = rng.normal(0, np.amin(stds) / 4, n_padd)
             trace = np.hstack([trace, ns])
             padd_traces.append(trace)
 
