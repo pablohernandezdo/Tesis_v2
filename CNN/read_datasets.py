@@ -95,8 +95,10 @@ class DatasetNevada(Dsets):
 
         # Se muere mi pc si preproceso el dataset
         self.traces = self.preprocess(self.traces, self.fs)
+        # self.traces = self.padd()
+        self.traces = self.normalize(self.traces)
 
-    def padd_traces(self):
+    def padd(self):
         pass
 
 
