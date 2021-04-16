@@ -237,8 +237,18 @@ class DatasetHydraulic(Dsets):
 
         # Preprocesar
         self.traces = self.preprocess(self.traces, self.fs)
-        
-        # HAY QUE REVISAR BIEN QUE QUEDEN LAS 120_000 MUESTRAS
+
+        # Trim
+        self.trim()
+
+        # Normalize
+        self.traces = self.normalize(self.traces)
+
+    def trim(self):
+        # Repetir última muestra para que sean 120_000
+        self.traces = np.hstack([self.traces,
+                                 self.traces[:, -1].reshape(-1, 1)])
+        self.traces = self.traces.reshape(-1, 6000)
 
     def read_file(self):
         with h5py.File(self.dataset_path, 'r') as f:
