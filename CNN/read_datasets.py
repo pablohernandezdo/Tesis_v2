@@ -268,10 +268,10 @@ class DatasetVibroseis(Dsets):
             self.dataset_paths = dataset_paths
             self.fs = 1000
             self.d1, self.d2, self.d3, self.d4 = self.dataset_paths
-            self.fs, self.traces_d1 = self.read_segy(self.d1)
-            _, self.traces_d2 = self.read_segy(self.d2)
-            _, self.traces_d3 = self.read_segy(self.d3)
-            _, self.traces_d4 = self.read_segy(self.d4)
+            self.traces_d1, self.fs = self.read_segy(self.d1)
+            self.traces_d2, _ = self.read_segy(self.d2)
+            self.traces_d3, _ = self.read_segy(self.d3)
+            self.traces_d4, _ = self.read_segy(self.d4)
 
             # Preprocess datasets
 
