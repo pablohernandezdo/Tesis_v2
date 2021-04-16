@@ -462,7 +462,11 @@ class DatasetLesser(Dsets):
 
         self.traces = np.asarray(traces)
 
+        # Preprocess
+        self.traces = self.preprocess(self.traces, self.fs)
 
+        # Normalize
+        self.traces = self.normalize(self.traces)
 
 
 class DatasetNCAirgun(Dsets):
