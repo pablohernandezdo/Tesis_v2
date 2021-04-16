@@ -199,11 +199,34 @@ class DatasetCalifornia(Dsets):
             self.traces_d4 = sio.loadmat(self.d4)['singdecmatrix'].T
 
             # Preprocess datasets
+            self.traces_d1 = self.preprocess(self.traces_d1, self.fs)
+            self.traces_d2 = self.preprocess(self.traces_d2, self.fs)
+            self.traces_d3 = self.preprocess(self.traces_d3, self.fs)
+            self.traces_d4 = self.preprocess(self.traces_d4, self.fs)
 
-            # self.traces = np.hstack([self.d1,
-            #                          self.d2,
-            #                          self.d3,
-            #                          self.d4])
+            # Trim
+            self.traces_d1 = self.trim(self.traces_d1)
+            self.traces_d2 = self.trim(self.traces_d2)
+            self.traces_d3 = self.trim(self.traces_d3)
+            self.traces_d4 = self.trim(self.traces_d4)
+
+            # Normalize
+            self.traces_d1 = self.normalize(self.traces_d1)
+            self.traces_d2 = self.normalize(self.traces_d2)
+            self.traces_d3 = self.normalize(self.traces_d3)
+            self.traces_d4 = self.normalize(self.traces_d4)
+
+            # Stack
+            self.traces = np.hstack([self.d1,
+                                     self.d2,
+                                     self.d3,
+                                     self.d4])
+
+    @staticmethod
+    def trim(traces):
+        traces = traces[:, :traces.shape[1] // 6000 * 6000]
+        traces = traces.reshape((-1, 6000))
+        return traces
 
 
 class DatasetHydraulic(Dsets):
