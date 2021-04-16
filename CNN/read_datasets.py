@@ -358,23 +358,25 @@ class DatasetCoompana(Dsets):
         # Every data folder
         for fold in os.listdir(self.dataset_path):
 
-            # Read every file
-            for datafile in os.listdir(f"{self.dataset_path}/{fold}"):
+            if os.path.isdir(f"{self.dataset_path}/{fold}"):
 
-                data = seg2reader.read_file(
-                    f"{self.dataset_path}/{fold}/{datafile}")
+                # Read every file
+                for datafile in os.listdir(f"{self.dataset_path}/{fold}"):
 
-                # To ndarray
-                for wave in data:
-                    # read wave data
-                    trace = wave.data
+                    data = seg2reader.read_file(
+                        f"{self.dataset_path}/{fold}/{datafile}")
 
-                    # Hay trazas de 6000 y 8000 muestras
-                    if trace.size == 6000:
-                        traces_6k.append(trace)
+                    # To ndarray
+                    for wave in data:
+                        # read wave data
+                        trace = wave.data
 
-                    else:
-                        traces_8k.append(trace)
+                        # Hay trazas de 6000 y 8000 muestras
+                        if trace.size == 6000:
+                            traces_6k.append(trace)
+
+                        else:
+                            traces_8k.append(trace)
 
         self.traces_6k = np.asarray(traces_6k)
         self.traces_8k = np.asarray(traces_8k)
