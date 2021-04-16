@@ -447,18 +447,22 @@ class DatasetLesser(Dsets):
         # For every file in the dataset folder
         for dataset in os.listdir(self.dataset_path):
 
-            # Read dataset
-            data = _read_segy(f'{self.dataset_path}/{dataset}')
+            if dataset.split('.')[-1] == 'segy':
 
-            # For every trace in the dataset
-            for wave in data:
-                # To ndarray
-                trace = wave.data
+                # Read dataset
+                data = _read_segy(f'{self.dataset_path}/{dataset}')
 
-                # Append to traces list
-                traces.append(trace)
+                # For every trace in the dataset
+                for wave in data:
+                    # To ndarray
+                    trace = wave.data
+
+                    # Append to traces list
+                    traces.append(trace)
 
         self.traces = np.asarray(traces)
+
+
 
 
 class DatasetNCAirgun(Dsets):
