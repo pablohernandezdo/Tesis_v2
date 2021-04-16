@@ -473,6 +473,7 @@ class DatasetNCAirgun(Dsets):
     def __init__(self, dataset_path):
         super().__init__()
         self.dataset_path = dataset_path
+        self.fs = 100
 
         data = _read_segy(self.dataset_path)
 
@@ -482,3 +483,10 @@ class DatasetNCAirgun(Dsets):
             traces.append(wave.data)
 
         self.traces = np.array(traces)
+
+        # Preprocess
+        self.traces = self.preprocess(self.traces, self.fs)
+
+        # Normalize
+        self.traces = self.normalize(self.traces)
+
