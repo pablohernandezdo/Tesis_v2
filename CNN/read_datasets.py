@@ -331,6 +331,17 @@ class DatasetShaker(Dsets):
         self.fs = 200
 
         # Preprocess traces
+        self.traces = self.preprocess(self.traces, self.fs)
+
+        # Trim
+        self.trim()
+
+        # Normalize
+        self.traces = self.normalize(self.traces)
+
+    def trim(self):
+        self.traces = self.traces[:, self.traces.shape[1] // 6000 * 6000]
+        self.traces = self.traces.reshape(-1, 6000)
 
 
 class DatasetCoompana(Dsets):
