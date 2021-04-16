@@ -239,16 +239,16 @@ class DatasetHydraulic(Dsets):
         self.traces = self.preprocess(self.traces, self.fs)
 
         # Trim
-        self.trim()
+        self.traces = self.trim()
 
         # Normalize
         self.traces = self.normalize(self.traces)
 
     def trim(self):
         # Repetir última muestra para que sean 120_000
-        self.traces = np.hstack([self.traces,
-                                 self.traces[:, -1].reshape(-1, 1)])
-        self.traces = self.traces.reshape(-1, 6000)
+        traces = np.hstack([self.traces, self.traces[:, -1].reshape(-1, 1)])
+        traces = traces.reshape(-1, 6000)
+        return traces
 
     def read_file(self):
         with h5py.File(self.dataset_path, 'r') as f:
@@ -334,14 +334,15 @@ class DatasetShaker(Dsets):
         self.traces = self.preprocess(self.traces, self.fs)
 
         # Trim
-        self.trim()
+        self.traces = self.trim()
 
         # Normalize
         self.traces = self.normalize(self.traces)
 
     def trim(self):
-        self.traces = self.traces[:, :self.traces.shape[1] // 6000 * 6000]
-        self.traces = self.traces.reshape(-1, 6000)
+        traces = self.traces[:, :self.traces.shape[1] // 6000 * 6000]
+        traces = traces.reshape(-1, 6000)
+        return traces
 
 
 class DatasetCoompana(Dsets):
@@ -380,6 +381,59 @@ class DatasetCoompana(Dsets):
 
         self.traces_6k = np.asarray(traces_6k)
         self.traces_8k = np.asarray(traces_8k)
+
+        # Padd 6k, vstack
+        self.padd_6k()
+        self.traces = np.vstack([self.traces_6k, self.traces_8k])
+
+        # preprocess
+        self.traces = self.preprocess(self.traces, self.fs)
+
+        # padd
+        self.traces = self.padd()
+
+        # normalize
+        self.traces = self.normalize(self.traces)
+
+    def padd(self):
+
+        rng = default_rng()
+        n_padd = 6000 - self.traces.shape[1]
+
+        padd_traces = []
+
+        for trace in self.traces:
+            # 20 ventanas de 10 muestras
+            windows = trace.reshape(20, 10)
+
+            # calcular la varianza de ventanas
+            stds = np.std(windows, axis=1)
+
+            # generar ruido y padd
+            ns = rng.normal(0, np.amin(stds) / 4, n_padd)
+            trace = np.hstack([trace, ns])
+            padd_traces.append(trace)
+
+        return np.asarray(padd_traces)
+
+    def padd_6k(self):
+
+        rng = default_rng()
+        padded_6k = []
+
+        for trace in self.traces_6k:
+            # 60 ventanas de 100 muestras
+            windows = trace.reshape(60, 100)
+
+            # calcular la varianza de ventanas
+            stds = np.std(windows, axis=1)
+
+            # generar ruido y padd
+            ns = rng.normal(0, np.amin(stds) / 4, 2000)
+            trace = np.hstack([trace, ns])
+            padded_6k.append(trace)
+
+        self.traces_6k = np.asarray(padded_6k)
 
 
 class DatasetLesser(Dsets):
