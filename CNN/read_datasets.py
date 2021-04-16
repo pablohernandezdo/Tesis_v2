@@ -305,8 +305,8 @@ class DatasetVibroseis(Dsets):
         padd_traces = []
 
         for trace in traces:
-            # 14 ventanas de 50 muestras
-            windows = trace.reshape(14, 50)
+            # 30 ventanas de 100 muestras
+            windows = trace.reshape(30, 100)
 
             # calcular la varianza de ventanas
             stds = np.std(windows, axis=1)
