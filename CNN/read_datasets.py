@@ -217,10 +217,10 @@ class DatasetCalifornia(Dsets):
             self.traces_d4 = self.normalize(self.traces_d4)
 
             # Stack
-            self.traces = np.hstack([self.d1,
-                                     self.d2,
-                                     self.d3,
-                                     self.d4])
+            self.traces = np.vstack([self.traces_d1,
+                                     self.traces_d2,
+                                     self.traces_d3,
+                                     self.traces_d4])
 
     @staticmethod
     def trim(traces):
