@@ -274,11 +274,49 @@ class DatasetVibroseis(Dsets):
             self.traces_d4, _ = self.read_segy(self.d4)
 
             # Preprocess datasets
+            self.traces_d1 = self.preprocess(self.traces_d1, self.fs)
+            self.traces_d2 = self.preprocess(self.traces_d2, self.fs)
+            self.traces_d3 = self.preprocess(self.traces_d3, self.fs)
+            self.traces_d4 = self.preprocess(self.traces_d4, self.fs)
 
-            # self.traces = np.hstack([self.d1,
-            #                          self.d2,
-            #                          self.d3,
-            #                          self.d4])
+            # Padd
+            self.traces_d1 = self.padd(self.traces_d1)
+            self.traces_d2 = self.padd(self.traces_d2)
+            self.traces_d3 = self.padd(self.traces_d3)
+            self.traces_d4 = self.padd(self.traces_d4)
+
+            # Normalize
+            self.traces_d1 = self.normalize(self.traces_d1)
+            self.traces_d2 = self.normalize(self.traces_d2)
+            self.traces_d3 = self.normalize(self.traces_d3)
+            self.traces_d4 = self.normalize(self.traces_d4)
+
+            # Stack
+            self.traces = np.vstack([self.traces_d1,
+                                     self.traces_d2,
+                                     self.traces_d3,
+                                     self.traces_d4])
+
+    @staticmethod
+    def padd(traces):
+        rng = default_rng()
+        n_padd = 6000 - traces.shape[1]
+
+        padd_traces = []
+
+        for trace in traces:
+            # 14 ventanas de 50 muestras
+            windows = trace.reshape(14, 50)
+
+            # calcular la varianza de ventanas
+            stds = np.std(windows, axis=1)
+
+            # generar ruido y padd
+            ns = rng.normal(0, np.amin(stds) / 4, n_padd)
+            trace = np.hstack([trace, ns])
+            padd_traces.append(trace)
+
+        return np.asarray(padd_traces)
 
 
 class DatasetShaker(Dsets):
