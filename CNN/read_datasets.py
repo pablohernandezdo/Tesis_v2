@@ -236,7 +236,8 @@ class DatasetHydraulic(Dsets):
         self.fs, self.traces = self.read_file()
 
         # Preprocesar
-
+        self.traces = self.preprocess(self.traces, self.fs)
+        
         # HAY QUE REVISAR BIEN QUE QUEDEN LAS 120_000 MUESTRAS
 
     def read_file(self):
